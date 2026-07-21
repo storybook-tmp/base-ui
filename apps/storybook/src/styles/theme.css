@@ -1,76 +1,163 @@
 /*
- * Neutral baseline theme (pre-Mealdrop look) exposing the full --ds-* var
- * contract. Var NAMES and block structure are identical to the Mealdrop theme
- * (theme branches change VALUES only): primitives as --ds-palette-* /
- * --ds-type-* / --ds-space-* / --ds-radius-* / --ds-shadow-* / --ds-motion-* /
- * --ds-breakpoint-*; color roles as --ds-color-*. Light and dark are both
- * defined in full — the dark block redefines every semantic color.
+ * Mealdrop brand theme, generated from research/f-brand-v2/tokens.json.
+ * Primitive scales are emitted as --ds-palette-* / --ds-type-* / --ds-space-* /
+ * --ds-radius-* / --ds-shadow-* / --ds-motion-* / --ds-breakpoint-*; color roles
+ * as --ds-color-*. Story CSS Modules consume SEMANTIC vars (--ds-color-*) only,
+ * never palette primitives. Light and dark are both defined in full — the dark
+ * block redefines every semantic color (research/f-brand-v2/principles.md rule 5).
  * Breakpoint vars are documentation only: media queries cannot read custom
  * properties, so queries use the literal px values.
  */
 
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Montserrat Regular'),
+    local('Montserrat-Regular'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Montserrat Medium'),
+    local('Montserrat-Medium'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_ZpC3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Montserrat Bold'),
+    local('Montserrat-Bold'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_dJE3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 900;
+  src:
+    local('Montserrat Black'),
+    local('Montserrat-Black'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_epG3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Hind;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Hind Regular'),
+    local('Hind-Regular'),
+    url('https://fonts.gstatic.com/s/hind/v11/5aU69_a8oxmIdGl4BDGwgDI.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Hind;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Hind Medium'),
+    local('Hind-Medium'),
+    url('https://fonts.gstatic.com/s/hind/v11/5aU19_a8oxmIfJpbERySjRhc9V0.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   /* ---- primitive: color.neutral ---- */
-  --ds-palette-neutral-0: white;
-  --ds-palette-neutral-50: oklch(98% 0 0deg);
-  --ds-palette-neutral-100: oklch(97% 0 0deg);
-  --ds-palette-neutral-150: oklch(92.2% 0 0deg);
-  --ds-palette-neutral-200: oklch(87% 0 0deg);
-  --ds-palette-neutral-300: oklch(75% 0 0deg);
-  --ds-palette-neutral-400: oklch(70.8% 0 0deg);
-  --ds-palette-neutral-500: oklch(60% 0 0deg);
-  --ds-palette-neutral-600: oklch(55.6% 0 0deg);
-  --ds-palette-neutral-700: oklch(43.9% 0 0deg);
-  --ds-palette-neutral-750: oklch(37.1% 0 0deg);
-  --ds-palette-neutral-800: oklch(26.9% 0 0deg);
-  --ds-palette-neutral-900: oklch(20% 0 0deg);
-  --ds-palette-neutral-950: oklch(14.5% 0 0deg);
+  --ds-palette-neutral-0: #fff;
+  --ds-palette-neutral-50: #f9f9f9;
+  --ds-palette-neutral-100: #f5f6f7;
+  --ds-palette-neutral-150: #e9e9e9;
+  --ds-palette-neutral-200: #d2d2d2;
+  --ds-palette-neutral-300: #bcbcbc;
+  --ds-palette-neutral-400: #a6a6a6;
+  --ds-palette-neutral-500: #909090;
+  --ds-palette-neutral-600: #797979;
+  --ds-palette-neutral-700: #636363;
+  --ds-palette-neutral-750: #4d4d4d;
+  --ds-palette-neutral-800: #363636;
+  --ds-palette-neutral-900: #2c2c2c;
+  --ds-palette-neutral-950: #202020;
 
   /* ---- primitive: color.green (surface accent — never ink) ---- */
-  --ds-palette-green-100: oklch(98% 0 0deg);
-  --ds-palette-green-200: oklch(97% 0 0deg);
-  --ds-palette-green-300: oklch(92.2% 0 0deg);
+  --ds-palette-green-100: #f2fcde;
+  --ds-palette-green-200: #e5f8bc;
+  --ds-palette-green-300: #cedfa9;
 
   /* ---- primitive: color.blue (surfaces; 400/700 = focus/review ink only) ---- */
-  --ds-palette-blue-100: oklch(87% 0 0deg);
-  --ds-palette-blue-200: oklch(70.8% 0 0deg);
-  --ds-palette-blue-400: oklch(14.5% 0 0deg);
-  --ds-palette-blue-700: oklch(43.9% 0 0deg);
+  --ds-palette-blue-100: #d8eef2;
+  --ds-palette-blue-200: #b1dde4;
+  --ds-palette-blue-400: #8eb1b6;
+  --ds-palette-blue-700: #596f72;
 
   /* ---- primitive: color.red (error only) ---- */
-  --ds-palette-red-300: oklch(70.4% 0.191 22.216deg);
-  --ds-palette-red-500: oklch(57.7% 0.245 27.325deg);
-  --ds-palette-red-700: oklch(50.5% 0.213 27.518deg);
+  --ds-palette-red-300: #e57373;
+  --ds-palette-red-500: #d70808;
+  --ds-palette-red-700: #b71c1c;
 
   /* ---- primitive: color.brand (mascot/loading/celebration only — never UI chrome) ---- */
-  --ds-palette-brand-shine: oklch(87% 0 0deg);
-  --ds-palette-brand-200: oklch(75% 0 0deg);
-  --ds-palette-brand-300: oklch(70.8% 0 0deg);
-  --ds-palette-brand-400: oklch(60% 0 0deg);
-  --ds-palette-brand-500: oklch(55.6% 0 0deg);
-  --ds-palette-brand-nose: oklch(87% 0 0deg);
-  --ds-palette-brand-dark-shine: oklch(97% 0 0deg);
-  --ds-palette-brand-dark-100: oklch(92.2% 0 0deg);
-  --ds-palette-brand-dark-200: oklch(87% 0 0deg);
-  --ds-palette-brand-dark-300: oklch(75% 0 0deg);
-  --ds-palette-brand-dark-400: oklch(70.8% 0 0deg);
+  --ds-palette-brand-shine: #9ff4f1;
+  --ds-palette-brand-200: #61d8de;
+  --ds-palette-brand-300: #4cc8c0;
+  --ds-palette-brand-400: #36c1bf;
+  --ds-palette-brand-500: #22aca7;
+  --ds-palette-brand-nose: #b1dce3;
+  --ds-palette-brand-dark-shine: #efffbb;
+  --ds-palette-brand-dark-100: #e4f7bb;
+  --ds-palette-brand-dark-200: #daeaae;
+  --ds-palette-brand-dark-300: #d2e29a;
+  --ds-palette-brand-dark-400: #c6d88b;
 
   /* ---- primitive: type ---- */
-  --ds-type-family-heading: system-ui, sans-serif;
-  --ds-type-family-body: system-ui, sans-serif;
-  --ds-type-size-2xs: 0.75rem;
-  --ds-type-size-xs: 0.875rem;
+  --ds-type-family-heading: 'Montserrat', sans-serif;
+  --ds-type-family-body: 'Hind', sans-serif;
+  --ds-type-size-2xs: 0.72rem;
+  --ds-type-size-xs: 0.9rem;
   --ds-type-size-sm: 1rem;
-  --ds-type-size-md: 1rem;
-  --ds-type-size-lg: 1.25rem;
-  --ds-type-size-xl: 1.5rem;
-  --ds-type-size-2xl: 2rem;
-  --ds-type-size-3xl: 2.5rem;
+  --ds-type-size-md: 1.125rem;
+  --ds-type-size-lg: 1.4rem;
+  --ds-type-size-xl: 1.75rem;
+  --ds-type-size-2xl: 2.19rem;
+  --ds-type-size-3xl: 2.74rem;
   --ds-type-weight-regular: 400;
   --ds-type-weight-medium: 500;
   --ds-type-weight-bold: 700;
   --ds-type-weight-black: 900;
-  --ds-type-tracking-display: normal;
+  --ds-type-tracking-display: -2px;
   --ds-type-tracking-default: normal;
 
   /* ---- primitive: space ---- */
@@ -83,15 +170,15 @@
   --ds-space-xl: 5.25rem;
 
   /* ---- primitive: radius (ladder by floatiness) ---- */
-  --ds-radius-control: 0;
-  --ds-radius-card: 0;
-  --ds-radius-sheet: 0;
-  --ds-radius-pill: 9999px;
+  --ds-radius-control: 4px;
+  --ds-radius-card: 8px;
+  --ds-radius-sheet: 16px;
+  --ds-radius-pill: 32px;
   --ds-radius-round: 50%;
 
   /* ---- primitive: shadow ---- */
-  --ds-shadow-lift: 0 1px 2px rgb(0 0 0 / 12%);
-  --ds-shadow-overlay: 0 4px 16px rgb(0 0 0 / 12%);
+  --ds-shadow-lift: 0px 14px 26px 0px rgb(0 0 0 / 8%);
+  --ds-shadow-overlay: 0 28px 48px rgb(0 0 0 / 40%);
 
   /* ---- primitive: motion ---- */
   --ds-motion-fast: 150ms;
@@ -148,7 +235,8 @@
  *          :not([data-theme=...]) so it applies only when nothing set an
  *          explicit theme (e.g. contexts without the decorator).
  * CSS custom properties can't be shared across the two conditions without a
- * preprocessor — when a value changes, edit BOTH blocks.
+ * preprocessor. Both blocks are generated from research/f-brand-v2/tokens.json
+ * — when a value changes, edit BOTH or regenerate BOTH.
  * =========================================================================
  */
 :root[data-theme='dark'] {
@@ -231,7 +319,7 @@
   box-sizing: border-box;
 }
 
-/* 250ms theme cross-fade on theme switch. Scoped to
+/* Mealdrop's site-wide 250ms theme cross-fade (principles rule 12). Scoped to
  * color-ish properties only so layout/transform animations are unaffected. */
 * {
   transition:
@@ -251,7 +339,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Root font drops 16 -> 14px below the sm breakpoint (640px) */
+/* Mealdrop convention: root font drops 16 -> 14px below the sm breakpoint (640px) */
 @media only screen and (max-width: 640px) {
   html {
     font-size: 14px;
