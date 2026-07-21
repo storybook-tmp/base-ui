@@ -1,20 +1,7 @@
 .Panel {
   display: flex;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-card);
 }
 
 .Row {
@@ -32,86 +19,33 @@
   height: 2rem;
   padding: 0;
   margin: 0;
+  border-radius: var(--ds-radius-control);
   border: 0;
   background-color: transparent;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
-
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
     background-color: transparent;
-    outline: 2px solid oklch(14.5% 0 0deg);
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     position: relative;
     z-index: 1;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 }
 
@@ -122,43 +56,24 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border-radius: var(--ds-radius-control);
+  border: none;
+  background-color: var(--ds-color-action-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-action-on-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -170,31 +85,15 @@
   flex-direction: column;
   padding: 0.25rem 0.5rem;
   position: relative;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-card);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-lift);
   transform-origin: var(--transform-origin);
   transition:
-    scale 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    scale var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -243,39 +142,15 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    background-color: white;
-    border: 1px solid oklch(14.5% 0 0deg);
+    background-color: var(--ds-color-surface-overlay);
+    border: 1px solid var(--ds-color-border-subtle);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(14.5% 0 0deg);
-      border: 1px solid white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(14.5% 0 0deg);
-        border: 1px solid white;
-      }
-    }
   }
 }
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Grid {

@@ -4,18 +4,7 @@
   display: flex;
   gap: 1px;
   padding: 1px;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 .Button {
@@ -28,93 +17,36 @@
   padding: 0;
   margin: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--ds-radius-control);
   background-color: transparent;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:active:not([data-disabled], [data-pressed]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-pressed] {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-label-active);
   }
 
   &[data-disabled] {
-    color: oklch(70.8% 0 0deg);
+    color: var(--ds-color-text-hint);
     cursor: not-allowed;
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 1px;
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     position: relative;
     z-index: 1;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 }

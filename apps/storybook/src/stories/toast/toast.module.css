@@ -1,7 +1,7 @@
 /*
  * Adapted from docs/src/app/(docs)/react/components/toast/demos/
  * {hero,position,promise,undo,deduplicate,anchored}/css-modules/index.module.css.
- * Raw oklch values from the docs Tailwind theme per repo styling rules.
+ * Colors use the Mealdrop semantic --ds-color-* vars (see styles/theme.css).
  * The stacking model is driven by the --toast-* variables that Toast.Root and
  * Toast.Viewport provide (--toast-index, --toast-offset-y, --toast-height,
  * --toast-frontmost-height, --toast-swipe-movement-x/-y); --gap and --peek are
@@ -56,10 +56,11 @@
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: bottom center;
   bottom: 0;
   left: auto;
@@ -67,9 +68,9 @@
   -webkit-user-select: none;
   user-select: none;
   transition:
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.5s,
-    height 0.15s;
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow),
+    height var(--ds-motion-fast);
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
@@ -81,23 +82,6 @@
       )
     )
     scale(var(--scale));
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -131,48 +115,15 @@
   }
 
   &[data-type='success'] .Text {
-    color: oklch(52.7% 0.154 150.069deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(79.2% 0.209 151.711deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(79.2% 0.209 151.711deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-type='error'] .Text {
-    color: oklch(50.5% 0.213 27.518deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.4% 0.191 22.216deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.4% 0.191 22.216deg);
-      }
-    }
+    color: var(--ds-color-text-error);
   }
 
   &[data-type='info'] .Text {
-    color: oklch(48.8% 0.243 264.376deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(62.3% 0.214 259.815deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(62.3% 0.214 259.815deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   /* Bridges the hover area between stacked toasts so the expanded state
@@ -187,30 +138,19 @@
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
   }
 }
 
 /* Alternate animation names so repeated upserts restart the same pulse
    (keyed off toast.updateKey parity — deduplicate demo). */
 .PulseEven {
-  animation: pulse-even 0.28s ease;
+  animation: pulse-even var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
 .PulseOdd {
-  animation: pulse-odd 0.28s ease;
+  animation: pulse-odd var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
 /* Top-center stacked toast (position demo): offsets grow downward and the
@@ -228,10 +168,11 @@
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: top center;
   top: 0;
   left: 0;
@@ -241,9 +182,9 @@
   -webkit-user-select: none;
   user-select: none;
   transition:
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.5s,
-    height 0.15s;
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow),
+    height var(--ds-motion-fast);
   cursor: default;
   z-index: calc(1000 - var(--toast-index));
   height: var(--height);
@@ -255,23 +196,6 @@
       )
     )
     scale(var(--scale));
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-expanded] {
     transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
@@ -314,19 +238,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
   }
 }
 
@@ -338,7 +251,7 @@
   height: 100%;
   padding: 0.75rem;
   overflow: hidden;
-  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity var(--ds-motion-base) var(--ds-motion-ease);
 
   &[data-behind] {
     opacity: 0;
@@ -395,95 +308,34 @@
   gap: 0.5rem;
   height: 2rem;
   padding: 0 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
+    border-color: var(--ds-color-border-subtle);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -509,31 +361,15 @@
   flex-direction: column;
   width: max-content;
   padding: 0.25rem 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition:
-    scale 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    scale var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -546,19 +382,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
   }
 }
 
@@ -615,22 +440,9 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    border: 1px solid oklch(14.5% 0 0deg);
-    background-color: white;
+    border: 1px solid var(--ds-color-border-subtle);
+    background-color: var(--ds-color-surface-overlay);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border: 1px solid white;
-        background-color: oklch(14.5% 0 0deg);
-      }
-    }
   }
 }
 
@@ -643,79 +455,31 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-action-on-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 
   &:active {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -732,36 +496,25 @@
 .ArchivedLabel {
   &[data-archived] {
     text-decoration: line-through;
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
 /* rosen-bridge-style "Alert inside Toast.Content" idiom: a left border keyed on
    the custom `severity` data, distinct from the Root's own [data-type] styling. */
 .Alert {
-  border-left: 4px solid oklch(55.6% 0 0deg);
+  border-left: 4px solid var(--ds-color-text-hint);
 
   &[data-severity='info'] {
-    border-left-color: oklch(48.8% 0.243 264.376deg);
+    border-left-color: var(--ds-color-text-primary);
   }
 
   &[data-severity='warning'] {
-    border-left-color: oklch(66.6% 0.179 58.318deg);
+    border-left-color: var(--ds-color-text-primary);
   }
 
   &[data-severity='error'] {
-    border-left-color: oklch(50.5% 0.213 27.518deg);
+    border-left-color: var(--ds-color-text-error);
   }
 }
 
@@ -779,18 +532,7 @@
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 @keyframes pulse-even {

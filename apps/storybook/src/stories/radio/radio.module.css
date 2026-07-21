@@ -5,18 +5,7 @@
   flex-direction: column;
   align-items: start;
   gap: 0.75rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Item {
@@ -36,68 +25,29 @@
   height: 1rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 100%;
-  background-color: white;
-  color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-round);
+  background-color: var(--ds-color-surface-page);
+  color: var(--ds-color-surface-page);
   padding: 0;
   margin: 0;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: oklch(14.5% 0 0deg);
-    }
-  }
-
   &[data-checked] {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary);
+    color: var(--ds-color-action-on-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 2px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 
   &[data-disabled] {
-    border-color: oklch(70.8% 0 0deg);
+    border-color: var(--ds-color-border-subtle);
     cursor: not-allowed;
 
     &[data-checked] {
-      background-color: oklch(70.8% 0 0deg);
+      background-color: var(--ds-color-surface-sunken);
     }
   }
 }
@@ -113,7 +63,7 @@
 
   &::before {
     content: '';
-    border-radius: 100%;
+    border-radius: var(--ds-radius-round);
     width: 0.5rem;
     height: 0.5rem;
     background-color: currentcolor;
@@ -130,41 +80,15 @@
 .Button {
   box-sizing: border-box;
   padding: 0.25rem 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-family: inherit;
   font-size: 0.875rem;
   cursor: pointer;
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
 }
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }

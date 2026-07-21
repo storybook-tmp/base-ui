@@ -11,88 +11,32 @@
   max-width: 24rem;
   font-size: 1rem;
   line-height: 1.5rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   text-wrap: balance;
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
 }
 
 .Link {
   outline: 0;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: color-mix(in oklab, oklch(14.5% 0 0deg), transparent 40%);
+  text-decoration-color: color-mix(in oklab, var(--ds-color-text-primary), transparent 40%);
   text-underline-offset: 2px;
-
-  :root[data-theme='dark'] & {
-    color: white;
-    text-decoration-color: color-mix(in oklab, white, transparent 40%);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-      text-decoration-color: color-mix(in oklab, white, transparent 40%);
-    }
-  }
 
   @media (hover: hover) {
     &:hover {
-      text-decoration-color: oklch(14.5% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        text-decoration-color: white;
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          text-decoration-color: white;
-        }
-      }
+      text-decoration-color: var(--ds-color-text-primary);
     }
   }
 
   &[data-popup-open] {
-    text-decoration-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      text-decoration-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        text-decoration-color: white;
-      }
-    }
+    text-decoration-color: var(--ds-color-text-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     text-decoration-line: none;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 }
 
@@ -105,38 +49,18 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
+  border-radius: var(--ds-radius-control);
   border: 0;
   background-color: transparent;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.875rem;
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
-
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -151,31 +75,15 @@
   position: relative;
   width: var(--popup-width, auto);
   height: var(--popup-height, auto);
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-card);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-lift);
   transform-origin: var(--transform-origin);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -219,22 +127,9 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    border: 1px solid oklch(14.5% 0 0deg);
-    background-color: white;
+    border: 1px solid var(--ds-color-border-subtle);
+    background-color: var(--ds-color-surface-overlay);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border: 1px solid white;
-        background-color: oklch(14.5% 0 0deg);
-      }
-    }
   }
 }
 
@@ -260,18 +155,7 @@
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Stack {

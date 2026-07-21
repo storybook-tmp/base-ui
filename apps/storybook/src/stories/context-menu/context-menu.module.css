@@ -15,43 +15,17 @@
   max-width: 16rem;
   aspect-ratio: 5 / 3;
   outline: 0;
-  border: 1px dashed oklch(55.6% 0 0deg);
-  border-radius: 0;
-  background-color: white;
+  border: 1px dashed var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border-color: oklch(70.8% 0 0deg);
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(70.8% 0 0deg);
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &[data-pressed] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
@@ -63,32 +37,15 @@
   box-sizing: border-box;
   outline: 0;
   padding-block: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -120,18 +77,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-popup-open]::before,
@@ -144,48 +90,15 @@
   }
 
   &[data-popup-open]::before {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-highlighted]::before {
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -215,18 +128,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-highlighted]::before {
@@ -235,33 +137,11 @@
     position: absolute;
     inset-block: 0;
     inset-inline: 0.25rem;
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -278,18 +158,7 @@
 .Separator {
   margin: 0.25rem;
   height: 1px;
-  background-color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: white;
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 /* Do/Don't comparison layout. */
@@ -307,41 +176,20 @@
   gap: 0.5rem;
   width: 14rem;
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 .CardTitle {
   margin: 0;
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .CardNote {
   margin: 0;
   font-size: 0.75rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .GroupLabel {
@@ -352,18 +200,7 @@
   padding-right: 2rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .LinkItem {
@@ -382,22 +219,9 @@
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  border: 1px dashed oklch(55.6% 0 0deg);
+  border: 1px dashed var(--ds-color-border-subtle);
   font-size: 0.75rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: oklch(70.8% 0 0deg);
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(70.8% 0 0deg);
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .IconButton {
@@ -410,73 +234,25 @@
   padding: 0;
   margin: 0;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }

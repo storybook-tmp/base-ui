@@ -9,19 +9,8 @@
 
 .Root {
   box-sizing: border-box;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   min-width: max-content;
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
 }
 
 .List {
@@ -54,70 +43,26 @@
   background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
   text-decoration: none;
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -130,7 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
+  transition: transform var(--ds-motion-base) var(--ds-motion-ease);
 
   &[data-popup-open] {
     transform: rotate(180deg);
@@ -148,8 +93,8 @@
 }
 
 .Positioner {
-  --easing: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration: 0.35s;
+  --easing: var(--ds-motion-ease);
+  --duration: var(--ds-motion-slow);
   box-sizing: border-box;
   transition-property: top, left, right, bottom;
   transition-duration: var(--duration);
@@ -201,33 +146,16 @@
   overflow: visible;
   box-sizing: border-box;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition-property: opacity, transform, width, height;
   transition-duration: var(--duration);
   transition-timing-function: var(--easing);
   width: var(--popup-width);
   height: var(--popup-height);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -236,15 +164,15 @@
   }
 
   &[data-ending-style] {
-    transition-timing-function: ease;
-    transition-duration: 0.15s;
+    transition-timing-function: var(--ds-motion-ease);
+    transition-duration: var(--ds-motion-fast);
   }
 }
 
 .Content {
   box-sizing: border-box;
   transition:
-    opacity calc(var(--duration) * 0.5) ease,
+    opacity calc(var(--duration) * 0.5) var(--ds-motion-ease),
     transform var(--duration) var(--easing);
   padding: 0.5rem;
   width: calc(100vw - 40px);
@@ -338,73 +266,29 @@
   font-family: inherit;
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-active] {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
 .LinkTitle {
   margin: 0 0 4px;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1rem;
 }
 
@@ -412,20 +296,9 @@
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  /* Darker than the usual 55.6% muted gray: this text sits over the item's
-     highlighted/hovered background (a light gray), where 55.6% fails AA contrast. */
-  color: oklch(38% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  /* text-secondary (darker than text-hint) for contrast: this text sits over
+     the item's highlighted/hovered background. */
+  color: var(--ds-color-text-secondary);
 }
 
 /* lumi-ui-style fullest-anatomy composition: a purely visual dimming layer
@@ -434,7 +307,7 @@
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 10%);
-  transition: opacity var(--duration, 0.35s) ease;
+  transition: opacity var(--duration, var(--ds-motion-slow)) var(--ds-motion-ease);
 
   :root[data-theme='dark'] & {
     background-color: rgb(0 0 0 / 40%);
@@ -492,22 +365,9 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    border: 1px solid oklch(14.5% 0 0deg);
-    background-color: white;
+    border: 1px solid var(--ds-color-border-subtle);
+    background-color: var(--ds-color-surface-overlay);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border: 1px solid white;
-        background-color: oklch(14.5% 0 0deg);
-      }
-    }
   }
 }
 
@@ -539,18 +399,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  border-right: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-right: 1px solid white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-right: 1px solid white;
-    }
-  }
+  border-right: 1px solid var(--ds-color-border-subtle);
 }
 
 .SubmenuTrigger {
@@ -571,76 +420,32 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
 .SubmenuLabel {
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1rem;
 }
 
 .SubmenuHint {
   font-size: 0.75rem;
   line-height: 1rem;
-  /* Darker than the usual 55.6% muted gray: this text sits over the trigger's
-     pressed/highlighted background (a light gray), where 55.6% fails AA contrast. */
-  color: oklch(38% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  /* text-secondary (darker than text-hint) for contrast: this text sits over
+     the trigger's pressed/highlighted background. */
+  color: var(--ds-color-text-secondary);
 }
 
 .SubmenuViewport {
@@ -687,25 +492,14 @@
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 500;
+  font-weight: var(--ds-type-weight-medium);
 }
 
 .SubmenuDescription {
   margin: 0;
-  color: oklch(55.6% 0 0deg);
+  color: var(--ds-color-text-hint);
   font-size: 0.875rem;
   line-height: 1.25rem;
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
 }
 
 .LinkList {
@@ -741,43 +535,21 @@
   padding: 0 0.75rem;
   margin: 0;
   outline: 0;
-  border: 1px dashed oklch(55.6% 0 0deg);
-  border-radius: 0;
+  border: 1px dashed var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
   background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
   color: inherit;
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
 .Output {
   font-family: inherit;
   font-size: 0.875rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }

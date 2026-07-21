@@ -14,96 +14,36 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border-radius: var(--ds-radius-control);
+  border: none;
+  background-color: var(--ds-color-action-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-action-on-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-surface-sunken);
+    color: var(--ds-color-text-hint);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -116,58 +56,26 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
+  border-radius: var(--ds-radius-control);
   border: none;
   background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(92.2% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -177,7 +85,7 @@
   inset: 0;
   background-color: black;
   opacity: 0.2;
-  transition: opacity 150ms;
+  transition: opacity var(--ds-motion-fast);
 
   /* iOS 26+: Ensure the backdrop covers the entire visible viewport. */
   @supports (-webkit-touch-callout: none) {
@@ -214,30 +122,14 @@
   max-width: calc(100vw - 3rem);
   margin-top: -2rem;
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -259,33 +151,17 @@
   max-width: calc(100vw - 3rem);
   margin-top: -2rem;
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   translate: -50% calc(-50% + 1.25rem * var(--nested-dialogs));
   scale: calc(1 - 0.1 * var(--nested-dialogs));
   transition:
-    translate 100ms ease-out,
-    scale 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    translate var(--ds-motion-fast) var(--ds-motion-ease),
+    scale var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &::after {
     content: '';
@@ -294,7 +170,7 @@
     background-color: rgb(0 0 0 / 5%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 100ms ease-out;
+    transition: opacity var(--ds-motion-fast) var(--ds-motion-ease);
   }
 
   &[data-nested-dialog-open]::after {
@@ -321,30 +197,14 @@
   width: 18rem;
   max-width: calc(100vw - 3rem);
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -360,7 +220,7 @@
   inset: 0;
   background-color: black;
   opacity: 0.2;
-  transition: opacity 300ms ease-out;
+  transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
 
   @supports (-webkit-touch-callout: none) {
     position: absolute;
@@ -396,30 +256,14 @@
   max-width: calc(100vw - 3rem);
   margin-top: -2rem;
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    transform 300ms ease-out,
-    opacity 300ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -436,27 +280,17 @@
 
 .Title {
   margin: 0;
-  font-size: 1rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .Description {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Actions {
@@ -495,18 +329,7 @@
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .TextareaContainer {
@@ -519,66 +342,29 @@
   box-sizing: border-box;
   padding: 0.5rem;
   margin: 0;
-  border-radius: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
   width: 100%;
   min-height: 8rem;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
 
   @media (any-pointer: coarse) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &::placeholder {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 
   &:focus {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -597,18 +383,7 @@
 .Label {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Input {
@@ -617,85 +392,32 @@
   width: 100%;
   padding: 0 0.5rem;
   margin: 0;
-  border-radius: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
 
   &::placeholder {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 
   &:focus {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
 .MenuPopup {
   box-sizing: border-box;
   padding: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+  border-radius: var(--ds-radius-card);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 }
 
 /*
@@ -742,7 +464,7 @@
   width: 1rem;
   background-color: rgb(0 0 0 / 12%);
   opacity: 0;
-  transition: opacity 250ms;
+  transition: opacity var(--ds-motion-base);
   pointer-events: none;
 
   :root[data-theme='dark'] & {
@@ -759,25 +481,14 @@
   &:hover,
   &[data-scrolling] {
     opacity: 1;
-    transition-duration: 75ms;
+    transition-duration: var(--ds-motion-fast);
     pointer-events: auto;
   }
 }
 
 .ScrollbarThumb {
   width: 100%;
-  background-color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: white;
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 /* In-flow popup for the outside-scroll layout: the page container scrolls, not the popup. */
@@ -790,32 +501,16 @@
   width: min(40rem, calc(100vw - 2rem));
   padding: 1rem;
   margin: 4rem auto;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   outline: 0;
-  transition: transform 300ms ease-out;
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
-  }
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
   }
 
   &[data-starting-style],
@@ -844,52 +539,20 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
+  border-radius: var(--ds-radius-control);
   border: none;
   background-color: transparent;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -905,52 +568,20 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
+  border-radius: var(--ds-radius-control);
   border: none;
   background-color: transparent;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -964,30 +595,14 @@
   max-width: 100%;
   max-height: 100%;
   min-height: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -1001,18 +616,7 @@
   flex-direction: column;
   gap: 0.25rem;
   padding: 1rem;
-  border-bottom: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border-bottom: 1px solid var(--ds-color-border-subtle);
 }
 
 .InsideBody {
@@ -1040,18 +644,7 @@
   justify-content: end;
   gap: 0.75rem;
   padding: 1rem;
-  border-top: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border-top: 1px solid var(--ds-color-border-subtle);
 }
 
 .Section {
@@ -1063,27 +656,17 @@
 
 .SectionTitle {
   margin: 0;
-  font-size: 0.875rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
   line-height: 1.25rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .SectionBody {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(37.1% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(87% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(87% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 /*
@@ -1106,7 +689,7 @@
   width: 100%;
   max-width: 40rem;
   height: 100%;
-  transition: opacity 150ms;
+  transition: opacity var(--ds-motion-fast);
   pointer-events: none;
 
   &[data-starting-style],
@@ -1124,27 +707,11 @@
   height: 100%;
   padding: 1rem;
   pointer-events: auto;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 }
 
 .FloatingClose {
@@ -1159,59 +726,21 @@
   width: 2rem;
   height: 2rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
   }
 }
 
@@ -1228,30 +757,14 @@
   width: 20rem;
   max-width: calc(100vw - 3rem);
   padding: 1rem;
-  border-left: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0 0 rgb(0 0 0 / 12%);
+  border-radius: var(--ds-radius-sheet);
+  border-left: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    translate 150ms ease-out,
-    opacity 150ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border-left: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-left: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    translate var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -1286,17 +799,6 @@
   user-select: none;
 
   &[data-highlighted] {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }

@@ -21,18 +21,7 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 700;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Group {
@@ -44,16 +33,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
   width: 7ch;
   height: 100%;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
   text-align: left;
   font-variant-numeric: tabular-nums;
 
@@ -62,36 +51,10 @@
     line-height: 1.5rem;
   }
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus {
     z-index: 1;
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -106,45 +69,17 @@
   margin: 0;
   outline: 0;
   padding: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
   background-clip: padding-box;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
+    border-color: var(--ds-color-border-subtle);
   }
 }
 
@@ -166,42 +101,16 @@
 .Button {
   box-sizing: border-box;
   padding: 0.375rem 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0.25rem;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-size: 0.875rem;
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
 }
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Row {
@@ -221,59 +130,24 @@
 .Error {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(50.5% 0.213 27.518deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.4% 0.191 22.216deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.4% 0.191 22.216deg);
-    }
-  }
+  color: var(--ds-color-text-error);
 }
 
 .Description {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Log {
   margin: 0;
   padding: 0.5rem;
-  border: 1px solid oklch(85% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
   min-width: 12rem;
   max-height: 6rem;
   overflow: auto;
   font-size: 0.75rem;
   font-family: monospace;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: oklch(35% 0 0deg);
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(35% 0 0deg);
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }

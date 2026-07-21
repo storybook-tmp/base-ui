@@ -3,18 +3,7 @@
   width: 24rem;
   height: 8.5rem;
   max-width: calc(100vw - 8rem);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-surface-page);
 }
 
 .ScrollAreaSquare {
@@ -27,33 +16,11 @@
 .Viewport {
   box-sizing: border-box;
   height: 100%;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -74,18 +41,7 @@
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.375rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Row {
@@ -102,23 +58,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: oklch(92.2% 0 0deg);
+  background-color: var(--ds-color-surface-card);
   font-size: 0.875rem;
   font-weight: 700;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(26.9% 0 0deg);
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(26.9% 0 0deg);
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Grid {
@@ -132,28 +75,18 @@
 }
 
 .Item {
-  background-color: oklch(92.2% 0 0deg);
+  background-color: var(--ds-color-surface-card);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.875rem;
   font-weight: 700;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(26.9% 0 0deg);
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(26.9% 0 0deg);
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
+/* Track/corner stay a translucent black/white scrim rather than the opaque
+   border-subtle token: they need to blend over whatever content scrolls
+   beneath, which a flat token color can't do. See clash log. */
 .Scrollbar {
   display: flex;
   position: relative;
@@ -161,7 +94,7 @@
   background-color: rgb(0 0 0 / 12%);
   margin: 1px;
   opacity: 0;
-  transition: opacity 150ms;
+  transition: opacity var(--ds-motion-fast);
   pointer-events: none;
 
   :root[data-theme='dark'] & {
@@ -196,18 +129,7 @@
 
 .Thumb {
   width: 100%;
-  background-color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: white;
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 .Corner {
@@ -235,40 +157,13 @@
 .Badge {
   box-sizing: border-box;
   padding: 0.125rem 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
   font-size: 0.75rem;
-  /* Was 70.8% (fails AA color-contrast against the white page background). */
-  color: oklch(50% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    color: oklch(43.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      color: oklch(43.9% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 
   &[data-active='true'] {
-    color: oklch(14.5% 0 0deg);
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: white;
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: white;
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
@@ -313,7 +208,7 @@
   background-color: rgb(0 0 0 / 12%);
   margin: 1px;
   opacity: 0;
-  transition: opacity 150ms;
+  transition: opacity var(--ds-motion-fast);
   pointer-events: none;
 
   :root[data-theme='dark'] & {
@@ -350,26 +245,18 @@
 .LegendLabel {
   margin-top: 0.375rem;
   font-size: 0.75rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 /* GradientScrollFade story: recreation of
-   docs/.../scroll-area/demos/scroll-fade/css-modules/index.module.css. */
+   docs/.../scroll-area/demos/scroll-fade/css-modules/index.module.css.
+   The mask-image gradient's black/transparent stops are alpha-channel
+   luminance keywords, not visual colors — swapping "black" for a
+   theme-reactive var would invert the mask in dark mode. See clash log. */
 .ViewportFade {
   --fade-size: 40px;
   height: 100%;
-  background: white;
+  background: var(--ds-color-surface-page);
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -379,17 +266,6 @@
   );
   mask-repeat: no-repeat;
   outline: none;
-
-  :root[data-theme='dark'] & {
-    background: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background: oklch(14.5% 0 0deg);
-    }
-  }
 }
 
 /* InsideAPopup story: a Menu.Popup with a ScrollArea-wrapped list inside it,
@@ -403,26 +279,12 @@
   padding: 0 0.5rem 0 0.75rem;
   margin: 0;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
   font-family: inherit;
   font-size: 0.875rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .MenuPositioner {
@@ -432,24 +294,11 @@
 .MenuPopup {
   box-sizing: border-box;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 }
 
 .MenuScrollArea {
@@ -471,17 +320,6 @@
   cursor: default;
 
   &[data-highlighted] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }

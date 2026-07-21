@@ -8,41 +8,17 @@
 
 .Separator {
   width: 1px;
-  background-color: oklch(87% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(37.1% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 .Link {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
-  text-decoration-color: oklch(87% 0 0deg);
+  color: var(--ds-color-text-primary);
+  text-decoration-color: var(--ds-color-border-subtle);
   text-decoration-thickness: 1px;
   text-decoration-line: none;
   text-underline-offset: 2px;
-
-  :root[data-theme='dark'] & {
-    color: white;
-    text-decoration-color: oklch(37.1% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-      text-decoration-color: oklch(37.1% 0 0deg);
-    }
-  }
 
   @media (hover: hover) {
     &:hover {
@@ -51,20 +27,9 @@
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     text-decoration-line: none;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 }
 
@@ -84,18 +49,7 @@
 .Text {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .HorizontalSeparator {
@@ -119,28 +73,11 @@
   position: relative;
   outline: 0;
   padding-block: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 }
 
 .Item {
@@ -155,21 +92,8 @@
   user-select: none;
 
   &[data-highlighted] {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-primary);
   }
 }
 
@@ -180,18 +104,7 @@
   padding-inline: 1rem;
   font-size: 0.75rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .MenuSeparator {
@@ -206,20 +119,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
   padding: 0.25rem;
   width: fit-content;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-    }
-  }
 }
 
 .ToolbarVertical {

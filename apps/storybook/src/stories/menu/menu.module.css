@@ -16,112 +16,40 @@
   padding: 0 0.5rem 0 0.75rem;
   margin: 0;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
+    border-color: var(--ds-color-border-subtle);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -136,74 +64,26 @@
   padding: 0;
   margin: 0;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -216,32 +96,15 @@
   position: relative;
   outline: 0;
   padding-block: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -273,18 +136,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-popup-open]::before,
@@ -297,63 +149,19 @@
   }
 
   &[data-popup-open]::before {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-highlighted]::before {
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-highlighted][data-popup-open]::before {
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -370,38 +178,18 @@
   padding-right: 0.5rem;
 }
 
-/* Destructive row action (Tailwind red-600 / red-400 raw values). */
+/* Destructive row action. No error-surface token exists in the Mealdrop
+   contract, so the highlighted state falls back to the shared subtle-hover
+   background like every other item; red stays as ink only. */
 .DangerItem {
-  color: oklch(57.7% 0.245 27.325deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.4% 0.191 22.216deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.4% 0.191 22.216deg);
-    }
-  }
+  color: var(--ds-color-text-error);
 
   &[data-highlighted] {
-    color: white;
+    color: var(--ds-color-text-error);
   }
 
   &[data-highlighted]::before {
-    background-color: oklch(57.7% 0.245 27.325deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(50.5% 0.213 27.518deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(50.5% 0.213 27.518deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
@@ -423,7 +211,7 @@
 
   @media (hover: hover) {
     &:hover {
-      outline: 1px dashed oklch(55.6% 0 0deg);
+      outline: 1px dashed var(--ds-color-border-subtle);
       outline-offset: -2px;
     }
   }
@@ -431,18 +219,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-highlighted]::before {
@@ -451,18 +228,7 @@
     position: absolute;
     inset-block: 0;
     inset-inline: 0.25rem;
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
@@ -485,18 +251,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-highlighted]::before {
@@ -505,33 +260,11 @@
     position: absolute;
     inset-block: 0;
     inset-inline: 0.25rem;
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -553,18 +286,7 @@
   padding-right: 2rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 /* Group label aligned with plain items (no indicator column). */
@@ -574,35 +296,13 @@
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .Separator {
   margin: 0.25rem;
   height: 1px;
-  background-color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: white;
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 .Arrow {
@@ -641,22 +341,9 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    background-color: white;
-    border: 1px solid oklch(14.5% 0 0deg);
+    background-color: var(--ds-color-surface-overlay);
+    border: 1px solid var(--ds-color-border-subtle);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(14.5% 0 0deg);
-      border: 1px solid white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(14.5% 0 0deg);
-        border: 1px solid white;
-      }
-    }
   }
 }
 
@@ -666,32 +353,15 @@
   position: relative;
   outline: 0;
   padding-block: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition:
-    transform 300ms ease-out,
-    opacity 300ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -709,8 +379,8 @@
  * the Positioner freezes to --positioner-* while the Popup morphs.
  */
 .TransitionPositioner {
-  --easing: cubic-bezier(0.22, 1, 0.36, 1);
-  --animation-duration: 0.35s;
+  --easing: var(--ds-motion-ease);
+  --animation-duration: var(--ds-motion-slow);
 
   width: var(--positioner-width);
   height: var(--positioner-height);
@@ -787,9 +457,8 @@
   position: fixed;
   min-height: 100dvh;
   inset: 0;
-  background-color: black;
-  opacity: 0.2;
-  transition: opacity 150ms;
+  background-color: rgb(0 0 0 / 20%);
+  transition: opacity var(--ds-motion-fast);
 
   /* iOS 26+: Ensure the backdrop covers the entire visible viewport. */
   @supports (-webkit-touch-callout: none) {
@@ -797,13 +466,13 @@
   }
 
   :root[data-theme='dark'] & {
-    opacity: 0.5;
+    background-color: rgb(0 0 0 / 50%);
   }
 
   /* system fallback when no data-theme is set — keep in sync with the block above */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light'], [data-theme='dark']) & {
-      opacity: 0.5;
+      background-color: rgb(0 0 0 / 50%);
     }
   }
 
@@ -826,30 +495,13 @@
   max-width: calc(100vw - 3rem);
   margin-top: -2rem;
   padding: 1rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -860,27 +512,17 @@
 
 .DialogTitle {
   margin: 0;
-  font-size: 1rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .DialogDescription {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .DialogActions {
@@ -907,18 +549,7 @@
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .PlainButton {
@@ -930,48 +561,22 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -980,51 +585,18 @@
   border-collapse: collapse;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 
   & th {
     text-align: left;
-    font-weight: 700;
+    font-weight: var(--ds-type-weight-bold);
     padding: 0.375rem 1rem 0.375rem 0;
-    border-bottom: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-bottom-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-bottom-color: white;
-      }
-    }
+    border-bottom: 1px solid var(--ds-color-border-subtle);
   }
 
   & td {
     padding: 0.375rem 1rem 0.375rem 0;
-    border-bottom: 1px solid oklch(87% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-bottom-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-bottom-color: oklch(37.1% 0 0deg);
-      }
-    }
+    border-bottom: 1px solid var(--ds-color-border-subtle);
   }
 }
 
@@ -1034,20 +606,7 @@
   min-width: 16rem;
   min-height: 2rem;
   padding: 0.5rem;
-  border: 1px dashed oklch(55.6% 0 0deg);
+  border: 1px dashed var(--ds-color-border-subtle);
   font-size: 0.75rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: oklch(70.8% 0 0deg);
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(70.8% 0 0deg);
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }

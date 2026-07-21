@@ -1,58 +1,79 @@
-.Text {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
+/* Adapted from docs/src/app/(docs)/react/components/slider/demos/hero/css-modules/index.module.css
+   (Hero) and docs/.../toggle-group/demos/hero/css-modules/index.module.css (FlipCompositeRTL). */
 
-  :root[data-theme='dark'] & {
-    color: white;
-  }
+.Control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 14rem;
+  padding-block: 0.75rem;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
+.Track {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--ds-color-surface-sunken);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.Indicator {
+  background-color: var(--ds-color-action-progress);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.Thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-page);
+  -webkit-user-select: none;
+  user-select: none;
+
+  &:has(:focus-visible) {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
-.Stack {
+.Panel {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
+  gap: 1px;
+  padding: 1px;
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 .Button {
   box-sizing: border-box;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+    position: relative;
+    z-index: 1;
   }
 
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
+  &[data-pressed] {
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-label-active);
   }
-
-  &[data-odd] {
-    border-style: dashed;
-  }
-}
-
-.count {
-  font-weight: 700;
 }

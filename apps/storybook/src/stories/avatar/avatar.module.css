@@ -10,30 +10,17 @@
   justify-content: center;
   align-items: center;
   vertical-align: middle;
-  border-radius: 100%;
+  border-radius: var(--ds-radius-round);
   -webkit-user-select: none;
   user-select: none;
   font-weight: 400;
-  color: oklch(14.5% 0 0deg);
-  background-color: oklch(92.2% 0 0deg);
+  color: var(--ds-color-text-secondary);
+  background-color: var(--ds-color-surface-sunken);
   font-size: 0.875rem;
   line-height: 1;
   overflow: hidden;
   height: 2rem;
   width: 2rem;
-
-  :root[data-theme='dark'] & {
-    color: white;
-    background-color: oklch(26.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-      background-color: oklch(26.9% 0 0deg);
-    }
-  }
 }
 
 .Image {

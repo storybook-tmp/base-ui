@@ -34,8 +34,9 @@
   border: 0;
   margin: 0;
   outline: 0;
+  border-radius: var(--ds-radius-control);
   background: none;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -48,63 +49,19 @@
   padding-block: 0;
   height: calc(2rem + 1px);
 
-  :root[data-theme='dark'] & {
-    color: oklch(87% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(87% 0 0deg);
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      color: oklch(14.5% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        color: white;
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          color: white;
-        }
-      }
+      color: var(--ds-color-text-primary);
     }
   }
 
   &[data-active] {
-    color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: white;
-      }
-    }
+    color: var(--ds-color-text-label-active);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -118,26 +75,11 @@
   width: var(--active-tab-width);
   height: 100%;
   transition-property: translate, width;
-  transition-duration: 150ms;
-  transition-timing-function: ease-in-out;
-  border-top: 1px solid oklch(14.5% 0 0deg);
-  border-inline: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    border-top: 1px solid white;
-    border-inline: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-top: 1px solid white;
-      border-inline: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  transition-duration: var(--ds-motion-fast);
+  transition-timing-function: var(--ds-motion-ease);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
 
   [data-orientation='vertical'] & {
     left: 0;
@@ -145,8 +87,8 @@
     translate: 0 var(--active-tab-top);
     width: 100%;
     height: var(--active-tab-height);
-    border-top: 1px solid oklch(14.5% 0 0deg);
-    border-inline: 1px solid oklch(14.5% 0 0deg);
+    border-top: 1px solid var(--ds-color-border-subtle);
+    border-inline: 1px solid var(--ds-color-border-subtle);
   }
 }
 
@@ -156,21 +98,8 @@
   grid-template-columns: minmax(0, 1fr);
   width: 100%;
   min-height: 8rem;
-  border-inline: 1px solid oklch(14.5% 0 0deg);
-  border-block: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-inline: 1px solid white;
-    border-block: 1px solid white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-inline: 1px solid white;
-      border-block: 1px solid white;
-    }
-  }
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  border-block: 1px solid var(--ds-color-border-subtle);
 }
 
 .Panel {
@@ -186,37 +115,13 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   text-align: center;
-  color: oklch(14.5% 0 0deg);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    color: white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-card);
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     z-index: 1;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 
   &[hidden] {
@@ -238,25 +143,14 @@
 .ExternalButton {
   box-sizing: border-box;
   padding: 0.25rem 0.625rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-family: inherit;
   font-size: 0.8125rem;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background: oklch(14.5% 0 0deg);
-      color: white;
-    }
+  &:hover {
+    background-color: var(--ds-color-action-primary-hover);
   }
 }
 

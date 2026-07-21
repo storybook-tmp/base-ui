@@ -22,96 +22,36 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border-radius: var(--ds-radius-control);
+  border: none;
+  background-color: var(--ds-color-action-primary);
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-action-on-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary-hover);
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-surface-sunken);
+    color: var(--ds-color-text-hint);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -127,9 +67,9 @@
   background-color: black;
   /* THE gesture-linked styling hook: fades out as the user drags. */
   opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
-  transition-duration: 450ms;
+  transition-duration: var(--ds-motion-slow);
   transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  transition-timing-function: var(--ds-motion-ease);
 
   :root[data-theme='dark'] & {
     --backdrop-opacity: 0.7;
@@ -165,9 +105,9 @@
   inset: 0;
   background-color: black;
   opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
-  transition-duration: 450ms;
+  transition-duration: var(--ds-motion-slow);
   transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  transition-timing-function: var(--ds-motion-ease);
 
   :root[data-theme='dark'] & {
     --backdrop-opacity: 0.8;
@@ -214,35 +154,19 @@
   padding: 1.5rem;
   padding-right: calc(1.5rem + var(--bleed));
   margin-right: calc(-1 * var(--bleed));
-  border-left: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-sheet);
+  border-left: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   outline: 0;
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  box-shadow: var(--ds-shadow-overlay);
   overflow-y: auto;
   overscroll-behavior: contain;
   touch-action: auto;
-  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
   will-change: transform;
   /* The popup follows the pointer during a drag. */
   transform: translateX(var(--drawer-swipe-movement-x));
-
-  :root[data-theme='dark'] & {
-    border-left: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-left: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -263,27 +187,17 @@
 .Title {
   margin-top: 0;
   margin-bottom: 0.25rem;
-  font-size: 1rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .Description {
   margin: 0 0 1.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Actions {
@@ -323,33 +237,17 @@
   margin-bottom: calc(-1 * var(--bleed));
   padding: 1rem 1.5rem 1.5rem;
   padding-bottom: calc(1.5rem + var(--bleed));
-  border-top: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-sheet);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   outline: 0;
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  box-shadow: var(--ds-shadow-overlay);
   overflow-y: auto;
   overscroll-behavior: contain;
-  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
   will-change: transform;
   transform: translateY(var(--drawer-swipe-movement-y));
-
-  :root[data-theme='dark'] & {
-    border-top: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-top: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -363,7 +261,7 @@
   /* Distinct exit when dismissed BY SWIPING: the release keeps the gesture's
      momentum, so ease out fast instead of the stately default. */
   &[data-swipe-dismiss] {
-    transition-timing-function: ease-in;
+    transition-timing-function: var(--ds-motion-ease);
   }
 }
 
@@ -371,26 +269,16 @@
   width: 3rem;
   height: 0.25rem;
   margin: 0 auto 1rem;
-  background-color: oklch(87% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(37.1% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 .SheetTitle {
   margin-top: 0;
   margin-bottom: 0.25rem;
-  font-size: 1rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
   text-align: center;
 }
 
@@ -398,19 +286,8 @@
   margin: 0 0 1.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   text-align: center;
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
 }
 
 .SheetActions {
@@ -452,29 +329,15 @@
 .EdgePopup {
   box-sizing: border-box;
   padding: 1.5rem;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-sheet);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   outline: 0;
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  box-shadow: var(--ds-shadow-overlay);
   overflow-y: auto;
   overscroll-behavior: contain;
-  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
   will-change: transform;
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-ending-style] {
     transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
@@ -496,18 +359,7 @@
   }
 
   &[data-swipe-direction='up'] {
-    border-bottom: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-bottom-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-bottom-color: white;
-      }
-    }
+    border-bottom: 1px solid var(--ds-color-border-subtle);
 
     &[data-starting-style],
     &[data-ending-style] {
@@ -516,18 +368,7 @@
   }
 
   &[data-swipe-direction='down'] {
-    border-top: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-top-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-top-color: white;
-      }
-    }
+    border-top: 1px solid var(--ds-color-border-subtle);
 
     &[data-starting-style],
     &[data-ending-style] {
@@ -536,18 +377,7 @@
   }
 
   &[data-swipe-direction='left'] {
-    border-right: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-right-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-right-color: white;
-      }
-    }
+    border-right: 1px solid var(--ds-color-border-subtle);
 
     &[data-starting-style],
     &[data-ending-style] {
@@ -556,18 +386,7 @@
   }
 
   &[data-swipe-direction='right'] {
-    border-left: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-left-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-left-color: white;
-      }
-    }
+    border-left: 1px solid var(--ds-color-border-subtle);
 
     &[data-starting-style],
     &[data-ending-style] {
@@ -590,34 +409,18 @@
   max-height: calc(100dvh - 4rem);
   /* Keep painted content below the fold while resting at a detent. */
   padding-bottom: max(0px, calc(var(--drawer-snap-point-offset) + var(--drawer-swipe-movement-y)));
-  border-top: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-sheet);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   outline: 0;
   overflow: visible;
   touch-action: none;
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: var(--ds-shadow-overlay);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
   will-change: transform;
   /* Compose the detent offset with the live drag movement (docs formula). */
   transform: translateY(calc(var(--drawer-snap-point-offset) + var(--drawer-swipe-movement-y)));
-
-  :root[data-theme='dark'] & {
-    border-top: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-top: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -633,21 +436,10 @@
 .DragArea {
   flex-shrink: 0;
   padding: 0.875rem 1.5rem 1rem;
-  border-bottom: 1px solid oklch(87% 0 0deg);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
-
-  :root[data-theme='dark'] & {
-    border-bottom: 1px solid oklch(37.1% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-bottom: 1px solid oklch(37.1% 0 0deg);
-    }
-  }
 }
 
 .SnapScroll {
@@ -667,18 +459,7 @@
 
 .Card {
   height: 3rem;
-  background-color: oklch(92.2% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(37.1% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-surface-card);
 }
 
 /* ------------------------------------------------------------------ */
@@ -695,40 +476,16 @@
   align-items: center;
   justify-content: center;
   width: 2.5rem;
-  border-left: 1px dashed oklch(55.6% 0 0deg);
-  background-color: oklch(92.2% 0 0deg / 60%);
-
-  :root[data-theme='dark'] & {
-    border-left: 1px dashed oklch(70.8% 0 0deg);
-    background-color: oklch(37.1% 0 0deg / 60%);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-left: 1px dashed oklch(70.8% 0 0deg);
-      background-color: oklch(37.1% 0 0deg / 60%);
-    }
-  }
+  border-left: 1px dashed var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
 }
 
 .SwipeAreaLabel {
   font-size: 0.75rem;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   writing-mode: vertical-rl;
   -webkit-user-select: none;
   user-select: none;
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -744,18 +501,7 @@
 .IndentBackground {
   position: absolute;
   inset: 0;
-  background-color: black;
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(87% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(87% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-surface-inverse);
 }
 
 .Indent {
@@ -764,32 +510,17 @@
   position: relative;
   min-height: 20rem;
   transition:
-    transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-    border-radius 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    border-radius var(--ds-motion-base) var(--ds-motion-ease);
   transform-origin: center top;
   will-change: transform;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
   contain: layout;
   padding: 1rem;
-  color: oklch(14.5% 0 0deg);
-  background-color: white;
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-page);
   transition-duration:
     calc(400ms * var(--indent-transition)), calc(250ms * var(--indent-transition));
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    color: white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      color: white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
 
   /* Present while any drawer inside the nearest Provider is open; the scale
      eases back toward 1 as the drag progresses toward dismissal. */
@@ -815,9 +546,9 @@
   inset: 0;
   background-color: black;
   opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
-  transition-duration: 450ms;
+  transition-duration: var(--ds-motion-slow);
   transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  transition-timing-function: var(--ds-motion-ease);
 
   :root[data-theme='dark'] & {
     --backdrop-opacity: 0.7;
@@ -887,39 +618,23 @@
   margin-bottom: calc(-1 * var(--bleed));
   padding: 1rem 1.5rem 1.5rem;
   padding-bottom: calc(1.5rem + var(--bleed));
+  border-radius: var(--ds-radius-sheet);
   border-width: 1px 1px 0;
   border-style: solid;
-  border-color: oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-color: var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   outline: 0;
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  box-shadow: var(--ds-shadow-overlay);
   overflow-y: auto;
   overscroll-behavior: contain;
   transform-origin: 50% calc(100% - var(--bleed));
   transition:
-    transform 450ms cubic-bezier(0.32, 0.72, 0, 1),
-    height 450ms cubic-bezier(0.32, 0.72, 0, 1);
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    height var(--ds-motion-slow) var(--ds-motion-ease);
   will-change: transform;
   /* Parent sheets shrink and peek out behind the frontmost drawer. */
   transform: translateY(var(--translate-y)) scale(var(--stack-scale));
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-swiping],
   &[data-nested-drawer-swiping] {
@@ -945,7 +660,7 @@
   width: 100%;
   max-width: 32rem;
   margin: 0 auto;
-  transition: opacity 300ms cubic-bezier(0.45, 1.005, 0, 1.005);
+  transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
 
   [data-nested-drawer-open] & {
     opacity: 0;
@@ -966,7 +681,7 @@
   inset: 0;
   background-color: black;
   opacity: 0.2;
-  transition: opacity 150ms;
+  transition: opacity var(--ds-motion-fast);
 
   :root[data-theme='dark'] & {
     opacity: 0.5;
@@ -993,27 +708,14 @@
   width: 24rem;
   max-width: calc(100vw - 3rem);
   padding: 1.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border-radius: var(--ds-radius-sheet);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   outline: 0;
   transform: translate(-50%, -50%);
-  transition: opacity 150ms;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  transition: opacity var(--ds-motion-fast);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -1040,18 +742,7 @@
 .Label {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Input {
@@ -1059,41 +750,16 @@
   height: 2rem;
   padding: 0 0.5rem;
   margin: 0;
-  border: 1px solid oklch(55.6% 0 0deg);
-  background-color: white;
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
   font-family: inherit;
   font-size: 0.875rem;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border: 1px solid oklch(70.8% 0 0deg);
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid oklch(70.8% 0 0deg);
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -1103,42 +769,17 @@
   min-height: 5rem;
   padding: 0.5rem;
   margin: 0 0 1rem;
-  border: 1px solid oklch(55.6% 0 0deg);
-  background-color: white;
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
   font-family: inherit;
   font-size: 0.875rem;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   resize: vertical;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid oklch(70.8% 0 0deg);
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid oklch(70.8% 0 0deg);
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -1157,40 +798,19 @@
   width: 100%;
   padding: 0.5rem 0.75rem;
   margin: 0;
+  border-radius: var(--ds-radius-control);
   border: none;
   background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   text-align: left;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   cursor: default;
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(92.2% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
@@ -1199,19 +819,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -1226,16 +835,5 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-variant-numeric: tabular-nums;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }

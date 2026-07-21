@@ -14,20 +14,9 @@
   gap: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 700;
-  color: oklch(14.5% 0 0deg);
+  font-weight: var(--ds-type-weight-regular);
+  color: var(--ds-color-text-primary);
   position: relative;
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
 }
 
 .InputGroup {
@@ -35,36 +24,13 @@
   position: relative;
   width: 14rem;
   height: 2rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
 
   &:focus-within {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 
   &:has(.Clear) .Input {
@@ -72,18 +38,7 @@
   }
 
   &:has([data-invalid]) {
-    border-color: oklch(50.5% 0.213 27.518deg);
-
-    :root[data-theme='dark'] & {
-      border-color: oklch(70.4% 0.191 22.216deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-color: oklch(70.4% 0.191 22.216deg);
-      }
-    }
+    border-color: var(--ds-color-text-error);
   }
 }
 
@@ -92,47 +47,23 @@
   padding: 0 calc(0.5rem + 2rem) 0 0.5rem;
   margin: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--ds-radius-control);
   width: 100%;
   height: 100%;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
 
   @media (any-pointer: coarse) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &::placeholder {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 
   &:focus {
@@ -141,18 +72,7 @@
 
   &:disabled,
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -166,19 +86,8 @@
   height: 100%;
   right: 0;
   border: none;
-  color: oklch(55.6% 0 0deg);
+  color: var(--ds-color-text-hint);
   padding: 0;
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
 }
 
 .Trigger,
@@ -189,21 +98,10 @@
   justify-content: center;
   width: 1.5rem;
   height: 100%;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   border: none;
   padding: 0;
   background: none;
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
 }
 
 /* Select-like trigger for the input-inside-popup pattern */
@@ -218,113 +116,44 @@
   padding-right: 0.25rem;
   margin: 0;
   outline: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1;
   white-space: nowrap;
   font-weight: 400;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   cursor: default;
-  background-color: white;
+  background-color: var(--ds-color-surface-sunken);
   -webkit-user-select: none;
   user-select: none;
   min-width: 10rem;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    color: white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      color: white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[data-popup-open] {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 
   &[data-placeholder] {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
 .TriggerIcon {
   display: flex;
   flex-shrink: 0;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Positioner {
@@ -333,33 +162,17 @@
 
 .Popup {
   box-sizing: border-box;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
   width: var(--anchor-width);
   max-width: var(--available-width);
   transition:
-    opacity 0.1s,
-    transform 0.1s;
+    opacity var(--ds-motion-fast),
+    transform var(--ds-motion-fast);
   transform-origin: var(--transform-origin);
-  border: 1px solid oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    border: 1px solid white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      border: 1px solid white;
-      box-shadow: none;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  box-shadow: var(--ds-shadow-overlay);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -372,8 +185,8 @@
 .PopupAnimated {
   composes: Popup;
   transition:
-    opacity 150ms ease-out,
-    transform 150ms ease-out;
+    opacity var(--ds-motion-fast) var(--ds-motion-ease),
+    transform var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -394,8 +207,8 @@
   padding: 0 0.5rem;
   margin: 0;
   border: none;
-  border-bottom: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
   width: 100%;
   min-width: 12rem;
   height: 2rem;
@@ -403,38 +216,12 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
   outline: none;
 
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      border-color: white;
-    }
-  }
-
   &::placeholder {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -471,18 +258,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    color: white;
-
-    :root[data-theme='dark'] & {
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &[data-highlighted]::before {
@@ -491,22 +267,11 @@
     position: absolute;
     inset-block: 0;
     inset-inline: 0;
-    background-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-disabled] {
-    color: oklch(70.8% 0 0deg);
+    color: var(--ds-color-text-hint);
   }
 }
 
@@ -529,32 +294,10 @@
 .ItemDescription {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 
   .Item[data-highlighted] & {
-    color: oklch(70.8% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(43.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(43.9% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-secondary);
   }
 }
 
@@ -563,18 +306,7 @@
   padding: 1rem 1rem 1rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .Status {
@@ -585,18 +317,7 @@
   padding: 0.5rem 1rem 0.5rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 .Spinner {
@@ -604,23 +325,10 @@
   width: 0.75rem;
   height: 0.75rem;
   flex-shrink: 0;
-  border: 2px solid oklch(87% 0 0deg);
-  border-top-color: oklch(14.5% 0 0deg);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-
-  :root[data-theme='dark'] & {
-    border-color: oklch(37.1% 0 0deg);
-    border-top-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(37.1% 0 0deg);
-      border-top-color: white;
-    }
-  }
+  border: 2px solid var(--ds-color-border-subtle);
+  border-top-color: var(--ds-color-icon-default);
+  border-radius: var(--ds-radius-round);
+  animation: spin var(--ds-motion-slow) linear infinite;
 }
 
 @keyframes spin {
@@ -645,21 +353,10 @@
   padding-right: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-regular);
   -webkit-user-select: none;
   user-select: none;
-  color: oklch(55.6% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-hint);
 }
 
 /* Group boundary marker (electric-sql/electric-style grouped + separated list) */
@@ -667,18 +364,7 @@
   height: 1px;
   margin-block: 0.25rem;
   margin-inline: 1rem;
-  background-color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: white;
-    }
-  }
+  background-color: var(--ds-color-border-subtle);
 }
 
 /* Multiple selection with chips */
@@ -689,44 +375,21 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.125rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
   min-height: 2rem;
   padding: 0.25rem 0.5rem;
   width: 20rem;
   cursor: text;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
 
   &:has(.Chip) {
     padding-inline: 0.25rem;
   }
 
   &:focus-within {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -743,8 +406,8 @@
   display: flex;
   align-items: center;
   min-height: calc(1.5rem - 2px);
-  background-color: oklch(97% 0 0deg);
-  color: oklch(14.5% 0 0deg);
+  background-color: var(--ds-color-surface-card);
+  color: var(--ds-color-text-primary);
   font-size: 0.875rem;
   line-height: 1;
   padding: 0 0.2rem 0 0.4rem;
@@ -753,54 +416,15 @@
   outline: 0;
   cursor: default;
 
-  :root[data-theme='dark'] & {
-    background-color: oklch(26.9% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(26.9% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus-within {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-primary);
   }
 
   @media (hover: hover) {
     &[data-highlighted] {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-
-      :root[data-theme='dark'] & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: white;
-          color: oklch(14.5% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
+      color: var(--ds-color-text-primary);
     }
   }
 }
@@ -811,6 +435,7 @@
   height: 1rem;
   padding: 0;
   border: none;
+  border-radius: var(--ds-radius-control);
   background: none;
   display: flex;
   align-items: center;
@@ -819,18 +444,7 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: oklch(92.2% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(37.1% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 }
@@ -841,42 +455,18 @@
   padding: 0;
   margin: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--ds-radius-control);
   height: calc(1.5rem - 2px);
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   min-width: 3rem;
 
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &::placeholder {
-    color: oklch(55.6% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-hint);
   }
 
   &:focus {
@@ -902,36 +492,15 @@
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
+  border-radius: var(--ds-radius-control);
 
   &[data-highlighted] {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-selected] {
-    outline: 2px solid oklch(14.5% 0 0deg);
+    outline: 2px solid var(--ds-color-text-primary);
     outline-offset: -2px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 }
 
@@ -941,24 +510,10 @@
   box-sizing: border-box;
   width: 14rem;
   margin-top: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+  color: var(--ds-color-text-primary);
 }
 
 .InlineList {
@@ -1017,78 +572,37 @@
 .Button {
   box-sizing: border-box;
   padding: 0.25rem 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-family: inherit;
   font-size: 0.875rem;
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 }
 
 .Output {
   font-size: 0.875rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Description {
   font-size: 0.875rem;
   line-height: 1.25rem;
   margin: 0;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Error {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(50.5% 0.213 27.518deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.4% 0.191 22.216deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.4% 0.191 22.216deg);
-    }
-  }
+  color: var(--ds-color-text-error);
 }
 
 /* Minimal dialog chrome (creatable + inline-in-dialog stories) */
@@ -1123,61 +637,31 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-sheet);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
 }
 
 .DialogTitle {
   margin: 0;
-  font-size: 1rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .DialogInput {
   box-sizing: border-box;
   padding: 0 0.5rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
   width: 100%;
   height: 2rem;
   font-family: inherit;
   font-size: 0.875rem;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
 }

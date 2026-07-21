@@ -6,22 +6,11 @@
   min-height: 9rem;
   flex-direction: column;
   justify-content: center;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  color: var(--ds-color-text-primary);
 }
 
 .Icon {
-  transition: transform 100ms ease-out;
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
 .Trigger {
@@ -33,10 +22,10 @@
   height: 2rem;
   padding: 0 0.5rem 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 400;
@@ -45,67 +34,19 @@
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled]) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-primary-hover);
     }
   }
 
   &:active:not([data-disabled]) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 
   &[data-panel-open] .Icon {
@@ -113,22 +54,9 @@
   }
 
   &[data-disabled] {
-    color: oklch(55.6% 0 0deg);
-    border-color: oklch(55.6% 0 0deg);
+    background-color: var(--ds-color-surface-sunken);
+    color: var(--ds-color-text-hint);
     cursor: not-allowed;
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-      border-color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-        border-color: oklch(70.8% 0 0deg);
-      }
-    }
   }
 }
 
@@ -140,7 +68,7 @@
   overflow: hidden;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  transition: height 150ms ease-out;
+  transition: height var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[hidden]:not([hidden='until-found']) {
     display: none;
@@ -170,43 +98,21 @@
 .ExternalButton {
   box-sizing: border-box;
   padding: 0.25rem 0.625rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background: white;
-  color: oklch(14.5% 0 0deg);
+  border: none;
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
   font-family: inherit;
   font-size: 0.8125rem;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background: oklch(14.5% 0 0deg);
-      color: white;
-    }
+  &:hover {
+    background-color: var(--ds-color-action-primary-hover);
   }
 }
 
 .Log {
   margin-top: 0.5rem;
   font-size: 0.75rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 /* Nested story: an inner Collapsible.Root embedded in an outer panel. */
@@ -219,40 +125,16 @@
 .Card {
   box-sizing: border-box;
   width: 16rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  color: var(--ds-color-text-primary);
 }
 
 .CardHeader {
   box-sizing: border-box;
   padding: 0.625rem 0.875rem;
-  border-bottom: 1px solid oklch(85% 0 0deg);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
   font-size: 0.875rem;
-  font-weight: 500;
-
-  :root[data-theme='dark'] & {
-    border-bottom-color: oklch(43.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-bottom-color: oklch(43.9% 0 0deg);
-    }
-  }
+  font-weight: var(--ds-type-weight-medium);
 }
 
 .CardBody {

@@ -28,44 +28,23 @@
 .SkinButton {
   box-sizing: border-box;
   padding: 0.125rem 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.75rem;
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &[aria-pressed='true'] {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-primary);
   }
 }
 
@@ -80,31 +59,20 @@
   composes: Popup from './autocomplete.module.css';
 
   &[data-skin='vega'] {
-    background-color: white;
-    color: oklch(14.5% 0 0deg);
-    border-color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      border-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(14.5% 0 0deg);
-        color: white;
-        border-color: white;
-      }
-    }
+    background-color: var(--ds-color-surface-overlay);
+    color: var(--ds-color-text-primary);
+    border-color: var(--ds-color-border-subtle);
   }
 
+  /* Nova is a fixed-identity "custom developer skin" that intentionally never
+     follows the app theme (see command-palette/multi-skin demo intent) — the
+     brand token set has no dark-accent surface for this, so it's remapped to
+     the neutral inverse pair as the closest theme-safe stand-in. See clash log. */
   &[data-skin='nova'] {
-    background-color: oklch(27% 0.05 264deg);
-    color: white;
-    border-color: oklch(60% 0.15 264deg);
-    box-shadow: 0.25rem 0.25rem 0 oklch(60% 0.15 264deg / 30%);
+    background-color: var(--ds-color-surface-inverse);
+    color: var(--ds-color-text-on-inverse);
+    border-color: var(--ds-color-border-subtle);
+    box-shadow: var(--ds-shadow-overlay);
   }
 }
 
@@ -138,26 +106,13 @@
   }
 
   &[data-skin='vega']::before {
-    background-color: white;
-    border: 1px solid oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(14.5% 0 0deg);
-      border-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(14.5% 0 0deg);
-        border-color: white;
-      }
-    }
+    background-color: var(--ds-color-surface-overlay);
+    border: 1px solid var(--ds-color-border-subtle);
   }
 
   &[data-skin='nova']::before {
-    background-color: oklch(27% 0.05 264deg);
-    border: 1px solid oklch(60% 0.15 264deg);
+    background-color: var(--ds-color-surface-inverse);
+    border: 1px solid var(--ds-color-border-subtle);
   }
 }
 
@@ -165,10 +120,10 @@
   composes: Item from './autocomplete.module.css';
 
   &[data-skin='nova'][data-highlighted] {
-    color: oklch(27% 0.05 264deg);
+    color: var(--ds-color-text-primary);
   }
 
   &[data-skin='nova'][data-highlighted]::before {
-    background-color: oklch(80% 0.12 264deg);
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }

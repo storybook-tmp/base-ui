@@ -5,18 +5,9 @@
 .Root {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
 }
 
 .Header {
@@ -28,18 +19,7 @@
   gap: 0.75rem;
   row-gap: 0.5rem;
   padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-bottom-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-bottom-color: white;
-    }
-  }
+  border-bottom: 1px solid var(--ds-color-border-subtle);
 }
 
 .HeaderActions {
@@ -52,21 +32,11 @@
 
 .Title {
   margin: 0;
-  font-size: 0.9375rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
   line-height: 1.25rem;
-  font-weight: 600;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
 }
 
 .Source {
@@ -75,20 +45,9 @@
   gap: 0.375rem;
   font-size: 0.75rem;
   line-height: 1rem;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   text-decoration: none;
   white-space: nowrap;
-
-  :root[data-theme='dark'] & {
-    color: oklch(87% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(87% 0 0deg);
-    }
-  }
 
   &:hover {
     text-decoration: underline;
@@ -98,21 +57,10 @@
 .License {
   box-sizing: border-box;
   padding: 0.0625rem 0.375rem;
-  border: 1px solid oklch(70.8% 0 0deg);
-  border-radius: 999px;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
   font-size: 0.6875rem;
   line-height: 1rem;
-
-  :root[data-theme='dark'] & {
-    border-color: oklch(43.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(43.9% 0 0deg);
-    }
-  }
 }
 
 .TabsRoot {
@@ -138,7 +86,7 @@
   margin: 0;
   outline: 0;
   background: none;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   font-family: inherit;
   font-size: 0.8125rem;
   line-height: 1.25rem;
@@ -151,63 +99,19 @@
   height: calc(2rem + 1px);
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    color: oklch(87% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(87% 0 0deg);
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      color: oklch(14.5% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        color: white;
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          color: white;
-        }
-      }
+      color: var(--ds-color-text-primary);
     }
   }
 
   &[data-active] {
-    color: oklch(14.5% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: white;
-      }
-    }
+    color: var(--ds-color-text-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -221,26 +125,11 @@
   width: var(--active-tab-width);
   height: 100%;
   transition-property: translate, width;
-  transition-duration: 150ms;
-  transition-timing-function: ease-in-out;
-  border-top: 1px solid oklch(14.5% 0 0deg);
-  border-inline: 1px solid oklch(14.5% 0 0deg);
-  background-color: oklch(97% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-top: 1px solid white;
-    border-inline: 1px solid white;
-    background-color: oklch(26.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-top: 1px solid white;
-      border-inline: 1px solid white;
-      background-color: oklch(26.9% 0 0deg);
-    }
-  }
+  transition-duration: var(--ds-motion-fast);
+  transition-timing-function: var(--ds-motion-ease);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
 }
 
 .PanelViewport {
@@ -248,18 +137,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   width: 100%;
-  border-top: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-top-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-top-color: white;
-    }
-  }
+  border-top: 1px solid var(--ds-color-border-subtle);
 }
 
 .Panel {
@@ -268,37 +146,13 @@
   width: 100%;
   min-height: 6rem;
   outline: 0;
-  color: oklch(14.5% 0 0deg);
-  background-color: white;
-
-  :root[data-theme='dark'] & {
-    color: white;
-    background-color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-      background-color: oklch(14.5% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-page);
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
     z-index: 1;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
   }
 
   &[hidden] {
@@ -315,64 +169,28 @@
   padding: 1.5rem;
 }
 
-/* Header action button (e.g. "Open in StackBlitz"). */
+/* Header action button (e.g. "Open in StackBlitz"). Ghost/toolbar style, not a primary CTA. */
 .ToolbarButton {
   box-sizing: border-box;
   padding: 0.1875rem 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: transparent;
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.75rem;
   line-height: 1rem;
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      background: oklch(96% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background: oklch(22% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background: oklch(22% 0 0deg);
-        }
-      }
+      background: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -383,21 +201,8 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.375rem 0.5rem 0.375rem 0.75rem;
-  background-color: oklch(98.5% 0 0deg);
-  border-bottom: 1px solid oklch(89.8% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(18% 0 0deg);
-    border-bottom-color: oklch(26.9% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(18% 0 0deg);
-      border-bottom-color: oklch(26.9% 0 0deg);
-    }
-  }
+  background-color: var(--ds-color-surface-sunken);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
 }
 
 .CodeToolbarStart {
@@ -411,92 +216,46 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: 0.75rem;
   line-height: 1rem;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  :root[data-theme='dark'] & {
-    color: oklch(72% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(72% 0 0deg);
-    }
-  }
 }
 
 .Note {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: oklch(55.6% 0 0deg);
+  color: var(--ds-color-text-hint);
   white-space: nowrap;
 }
 
-/* Toolbar-embedded, low-emphasis control (the HTML "Refresh" action). */
+/* Toolbar-embedded, low-emphasis control (the HTML "Refresh" action). Ghost style. */
 .InlineButton {
   box-sizing: border-box;
   padding: 0.125rem 0.4375rem;
   border: 1px solid transparent;
-  border-radius: 0.25rem;
+  border-radius: var(--ds-radius-control);
   background: none;
-  color: oklch(43.9% 0 0deg);
+  color: var(--ds-color-text-secondary);
   font-family: inherit;
   font-size: 0.6875rem;
   line-height: 1rem;
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    color: oklch(72% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(72% 0 0deg);
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      color: oklch(14.5% 0 0deg);
-      border-color: oklch(89.8% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        color: white;
-        border-color: oklch(35% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          color: white;
-          border-color: oklch(35% 0 0deg);
-        }
-      }
+      color: var(--ds-color-text-primary);
+      border-color: var(--ds-color-border-subtle);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
-/* Right-aligned Copy button shared by every code tab. */
+/* Right-aligned Copy button shared by every code tab. Ghost style. */
 .CopyButton {
   box-sizing: border-box;
   display: inline-flex;
@@ -504,64 +263,25 @@
   gap: 0.3125rem;
   flex: none;
   padding: 0.1875rem 0.5rem;
-  border: 1px solid oklch(89.8% 0 0deg);
-  border-radius: 0.25rem;
-  background: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: transparent;
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.75rem;
   line-height: 1rem;
   cursor: pointer;
 
-  :root[data-theme='dark'] & {
-    border-color: oklch(35% 0 0deg);
-    background: oklch(22% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: oklch(35% 0 0deg);
-      background: oklch(22% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
-      border-color: oklch(70.8% 0 0deg);
-      background: oklch(96% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        border-color: oklch(50% 0 0deg);
-        background: oklch(27% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          border-color: oklch(50% 0 0deg);
-          background: oklch(27% 0 0deg);
-        }
-      }
+      border-color: var(--ds-color-border-subtle);
+      background: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -579,19 +299,9 @@
   tab-size: 2;
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -2px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+    z-index: 1;
   }
 
   /* The Storybook SyntaxHighlighter wraps its <pre> in its own scroll container and adds
@@ -615,125 +325,51 @@
    built-in color of their own, but the active Storybook theme injects its own token
    colors via `styled-components`/emotion (an ancestor-scoped `.css-<hash> * .token.xxx`
    rule). That hash class is version-dependent and not something we can reliably
-   out-specify, so `!important` is the deliberate, robust override here. */
+   out-specify, so `!important` is the deliberate, robust override here.
+   Mealdrop has no per-token-hue palette for code (grey carries almost everything — see
+   principles.md rule 1), so distinction here comes from text weight/tone + the existing
+   italic/bold, not from color. */
 :global(.token.comment),
 :global(.token.prolog),
 :global(.token.doctype),
 :global(.token.cdata) {
-  color: oklch(55.6% 0 0deg) !important;
+  color: var(--ds-color-text-hint) !important;
   font-style: italic;
-
-  :root[data-theme='dark'] & {
-    color: oklch(62% 0 0deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(62% 0 0deg) !important;
-    }
-  }
 }
 
 :global(.token.punctuation) {
-  color: oklch(50% 0 0deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(75% 0 0deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(75% 0 0deg) !important;
-    }
-  }
+  color: var(--ds-color-text-secondary) !important;
 }
 
 :global(.token.tag),
 :global(.token.selector),
 :global(.token.deleted) {
-  color: oklch(52% 0.18 20deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(78% 0.14 20deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(78% 0.14 20deg) !important;
-    }
-  }
+  color: var(--ds-color-text-primary) !important;
 }
 
 :global(.token.attr-name),
 :global(.token.property),
 :global(.token.variable) {
-  color: oklch(48% 0.15 235deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(78% 0.12 235deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(78% 0.12 235deg) !important;
-    }
-  }
+  color: var(--ds-color-text-secondary) !important;
 }
 
 :global(.token.string),
 :global(.token.attr-value),
 :global(.token.char),
 :global(.token.inserted) {
-  color: oklch(45% 0.14 150deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(78% 0.13 150deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(78% 0.13 150deg) !important;
-    }
-  }
+  color: var(--ds-color-text-primary) !important;
 }
 
 :global(.token.keyword),
 :global(.token.atrule),
 :global(.token.important),
 :global(.token.regex) {
-  color: oklch(48% 0.19 300deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(80% 0.13 300deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(80% 0.13 300deg) !important;
-    }
-  }
+  color: var(--ds-color-text-primary) !important;
 }
 
 :global(.token.function),
 :global(.token.class-name) {
-  color: oklch(46% 0.17 265deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(80% 0.12 265deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(80% 0.12 265deg) !important;
-    }
-  }
+  color: var(--ds-color-text-primary) !important;
 }
 
 :global(.token.number),
@@ -741,35 +377,13 @@
 :global(.token.constant),
 :global(.token.symbol),
 :global(.token.unit) {
-  color: oklch(52% 0.17 55deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(80% 0.14 55deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(80% 0.14 55deg) !important;
-    }
-  }
+  color: var(--ds-color-text-secondary) !important;
 }
 
 :global(.token.operator),
 :global(.token.entity),
 :global(.token.url) {
-  color: oklch(50% 0.05 235deg) !important;
-
-  :root[data-theme='dark'] & {
-    color: oklch(75% 0.05 235deg) !important;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(75% 0.05 235deg) !important;
-    }
-  }
+  color: var(--ds-color-text-hint) !important;
 }
 
 :global(.token.bold) {

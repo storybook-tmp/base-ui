@@ -16,34 +16,17 @@
   gap: 0.25rem;
   padding: 0.75rem;
   outline: none;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
   transition:
-    transform 100ms ease-out,
-    opacity 100ms ease-out;
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
   width: var(--popup-width, auto);
   height: var(--popup-height, auto);
   max-width: 500px;
-
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -56,8 +39,8 @@
    side the popup opened from via --transform-origin. */
 .TransitionPopup {
   transition:
-    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform var(--ds-motion-base) var(--ds-motion-ease),
+    opacity var(--ds-motion-base) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -106,48 +89,25 @@
     box-sizing: border-box;
     width: calc(6px * sqrt(2));
     height: calc(6px * sqrt(2));
-    background-color: white;
-    border: 1px solid oklch(14.5% 0 0deg);
+    background-color: var(--ds-color-surface-overlay);
+    border: 1px solid var(--ds-color-border-subtle);
     transform: translate(-50%, 50%) rotate(45deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(14.5% 0 0deg);
-      border: 1px solid white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(14.5% 0 0deg);
-        border: 1px solid white;
-      }
-    }
   }
 }
 
 .Title {
   margin: 0;
-  font-size: 0.875rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
   line-height: 1.25rem;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 .Description {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Button {
@@ -159,93 +119,34 @@
   height: 2rem;
   padding: 0 0.75rem;
   margin: 0;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: transparent;
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: var(--ds-type-weight-regular);
   line-height: 1;
   white-space: nowrap;
-  color: oklch(14.5% 0 0deg);
+  color: var(--ds-color-text-primary);
   -webkit-user-select: none;
   user-select: none;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   @media (hover: hover) {
     &:hover:not([data-disabled], :disabled) {
-      background-color: oklch(97% 0 0deg);
-
-      :root[data-theme='dark'] & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          background-color: oklch(26.9% 0 0deg);
-        }
-      }
+      background-color: var(--ds-color-action-subtle-hover);
     }
   }
 
   &:active:not([data-disabled], :disabled) {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &[data-popup-open]:not([data-disabled], :disabled) {
-    background-color: oklch(97% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -255,7 +156,7 @@
   padding: 0;
   font-style: italic;
   font-family: serif;
-  font-weight: 700;
+  font-weight: var(--ds-type-weight-bold);
 }
 
 /* Layout helpers */
@@ -290,35 +191,13 @@
 .Hint {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 .Output {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 /* Form bits (filter panel, link editor, focus stories) */
@@ -334,41 +213,15 @@
   box-sizing: border-box;
   height: 2rem;
   padding: 0 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.875rem;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -378,19 +231,8 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 400;
-  color: oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: white;
-    }
-  }
+  font-weight: var(--ds-type-weight-regular);
+  color: var(--ds-color-text-primary);
 }
 
 .Checkbox {
@@ -401,60 +243,21 @@
   height: 1rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid oklch(14.5% 0 0deg);
-  border-radius: 0;
-  background-color: white;
-  color: white;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-surface-sunken);
   padding: 0;
   margin: 0;
 
-  :root[data-theme='dark'] & {
-    border: 1px solid white;
-    background-color: oklch(14.5% 0 0deg);
-    color: oklch(14.5% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border: 1px solid white;
-      background-color: oklch(14.5% 0 0deg);
-      color: oklch(14.5% 0 0deg);
-    }
-  }
-
   &[data-checked] {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-
-    :root[data-theme='dark'] & {
-      background-color: white;
-      color: oklch(14.5% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: white;
-        color: oklch(14.5% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-primary);
+    color: var(--ds-color-action-on-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: 2px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -485,7 +288,7 @@
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 32%);
-  transition: opacity 150ms ease-out;
+  transition: opacity var(--ds-motion-fast) var(--ds-motion-ease);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -508,20 +311,9 @@
 
 .AnchorTarget {
   padding: 0.125rem 0.375rem;
-  border: 1px dashed oklch(14.5% 0 0deg);
+  border: 1px dashed var(--ds-color-border-subtle);
   font-size: 0.875rem;
   line-height: 1.25rem;
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
 }
 
 /* Sticky-header story */
@@ -531,18 +323,7 @@
   width: 20rem;
   height: 14rem;
   overflow-y: auto;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 .StickyHeader {
@@ -553,39 +334,15 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.5rem;
-  background-color: oklch(97% 0 0deg);
-  border-bottom: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(26.9% 0 0deg);
-    border-bottom-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(26.9% 0 0deg);
-      border-bottom-color: white;
-    }
-  }
+  background-color: var(--ds-color-surface-sunken);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
 }
 
 .Filler {
   padding: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: oklch(43.9% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    color: oklch(70.8% 0 0deg);
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      color: oklch(70.8% 0 0deg);
-    }
-  }
+  color: var(--ds-color-text-secondary);
 }
 
 /* Table-row shared popover story */
@@ -597,28 +354,17 @@
 
   th,
   td {
-    border: 1px solid oklch(14.5% 0 0deg);
+    border: 1px solid var(--ds-color-border-subtle);
     padding: 0.25rem 0.5rem;
     text-align: left;
-
-    :root[data-theme='dark'] & {
-      border-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-color: white;
-      }
-    }
   }
 }
 
 /* Detached-triggers-full / Viewport morphing (from demos/detached-triggers-full) */
 
 .AnimatedPositioner {
-  --easing: cubic-bezier(0.22, 1, 0.36, 1);
-  --animation-duration: 0.35s;
+  --easing: var(--ds-motion-ease);
+  --animation-duration: var(--ds-motion-slow);
 
   width: var(--positioner-width);
   height: var(--positioner-height);
@@ -636,10 +382,10 @@
 .AnimatedPopup {
   position: relative;
   outline: none;
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
-  border: 1px solid oklch(14.5% 0 0deg);
-  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  border: 1px solid var(--ds-color-border-subtle);
+  box-shadow: var(--ds-shadow-overlay);
   transform-origin: var(--transform-origin);
 
   /* Required to make the size animations work */
@@ -649,23 +395,6 @@
   transition-property: width, height, opacity, transform;
   transition-timing-function: var(--easing);
   transition-duration: var(--animation-duration);
-
-  :root[data-theme='dark'] & {
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-    border: 1px solid white;
-    box-shadow: none;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-      border: 1px solid white;
-      box-shadow: none;
-    }
-  }
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -737,18 +466,7 @@
     grid-row: 2;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    color: oklch(43.9% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      color: oklch(70.8% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: oklch(70.8% 0 0deg);
-      }
-    }
+    color: var(--ds-color-text-secondary);
   }
 
   .Avatar {
@@ -760,28 +478,15 @@
     vertical-align: middle;
     -webkit-user-select: none;
     user-select: none;
-    font-weight: 700;
-    color: oklch(14.5% 0 0deg);
-    background-color: oklch(92.2% 0 0deg);
+    font-weight: var(--ds-type-weight-bold);
+    color: var(--ds-color-text-primary);
+    background-color: var(--ds-color-action-subtle-hover);
     font-size: 0.875rem;
     line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     height: 3rem;
     width: 3rem;
-
-    :root[data-theme='dark'] & {
-      color: white;
-      background-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        color: white;
-        background-color: oklch(26.9% 0 0deg);
-      }
-    }
   }
 
   .ProfileActions {
@@ -795,21 +500,10 @@
     line-height: 1.25rem;
 
     a {
-      color: oklch(14.5% 0 0deg);
+      color: var(--ds-color-text-primary);
       text-decoration: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 0.16em;
-
-      :root[data-theme='dark'] & {
-        color: white;
-      }
-
-      /* system fallback when no data-theme is set — keep in sync with the block above */
-      @media (prefers-color-scheme: dark) {
-        :root:not([data-theme='light'], [data-theme='dark']) & {
-          color: white;
-        }
-      }
     }
   }
 }
@@ -824,18 +518,7 @@
   gap: 1rem;
   width: 22rem;
   padding: 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 .QueueList {
@@ -847,18 +530,7 @@
 
   li {
     padding: 0.25rem 0;
-    border-bottom: 1px solid oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      border-bottom-color: oklch(26.9% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        border-bottom-color: oklch(26.9% 0 0deg);
-      }
-    }
+    border-bottom: 1px solid var(--ds-color-border-subtle);
 
     &:last-child {
       border-bottom: none;
@@ -870,18 +542,7 @@
   display: flex;
   gap: 0.25rem;
   padding: 0.25rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-
-  :root[data-theme='dark'] & {
-    border-color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-    }
-  }
+  border: 1px solid var(--ds-color-border-subtle);
 }
 
 /* Mention-autocomplete recreation */
@@ -890,43 +551,17 @@
   box-sizing: border-box;
   width: 18rem;
   padding: 0.5rem;
-  border: 1px solid oklch(14.5% 0 0deg);
-  background-color: white;
-  color: oklch(14.5% 0 0deg);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   resize: none;
 
-  :root[data-theme='dark'] & {
-    border-color: white;
-    background-color: oklch(14.5% 0 0deg);
-    color: white;
-  }
-
-  /* system fallback when no data-theme is set — keep in sync with the block above */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light'], [data-theme='dark']) & {
-      border-color: white;
-      background-color: oklch(14.5% 0 0deg);
-      color: white;
-    }
-  }
-
   &:focus-visible {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-
-    :root[data-theme='dark'] & {
-      outline-color: white;
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        outline-color: white;
-      }
-    }
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
   }
 }
 
@@ -944,17 +579,6 @@
   text-align: left;
 
   &:hover {
-    background-color: oklch(92.2% 0 0deg);
-
-    :root[data-theme='dark'] & {
-      background-color: oklch(37.1% 0 0deg);
-    }
-
-    /* system fallback when no data-theme is set — keep in sync with the block above */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme='light'], [data-theme='dark']) & {
-        background-color: oklch(37.1% 0 0deg);
-      }
-    }
+    background-color: var(--ds-color-action-subtle-hover);
   }
 }
