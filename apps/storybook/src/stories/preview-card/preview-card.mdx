@@ -166,6 +166,15 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
 - Don't expect a second preview card to open instantly the way grouped tooltips do — there is no Provider/shared-delay part for Preview Card.
 - Don't rely on Preview Card for content a touch or screen-reader user must reach — it is excluded by design, confirmed twice by maintainers ([#4170](https://github.com/mui/base-ui/issues/4170), [#4778](https://github.com/mui/base-ui/issues/4778)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Use the lighter lift shadow — the full overlay shadow overwhelms a card this small (`research/f-brand-v2/CLASHES.md`). (BR-06)
+- Card radius (8px) for the popup. (BR-11)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="preview-card">

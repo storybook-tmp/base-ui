@@ -263,6 +263,15 @@ See "The swipe styling contract" above for the full CSS-variable table (the gest
 - Don't style the nested-drawer stack with Dialog's counters — Drawer uses its own (`--nested-drawers`, not `--nested-dialogs`); dialogs opened inside a drawer deliberately don't join that count ([#4493](https://github.com/mui/base-ui/pull/4493)).
 - Don't carry over vaul interop hacks (`pointer-events` workarounds on `<body>`) — the native Drawer doesn't need them.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Float it: overlay shadow plus the sheet radius rung (16px). (BR-06, BR-11)
+- Run the slide transition 150–300ms ease-in via the motion tokens. (BR-12)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 Two of three early leads for Drawer turned out to be false positives on closer inspection — components literally named "drawer" that in fact wrap Dialog, not Base UI's Drawer — and were dropped. The one that verified:

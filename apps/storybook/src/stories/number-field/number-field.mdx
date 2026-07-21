@@ -192,6 +192,14 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 - Don't expect `role="spinbutton"` or `aria-valuenow` — verified absent from source, not merely undocumented.
 - Don't expect PageUp/PageDown to large-step — only Home/End (when bounds are set) and Shift+Arrow do.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Put the input on the sunken surface token, control radius (4px), single focus ring. (BR-09, BR-11, DS-01)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="number-field">

@@ -143,6 +143,15 @@ The following story asserts this contract directly: Tab/Shift+Tab moves focus be
 
 - Don't expect ArrowUp/ArrowDown to move focus between headers — that behavior was deliberately removed ([#4965](https://github.com/mui/base-ui/pull/4965)); use Tab/Shift+Tab instead.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Keep header hierarchy a matter of size and weight — the open state never recolors text. (BR-07)
+- Run the expand/collapse transition 150–300ms ease-in via the motion tokens. (BR-12)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## Examples
 
 An `Accordion.Panel` can contain an entirely independent, nested `Accordion.Root` — each root owns its own value/context, so the two don't interfere.

@@ -323,6 +323,19 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - Don't `render` a non-button trigger without `nativeButton={false}` — the trigger is a native `<button>` since beta.5 ([#3177](https://github.com/mui/base-ui/pull/3177)).
 - Don't push the popup away with a large `sideOffset` to "fix" the default overlap — that's `alignItemWithTrigger` working as designed; set it to `false` instead (observed misuse in the wild — see the [Select examples](?path=/docs/research-d-real-world-usage-select-examples--docs) research page, [#15](https://github.com/mui/base-ui/issues/15)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Trigger sits on the sunken surface token with the control radius; focus is the single ring. (BR-09, BR-11, DS-01)
+- Float the popup: overlay shadow, card radius (8px). (BR-06)
+
+**Don't**
+
+- Don't color the selected or highlighted option — selection is a neutral surface shift. (BR-02)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="select">

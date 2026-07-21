@@ -116,6 +116,15 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 - Don't assume `Avatar.Fallback` is hidden from screen readers — it isn't, by design ([#3095](https://github.com/mui/base-ui/pull/3095)); add `aria-hidden` yourself if it's purely decorative.
 - Don't rely on `loading="lazy"` for large avatar grids — the off-DOM probe design forecloses it ([#2597](https://github.com/mui/base-ui/issues/2597)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Use the fully-round radius rung for the shape. (BR-11)
+- Keep fallback initials neutral ink on a neutral surface — no colored avatar backgrounds. (BR-01)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="avatar">

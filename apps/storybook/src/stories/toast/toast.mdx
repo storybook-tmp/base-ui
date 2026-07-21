@@ -249,6 +249,19 @@ There is no arrow-key navigation between toasts — tab-based only, no roving fo
 - Don't recreate toast objects on every render if you need stable stacking — the store keys metadata by id, but object-identity churn caused regressions historically ([#3922](https://github.com/mui/base-ui/pull/3922)).
 - Don't add a `focus` option or otherwise move focus to a newly opened toast — rejected by design; use AlertDialog when the user must respond ([#4533](https://github.com/mui/base-ui/pull/4533)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Float toasts: overlay shadow, card radius (8px). (BR-06, BR-11)
+- Write toast copy in sentence case — warm, short, with feeling in the punctuation. (BR-08)
+
+**Don't**
+
+- Don't color success/info/warning states — status stays neutral pending status tokens (`research/f-brand-v2/CLASHES.md`). (DS-03)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 Two early leads for Toast were description-inferred only; both verified true on inspection:

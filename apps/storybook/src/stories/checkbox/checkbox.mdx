@@ -146,6 +146,18 @@ By default (no `uncheckedValue`), an unchecked checkbox submits nothing — veri
 
 - Don't expect `indeterminate` to clear itself after a click — it's app-controlled, not a third click-cycle state.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Use the control radius rung (4px) and the single two-layer focus ring. (BR-09, BR-11)
+
+**Don't**
+
+- Don't recolor the checked state — the fill follows the neutral action tokens. (BR-01, DS-01)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="checkbox">

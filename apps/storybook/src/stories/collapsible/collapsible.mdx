@@ -131,6 +131,15 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 
 - Don't expect a JS animation library's exit sequencing to work from `keepMounted` alone — Motion/framer-motion-style libraries need the _element_, not just non-unmounting, to drive their own exit timing.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Keep the disclosure motion 150–300ms ease-in via the motion tokens. (BR-12)
+- Trigger hierarchy comes from size and weight, not color. (BR-07)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## Examples
 
 An independent, nested `Collapsible.Root` inside another's Panel, and a single Collapsible composed inside a settings-card layout:

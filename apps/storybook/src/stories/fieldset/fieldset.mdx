@@ -86,6 +86,15 @@ No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boo
 - Don't expect `Fieldset.Legend` to be a native `<legend>` — it's a `<div>`, by deliberate design ([#3044](https://github.com/mui/base-ui/issues/3044)).
 - Don't assume a single right answer for validation boundaries around heterogeneous grouped controls — [#3930](https://github.com/mui/base-ui/issues/3930) is open and unresolved.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Legend hierarchy comes from size and weight, not color. (BR-07)
+- Write the legend in sentence case. (BR-08)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="fieldset">

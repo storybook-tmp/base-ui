@@ -118,6 +118,19 @@ No CSS variables — Button has no dynamic measurements to expose, the leanest s
 
 - Don't render a link as a Button (`render={<a />}`) — it breaks native anchor semantics (no more native right-click/open-in-new-tab, different Enter-vs-Space conventions). Style the `<a>` directly instead.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Set labels in the body face at regular weight — the fill carries the emphasis. (BR-04)
+- Style through the action tokens so dark mode can re-decide the primary's color (neutral ink in light, brand green in dark). (BR-05, DS-01)
+
+**Don't**
+
+- Never uppercase, bold, or set a button label in the display face. (BR-04, BR-08)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="button">

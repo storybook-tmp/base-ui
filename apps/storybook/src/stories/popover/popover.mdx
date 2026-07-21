@@ -308,6 +308,14 @@ If the popup is hidden under other stacked UI, set `z-index` on the **Positioner
 - Don't use DOM-position-dependent CSS (`:nth-child`, Tailwind `space-x-*`) around triggers — hidden focus-guard spans render next to them by design ([#3693](https://github.com/mui/base-ui/issues/3693)).
 - Don't be surprised when outside elements gain `data-base-ui-inert` while a modal popover is open — rich-text editors (ProseMirror/tiptap) may resync; the marking was moved to top-level nodes to reduce breakage ([#3950](https://github.com/mui/base-ui/issues/3950), [#3955](https://github.com/mui/base-ui/pull/3955)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="popover">

@@ -135,6 +135,14 @@ The group container itself carries only `data-disabled`, plus the full Field val
 - Don't rely on individual child `required` to mean "pick at least one" — it means "every required one must be checked." Use a custom `validate` function instead.
 - Don't set a custom `id` on a child inside a parent-coordinated group — it breaks the parent's `aria-controls`.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Reach for a checkbox group only when several options can be on at once — an exclusive choice is a radio group. (DS-04)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="checkbox-group">

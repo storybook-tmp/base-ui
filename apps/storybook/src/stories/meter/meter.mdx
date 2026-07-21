@@ -124,6 +124,18 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 - Don't reach for Meter to show task/loading progress — that's [Progress](?path=/docs/status-display-progress--docs)'s contract per the APG's own distinction.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Treat green fills as a good-news moment — at most one green moment per screen. (BR-01)
+
+**Don't**
+
+- Don't invent status colors for value tiers — the current Low/High mapping is a recorded clash pending status tokens (`research/f-brand-v2/CLASHES.md`). (DS-03)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="meter">

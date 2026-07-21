@@ -249,6 +249,18 @@ re-exported parts genuinely interchange:
 - Don't assume `disabled` fully suppresses right-click feedback — it hands the
   surface back to the native OS context menu instead of showing nothing.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+
+**Don't**
+
+- Don't give danger items a red fill — red stays ink-only; highlighted danger items keep the neutral highlight surface (`research/f-brand-v2/CLASHES.md`). (BR-02)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="context-menu">

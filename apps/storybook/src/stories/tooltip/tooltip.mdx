@@ -177,6 +177,15 @@ Pattern: **none** — the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/pa
 - Don't use Tooltip for "Copied!"-style contextual feedback — the docs explicitly redirect this to an anchored Toast so the message is announced to screen readers.
 - Don't rely on Tooltip for content a touch-only user must reach — there is no touch fallback by design ([#3530](https://github.com/mui/base-ui/issues/3530)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Use the lighter lift shadow and card radius — Mealdrop has no tooltip pattern; this is the recorded interpretation (`research/f-brand-v2/CLASHES.md`). (BR-06, BR-11)
+- Write tooltip copy in sentence case, short and direct. (BR-08)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="tooltip">

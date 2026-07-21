@@ -131,6 +131,15 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
 
 - Don't reach for single-mode Toggle Group when "always exactly one selected, never clearable" is the real requirement — use RadioGroup ([#3525](https://github.com/mui/base-ui/issues/3525)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Pressed items take the neutral subtle-hover surface — no accent fills. (BR-01)
+- Control radius rung for the group's items. (BR-11)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="toggle-group">

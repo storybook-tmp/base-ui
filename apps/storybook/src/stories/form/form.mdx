@@ -188,6 +188,15 @@ See the [Field styling contract](?path=/docs/form-inputs-field--docs) for the fu
 - Don't wrap Base UI controls in a plain `<form>` and expect Base UI error UI — without `noValidate` you get native browser bubbles ([#3552](https://github.com/mui/base-ui/issues/3552) — real-world shadcn/RHF failure).
 - Don't look for `onClearErrors` — removed in beta.5; clearing is automatic, and migrating code can delete the handler entirely ([#3136](https://github.com/mui/base-ui/pull/3136); the old prop's vagueness was itself a docs complaint, [#2758](https://github.com/mui/base-ui/issues/2758)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Keep error feedback red-ink-only — red has exactly one job. (BR-02)
+- Write all form copy in sentence case, short and direct. (BR-08)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="form">

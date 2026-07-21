@@ -138,6 +138,15 @@ No CSS variables — no dynamic measurements to expose.
 - Don't build a File/Edit/View-style menu bar with Toolbar — use [Menubar](?path=/docs/navigation-menubar--docs); the interaction models (directly-actionable controls vs. drop-down menu triggers with hover-switching) are fundamentally different.
 - Don't invert the composition direction for Menu/Select the way Tooltip requires — `Toolbar.Button render={<Menu.Trigger/>}`, not the reverse.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Toolbar buttons are ghost buttons — body face, regular weight, neutral hover surface. (BR-04)
+- Separate groups with `border.subtle` separators. (BR-02, DS-01)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="toolbar">

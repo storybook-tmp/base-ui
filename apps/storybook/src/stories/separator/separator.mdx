@@ -115,6 +115,14 @@ No `*CssVars.ts` file exists for Separator — a static divider has no dynamic n
 
 - Don't expect a built-in decorative/presentational mode — `role="separator"` is unconditional; override `role` yourself if you truly need a non-semantic line.
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Separators are `border.subtle` lines — accents can't draw a line. (BR-02, DS-01)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="separator">

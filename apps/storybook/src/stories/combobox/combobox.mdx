@@ -334,6 +334,19 @@ Hover and keyboard highlight are one unified `data-highlighted` state by design 
 - Don't write DOM-position-dependent CSS (`:nth-child`) or drag-and-drop logic around Root's children — visually-hidden inputs live there ([#3019](https://github.com/mui/base-ui/issues/3019)).
 - Don't be surprised by Enter needing a highlight: with `autoHighlight` an item is always highlighted, so Enter selects instead of submitting the form — decide which contract you want ([#2686](https://github.com/mui/base-ui/issues/2686)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Put the input on the sunken surface token and let the single two-layer ring handle focus. (BR-09, DS-01)
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+
+**Don't**
+
+- Don't color the highlighted option — selection is a neutral surface shift, not accent ink. (BR-02)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 A path-based scan turned up 20 repos importing the `@base-ui/react/combobox` subpath; the four most illustrative, read directly:

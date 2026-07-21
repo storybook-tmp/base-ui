@@ -253,6 +253,16 @@ Popup/Positioner **must** consume the size variables for morphing to work at all
 - Don't reach for Navigation Menu for a plain row of links with no panels — HTML already does that.
 - Don't port Radix idioms directly: `forceMount` → `Content keepMounted`; no `asChild` — use `render`; no `data-state` — use `data-open`/`data-popup-open`; there is no `NavigationMenu.Indicator` part (`Arrow` covers the pointer). Positioning is anchored per-trigger via Floating UI, not a CSS-Grid full-width strip — "we also investigated CSS Grid … but decided not to use it" ([#2253](https://github.com/mui/base-ui/issues/2253)).
 
+## Mealdrop dos & don'ts
+
+**Do**
+
+- Float the viewport: overlay shadow, card radius (8px). (BR-06, BR-11)
+- Write link labels in sentence case. (BR-08)
+- Run open/close/position transitions 150–300ms ease-in via the motion tokens. (BR-12)
+
+Use the semantic `--ds-*` tokens and existing components; never introduce new colors — see the [Brand guidelines](?path=/docs/overview-brand-guidelines--docs). (DS-01, DS-02, DS-03)
+
 ## In the wild
 
 <WildCards component="navigation-menu">
