@@ -8,7 +8,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 <Meta of={OTPFieldStories} />
 
-# OTP Field <span title="Recently added, not experimental — see the Identity strip below">[New]</span>
+# OTP Field <span title="Recently added, not experimental">[New]</span>
 
 {/* BEGIN: general */}
 A one-time password input composed of individual character slots.
@@ -16,7 +16,7 @@ A one-time password input composed of individual character slots.
 - **Import:** `import { OTPField } from '@base-ui/react/otp-field';`
 - **Parts:** 3 — `OTPField.Root`, `OTPField.Input` (one per slot), `OTPField.Separator` (a verbatim re-export of the standalone `Separator`).
 - **Status:** Stable since v1.6.0. **Preview → stable timeline:** shipped as a preview component in v1.4.0 (PR [#4365](https://github.com/mui/base-ui/issues/4365), 2026-04-10, exported as `OTPFieldPreview`); graduated to stable in v1.6.0 (PR [#5029](https://github.com/mui/base-ui/issues/5029), 2026-06-17), renaming the export `OTPFieldPreview` → `OTPField` as an explicit breaking change. Just over two months preview-to-stable — notably fast by this library's own standard.
-- **The `[New]` tag above is deliberate, not a stale badge.** The docs component index still shows OTP Field tagged `[New]` even though it is fully stable — PR [#5029](https://github.com/mui/base-ui/issues/5029)'s own body states the intended change verbatim: "Components list: `OTP Field [Preview]` → `OTP Field [New]`." The maintainers chose to keep flagging it as recently-added-and-noteworthy rather than drop all badging once it left preview.
+- **OTP Field is one of the library's newest components.** The docs component index still shows OTP Field tagged `[New]` even though it is fully stable — PR [#5029](https://github.com/mui/base-ui/issues/5029)'s own body states the intended change verbatim: "Components list: `OTP Field [Preview]` → `OTP Field [New]`." The maintainers chose to keep flagging it as recently-added-and-noteworthy rather than drop all badging once it left preview.
 - **ARIA pattern:** none directly applicable — there is no W3C APG pattern named "OTP input" or "PIN input"; this is architecturally _N_ separate native textboxes coordinated by roving `tabIndex` inside a `role="group"` container, not a single composite-widget role.
 - **Docs verified against:** `@base-ui/react` workspace source (v1.6.0 line).
 
@@ -97,7 +97,7 @@ All slots share one contiguous string value under the hood (`value[index]` per s
 
 - **Backspace on a filled slot** removes that slot's character from the string (later characters shift left).
 - **Backspace on an _empty_, non-first slot** cascades backward: it removes the _nearest filled slot's_ character to the left and moves focus there — a deliberately forgiving UX matching the common OTP-input convention of "eating backward" through empty slots, not a bug.
-- **Delete** always removes the current slot's character and never moves focus — but because of the shared-string splice, a Delete on a _middle_ slot still visibly shifts every later slot's displayed character down by one (verified directly against `OTPFieldInput.test.tsx`: `defaultValue="1234"`, Delete on slot 1 → `['1','3','4','','','']`, focus stays on slot 1). This is a deliberate asymmetry from Backspace only in whether focus moves, not in whether later slots shift.
+- **Delete** always removes the current slot's character and never moves focus — but because of the shared-string splice, a Delete on a _middle_ slot still visibly shifts every later slot's displayed character down by one (`OTPFieldInput.test.tsx`: `defaultValue="1234"`, Delete on slot 1 → `['1','3','4','','','']`, focus stays on slot 1). This is a deliberate asymmetry from Backspace only in whether focus moves, not in whether later slots shift.
 - **Ctrl/Cmd+Backspace** clears the entire value in one keystroke and returns focus to the first slot.
 
 ### Form submission
@@ -116,7 +116,7 @@ The full value is carried by a hidden, `aria-hidden` validation `<input type="te
 
 <Canvas of={OTPFieldStories.MaskedVariant} />
 
-`mask` renders each slot as `type="password"`. Confirmed live in this story's own play function: a `type="password"` input has **no implicit ARIA role at all**, so `getByRole('textbox')` cannot find a masked slot — querying must fall back to the tag itself. What a screen reader announces for a masked slot still needs independent verification.
+`mask` renders each slot as `type="password"`. A `type="password"` input has **no implicit ARIA role at all**, so `getByRole('textbox')` cannot find a masked slot — querying must fall back to the tag itself. What a screen reader announces for a masked slot is not documented upstream.
 
 ### Rejected characters
 
@@ -173,9 +173,9 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 
 - **Root renders `role="group"`**, not a composite-widget role. Each slot is `role="textbox"` (the native implicit role of `<input type="text">`), or the native role a `type="password"` input exposes when `mask` is set.
 - **Roving `tabIndex`, not full Tab-stops-on-every-slot**: only the active slot gets `tabIndex={0}`; every other slot gets `tabIndex={-1}`. Tab moves out of the field entirely.
-- **Labeling is asymmetric across slots — verify, don't assume.** Slot 0 inherits the field's overall accessible name via an external `<label htmlFor>` or `Field.Label`; slots 1..N-1 need their own `aria-label` (e.g. `"Character 2 of 6"`) to be distinguishable to assistive technology. A dev-only warning catches `aria-label` mistakenly placed on slot 0 — but there is **no** warning for the inverse mistake (forgetting `aria-label` on later slots entirely). This directly answers "single input semantics vs. per-slot labeling?": the actual contract is a hybrid of both, not either extreme.
+- **Labeling is asymmetric across slots.** Slot 0 inherits the field's overall accessible name via an external `<label htmlFor>` or `Field.Label`; slots 1..N-1 need their own `aria-label` (e.g. `"Character 2 of 6"`) to be distinguishable to assistive technology. A dev-only warning catches `aria-label` mistakenly placed on slot 0 — but there is **no** warning for the inverse mistake (forgetting `aria-label` on later slots entirely). The actual contract is a hybrid of single-input semantics and per-slot labeling, not either extreme.
 - `aria-invalid` is applied **per-slot**, not just at the group level — a screen-reader user landing on any slot hears the invalid state.
-- **Known issues**: masked slots (`mask` prop, native `type="password"`) may not expose the same accessible `textbox` role that unmasked slots do in all browser/AT combinations — flagged as a nuance to verify independently with a real screen reader, not a confirmed fact. No dedicated open accessibility-issue sweep was performed beyond source verification for this page.
+- **Known issues**: masked slots (`mask` prop, native `type="password"`) may not expose the same accessible `textbox` role that unmasked slots do in all browser/AT combinations — assistive-technology behavior may vary, so verify with a real screen reader.
 
 {/* END: a11y */}
 

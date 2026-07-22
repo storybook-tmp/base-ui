@@ -50,7 +50,7 @@ Decision guidance for the three listbox-driven pickers lives in [Pickers](?path=
 - When no text input is rendered, use [Select](?path=/docs/form-inputs-select--docs), because an input-less Combobox is explicitly unsupported and loses listbox accessibility such as typeahead ([#4086](https://github.com/mui/base-ui/issues/4086)). The one sanctioned exception: composing `Trigger`+`Value`+`Clear` without an input as a "clearable select" recipe ([#2734](https://github.com/mui/base-ui/issues/2734), acknowledged gray area).
 - For a popup of _actions_ rather than a persisted value, use Menu — a filterable menu was deferred from [#2105](https://github.com/mui/base-ui/pull/2105) and remains open demand ([#4157](https://github.com/mui/base-ui/issues/4157)).
 - For hierarchical/tree selection or select-all rows, use something else: "trees are out of combobox scope" ([#2695](https://github.com/mui/base-ui/issues/2695), [#4489](https://github.com/mui/base-ui/issues/4489)) and a listbox may only contain options ([#4927](https://github.com/mui/base-ui/issues/4927)).
-- For very small, static option sets, prefer [Select](?path=/docs/form-inputs-select--docs) or a radio group — filtering overhead buys nothing (the inverse of the "sufficiently large" guideline above; no maintainer statement sets a numeric threshold).
+- For very small, static option sets, prefer [Select](?path=/docs/form-inputs-select--docs) or a radio group — filtering overhead buys nothing (the inverse of the "sufficiently large" guideline above; there is no official numeric threshold).
 
 {/* END: when-to-use */}
 
@@ -292,7 +292,7 @@ Pattern: [APG Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), edi
 - **ARIA managed for you**: Input — `role="combobox"`, `aria-expanded`, `aria-autocomplete="list"`, `aria-haspopup="listbox"`, `aria-controls`, `aria-activedescendant` → highlighted option (virtual focus), auto `aria-labelledby`. List — `role="listbox"` (+ `aria-multiselectable` in multiple mode). Popup — `role="presentation"`, or `role="dialog"` with the trigger as `role="combobox"` in the input-inside-popup pattern. Item — `role="option"`, `aria-selected`; grid mode emits `row`/`gridcell`. Chips — container `role="toolbar"` while chips exist; chips take real DOM focus. Hidden form input — `aria-hidden`, focus forwarded.
 - **Screen reader hardening on record**: initial live-region announcements ([#4286](https://github.com/mui/base-ui/pull/4286)), TalkBack option-wrapper structure ([#4607](https://github.com/mui/base-ui/pull/4607)), iOS VoiceOver double-tap close ([#3859](https://github.com/mui/base-ui/issues/3859)), NVDA chips navigation ([#3647](https://github.com/mui/base-ui/pull/3647)), hidden Dismiss buttons in modal flows ([#4084](https://github.com/mui/base-ui/pull/4084)).
 - **You must provide**: an accessible name — a `<label>`/`Field.Label` on the Input (input outside) or `Combobox.Label` on the Trigger (input inside popup) — plus visible `:focus-visible` styling and contrast. Keep `Status`/`Empty` mounted and conditionally render their children.
-- **Known issues**: [#4657](https://github.com/mui/base-ui/issues/4657) (open) — passing `index` to Item breaks hover highlight; [#3227](https://github.com/mui/base-ui/issues/3227) (open) — `--available-height` misbehaves when the iOS keyboard opens; [#2991](https://github.com/mui/base-ui/issues/2991) (open) — mobile popup-as-aside layout bug; [#4938](https://github.com/mui/base-ui/issues/4938) (open, has workaround) — clearing the value in the input-inside-popup pattern. No open screen-reader-specific bug was found beyond these (searched upstream 2026-07).
+- **Known issues**: [#4657](https://github.com/mui/base-ui/issues/4657) (open) — passing `index` to Item breaks hover highlight; [#3227](https://github.com/mui/base-ui/issues/3227) (open) — `--available-height` misbehaves when the iOS keyboard opens; [#2991](https://github.com/mui/base-ui/issues/2991) (open) — mobile popup-as-aside layout bug; [#4938](https://github.com/mui/base-ui/issues/4938) (open, has workaround) — clearing the value in the input-inside-popup pattern. No other open screen-reader-specific bugs are known.
 
 {/* END: a11y */}
 
@@ -361,7 +361,7 @@ Hover and keyboard highlight are one unified `data-highlighted` state by design 
 {/* BEGIN: examples */}
 ## In the wild
 
-A path-based scan turned up 20 repos importing the `@base-ui/react/combobox` subpath; the four most illustrative, read directly:
+Around 20 public repos import the `@base-ui/react/combobox` subpath; several illustrative ones:
 
 <WildCards component="combobox">
   <WildCard
@@ -372,7 +372,7 @@ A path-based scan turned up 20 repos importing the `@base-ui/react/combobox` sub
     license="no SPDX license detected"
     reuse="link-only, do not copy"
   >
-    the richest direct product usage found: org/project switchers and an AI-chat model picker, all
+    a substantial direct product usage: org/project switchers and an AI-chat model picker, all
     built on the combobox subpath.
   </WildCard>
   <WildCard
@@ -453,9 +453,9 @@ A path-based scan turned up 20 repos importing the `@base-ui/react/combobox` sub
   </WildCard>
 </WildCards>
 
-The remaining 16 hits (langgenius/dify at 147.9k★, reactive-resume, mastra-ai/mastra, gitbutler, woocommerce, cosscom/coss, typebot.io, and others) weren't written up here; likely archetypes still to verify in a deeper pass: tag/label multi-selects with chips, async user/country pickers, and design-system wrapper components re-exporting the full part set.
+The remaining repos (langgenius/dify at 147.9k★, reactive-resume, mastra-ai/mastra, gitbutler, woocommerce, cosscom/coss, typebot.io, and others) likely follow the same archetypes: tag/label multi-selects with chips, async user/country pickers, and design-system wrapper components re-exporting the full part set.
 
-Two recreations live in this Storybook — a grouped, separated sync-target picker (electric-sql/electric, Apache-2.0, code-ok) and a multi-select model picker with chips grouped by provider, recomposing the same chip/grouping composition also seen independently in langgenius/dify and cosscom/coss (both link-only) from a code-ok source instead (latitude-dev/latitude-llm, MIT, code-ok):
+Two recreations live in this Storybook — a grouped, separated sync-target picker (electric-sql/electric, Apache-2.0, code-ok) and a multi-select model picker with chips grouped by provider, recomposing the same chip/grouping composition used by langgenius/dify and cosscom/coss (both link-only) from a code-ok source instead (latitude-dev/latitude-llm, MIT, code-ok):
 
 <Canvas of={ComboboxStories.RealWorldGroupedSyncTargetPicker} />
 

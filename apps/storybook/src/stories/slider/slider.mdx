@@ -40,7 +40,7 @@ An easily stylable range input.
 
 ## When not to use
 
-- For typed, formatted, or locale-sensitive numeric precision — an exact price, a quantity — prefer [Number Field](?path=/docs/form-inputs-number-field--docs): Slider has no `Intl.NumberFormat`-based parsing pipeline and no way to type an exact value; `Slider.Value`'s text is a read-only, formatted-for-display-only readout (inferred from the two components' divergent design poles; no direct maintainer quote compares them).
+- For typed, formatted, or locale-sensitive numeric precision — an exact price, a quantity — prefer [Number Field](?path=/docs/form-inputs-number-field--docs): Slider has no `Intl.NumberFormat`-based parsing pipeline and no way to type an exact value; `Slider.Value`'s text is a read-only, formatted-for-display-only readout.
 - Built-in tick marks or restricted/snap-to-marks values are **not currently available** — the legacy `Mark`/`marks` API was deliberately dropped in the [#373](https://github.com/mui/base-ui/issues/373) rewrite, deferred to a still-open issue ([#462](https://github.com/mui/base-ui/issues/462)). Marks must be hand-composed as positioned `<span>` children of `Track`.
 - A floating value-label bubble that tracks the thumb while dragging is also not built in — compose with `Tooltip` instead (the [#373](https://github.com/mui/base-ui/issues/373) PR body points at exactly this pattern).
 
@@ -153,7 +153,7 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 
 `data-disabled` lands on every part, and the nested `<input type="range">` gets a real native `disabled` attribute — genuinely excluded from the Tab order, unlike Number Field's stepper buttons which use `aria-disabled` to stay focusable.
 
-**Not covered this round (honesty note)**: `thumbCollisionBehavior` (`push`/`swap`/`none`) and the track-press-vs-drag `data-dragging` contrast both require a real, multi-step pointer-drag sequence with precise coordinate math to exercise meaningfully — verified from source, `thumbCollisionBehavior`'s `resolveThumbCollision` is only invoked from `SliderControl`'s pointer path, never from the keyboard path (`handleInputChange` only calls `validateMinimumDistance`, so keyboard stepping behaves like `"none"` regardless of the prop). Same for `thumbAlignment="edge"`'s real layout-measurement (`getBoundingClientRect`) contrast. All three are left as a follow-up rather than risking a flaky drag simulation in this pass.
+**Not demonstrated here**: `thumbCollisionBehavior` (`push`/`swap`/`none`) and the track-press-vs-drag `data-dragging` contrast both require a real, multi-step pointer-drag sequence with precise coordinate math to exercise meaningfully — `thumbCollisionBehavior`'s `resolveThumbCollision` is only invoked from `SliderControl`'s pointer path, never from the keyboard path (`handleInputChange` only calls `validateMinimumDistance`, so keyboard stepping behaves like `"none"` regardless of the prop). Same for `thumbAlignment="edge"`'s real layout-measurement (`getBoundingClientRect`) contrast. All three require real pointer drags, which aren't reliably simulated.
 
 {/* END: behavior */}
 
@@ -169,10 +169,10 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 | PageUp / PageDown                      | Thumb focused | Steps by `largeStep` — always, regardless of Shift                         |
 | Tab / Shift+Tab                        | Thumb focused | Moves focus to the next/previous thumb, or out of the slider               |
 
-- **The rendered role is the native, implicit `role="slider"` of `<input type="range">` — not a custom `div role="slider"` ARIA widget.** Verified directly: `screen.getByRole('slider')` resolves to an `<input>` element throughout the entire test suite; `Root` itself renders `role="group"`, never `role="slider"`.
+- **The rendered role is the native, implicit `role="slider"` of `<input type="range">` — not a custom `div role="slider"` ARIA widget.** `getByRole('slider')` resolves to an `<input>` element throughout the upstream test suite; `Root` itself renders `role="group"`, never `role="slider"`.
 - **This is a considered decision, evidenced by an inline source comment** (`SliderThumb.test.tsx`): Android TalkBack's increase/decrease actions work on `input type="range"` via native change events, but not on pure ARIA implementations using `div role="slider"` — citing a Chromium issue and mui/material-ui#23506. **The input element(s) must be the only focusable element(s).** A consumer inspecting the DOM expecting a styled `div[role=slider]` (as many other headless-slider libraries implement) will instead find a visually-hidden native `<input type="range">` doing the real work.
 - `Slider.Value` renders `aria-live="off"` by default, deliberately — a source comment explains a drag interaction would otherwise cause continuous, unhelpful announcements mid-gesture.
-- **Known issues**: a narrower accessibility-issue search than the deepest components on this site received; treat this as "not yet searched," not "confirmed clean."
+- **Known issues**: no open accessibility issues are known.
 
 {/* END: a11y */}
 

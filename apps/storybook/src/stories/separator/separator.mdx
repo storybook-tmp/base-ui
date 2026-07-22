@@ -67,7 +67,7 @@ Renders a single `<div>` with no sub-parts and no required children — the cons
 
 <Canvas of={SeparatorStories.Vertical} />
 
-### Re-export map — verified directly against source
+### Re-export map
 
 Six components re-export the standalone `Separator` unchanged (identical props/state shape):
 
@@ -84,7 +84,7 @@ Between two `Menu.Group`s, the plain re-export in action:
 
 <Canvas of={SeparatorStories.InMenu} />
 
-**One component wraps rather than re-exports plainly: Toolbar.** `packages/react/src/toolbar/index.parts.ts` — `export { ToolbarSeparator as Separator } from './separator/ToolbarSeparator';`. `ToolbarSeparator` renders the standalone `Separator` internally but **auto-inverts orientation** relative to the toolbar's own orientation (`{ vertical: 'horizontal', horizontal: 'vertical' }[context.orientation]`) — a horizontal toolbar gets vertical dividers by default, and vice versa. This is genuine composition (AGENTS.md's "share logic through context" principle), not a divergent reimplementation, and is confirmed intentional: a reporter assumed the inversion was a bug affecting screen reader behavior, but maintainers closed [#4647](https://github.com/mui/base-ui/issues/4647) ("ToolbarSeparator data-orientation appears to be inverted") labeled `type: expected behavior` — a horizontal toolbar's vertical dividing lines are visually and semantically correct.
+**One component wraps rather than re-exports plainly: Toolbar.** `packages/react/src/toolbar/index.parts.ts` — `export { ToolbarSeparator as Separator } from './separator/ToolbarSeparator';`. `ToolbarSeparator` renders the standalone `Separator` internally but **auto-inverts orientation** relative to the toolbar's own orientation (`{ vertical: 'horizontal', horizontal: 'vertical' }[context.orientation]`) — a horizontal toolbar gets vertical dividers by default, and vice versa. This is genuine composition — the shared logic lives in the parent and flows through context — not a divergent reimplementation, and is confirmed intentional: a reporter assumed the inversion was a bug affecting screen reader behavior, but maintainers closed [#4647](https://github.com/mui/base-ui/issues/4647) ("ToolbarSeparator data-orientation appears to be inverted") labeled `type: expected behavior` — a horizontal toolbar's vertical dividing lines are visually and semantically correct.
 
 Flipping the toolbar's own orientation live shows the inversion is dynamic, not a one-time default:
 
@@ -95,7 +95,7 @@ Flipping the toolbar's own orientation live shows the inversion is dynamic, not 
 {/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
-**Keyboard:** none — Separator is not focusable by design; no `tabIndex` anywhere in source, consistent with the **structural** (non-interactive) separator role rather than the interactive/widget "range" variant the WAI-ARIA spec also permits.
+**Keyboard:** none — Separator is not focusable by design; it renders no `tabIndex`, consistent with the **structural** (non-interactive) separator role rather than the interactive/widget "range" variant the WAI-ARIA spec also permits.
 
 - **ARIA**: `role="separator"` unconditional; `aria-orientation` always set, even for the default horizontal case.
 - **You must provide**: nothing extra — the role and orientation are fully managed; ensure sufficient visual contrast for the divider itself.
@@ -112,7 +112,7 @@ Flipping the toolbar's own orientation live shows the inversion is dynamic, not 
 
 This attribute existed in code well before it was documented — [#4480](https://github.com/mui/base-ui/pull/4480) ("Add data attributes documentation") closed a real docs-lag gap in 2026-03, a reminder that the generated API tables can lag behind working source.
 
-No `*CssVars.ts` file exists for Separator — a static divider has no dynamic numeric value to expose, so this absence is expected (unlike Progress/Meter, where the same absence is a genuine B-P14 finding).
+No `*CssVars.ts` file exists for Separator — a static divider has no dynamic numeric value to expose, so this absence is expected (unlike Progress/Meter, where the same absence genuinely departs from the library's usual practice of carrying dynamic numeric values in CSS variables).
 
 {/* END: styling */}
 

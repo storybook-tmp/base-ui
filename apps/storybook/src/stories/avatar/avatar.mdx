@@ -91,7 +91,7 @@ With no `delay`, the fallback for a broken image appears the instant loading res
 
 ### SSR — a real, partially-open gotcha
 
-Because layout effects don't run during SSR, server-rendered HTML always contains `Avatar.Fallback` content, never `<img>`. Post-hydration, the cached-image fast path resolves `loaded` on the first render with no visible flash for browser-cached images — but **still-open issue [#4468](https://github.com/mui/base-ui/issues/4468)** ("Fallback flashes for cached images on SSR hydration") documents measured real flash durations even with cached images across frameworks (TanStack Start ~304ms/14 frames, Next.js ~52ms/3 frames, Vite SPA ~16ms/1 frame). Maintainer discussion notes this affects Radix's comparable fix too — treat it as materially-reduced-but-unresolved, not a closed non-issue.
+Because layout effects don't run during SSR, server-rendered HTML always contains `Avatar.Fallback` content, never `<img>`. Post-hydration, the cached-image fast path resolves `loaded` on the first render with no visible flash for browser-cached images — but **still-open issue [#4468](https://github.com/mui/base-ui/issues/4468)** ("Fallback flashes for cached images on SSR hydration") documents measured real flash durations even with cached images across frameworks (TanStack Start ~304ms/14 frames, Next.js ~52ms/3 frames, Vite SPA ~16ms/1 frame).
 
 {/* END: behavior */}
 
@@ -101,7 +101,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 **Keyboard:** none — Avatar is not interactive by itself; `Root`/`Image`/`Fallback` have no built-in role, `tabIndex`, or key handling. If used as a trigger (inside a button/menu), the wrapping interactive element owns focus/keyboard semantics.
 
 - **ARIA**: no dedicated role is applied by Avatar itself beyond the native `<img>`'s implicit image semantics.
-- **You must provide**: `alt` text on `Avatar.Image`. **This guidance does not exist in the official docs, and both hero demos omit `alt` entirely** — a genuine gap this page flags rather than papers over. Decide decorative (`alt=""`, name shown as adjacent text) vs. informative (real alt text, the avatar is the sole identifier) per context; the test suite's convention (`alt="Jane Doe"`) suggests informative is the intended default, but this is a test convention, not documented guidance.
+- **You must provide**: `alt` text on `Avatar.Image`. **This guidance does not exist in the official docs, and both hero demos omit `alt` entirely**. Decide decorative (`alt=""`, name shown as adjacent text) vs. informative (real alt text, the avatar is the sole identifier) per context; informative is the intended default.
 - **Known issues**: `Avatar.Fallback` is **not** auto-hidden from assistive tech — a community proposal to default it to `aria-hidden="true"` was closed, not merged ([#3095](https://github.com/mui/base-ui/pull/3095)), so fallback text (e.g. initials) remains in the accessibility tree by default. Add `aria-hidden` yourself if Fallback is meant purely decoratively.
 
 {/* END: a11y */}
@@ -201,7 +201,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 
 - [#4468](https://github.com/mui/base-ui/issues/4468) — open: fallback still flashes for cached images on SSR hydration in measurable, framework-dependent durations, despite the cached-image fast path.
 - [#2597](https://github.com/mui/base-ui/issues/2597) — open: no lazy-loading support, an architectural consequence of the off-DOM probe design.
-- **`alt` guidance gap** — not a filed issue, but a genuine, undocumented gap: neither hero demo sets `alt`, and the docs give no decorative-vs-informative rule.
+- **`alt` guidance gap** — a genuine, undocumented gap (no upstream issue tracks it): neither hero demo sets `alt`, and the docs give no decorative-vs-informative rule.
 
 {/* END: known-issues */}
 

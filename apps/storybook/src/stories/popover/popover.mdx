@@ -73,7 +73,7 @@ Two questions decide it: **what is the trigger for**, and **may a touch user los
 - For **page-blocking flows or centered prompts**, use [Dialog](?path=/docs/overlays-dialog--docs), because it opens "on top of the entire page", defaults to modal, and its handles support trigger-less `open()` — Popover's handle deliberately requires a `triggerId` because it needs an anchor ([#3065](https://github.com/mui/base-ui/pull/3065)). Rule of thumb: if it must stay attached to what opened it → Popover; if it should command the whole page → Dialog.
 - For an interruption **requiring a decision**, use [Alert Dialog](?path=/docs/overlays-alert-dialog--docs), because `role="alertdialog"` is always modal and refuses light dismiss ([#2146](https://github.com/mui/base-ui/issues/2146)).
 - For an anchored **list of actions**, use [Menu](?path=/docs/overlays-menu--docs), because it provides `role="menu"`, roving highlight, and typeahead — a popover popup is a `dialog` with no item semantics. (Users searching "Popover Menu"/"Dropdown" land here via the docs' own SEO keywords.)
-- For **edge-anchored, gesture-dismissed panels**, use [Drawer](?path=/docs/overlays-drawer--docs). No direct maintainer statement compares the two; the distinction follows from each component's own anatomy: Drawer is edge-attached, swipe-dismissed, and page-scoped, while Popover stays anchored to its trigger — on small screens a desktop popover often becomes a drawer.
+- For **edge-anchored, gesture-dismissed panels**, use [Drawer](?path=/docs/overlays-drawer--docs): Drawer is edge-attached, swipe-dismissed, and page-scoped, while Popover stays anchored to its trigger — on small screens a desktop popover often becomes a drawer.
 - For **pure hover reveal** of non-essential content, use Tooltip or Preview Card — a hover-only interactive popover was explicitly declined: "'Hover-based UIs' are not accessible … That is why the `openOnHover` prop is hybrid" ([#2623](https://github.com/mui/base-ui/issues/2623)).
 
 {/* END: when-to-use */}
@@ -271,7 +271,7 @@ Pattern: no dedicated APG pattern exists for popovers. The [Dialog (Modal)](http
 - **ARIA managed for you**: Trigger — `aria-haspopup="dialog"`, `aria-expanded` (true only on the trigger that opened it), `aria-controls`. Popup — `role="dialog"`, `aria-labelledby` from `Popover.Title`, `aria-describedby` from `Popover.Description`. Arrow — `aria-hidden` ([#1196](https://github.com/mui/base-ui/pull/1196)). Hidden focus-guard `<span>`s render around triggers and the popup — required touch screen-reader escape machinery ([#3693](https://github.com/mui/base-ui/issues/3693)).
 - **Screen reader**: focus enters the dialog on open so SR users "can navigate and read its text/content" — the deliberate contrast with Tooltip, which is `aria-describedby`-only ([#3530](https://github.com/mui/base-ui/issues/3530)).
 - **You must provide**: an accessible name — a `Popover.Title`, or `aria-label` on icon-only triggers and untitled popups — plus visible `:focus-visible` styling and sufficient contrast. Render a `Popover.Close` (visually hidden is fine) inside every `modal` popover.
-- **Known issues**: [#4084](https://github.com/mui/base-ui/pull/4084) (merged 2026-03) fixed the modal escape-hatch gap, closing [#2722](https://github.com/mui/base-ui/issues/2722)/[#3693](https://github.com/mui/base-ui/issues/3693)/[#4096](https://github.com/mui/base-ui/issues/4096). Open: [#3199](https://github.com/mui/base-ui/issues/3199) — focus not set to an interactive element rendered in another component; [#3104](https://github.com/mui/base-ui/issues/3104) — `onOpenChange` touch-event propagation. No open issue labeled both `component: popover` and accessibility as of 2026-07-06.
+- **Known issues**: [#4084](https://github.com/mui/base-ui/pull/4084) (merged 2026-03) fixed the modal escape-hatch gap, closing [#2722](https://github.com/mui/base-ui/issues/2722)/[#3693](https://github.com/mui/base-ui/issues/3693)/[#4096](https://github.com/mui/base-ui/issues/4096). Open: [#3199](https://github.com/mui/base-ui/issues/3199) — focus not set to an interactive element rendered in another component; [#3104](https://github.com/mui/base-ui/issues/3104) — `onOpenChange` touch-event propagation. No open accessibility-labeled Popover issues are known.
 
 {/* END: a11y */}
 
@@ -345,7 +345,7 @@ If the popup is hidden under other stacked UI, set `z-index` on the **Positioner
     reuse="link-only, do not copy"
     image={wordpressOrgGutenbergOpenShot}
   >
-    the richest composition found anywhere: the new `@wordpress/ui` package wraps all ten parts
+    the new `@wordpress/ui` package wraps all ten parts
     one-file-per-part with slot-overridable Portal/Positioner for the iframed editor canvas,
     dev-time validation that a `Title` is present ("required for accessibility, can be visually
     hidden"), a Close-required-when-modal rule, and a `useDeprioritizedInitialFocus` hook that skips
@@ -371,7 +371,7 @@ If the popup is hidden under other stacked UI, set `z-index` on the **Positioner
     license="MIT"
     reuse="code-ok"
   >
-    the best cross-component composition example: the markdown editor's link editor is
+    a strong cross-component composition example: the markdown editor's link editor is
     `Toolbar.Button render={<Popover.Trigger />}` inside a roving-tabindex toolbar, with
     `initialFocus` pointed at the URL input.
   </WildCard>
@@ -396,7 +396,7 @@ If the popup is hidden under other stacked UI, set `z-index` on the **Positioner
     license="Apache-2.0"
     reuse="code-ok"
   >
-    the cleanest triggerless popover: an @-mention file autocomplete fully controlled and anchored
+    a clean triggerless popover: an @-mention file autocomplete fully controlled and anchored
     to a chat textarea, with `initialFocus={false}`/`finalFocus={false}` so keyboard focus never
     leaves the textarea.
   </WildCard>

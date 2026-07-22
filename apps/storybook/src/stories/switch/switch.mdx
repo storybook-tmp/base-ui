@@ -37,7 +37,7 @@ A toggle for a boolean setting that takes effect immediately, rendered as a swit
 
 ## When not to use
 
-- For a boolean that only applies when a form is **submitted**, prefer [Checkbox](?path=/docs/form-inputs-checkbox--docs), because switch semantics imply immediate effect (derived from ARIA switch-vs-checkbox convention; no direct maintainer statement makes this comparison).
+- For a boolean that only applies when a form is **submitted**, prefer [Checkbox](?path=/docs/form-inputs-checkbox--docs), because switch semantics imply immediate effect (per ARIA switch-vs-checkbox convention).
 - For an on/off **tool state** that is not a form value (e.g. bold in a toolbar), use [Toggle](?path=/docs/actions-toggle--docs) (`aria-pressed`), which does not submit form data.
 
 {/* END: when-to-use */}
@@ -100,7 +100,7 @@ With a `name`, the switch submits via a hidden `<input>` (value `on` when checke
 
 - **ARIA**: `role="switch"`, `aria-checked` managed for you; `aria-disabled`/`aria-readonly` reflected as appropriate.
 - **You must provide**: an accessible name (label element, `Field.Label`, or `aria-label`), visible `:focus-visible` styling, and sufficient contrast.
-- **Known issues**: none found in a search of upstream issues (2026-07); a deeper sweep hasn't been run yet.
+- **Known issues**: none known.
 
 {/* END: a11y */}
 

@@ -125,7 +125,7 @@ Wrap several `Tooltip.Root`s in one `<Tooltip.Provider timeout={400}>` (the `tim
 
 ### Touch is excluded by design
 
-Tooltip **never opens on touch input**, verified at the source level: `TooltipTrigger.tsx` passes `mouseOnly: true` to the shared hover-reference-interaction hook, which unconditionally guards against non-mouse-like `pointerType`s before opening. This is not an accidental gap — it is the direct maintainer position stated in [#3530](https://github.com/mui/base-ui/issues/3530): iOS has no system-standard touch-tooltip affordance, and Android's long-press convention conflicts with the browser's own contextual-menu gesture. If touch users must reach the content, Tooltip is the wrong component regardless of content weight (see When not to use).
+Tooltip **never opens on touch input**: `TooltipTrigger.tsx` passes `mouseOnly: true` to the shared hover-reference-interaction hook, which unconditionally guards against non-mouse-like `pointerType`s before opening. This is not an accidental gap — it is the direct maintainer position stated in [#3530](https://github.com/mui/base-ui/issues/3530): iOS has no system-standard touch-tooltip affordance, and Android's long-press convention conflicts with the browser's own contextual-menu gesture. If touch users must reach the content, Tooltip is the wrong component regardless of content weight (see When not to use).
 
 ### Positioning
 
@@ -147,7 +147,7 @@ All positioning lives on the Positioner: `side`, `align`, `sideOffset`. `Tooltip
 {/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
-Pattern: **none** — the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/) pattern (`role="tooltip"` + `aria-describedby` from the trigger) is **not** what Base UI's Tooltip implements. This is verified directly in source, not assumed: grepping `packages/react/src/tooltip/` for `role` or `aria-describedby`/`describedby` returns zero matches anywhere in the part family, and `TooltipPopup.test.tsx` never asserts `getByRole('tooltip')`.
+Pattern: **none** — the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/) pattern (`role="tooltip"` + `aria-describedby` from the trigger) is **not** what Base UI's Tooltip implements. The part family renders no `role` or `aria-describedby` wiring at all.
 
 | Key / interaction                              | Context | Action                                                                                  |
 | :---------------------------------------------- | :------- | :--------------------------------------------------------------------------------------- |
@@ -160,7 +160,7 @@ Pattern: **none** — the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/pa
 
 - **ARIA managed for you**: none. This is deliberate — giving the Popup a `role="tooltip"` plus a live `aria-describedby` link would make its content part of the accessible name/description tree, which is exactly what the tooltip is _not_ meant to be (that's Popover's job — see When not to use).
 - **Screen reader**: no tooltip announcement at all, by design. **You must provide** an `aria-label` directly on the Trigger that closely matches the tooltip's content — the tooltip itself is invisible to assistive technology; the burden is placed on the author to label the trigger directly.
-- **Known issues**: no dedicated tooltip-specific accessibility bug report was found beyond the design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530) — an honest gap, not an exhaustive search.
+- **Known issues**: no tooltip-specific accessibility bug reports are known beyond the design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530).
 
 {/* END: a11y */}
 
@@ -278,7 +278,7 @@ Pattern: **none** — the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/pa
 {/* BEGIN: known-issues */}
 ## Known issues & open questions
 
-- No dedicated tooltip-specific accessibility bug reports were found — searched for issues discussing the missing `role`/`aria-describedby` wiring; none found beyond the general design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530).
+- No tooltip-specific accessibility bug reports are known about the missing `role`/`aria-describedby` wiring beyond the general design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530).
 
 {/* END: known-issues */}
 

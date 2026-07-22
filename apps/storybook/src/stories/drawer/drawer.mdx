@@ -24,7 +24,6 @@ A panel that slides in from the edge of the screen, with swipe-to-dismiss gestur
 ## Features
 
 - **Native-performance gestures, not a nicety** — drag updates are driven **outside React** to stop per-frame re-rasterization ([#4980](https://github.com/mui/base-ui/pull/4980)); swipe CSS variables are registered with `@property` and made non-inheriting for perf ([#4099](https://github.com/mui/base-ui/pull/4099)). A sustained run of perf PRs shows the team treats 60fps drag as core, not cosmetic.
-- **The styling contract is CSS variables, not classes** — `--drawer-swipe-progress`, `--drawer-swipe-movement-x/y`, `--drawer-snap-point-offset`, `--drawer-swipe-strength` update live during a drag so your own transitions/transforms animate on the compositor. See "The swipe styling contract" below — it is the star of this page.
 - **Snap points** — `snapPoints` rest a sheet at partial detents (viewport-height fractions, px, or `rem`/`px` strings); `snapPoint`/`onSnapPointChange` control the active detent; `data-expanded` marks the full-height one.
 - **`Viewport` is REQUIRED** — unlike Dialog, where it's optional, Drawer's dev build warns when `Popup` is rendered without a wrapping `Viewport` ([#4495](https://github.com/mui/base-ui/pull/4495)), because gestures and positioning both depend on it.
 - **App-shell indent effect** — `Drawer.Provider` + `Drawer.Indent` + `Drawer.IndentBackground` reproduce vaul's "main UI scales back while a drawer is open" presentation, coordinated globally across every drawer in the provider.
@@ -131,7 +130,7 @@ Click the trigger and the popup portals to `document.body` with `role="dialog"`;
 
 ### Dismissal reasons — Dialog's set, plus two
 
-Dialog's reasons (`trigger-press`, `outside-press`, `escape-key`, `close-press`, `focus-out`, `imperative-action`) all apply unchanged. Drawer adds `swipe` (gesture dismissal) and `close-watcher` (the Chromium-only Android back gesture — `DrawerProviderReporter` wires a `CloseWatcher` while the topmost drawer is open, something Dialog itself does not do yet, [#3905](https://github.com/mui/base-ui/issues/3905)). Neither can be synthesized by a play function, so this story proves the three Dialog-inherited reasons and documents the other two in prose:
+Dialog's reasons (`trigger-press`, `outside-press`, `escape-key`, `close-press`, `focus-out`, `imperative-action`) all apply unchanged. Drawer adds `swipe` (gesture dismissal) and `close-watcher` (the Chromium-only Android back gesture — `DrawerProviderReporter` wires a `CloseWatcher` while the topmost drawer is open, something Dialog itself does not do yet, [#3905](https://github.com/mui/base-ui/issues/3905)). The three Dialog-inherited reasons are shown live; the other two are described in prose:
 
 <Canvas of={DrawerStories.OpenCloseReasons} />
 
@@ -169,7 +168,7 @@ During a drag the engine drives CSS variables **natively** ([#4980](https://gith
 | `data-expanded`                                          | Popup            | At the full-height snap point                                                                                                                  |
 | `data-nested-drawer-open` / `data-nested-drawer-swiping` | Popup            | A child drawer is open/swiping on top of this one                                                                                              |
 
-No play function drags a pointer here (see "Gesture honesty" below) — the story renders the full contract for manual dragging and asserts only the resting state:
+Pointer-drag gestures aren't simulated here (see "Gesture coverage" below) — the story renders the full contract for manual dragging and asserts only the resting state:
 
 <Canvas of={DrawerStories.SwipeProgressStyling} />
 
@@ -197,7 +196,7 @@ Dialogs opened **inside** a drawer deliberately do **not** join the nested-drawe
 
 ### Forms and the virtual keyboard
 
-A bottom sheet with form fields, wrapped in `Drawer.VirtualKeyboardProvider` ([#4353](https://github.com/mui/base-ui/pull/4353)): on devices with a software keyboard the Viewport gets `--drawer-keyboard-inset` so the sheet can rise above it. Always write `var(--drawer-keyboard-inset, 0px)` — the variable exists only while the keyboard is aligned. The inset itself is device-dependent (manual test on mobile); the play verifies the form flow:
+A bottom sheet with form fields, wrapped in `Drawer.VirtualKeyboardProvider` ([#4353](https://github.com/mui/base-ui/pull/4353)): on devices with a software keyboard the Viewport gets `--drawer-keyboard-inset` so the sheet can rise above it. Always write `var(--drawer-keyboard-inset, 0px)` — the variable exists only while the keyboard is aligned. The inset itself is device-dependent — try it on a real mobile device:
 
 <Canvas of={DrawerStories.DrawerWithForm} />
 
@@ -209,7 +208,7 @@ There is **no `disableSwipeDismissal` prop** — cancel the change request in `o
 
 ### Animation
 
-Transitions hang off `[data-starting-style]`/`[data-ending-style]`, exactly like Dialog; the popup stays mounted until the exit settles, then `onOpenChangeComplete(false)` fires. Drawer adds two exit-only hooks: `[data-swipe-dismiss]` (present when closed by swiping) and `--drawer-swipe-strength` (scales the release duration so a hard fling exits faster) — both wired in this story's CSS, though no play can trigger the swipe-only variant:
+Transitions hang off `[data-starting-style]`/`[data-ending-style]`, exactly like Dialog; the popup stays mounted until the exit settles, then `onOpenChangeComplete(false)` fires. Drawer adds two exit-only hooks: `[data-swipe-dismiss]` (present when closed by swiping) and `--drawer-swipe-strength` (scales the release duration so a hard fling exits faster) — both wired in this story's CSS; the swipe-only variant needs a real touch gesture:
 
 <Canvas of={DrawerStories.ExitAnimation} />
 
@@ -234,7 +233,7 @@ Transitions hang off `[data-starting-style]`/`[data-ending-style]`, exactly like
 - **Snap-point changes make no announcement** — moving between detents is visual state only; no live region is wired in the snap-point code.
 - **`SwipeArea` is invisible and pointer-only** — it must never be the sole way to open the drawer; always pair it with a real `Trigger`.
 - **You must provide**: a `Drawer.Title` (or `aria-label`), a visible `Drawer.Close`, `:focus-visible` styles, and sufficient contrast.
-- **Known issues**: the Dialog-family issues apply verbatim ([#4678](https://github.com/mui/base-ui/issues/4678) aria-hidden tabbables, [#4843](https://github.com/mui/base-ui/issues/4843) `aria-modal`, [#4583](https://github.com/mui/base-ui/issues/4583) multi-Esc). No Drawer-specific open accessibility issue was found in the `[drawer]`-scoped git/issue history.
+- **Known issues**: the Dialog-family issues apply verbatim ([#4678](https://github.com/mui/base-ui/issues/4678) aria-hidden tabbables, [#4843](https://github.com/mui/base-ui/issues/4843) `aria-modal`, [#4583](https://github.com/mui/base-ui/issues/4583) multi-Esc). No Drawer-specific open accessibility issues are known.
 
 {/* END: a11y */}
 
@@ -290,7 +289,7 @@ See "The swipe styling contract" above for the full CSS-variable table (the gest
 {/* BEGIN: examples */}
 ## In the wild
 
-Two of three early leads for Drawer turned out to be false positives on closer inspection — components literally named "drawer" that in fact wrap Dialog, not Base UI's Drawer — and were dropped. The one that verified:
+Beware: many components named "drawer" in the wild wrap Dialog, not Base UI's Drawer. A genuine usage:
 
 <WildCards component="drawer">
   <WildCard
@@ -302,12 +301,12 @@ Two of three early leads for Drawer turned out to be false positives on closer i
     reuse="code-ok"
     image={baseuiCnComShot}
   >
-    a shadcn-style registry whose `drawer.tsx` genuinely imports `Drawer` from
-    `@base-ui/react/drawer` — confirmed by reading the file, not just the repo's description.
+    a shadcn-style registry whose `drawer.tsx` imports `Drawer` from
+    `@base-ui/react/drawer` directly.
   </WildCard>
 </WildCards>
 
-A direct registry-tree mining pass (not a code search) confirms the same drawer/sheet dual-naming pattern independently:
+The same drawer/sheet dual-naming pattern appears across shadcn-style registries:
 
 <WildCards component="drawer">
   <WildCard
@@ -335,11 +334,11 @@ A direct registry-tree mining pass (not a code search) confirms the same drawer/
   </WildCard>
 </WildCards>
 
-The `MobileNavigation` story above recreates the documented mobile-navigation archetype instead of a specific production repo, for the same reason.
+The `MobileNavigation` story above recreates the documented mobile-navigation archetype rather than a specific production repo.
 
 <Canvas of={DrawerStories.MobileNavigation} />
 
-A follow-up ranking pass surfaced 10 genuine Drawer usages in the wild; two recreations live in this Storybook, picked from the code-ok top set — `createHandle` decoupling a detached trigger from the popup, with the draft reset on every reopen (Julchu/pricey `pantry-drawer.tsx`, MIT, code-ok, #3), and a `position`-aware compound wrapper mapping `left`/`right`/`top`/`bottom` to the matching `swipeDirection` (ironbyte0x/buckethub `drawer.tsx`, MIT, code-ok, #4 — a peer project that ships its own `drawer.stories.tsx`):
+More Drawer usages exist in the wild; two recreations live in this Storybook — `createHandle` decoupling a detached trigger from the popup, with the draft reset on every reopen (Julchu/pricey `pantry-drawer.tsx`, MIT, code-ok), and a `position`-aware compound wrapper mapping `left`/`right`/`top`/`bottom` to the matching `swipeDirection` (ironbyte0x/buckethub `drawer.tsx`, MIT, code-ok — a peer project that ships its own `drawer.stories.tsx`):
 
 <Canvas of={DrawerStories.RealWorldHandleFormReset} />
 
@@ -367,7 +366,7 @@ The vaul succession, in order:
 
 - Dialog-family issues apply verbatim: [#4678](https://github.com/mui/base-ui/issues/4678) (aria-hidden tabbables), [#4843](https://github.com/mui/base-ui/issues/4843) (`aria-modal`), [#4583](https://github.com/mui/base-ui/issues/4583) (multi-Esc).
 - [#3905](https://github.com/mui/base-ui/issues/3905) — Dialog's own CloseWatcher/Android-back-button request is still open; Drawer already ships this.
-- No Drawer-specific open accessibility issue was found in a `[drawer]`-scoped search of git history and issues (2026-07).
+- No Drawer-specific open accessibility issues are known.
 - Parent-bound (absolute-positioned, `container`-portaled) drawers remain an unanswered request from the original [#38](https://github.com/mui/base-ui/issues/38) thread (dartess's `positionMethod='fixed' | 'absolute'` ask).
 
 {/* END: known-issues */}

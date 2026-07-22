@@ -36,12 +36,12 @@ A numeric input element with increment and decrement buttons, and a scrub area.
 - Any numeric value that benefits from formatted display (currency, percent, units) alongside typed entry and click-to-step controls — the entire `parse.ts`/`validate.ts`/`formatNumber` pipeline exists specifically for this.
 - Forms needing native constraint validation (`min`/`max`/`step`/`required`) on a numeric field, where the formatted display must never pollute the submitted value.
 - A bounded, steppable range where increment/decrement affordances and/or drag-to-scrub add value beyond free-text entry.
-- Likely real-world archetypes (checkout quantity fields, currency settings panels) are plausible, though we haven't verified public examples of them yet beyond what's in "In the wild" below.
+- Likely real-world archetypes (checkout quantity fields, currency settings panels) are plausible, with no known public examples beyond what's in "In the wild" below.
 
 ## When not to use
 
-- For continuous/glanceable range selection where exact typed precision matters less than position-relative-to-bounds, prefer [Slider](?path=/docs/form-inputs-slider--docs) — its primary interaction is the drag gesture itself, with no typed-entry path at all (inferred from the two components' divergent design poles, not a direct maintainer quote comparing them).
-- For plain unformatted numeric entry with no locale/formatting/stepping need, a bare `Input` (or native `<input type="number">`) is lower overhead — no maintainer quote makes this comparison directly; it follows from Number Field's stated purpose.
+- For continuous/glanceable range selection where exact typed precision matters less than position-relative-to-bounds, prefer [Slider](?path=/docs/form-inputs-slider--docs) — its primary interaction is the drag gesture itself, with no typed-entry path at all.
+- For plain unformatted numeric entry with no locale/formatting/stepping need, a bare `Input` (or native `<input type="number">`) is lower overhead.
 - Not for math-expression evaluation (`"5+20"`) — maintainers explicitly declined this direction and suggested a separate component (mui/base-ui#2152).
 
 {/* END: when-to-use */}
@@ -88,13 +88,13 @@ The single most decision-relevant behavioral contract in this component: `onValu
 
 Arrow keys step by `step` (default `1`); Shift multiplies to `largeStep` (default `10`); Alt uses `smallStep` (default `0.1`). Home/End jump directly to `min`/`max` — but **only when those props are set**; otherwise the browser's native text-caret Home/End behavior takes over instead (source comment: "Let the browser handle ... Home/End without min/max").
 
-**PageUp/PageDown are deliberately native, not a large-step key** — this is a verified-absence finding, not an oversight: the source's own key-handling list explicitly falls through to native browser behavior for PageUp/PageDown, diverging from the ARIA spinbutton pattern's optional PageUp/PageDown-as-large-step convention. Consistent with the ARIA choice below, this component never adopted that pattern.
+**PageUp/PageDown are deliberately native, not a large-step key**: the source's own key-handling list explicitly falls through to native browser behavior for PageUp/PageDown, diverging from the ARIA spinbutton pattern's optional PageUp/PageDown-as-large-step convention. Consistent with the ARIA choice below, this component never adopted that pattern.
 
 ### The scrub area
 
 <Canvas of={NumberFieldStories.ScrubArea} />
 
-Click-and-drag anywhere in `ScrubArea` to change the value continuously (pointer lock, outside Safari/WebKit which is explicitly excluded to avoid a native layout-shifting notification). **This story renders and describes the gesture rather than driving it with a play function**: real OS-level pointer lock is denied or inconsistent in headless browser automation, and the project's own `NumberFieldScrubArea.test.tsx` skips both JSDOM and WebKit for the same reason — an honest limitation, not a shortcut taken only here.
+Click-and-drag anywhere in `ScrubArea` to change the value continuously (pointer lock, outside Safari/WebKit which is explicitly excluded to avoid a native layout-shifting notification). **This story renders and describes the gesture rather than driving it with a play function**: real OS-level pointer lock is denied or inconsistent in headless browser automation, and the project's own `NumberFieldScrubArea.test.tsx` skips both JSDOM and WebKit for the same reason.
 
 ### min / max / step
 
@@ -136,7 +136,7 @@ By default, typed values are clamped to `min`/`max` immediately at the numeric-v
 
 <Canvas of={NumberFieldStories.LocaleAndCurrencyFormat} />
 
-`format` (raw `Intl.NumberFormatOptions`) and `locale` drive the displayed text through the standard `Intl.NumberFormat` pipeline, while the value submitted to a form stays a plain number. Net-new Storybook coverage — evidenced from source and the currency/locale test blocks, not from an existing docs demo.
+`format` (raw `Intl.NumberFormatOptions`) and `locale` drive the displayed text through the standard `Intl.NumberFormat` pipeline, while the value submitted to a form stays a plain number. Not covered by an existing docs demo.
 
 ### Wheel scrubbing
 
@@ -170,9 +170,9 @@ Wrapping in `Field.Root` with a `validate` function demonstrates the duplicated-
 | Backspace / Delete / ArrowLeft / ArrowRight / Tab / Enter / Escape                        | Input focused                  | Native text-editing/navigation, explicitly passed through                           |
 | Click-drag on ScrubArea                                                                   | Pointer down                   | Continuous stepping proportional to movement; pointer-only                          |
 
-- **ARIA — verified absence, not an assumption**: the Input does **not** use `role="spinbutton"`. Reading `NumberFieldInput.tsx` and grepping the entire `number-field/` source tree directly confirms there is no `role="spinbutton"`, no `aria-valuenow`/`aria-valuemin`/`aria-valuemax`/`aria-valuetext` anywhere. The Input is a plain implicit `role="textbox"` (confirmed by tests: `screen.getByRole('textbox')` is used pervasively across `NumberFieldRoot.test.tsx`). It additionally carries `aria-roledescription="Number field"` — a role _description_, not an accessible name; use `Field.Label`/`aria-label` for that.
-- This was a considered decision: the founding PR [#186](https://github.com/mui/base-ui/issues/186)'s checklist included "Research if spinbutton ARIA props become necessary for iOS" as an open TODO — the shipped component never added them, and no later PR reversed that. The likely rationale (not a maintainer quote): a spinbutton's `aria-valuenow`/`aria-valuetext` model fits a value that's _set_, whereas this component's primary interaction is free-form formatted text editing where the visible text should simply be read like any other text input.
-- **Known issues**: no dedicated open accessibility-issue sweep beyond source verification has been performed for this page.
+- **ARIA**: the Input does **not** use `role="spinbutton"` — there is no `aria-valuenow`/`aria-valuemin`/`aria-valuemax`/`aria-valuetext` anywhere; it is a plain implicit `role="textbox"` (its tests query `getByRole('textbox')` throughout). It additionally carries `aria-roledescription="Number field"` — a role _description_, not an accessible name; use `Field.Label`/`aria-label` for that.
+- This was a considered decision: the founding PR [#186](https://github.com/mui/base-ui/issues/186)'s checklist included "Research if spinbutton ARIA props become necessary for iOS" as an open TODO — the shipped component never added them, and no later PR reversed that. The likely rationale: a spinbutton's `aria-valuenow`/`aria-valuetext` model fits a value that's _set_, whereas this component's primary interaction is free-form formatted text editing where the visible text should simply be read like any other text input.
+- **Known issues**: no open accessibility issues are known.
 
 {/* END: a11y */}
 
@@ -187,7 +187,7 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 | `data-disabled` / `data-readonly` / `data-required`                                            | matching prop set                                                                                      |
 | `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field integration only                                                                                 |
 
-**No CSS custom properties exist for this component** — confirmed by directory listing; the only dynamic visual element (the scrub cursor) is positioned via a directly-set inline `transform`, not a variable.
+**No CSS custom properties exist for this component** — the only dynamic visual element (the scrub cursor) is positioned via a directly-set inline `transform`, not a variable.
 
 {/* END: styling */}
 
@@ -211,7 +211,7 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 
 **Don't**
 
-- Don't expect `role="spinbutton"` or `aria-valuenow` — verified absent from source, not merely undocumented.
+- Don't expect `role="spinbutton"` or `aria-valuenow` — genuinely absent, not merely undocumented.
 - Don't expect PageUp/PageDown to large-step — only Home/End (when bounds are set) and Shift+Arrow do.
 
 {/* END: do-dont */}

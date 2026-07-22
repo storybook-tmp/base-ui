@@ -12,8 +12,7 @@ Base UI has several families of components that look similar from a distance —
 binary controls, three pickers, four menu-shaped widgets — but differ in ARIA semantics,
 form participation, or touch behavior in ways that matter once you dig in. This page is
 the decision layer: one section per family, each with a compact table and links to the
-components involved. When a component page and this page disagree on a boundary, this
-page's cluster-note source is the more detailed one — follow its link.
+components involved.
 
 ## Overlays
 
@@ -120,8 +119,7 @@ Full comparison, including per-pair boundary statements, on the
 
 ## Binary controls: Checkbox, Switch, Toggle
 
-The sharpest, most source-verifiable line in this cluster: **only Switch and Checkbox
-can submit with a `<form>`.** Toggle and Toggle Group have no hidden-input machinery in
+Only Switch and Checkbox can submit with a `<form>`. Toggle and Toggle Group have no hidden-input machinery in
 their source at all — the capability doesn't exist, it isn't just discouraged.
 
 | You need | Use | Why |
@@ -140,8 +138,8 @@ group; making a toggle announce as a radio is semantically wrong"
 again should be a no-op, the widget's correct identity is Radio Group, not single-mode
 Toggle Group, regardless of how it's styled.
 
-Full comparison, including the Switch-vs-Checkbox metaphor distinction (inferred from
-ARIA convention, not a direct maintainer statement), on the
+Full comparison, including the Switch-vs-Checkbox metaphor distinction (per ARIA
+convention), on the
 [Binary controls](?path=/docs/research-c-component-briefs-clusters-binary-controls--docs)
 research page.
 

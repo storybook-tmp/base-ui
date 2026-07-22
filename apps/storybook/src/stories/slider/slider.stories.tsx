@@ -9,7 +9,7 @@ import styles from './slider.module.css';
 /**
  * Floor coverage following research/c-components/slider (Tier 2 lean-plus): the docs hero
  * demo (Root+Control+Track+Indicator+Thumb+Value), keyboard-driven stepping (never a
- * synthetic drag — see the brief's honesty note on pointer/drag testability), a two-thumb
+ * synthetic drag — see the brief's note on pointer/drag testability), a two-thumb
  * range slider, a vertical orientation, and native form integration.
  */
 const meta = {

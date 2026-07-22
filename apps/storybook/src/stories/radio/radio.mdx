@@ -11,7 +11,7 @@ import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/
 # Radio
 
 {/* BEGIN: general */}
-A mutually-exclusive, always-visible option picker, treated as one research unit with **Radio Group** — the two are never meaningfully used apart.
+A mutually-exclusive, always-visible option picker, documented together with **Radio Group** — the two are never meaningfully used apart.
 
 - **Import:** `import { Radio } from '@base-ui/react/radio';` + `import { RadioGroup } from '@base-ui/react/radio-group';`
 - **Parts:** 3 — `Radio.Root`, `Radio.Indicator`, plus the single-part `RadioGroup`.
@@ -259,7 +259,7 @@ State attributes present on **both** `Root` and `Indicator`:
 
 - **2024-07-24** — Radio Group ships (`#487`, closing `#26`), a ground-up answer to accumulated pain documented in `mui/material-ui#6218`.
 - **2025-11 (`#3205`, breaking)** — Root renders `<span role="radio">` instead of `<button>`, driven by the invalid-HTML-when-wrapped-in-`<label>` constraint; introduces `nativeButton`.
-- **2025-12 (`#4142`, closing `#4122`)** — `aria-labelledby` auto-linking fix, resolving a WCAG failure verified across NVDA/Narrator/JAWS.
+- **2025-12 (`#4142`, closing `#4122`)** — `aria-labelledby` auto-linking fix, resolving a WCAG failure reproduced across NVDA/Narrator/JAWS in the upstream report.
 - **2026 (`#4930`)** — "Fix selection on space key press": pins Space-selects-on-keyup as a fixed regression, not incidental.
 - **2026 (`#4926`)** — "Fix disabled selected form submission": hardens the disabled-radio-excluded-from-form-data contract.
 

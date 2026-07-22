@@ -51,13 +51,13 @@ A list of actions in a dropdown, enhanced with keyboard navigation — a button 
 - Toggleable settings and exclusive option sets _inside_ the dropdown — `CheckboxItem` for view options, `RadioGroup`/`RadioItem` for sort order — plus grouped sections, nested command trees, links, and hover-opened menus (docs Examples).
 - One shared menu for many launch points — "a card list that controls a menu rendered near the document root" with `payload` deciding content per trigger; table/list row-action menus are the canonical case (docs "Detached triggers").
 - Reusing one styled menu across modalities: "all the context menu parts are direct reexports of regular menu parts so they are interchangeable" — build it once, drive it from a button (Menu), right-click ([Context Menu](?path=/docs/overlays-context-menu--docs)), or a bar ([Menubar](?path=/docs/navigation-menubar--docs)) ([#3365](https://github.com/mui/base-ui/issues/3365)).
-- Desktop-app-like interactions — press-drag-release, typeahead, submenus: Menu is the closest Base UI gets to native OS menus (following from [#63](https://github.com/mui/base-ui/issues/63) and the test suite).
+- Desktop-app-like interactions — press-drag-release, typeahead, submenus: Menu is the closest Base UI gets to native OS menus ([#63](https://github.com/mui/base-ui/issues/63)).
 
 ## When not to use
 
 Comparative guidance for the four menu-shaped components lives on the [Menus](?path=/docs/research-c-component-briefs-clusters-menus--docs) research page; the short version: _button-anchored actions → Menu; right-click/long-press → Context Menu; persistent app-chrome bar → Menubar; site navigation links → Navigation Menu._
 
-- **Choosing a value for a form** → [Select](?path=/docs/form-inputs-select--docs). Menu items fire actions and the widget forgets; Select holds a `value`, renders it in the trigger, and participates in forms. Menu has no `value`, `name`, or form integration at Root level — `Menu.RadioGroup` exists for exclusive _settings_ (view density, sort order), not form data, based on the components' API design rather than a direct maintainer statement.
+- **Choosing a value for a form** → [Select](?path=/docs/form-inputs-select--docs). Menu items fire actions and the widget forgets; Select holds a `value`, renders it in the trigger, and participates in forms. Menu has no `value`, `name`, or form integration at Root level — `Menu.RadioGroup` exists for exclusive _settings_ (view density, sort order), not form data.
 - **Filterable command palette / searchable list** → [Autocomplete](?path=/docs/form-inputs-autocomplete--docs): "Autocomplete can be used as a filterable menu, but it has no support for nested submenus" ([#4157](https://github.com/mui/base-ui/issues/4157), maintainer-recommended, open).
 - **Right-click / long-press target** → [Context Menu](?path=/docs/overlays-context-menu--docs) — same parts, different Root/Trigger, positioned at the pointer.
 - **A persistent horizontal bar of menus** (File/Edit/View app chrome) → [Menubar](?path=/docs/navigation-menubar--docs) wrapping `Menu.Root`s.
@@ -258,7 +258,7 @@ For multi-trigger menus, freeze the Positioner to `var(--positioner-width/height
 
 ### Server rendering
 
-No menu-specific SSR caveats were found — trigger ARIA renders server-side (searched release notes and upstream issues, 2026-07).
+No menu-specific SSR caveats are known — trigger ARIA renders server-side.
 
 {/* END: behavior */}
 
@@ -361,8 +361,8 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
     license="custom license"
     reuse="link-only, do not copy"
   >
-    the richest direct product usage found: the account/org/project switcher is a controlled Menu
-    with the corpus's only `Menu.Backdrop` sighting, two nested `SubmenuRoot`s ("All projects", "All
+    a substantial direct product usage: the account/org/project switcher is a controlled Menu
+    with the only `Menu.Backdrop` usage among these examples, two nested `SubmenuRoot`s ("All projects", "All
     organizations"), `render`-prop triggers into their ButtonPrimitive, and a popup height-capped by
     `--available-height` behind scroll shadows.
   </WildCard>
@@ -386,7 +386,7 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
     license="MIT"
     reuse="code-ok"
   >
-    the best `closeOnClick` teacher in the corpus: one shared MenuItem abstraction sets
+    a clear demonstration of `closeOnClick`: one shared MenuItem abstraction sets
     `closeOnClick={false}` for checkbox/radio settings and submenu triggers, with
     `onOpenChangeComplete` resetting submenu state only after the exit animation.
   </WildCard>

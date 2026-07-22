@@ -16,7 +16,7 @@ Displays the status of a task that takes a long time.
 - **Import:** `import { Progress } from '@base-ui/react/progress';`
 - **Parts:** 5 — `Progress.Root`, `Progress.Label`, `Progress.Track`, `Progress.Indicator`, `Progress.Value`.
 - **Status:** Stable. Shipped 2024-07 ([#470](https://github.com/mui/base-ui/pull/470)).
-- **ARIA pattern:** none exists — the W3C APG has no Progressbar pattern page (verified 2026-07); role semantics live in the core [WAI-ARIA spec](https://www.w3.org/TR/wai-aria-1.2/#progressbar).
+- **ARIA pattern:** none exists — the W3C APG has no Progressbar pattern page; role semantics live in the core [WAI-ARIA spec](https://www.w3.org/TR/wai-aria-1.2/#progressbar).
 - **Docs verified against:** `@base-ui/react` workspace source (v1.6.0 line).
 
 <Canvas of={ProgressStories.Hero} />
@@ -108,7 +108,7 @@ Default text is the percentage of the range via `Intl.NumberFormat(locale, { sty
 {/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
-**Keyboard:** none — Progress is not interactive or focusable by design (no key handlers or `tabIndex` anywhere in source).
+**Keyboard:** none — Progress is not interactive or focusable by design (it renders no key handlers or `tabIndex`).
 
 - **ARIA**: `role="progressbar"`; `aria-valuemin`/`aria-valuemax` always set; `aria-valuenow` = clamped value (omitted when indeterminate); `aria-valuetext` = formatted value or `"indeterminate progress"`, overridable via `getAriaValueText`; `aria-labelledby` auto-wired from `Progress.Label`.
 - **You must provide**: a label (`Progress.Label` or `aria-label`), and sufficient track/indicator contrast.
@@ -127,7 +127,7 @@ State attributes are identical on **every** part (shared `progressStateAttribute
 | `data-complete`      | clamped value has reached `max`  |
 | `data-indeterminate` | `value` is `null` or non-finite  |
 
-**No CSS variables.** The fill percentage is applied as plain inline `style.width` on the Indicator — a verified exception to the library's usual "CSS variables carry dynamic numeric values" principle (B-P14). You cannot key `calc()`/`transform` styling off a `--progress-percentage` variable; accept the width-based fill or replace `style`/`className` entirely.
+**No CSS variables.** The fill percentage is applied as plain inline `style.width` on the Indicator — an exception to the library's usual "CSS variables carry dynamic numeric values" principle. You cannot key `calc()`/`transform` styling off a `--progress-percentage` variable; accept the width-based fill or replace `style`/`className` entirely.
 
 {/* END: styling */}
 

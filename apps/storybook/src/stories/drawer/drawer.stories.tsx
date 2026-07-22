@@ -15,7 +15,7 @@ import styles from './drawer.module.css';
  * dismissal, and portal behavior are inherited — plays re-prove them on Drawer where
  * cheap and link to the Dialog page otherwise.
  *
- * GESTURE HONESTY: swipe-to-dismiss, swipe-to-open, and drag-to-snap are pointer
+ * GESTURE COVERAGE: swipe-to-dismiss, swipe-to-open, and drag-to-snap are pointer
  * gestures driven natively outside React ([#4980](https://github.com/mui/base-ui/pull/4980)).
  * Synthetic pointer sequences do not reliably reach that engine in CI, so no play
  * function here performs a drag. Gesture stories render the full styling contract

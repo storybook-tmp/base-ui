@@ -106,7 +106,7 @@ Usage Guidelines).
 Full cluster comparison: [Menus](?path=/docs/research-c-component-briefs-clusters-menus--docs).
 
 - **Never as the only path to an action** — see the Usage guideline above; this is
-  the load-bearing "when not to use" fact for the whole component.
+  the key "when not to use" fact for the whole component.
 - **vs Menu** — identical popup capabilities (submenus, checkbox/radio items,
   groups); differs only in gesture (`contextmenu`/long-press vs click/hover/keyboard)
   and anchoring (pointer coordinates vs trigger element). Context menus have no
@@ -210,7 +210,7 @@ pointer-derived anchor — a fix landed by
 
 ### Mixed `Menu.*`/`ContextMenu.*` composition
 
-Bare `Menu.*` parts nested directly inside a `ContextMenu.Popup` — proof the
+Bare `Menu.*` parts nested directly inside a `ContextMenu.Popup` — showing the
 re-exported parts genuinely interchange:
 
 <Canvas of={ContextMenuStories.MixedMenuPartsComposition} />
@@ -237,8 +237,7 @@ re-exported parts genuinely interchange:
   `menuitemcheckbox` / `menuitemradio` on the respective Item variants.
 - The docs page does not independently link an APG pattern — the popup follows
   Menu's own **Menu Button** pattern by direct re-export, but this citation is not
-  restated on the Context Menu page itself (a documentable gap, honestly flagged
-  rather than assumed).
+  restated on the official Context Menu page itself.
 
 {/* END: a11y */}
 
@@ -289,7 +288,7 @@ re-exported parts genuinely interchange:
     reuse="link-only, do not copy"
   >
     a small (6-star) shadcn-style registry whose `context-menu.tsx` imports `ContextMenu` from
-    `@base-ui/react/context-menu` directly, confirmed by reading the file.
+    `@base-ui/react/context-menu` directly.
   </WildCard>
   <WildCard
     repo="keenthemes/reui"

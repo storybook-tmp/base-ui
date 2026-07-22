@@ -62,7 +62,7 @@ The pickers boundary in one line: _free-form text → Autocomplete; visible filt
 - **No text input rendered → [Select](?path=/docs/form-inputs-select--docs)**: "Use Select instead of Combobox if no input is being rendered" (combobox docs guidelines) — applies transitively; Autocomplete without its Input is meaningless since the input _is_ the control.
 - **Dropdown of actions without filtering → Menu**; a searchable menu _with submenus_ fits no component yet — "it's more like Autocomplete needs `SubmenuRoot` parts… A separate component with different roles and behavior is probably 'cleanest'" (atomiks, [#4157](https://github.com/mui/base-ui/issues/4157), open). Filterable flat command lists belong here — that is the same issue's ruling and the command-palette recipe below.
 - **Multi-value tokenized entry → Combobox `multiple` + Chips** — Autocomplete's value is one string; it has no `multiple`.
-- **Plain text field without suggestions → Input/Field** — the popup machinery is pure overhead then; no maintainer statement makes this comparison directly, but it follows from the component's stated purpose.
+- **Plain text field without suggestions → Input/Field** — the popup machinery is pure overhead then.
 
 {/* END: when-to-use */}
 
@@ -270,7 +270,7 @@ Pattern: [APG editable combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 - **ARIA managed for you**: Input — `role="combobox"`, `aria-expanded`, `aria-haspopup="listbox"` (`"grid"` in grid mode), `aria-controls` while open, `aria-autocomplete={mode}`, `aria-activedescendant` (virtual focus), plus DOM hygiene (`autoComplete="off"`, `spellCheck=false`, `autoCorrect="off"`, `autoCapitalize="none"`). Popup — `role="presentation"`, or `role="dialog"` when the Input is inside. List — `role="listbox"`/`role="grid"`. Item — `role="option"`/`gridcell`, **no `aria-selected`** ([#4409](https://github.com/mui/base-ui/pull/4409)). Status/Empty — `role="status"`, `aria-live="polite"`, `aria-atomic`, with the initial announcement handled via a mutation trick ([#4181](https://github.com/mui/base-ui/issues/4181)).
 - **Screen reader**: typing announces filtered results via the listbox and any `Status`/`Empty` text; arrowing announces options through `aria-activedescendant` without moving DOM focus.
 - **You must provide**: an accessible name — a `<label>`, `Field.Label`, or `aria-label` on the Input for standalone search/command inputs ([#4949](https://github.com/mui/base-ui/pull/4949)) — plus visible `:focus-visible` styling and highlight contrast that doesn't rely on color alone ([#4182](https://github.com/mui/base-ui/issues/4182)).
-- **Known issues (honesty list)**: [#4182](https://github.com/mui/base-ui/issues/4182) (open) — command-palette demo focus indicator relies on color alone; [#4183](https://github.com/mui/base-ui/issues/4183) (open) — command palette lacks a persistently visible label; [#4666](https://github.com/mui/base-ui/issues/4666) (open) — `disabled` items are highlightable (focusable-when-disabled is APG-intentional, highlightability is disputed); [#2669](https://github.com/mui/base-ui/issues/2669) (open) — inline completion doesn't select the appended text like Chrome does; [#5146](https://github.com/mui/base-ui/issues/5146) (open) — no vim-style Ctrl+N/P navigation.
+- **Known issues**: [#4182](https://github.com/mui/base-ui/issues/4182) (open) — command-palette demo focus indicator relies on color alone; [#4183](https://github.com/mui/base-ui/issues/4183) (open) — command palette lacks a persistently visible label; [#4666](https://github.com/mui/base-ui/issues/4666) (open) — `disabled` items are highlightable (focusable-when-disabled is APG-intentional, highlightability is disputed); [#2669](https://github.com/mui/base-ui/issues/2669) (open) — inline completion doesn't select the appended text like Chrome does; [#5146](https://github.com/mui/base-ui/issues/5146) (open) — no vim-style Ctrl+N/P navigation.
 
 {/* END: a11y */}
 
@@ -362,8 +362,8 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
     reuse="link-only, do not copy"
   >
     one file per part (root/input/list/popup/group/value/clear/empty) inside the new `@wordpress/ui`
-    form primitives package, sharing structure with its sibling Combobox implementation — the
-    15-file family the corpus code search surfaced.
+    form primitives package, sharing structure with its sibling Combobox implementation, a
+    15-file family.
   </WildCard>
   <WildCard
     repo="borabaloglu/9ui"
@@ -374,7 +374,7 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
     reuse="code-ok"
     image={nineUiDevShot}
   >
-    the widest demo spread found for this component: dedicated async, virtualized, grouped,
+    a wide demo spread: dedicated async, virtualized, grouped,
     fuzzy-matcher, and inline-mode example files built on the same `ui/autocomplete.tsx` wrapper.
   </WildCard>
   <WildCard

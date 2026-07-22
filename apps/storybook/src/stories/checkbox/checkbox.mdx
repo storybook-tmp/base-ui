@@ -97,7 +97,7 @@ Clicking the label, the visible span, or the hidden input all toggle identically
 
 <Canvas of={CheckboxStories.FormWithUncheckedValue} />
 
-By default (no `uncheckedValue`), an unchecked checkbox submits nothing — verified byte-for-byte identical to a real native `<input type="checkbox">` in the same test suite. Setting `uncheckedValue` opts into an explicit "off" sentinel instead, matching the same `#3406` fix that Switch received (["match native off state in form submission"](?path=/docs/form-inputs-switch--docs)).
+By default (no `uncheckedValue`), an unchecked checkbox submits nothing — identical to a real native `<input type="checkbox">`. Setting `uncheckedValue` opts into an explicit "off" sentinel instead, matching the same `#3406` fix that Switch received (["match native off state in form submission"](?path=/docs/form-inputs-switch--docs)).
 
 <Canvas of={CheckboxStories.InFieldWithValidation} />
 

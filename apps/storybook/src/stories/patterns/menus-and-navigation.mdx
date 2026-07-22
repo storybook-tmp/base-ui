@@ -18,7 +18,7 @@ roles at all**: Root is a `<nav>`, the list is semantic `<ul>/<li>` (reworked in
 [mui/base-ui#2526](https://github.com/mui/base-ui/issues/2526)), and its entries are `Link`s, not
 `menuitem`s — because its entries are navigation destinations, not commands, and "using
 `role="menu"` for a site nav would mislead screen-reader users into expecting an application
-menu" — an inference from #2526's semantics rework, not a direct maintainer quote. If activating an entry navigates, prefer
+menu" — following from #2526's semantics rework. If activating an entry navigates, prefer
 Navigation Menu (or `Menu.LinkItem` for the odd link *inside* an action menu) — never reach for
 `role="menu"` just because the visual shape looks like a dropdown.
 

@@ -23,9 +23,9 @@ A native input element that automatically works with [Field](?path=/docs/form-in
 
 ## Features
 
-- **A native `<input>`, wired automatically** — nested inside `Field.Root`, it registers with the shared `LabelableProvider` and interaction-state machine with zero wiring props (brief §5).
-- **Works standalone, too** — outside any `Field`/`Form` tree, `Input` degrades to a plain native `<input>` plus `onValueChange`; only `data-disabled` remains a meaningful attribute (brief §1, §6).
-- **Zero styling contract of its own** — no `InputCssVars.ts` exists; every data attribute (`InputDataAttributes.ts`) is annotated "(when wrapped in Field.Root)" because they're Field's, restated.
+- **A native `<input>`, wired automatically** — nested inside `Field.Root`, it registers with the shared `LabelableProvider` and interaction-state machine with zero wiring props.
+- **Works standalone, too** — outside any `Field`/`Form` tree, `Input` degrades to a plain native `<input>` plus `onValueChange`; only `data-disabled` remains a meaningful attribute.
+- **Zero styling contract of its own** — Input exposes no CSS variables of its own, and every data attribute applies only when wrapped in `Field.Root` — they're Field's, restated.
 
 {/* END: general */}
 
@@ -70,14 +70,14 @@ Input's own docs page states exactly one usage guideline, verbatim: **"Form cont
 
   <Canvas of={InputStories.DisabledFromFieldset} />
 
-- **Known issue** — [#4643](https://github.com/mui/base-ui/issues/4643) ("How to clear the input value on a button click?") is open; the docs show no dedicated recipe. The standard controlled `value`/`onValueChange` triplet, reset externally, is the expected pattern, but the issue's own resolution was not read for this pass — a dedicated `ControlledWithClear` story is deliberately not added until that's verified.
+- **Known issue** — [#4643](https://github.com/mui/base-ui/issues/4643) ("How to clear the input value on a button click?") is open; the docs show no dedicated recipe. The standard controlled `value`/`onValueChange` triplet, reset externally, is the expected pattern.
 
 {/* END: a11y */}
 
 {/* BEGIN: styling */}
 ## Styling hooks
 
-Identical to `Field.Control`'s (brief §8) — no CSS variables of Input's own:
+Identical to `Field.Control`'s — no CSS variables of Input's own:
 
 | Attribute                                                      | Present when (only inside `Field.Root`)                            |
 | :-------------------------------------------------------------- | :------------------------------------------------------------------ |

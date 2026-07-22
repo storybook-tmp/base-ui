@@ -295,7 +295,7 @@ delete buttons:
     reuse="link-only, do not copy"
   >
     one file per Base UI part (root/popup/trigger/portal/context) plus its own test suite and
-    Storybook story — the richest one-to-one part mapping found for this component.
+    Storybook story — a complete one-to-one part mapping.
   </WildCard>
   <WildCard
     repo="borabaloglu/9ui"
@@ -334,10 +334,9 @@ delete buttons:
 - **"Esc still closes it even though I can't click outside — is that a bug?"** → no.
   Outside-press is blocked, Esc is not. This is an acknowledged docs gap upstream —
   [#1687](https://github.com/mui/base-ui/issues/1687) "[dialog][docs] Document the
-  difference(s) between `Dialog` and `AlertDialog`" (open) — the asker independently
-  reverse-engineered the same three differences (role, modal, pointer dismissal)
-  documented on this page and asked for them to be stated on the docs site; as of
-  this writing they still aren't.
+  difference(s) between `Dialog` and `AlertDialog`" (open) asks for the three
+  differences (role, modal, pointer dismissal) to be stated on the official docs
+  site; they still aren't.
 - **"Can I make my AlertDialog dismissible by clicking outside for one particular
   case?"** → no — `modal` and `disablePointerDismissal` are `Omit`ted from the type,
   enforced at compile time. If a case needs that, it needs Dialog, not AlertDialog.

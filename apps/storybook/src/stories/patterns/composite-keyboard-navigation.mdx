@@ -30,13 +30,11 @@ one of these — tested identically in Toolbar's and Toggle Group's suites (para
 
 ## Toolbar never enables Home/End
 
-Toolbar's `CompositeRoot` never receives `enableHomeAndEndKeys` — confirmed directly by source
-inspection, unlike Toggle Group's own standalone `CompositeRoot`, which passes it explicitly. This has a real, source-verified consequence: **a Toggle Group nested
+Toolbar's `CompositeRoot` never receives `enableHomeAndEndKeys`, unlike Toggle Group's own
+standalone `CompositeRoot`, which passes it explicitly. This has a real consequence: **a Toggle Group nested
 inside a Toolbar loses the Home/End support it has when used standalone**, because a
 Toolbar-hosted Toggle Group defers its entire composite behavior to the *hosting* Toolbar's
-`CompositeRoot`, not its own. No maintainer discussion resolves this
-asymmetry as either intentional or a gap — it is simply what today's source does; treat it as a
-documented nuance, not a bug to route around. See
+`CompositeRoot`, not its own. See
 [Toolbar hero](?path=/docs/actions-toolbar--docs) and
 [Toggle Group: composite keyboard navigation](?path=/story/actions-toggle-group--composite-keyboard-navigation).
 
@@ -80,7 +78,7 @@ the auto-select and moves focus only. See
 
 ## Toolbar-hosted Toggle Group: the Home/End asymmetry in full
 
-To restate the sharpest cross-component nuance on this page: the Home/End gap
+The sharpest cross-component nuance: the Home/End gap
 traces to its exact origin — Home/End shipped for standalone Toggle Group in
 [#3971](https://github.com/mui/base-ui/pull/3971), closing a reported gap
 ([#3970](https://github.com/mui/base-ui/issues/3970)), by passing `enableHomeAndEndKeys` into

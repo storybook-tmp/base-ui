@@ -104,7 +104,7 @@ Button enforces `role="button"` and button keyboard interaction. Style a link-st
 - **ARIA**: `role="button"` only on non-native renders; `aria-disabled="true"` when disabled (either non-native, or native + `focusableWhenDisabled`); native `disabled` attribute only for a native `<button>` without `focusableWhenDisabled`.
 - **You must provide**: an accessible name (text content or `aria-label`), visible `:focus-visible` styling.
 - **Dev-time correctness guard**: a mismatched `nativeButton` vs actual rendered tag throws a console `Base UI:` error explaining the risk, in both directions.
-- **Known issues**: no open Button-specific accessibility issue was found beyond the scope debate covered in the decision log below — this reflects a search of project issues/discussions, not a guarantee the component is bug-free.
+- **Known issues**: no open Button-specific accessibility issues are known beyond the scope debate covered in the decision log below.
 
 {/* END: a11y */}
 
@@ -115,7 +115,7 @@ Button enforces `role="button"` and button keyboard interaction. Style a link-st
 | :--------------- | :-------------------------------------------------------------- |
 | `data-disabled` | the button is disabled (regardless of `focusableWhenDisabled`) |
 
-No CSS variables — Button has no dynamic measurements to expose, the leanest styling contract of any component in this batch.
+No CSS variables — Button has no dynamic measurements to expose.
 
 {/* END: styling */}
 
@@ -179,7 +179,7 @@ No CSS variables — Button has no dynamic measurements to expose, the leanest s
     reuse="code-ok"
     image={nineUiDevShot}
   >
-    the broadest demo set of any 9ui component: disabled, loading, icon, link-rendered, rounded, and
+    a broad demo set: disabled, loading, icon, link-rendered, rounded, and
     size/variant matrix demos all built on one wrapper.
   </WildCard>
   <WildCard
@@ -219,7 +219,7 @@ No CSS variables — Button has no dynamic measurements to expose, the leanest s
 {/* BEGIN: known-issues */}
 ## Known issues & open questions
 
-- No open Button-specific accessibility issue was found beyond scope/API discussions in `button`/`toolbar` ([#4008](https://github.com/mui/base-ui/issues/4008), [#4021](https://github.com/mui/base-ui/issues/4021), #5150, #3759) — those are scope debates, not accessibility bugs.
+- No open Button-specific accessibility issues are known beyond scope/API discussions in `button`/`toolbar` ([#4008](https://github.com/mui/base-ui/issues/4008), [#4021](https://github.com/mui/base-ui/issues/4021), #5150, #3759) — those are scope debates, not accessibility bugs.
 
 {/* END: known-issues */}
 

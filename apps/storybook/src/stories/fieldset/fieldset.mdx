@@ -24,7 +24,7 @@ A native fieldset element with an easily stylable legend.
 
 - **Native `<fieldset>` disabled cascade, for free** — `disabled` sets the real DOM `disabled` attribute; descendant native controls are disabled by the _browser_, independent of any React wiring (pinned by `FieldsetRoot.test.tsx`: an inner `<input>` is disabled with zero Base UI wiring at all).
 - **Ancestor-disabled always wins** — an outer `disabled` Fieldset forces every nested Fieldset disabled regardless of its own `disabled` prop.
-- **Composes over other Base UI roots via `render`** — `<Fieldset.Root render={<RadioGroup />}>` makes `Fieldset.Root` _become_ the literal element the composed-over Root renders as, rather than adding an extra wrapping node (standard Base UI `render` grammar). For RadioGroup that's its own `<div role="radiogroup">`, not a native `<fieldset>` — the composed-over component's element type wins, and Fieldset's `aria-labelledby`/`disabled` still land on it. Tested against `RadioGroup`, `CheckboxGroup`, and `Slider.Root`.
+- **Composes over other Base UI roots via `render`** — `<Fieldset.Root render={<RadioGroup />}>` makes `Fieldset.Root` _become_ the literal element the composed-over Root renders as, rather than adding an extra wrapping node (standard Base UI `render` grammar). For RadioGroup that's its own `<div role="radiogroup">`, not a native `<fieldset>` — the composed-over component's element type wins, and Fieldset's `aria-labelledby`/`disabled` still land on it. Works with `RadioGroup`, `CheckboxGroup`, and `Slider.Root`.
 - **No state machine of its own** — `FieldsetRootState`/`FieldsetLegendState` contain exactly one field, `disabled: boolean`. All validity/interaction state belongs to `Field.Root`.
 
 <Canvas of={FieldsetStories.DisabledCascade} />
@@ -67,7 +67,7 @@ import { Fieldset } from '@base-ui/react/fieldset';
 {/* BEGIN: styling */}
 ## Styling hooks
 
-No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boolean state — the only styling hook either part exposes is `data-disabled`, derived from `state.disabled`.
+Neither part exposes CSS variables; the only styling hook is `data-disabled`, derived from `state.disabled`.
 
 {/* END: styling */}
 
@@ -114,8 +114,8 @@ No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boo
     license="no SPDX license detected"
     reuse="link-only, do not copy"
   >
-    one file per part (root/legend/description/details/context) in the form-primitives package — the
-    richest Fieldset breakdown found in the corpus.
+    one file per part (root/legend/description/details/context) in the form-primitives package — an
+    unusually complete Fieldset breakdown.
   </WildCard>
   <WildCard
     repo="patrick-xin/lumi-ui"

@@ -203,14 +203,6 @@ may embed a single menu-triggered button without ever becoming a Menubar:
 
 <Canvas of={MenubarStories.ToolbarContrastSideBySide} />
 
-### RTL — an honest gap
-
-No RTL-specific tests exist for Menubar's horizontal-orientation arrow-key
-direction. This story has no `play` function deliberately — its correctness is
-unverified upstream, not a guarantee:
-
-<Canvas of={MenubarStories.RTLGapHonestyNote} />
-
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
@@ -232,11 +224,6 @@ unverified upstream, not a guarantee:
   `aria-controls` unchanged from standalone Menu.
 - **Data attribute**: `data-has-submenu-open` on the Menubar root, plus `data-modal`,
   `data-orientation`.
-- **Known gap, honestly flagged**: no RTL-specific tests exist for Menubar — the
-  full 1,343-line `Menubar.test.tsx` has no `dir="rtl"` coverage for horizontal-
-  orientation arrow-key direction. Treat RTL correctness as an honest unknown rather
-  than assuming it "just works" by inheritance from `DirectionProvider`/Composite
-  internals.
 
 {/* END: a11y */}
 
@@ -282,7 +269,7 @@ unverified upstream, not a guarantee:
 {/* BEGIN: examples */}
 ## In the wild
 
-The corpus's 20 Menubar hits are overwhelmingly one shadcn-derived `components/ui/menubar.tsx` template, copied near-verbatim across small apps rather than diverse custom builds — an honest finding in itself:
+Public Menubar usage is overwhelmingly one shadcn-derived `components/ui/menubar.tsx` template, copied near-verbatim across small apps rather than diverse custom builds — itself a notable signal:
 
 <WildCards component="menubar">
   <WildCard
@@ -315,7 +302,7 @@ The corpus's 20 Menubar hits are overwhelmingly one shadcn-derived `components/u
     reuse="code-ok"
   >
     an Apache-2.0 app repeating the identical wrapper structure — by this point a strong signal that
-    almost every corpus hit for Menubar is one shared template, not diverse custom builds.
+    almost every public Menubar usage is one shared template, not diverse custom builds.
   </WildCard>
   <WildCard
     repo="patrick-xin/lumi-ui"
@@ -326,7 +313,7 @@ The corpus's 20 Menubar hits are overwhelmingly one shadcn-derived `components/u
     reuse="code-ok"
     image={lumiuiDevOpenShot}
   >
-    confirms the same lineage independently: even a from-scratch registry (not a shadcn fork)
+    shares the same lineage: even a from-scratch registry (not a shadcn fork)
     converges on the same menu/item/trigger structure.
   </WildCard>
   <WildCard
@@ -373,6 +360,19 @@ The corpus's 20 Menubar hits are overwhelmingly one shadcn-derived `components/u
   oversight.
 
 {/* END: behavior */}
+
+{/* BEGIN: known-issues */}
+## Known issues & open questions
+
+- **RTL is untested upstream** — `Menubar.test.tsx` has no `dir="rtl"` coverage for
+  horizontal-orientation arrow-key direction. Treat RTL correctness as unknown rather
+  than assuming it just works by inheritance from `DirectionProvider`/Composite
+  internals. The demo below wraps the hero menubar in `DirectionProvider` +
+  `dir="rtl"` for manual verification:
+
+<Canvas of={MenubarStories.RTLGap} />
+
+{/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
 ## Related

@@ -80,7 +80,7 @@ above the page contents, and any `z-index` property in your styles won't interfe
 [mui/base-ui#2293](https://github.com/mui/base-ui/issues/2293)). If you must set `z-index` at
 all, it belongs on the **Positioner** (the positioned element), never on Popup
 ([mui/base-ui#2450](https://github.com/mui/base-ui/issues/2450)) — this is the single most
-support-magnet rule in the whole overlay system (B-M1). Third-party overlay libraries (sonner,
+support-magnet rule in the whole overlay system. Third-party overlay libraries (sonner,
 react-toastify, Radix/vaul) must render **outside** the `isolation: isolate` root, where any
 z-index of theirs wins over Base UI's stack, or portal Base UI's own popups *into* their
 container via `Portal.container`
@@ -115,8 +115,8 @@ Dialog's **focus-out** reason is the non-modal companion to outside-press: when 
 focus leaving the popup can close it the same way an outside click would, and
 `disablePointerDismissal` suppresses both at once — "also prevents the dialog from closing when
 focus moves outside of it" (Dialog `disablePointerDismissal` JSDoc). Drawer's `swipe` reason
-is vetoable the same way — canceling it also clears the in-progress swipe-dismiss styles
-(drawer brief §6). See these live:
+is vetoable the same way — canceling it also clears the in-progress swipe-dismiss styles.
+See these live:
 [Dialog change-reason inspector](?path=/story/overlays-dialog--change-reason-inspector),
 [Dialog cancel a close](?path=/story/overlays-dialog--cancel-close),
 [Dialog: modal vs non-modal](?path=/story/overlays-dialog--modal-vs-non-modal),

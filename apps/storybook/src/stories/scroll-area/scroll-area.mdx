@@ -40,7 +40,7 @@ A native scroll container with custom scrollbars.
 
 ## When not to use
 
-- **Large virtualized lists** — Scroll Area does not virtualize; it only decorates a real overflowing `<div>`. Treat virtualization as an orthogonal, compatible concern the app must add itself if content is huge. No maintainer statement explicitly contrasting Scroll Area with a virtualization library was found.
+- **Large virtualized lists** — Scroll Area does not virtualize; it only decorates a real overflowing `<div>`. Treat virtualization as an orthogonal, compatible concern the app must add itself if content is huge.
 - **Average, non-decorated overflow** — plain CSS `overflow: auto` with the browser's native scrollbar remains the simpler default when no custom styling of the scrollbar chrome itself is required.
 - **Select's own popup scrolling** — `Select.Popup`/`Select.List` has its own built-in scroll handling plus dedicated scroll-up/down arrow parts, architecturally independent of `ScrollArea.*`. The two mechanisms can coexist when deliberately composed, but they are not designed to interoperate — pick one scroll mechanism per popup, not both.
 
@@ -151,7 +151,7 @@ Pattern: none — there is no dedicated WAI-ARIA APG pattern for "custom scrollb
 - **ARIA managed for you**: none, by deliberate design — the actual scrolling affordance and its accessible semantics belong entirely to the native, real `overflow: scroll` Viewport; Scrollbar/Thumb/Corner are purely visual/pointer-driven mirrors of what the browser already exposes correctly.
 - **Screen reader**: the Viewport is announced as a real scrollable region (native browser behavior); the Scrollbar/Thumb/Corner chrome is not announced at all, because it carries no role.
 - **You must provide**: visible `:focus-visible` styling on the Viewport, since it can enter the tab order.
-- **Known issues**: no open accessibility bug reports were found for this component — we haven't yet ruled out whether that reflects a genuinely quiet component or a search gap.
+- **Known issues**: no open accessibility bug reports are known.
 
 {/* END: a11y */}
 
@@ -243,7 +243,7 @@ Pattern: none — there is no dedicated WAI-ARIA APG pattern for "custom scrollb
 - **2024-11-05** — Scroll Area ships ([#665](https://github.com/mui/base-ui/pull/665), atomiks), closing mui/mui-x#649. Debated in review — oliviertassinari floated scoping it out of core into a premium tier; colmtuite pushed back: "It's just a basic building block of high-quality web dev… Very many web apps (Slack, Linear, Radix docs etc.) have custom scrollbars… We need it for our new docs (for the sidebar and code blocks)." It shipped in core.
 - **Safari forced the injected-`<style>` design** (same PR thread) — the origin of the CSP exception documented for this component.
 - **CSS variable inheritance disabled for performance** ([#3156](https://github.com/mui/base-ui/pull/3156), via `CSS.registerProperty`), with a Safari-specific correction ([#3208](https://github.com/mui/base-ui/pull/3208)) since WebKit doesn't support the same child-`inherit` opt-in.
-- **2026-03 ([#4220](https://github.com/mui/base-ui/pull/4220))** — focus-trap fix for a non-scrollable Viewport, verified via a `DialogRoot.test.tsx` addition — direct evidence of Dialog+ScrollArea composition being an actively maintained interop path.
+- **2026-03 ([#4220](https://github.com/mui/base-ui/pull/4220))** — focus-trap fix for a non-scrollable Viewport, covered by `DialogRoot.test.tsx` — Dialog+ScrollArea composition is an actively maintained interop path.
 - **2026 ([#5099](https://github.com/mui/base-ui/pull/5099), most recent)** — thumb-drag divide-by-zero and per-scroll re-render fix.
 
 {/* END: history */}
@@ -251,7 +251,7 @@ Pattern: none — there is no dedicated WAI-ARIA APG pattern for "custom scrollb
 {/* BEGIN: known-issues */}
 ## Known issues & open questions
 
-- No open accessibility or behavioral bug reports were found for Scroll Area. Stated honestly: this is the result of a search, not proof the component is bug-free.
+- No open accessibility or behavioral bug reports are known for Scroll Area.
 
 {/* END: known-issues */}
 

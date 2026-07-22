@@ -40,7 +40,7 @@ Turns N independently-toggleable checkboxes into one array-valued, form-particip
 
 ## When not to use
 
-- **Large or filterable option sets that need to submit as an array** → prefer a Combobox in `multiple` mode. The closest evidence: a maintainer explicitly declined building a checkbox tree _inside_ Combobox ("trees are out of combobox scope… can't marry CheckboxGroup with Combobox," `mui/base-ui#2695`), while providing a modified multiple-select Combobox demo with its own select-all item as the recommended alternative.
+- **Large or filterable option sets that need to submit as an array** → prefer a Combobox in `multiple` mode. A maintainer explicitly declined building a checkbox tree _inside_ Combobox ("trees are out of combobox scope… can't marry CheckboxGroup with Combobox," `mui/base-ui#2695`), while providing a modified multiple-select Combobox demo with its own select-all item as the recommended alternative.
 - **A tree/hierarchical multi-select with nested select-all at arbitrary depth** → not built in anywhere; the closest first-party pattern is the app-composed two-instance nesting above, and the Combobox-tree request was declined (`#2695`).
 - **An exclusive, always-exactly-one choice** → [Radio Group](?path=/docs/form-inputs-radio--docs), not Checkbox Group.
 - **A single independent checkbox that never needs to coordinate with siblings** → standalone [Checkbox.Root](?path=/docs/form-inputs-checkbox--docs), no group wrapper needed.
@@ -109,7 +109,7 @@ There is no native multi-level tree API — a nested "group of groups" is compos
 
 <Canvas of={CheckboxGroupStories.RequiredMeansAllMustBeChecked} />
 
-Setting `required` on individual group members means **every** `required` checkbox must be checked before the group's error clears — it does **not** mean "at least one must be checked," which is what "required" might intuitively suggest for a multi-select set. This is directly confirmed by a dedicated test: checking only one of two `required` checkboxes in a group does not clear the group's validation error; it only clears once every required checkbox is checked. If "at least one" is the desired semantics, implement it via a custom `Field.Root validate` function reading the group's array length — there is no built-in prop for it.
+Setting `required` on individual group members means **every** `required` checkbox must be checked before the group's error clears — it does **not** mean "at least one must be checked," which is what "required" might intuitively suggest for a multi-select set. If "at least one" is the desired semantics, implement it via a custom `Field.Root validate` function reading the group's array length — there is no built-in prop for it.
 
 {/* END: behavior */}
 
@@ -196,8 +196,8 @@ The group container itself carries only `data-disabled`, plus the full Field val
     reuse="link-only, do not copy"
     image={cossComUiShot}
   >
-    Cal.com's registry keeps CheckboxGroup separate from Checkbox as well, corroborating the pattern
-    across two independent registries.
+    Cal.com's registry keeps CheckboxGroup separate from Checkbox as well — the same pattern in
+    two independent registries.
   </WildCard>
 </WildCards>
 

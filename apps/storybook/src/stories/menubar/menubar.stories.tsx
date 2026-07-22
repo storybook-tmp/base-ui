@@ -668,14 +668,13 @@ export const ToolbarContrastSideBySide: Story = {
 /* RTL — honest gap, no play                                            */
 /* ------------------------------------------------------------------ */
 
-function RTLGapHonestyNoteExample() {
+function RTLGapExample() {
   return (
     <div className={styles.Stack}>
       <p className={styles.Output}>
-        Honest gap: `Menubar.test.tsx` (1,343 lines) has no `dir=&quot;rtl&quot;` coverage for
-        horizontal-orientation arrow-key direction. Treat RTL correctness here as an unverified
-        unknown, not a guarantee inherited automatically from `DirectionProvider`/Composite
-        internals.
+        Known gap: `Menubar.test.tsx` has no `dir=&quot;rtl&quot;` coverage for
+        horizontal-orientation arrow-key direction. Verify arrow-key direction manually in the
+        menubar below.
       </p>
       <DirectionProvider direction="rtl">
         <div dir="rtl">
@@ -692,8 +691,8 @@ function RTLGapHonestyNoteExample() {
  * so asserting behavior here would fabricate confidence the source doesn't
  * back up.
  */
-export const RTLGapHonestyNote: Story = {
-  render: () => <RTLGapHonestyNoteExample />,
+export const RTLGap: Story = {
+  render: () => <RTLGapExample />,
 };
 
 function CaretRightIcon(props: React.ComponentProps<'svg'>) {
