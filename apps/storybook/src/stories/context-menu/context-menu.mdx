@@ -11,19 +11,18 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 # Context Menu
 
 {/* BEGIN: general */}
-A menu that appears at the pointer on right click or long press — the same
+A menu that appears at the pointer on right click or long press. It is the same
 action-list popup as Menu, provoked by a gesture on content instead of a visible
 trigger button.
 
 - **Import:** `import { ContextMenu } from '@base-ui/react/context-menu';`
-- **Parts:** 19 — but only **`Root` and `Trigger` are original**. Every other part
+- **Parts:** 19, but only **`Root` and `Trigger` are original**. Every other part
   (`Portal`, `Backdrop`, `Positioner`, `Popup`, `Arrow`, `Group`, `GroupLabel`,
   `Item`, `CheckboxItem`, `CheckboxItemIndicator`, `LinkItem`, `RadioGroup`,
   `RadioItem`, `RadioItemIndicator`, `SubmenuRoot`, `SubmenuTrigger`, `Separator`)
-  is a verbatim re-export of the corresponding `Menu.*` part.
+  is a direct re-export of the corresponding `Menu.*` part.
 - **Status:** Stable, introduced by
   [#1665](https://github.com/mui/base-ui/pull/1665).
-- **Docs verified against:** `@base-ui/react` workspace source (v1.6.0 line).
 
 <Canvas of={ContextMenuStories.Hero} />
 
@@ -33,12 +32,12 @@ trigger button.
 ## Usage guideline (read this first)
 
 **Use context menus as an enhancement, never as the only way to perform an action.**
-Right-click and long-press are inherently undiscoverable gestures — mouse users must
+Right-click and long-press are inherently undiscoverable gestures: mouse users must
 already know to try right-clicking, and touch users must already know to try
 long-pressing. Always pair a context menu with a visible control offering the same
-actions; a context menu duplicating an already-visible control is fine, a context menu
-as the sole affordance for an important action is a documented anti-pattern (docs
-Usage Guidelines).
+actions. A context menu duplicating an already-visible control is fine; a context menu
+as the sole affordance for an important action is an anti-pattern our Usage Guidelines
+call out.
 
 |                     | Do                                                                                           | Don't                                                                                     |
 | :------------------- | :-------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
@@ -49,23 +48,22 @@ Usage Guidelines).
 {/* BEGIN: general */}
 ## Features
 
-- **2-of-19 re-export ratio, by design** — "all the context menu parts are direct
-  reexports of regular menu parts so they are interchangeable" (atomiks,
-  [#3365](https://github.com/mui/base-ui/issues/3365)). Context Menu is not a
-  parallel implementation of menu semantics; it's Menu's engine wearing a different
-  Root/Trigger. The same ratio pattern appears in
+- **2-of-19 re-export ratio, by design**: all the context menu parts are direct
+  re-exports of regular menu parts so they are interchangeable
+  ([#3365](https://github.com/mui/base-ui/issues/3365)). Context Menu is Menu's
+  engine wearing a different Root/Trigger. The same ratio pattern appears in
   [Alert Dialog](?path=/docs/overlays-alert-dialog--docs) (2 of 9 parts original).
-- **Positioning is anchor-substitution, not new positioning logic** — `MenuPositioner`
+- **Positioning reuses Menu's logic with a substituted anchor**: `MenuPositioner`
   branches on `parent.type === 'context-menu'` and feeds itself a virtual,
   pointer-derived anchor instead of a trigger element ref, with tuned defaults
   (`align: 'start'`, `alignOffset: 2`, `sideOffset: -5`) that seat the popup right
   where the pointer clicked.
-- **Anchor-prop precedence** — an explicit `anchor` prop on `Positioner` always wins
-  over the automatic pointer-derived anchor. This was a fix, not the original
-  behavior: [#3202](https://github.com/mui/base-ui/pull/3202) corrected a bug where
-  the explicit prop was silently ignored in favor of the pointer anchor.
-- **Mac-only mouseup drag-release gesture** — hold the right mouse button, drag to an
-  item, release to select it (native-macOS-style). Precisely gated in
+- **Anchor-prop precedence**: an explicit `anchor` prop on `Positioner` always wins
+  over the automatic pointer-derived anchor.
+  [#3202](https://github.com/mui/base-ui/pull/3202) fixed a bug where the explicit
+  prop was silently ignored in favor of the pointer anchor.
+- **Mac-only mouseup drag-release gesture**: hold the right mouse button, drag to an
+  item, release to select it (native-macOS-style). Gated in
   `useMenuItemCommonProps.ts`, the shared handler every menu item uses:
 
   ```ts
@@ -76,16 +74,16 @@ Usage Guidelines).
   }
   ```
 
-  On macOS, releasing the right mouse button over an item after a drag activates it;
-  on every other OS, that same mouseup is recognized as "the tail end of the gesture
-  that opened the menu" and deliberately ignored, so it doesn't double-fire an
-  activation. A second, independent guard (±1px of the original click point) catches
-  a plain right-click-then-release-without-dragging on every platform, Mac included.
+  On macOS, releasing the right mouse button over an item after a drag activates it.
+  On every other OS, that same mouseup is treated as the tail end of the gesture
+  that opened the menu and ignored, so it doesn't double-fire an activation. A
+  second, independent guard (±1px of the original click point) catches a plain
+  right-click-then-release-without-dragging on every platform, Mac included.
 
-- **`disabled` restores native OS behavior completely** — disabling doesn't just
+- **`disabled` restores native OS behavior completely**: disabling doesn't just
   prevent Base UI's menu from opening, it also stops Base UI from suppressing the
-  OS's own context menu. This is a meaningfully different `disabled` contract than
-  most Base UI popups: the surface reverts fully to native browser behavior.
+  OS's own context menu. This is a different `disabled` contract than most Base UI
+  popups: the surface reverts fully to native browser behavior.
 
 {/* END: general */}
 
@@ -93,26 +91,23 @@ Usage Guidelines).
 ## When to use
 
 - Surfacing contextual actions on a specific area/element via right-click (desktop)
-  or long-press (touch) — the docs subtitle: "A menu that appears at the pointer on
-  right click or long press."
-- Reusing an existing Menu's item set for the same actions, exposed two ways at once
-  — click a visible "⋯" button (Menu) and right-click the surface (Context Menu) —
-  since the parts are interchangeable, one styled item module serves both.
-- Long-press on touch surfaces for the same contextual-action affordance desktop gets
-  from right-click — single-touch only, 500ms delay, 10px movement-cancel threshold.
+  or long-press (touch).
+- Reusing an existing Menu's item set for the same actions, exposed two ways at
+  once: click a visible "⋯" button (Menu) and right-click the surface (Context
+  Menu). Since the parts are interchangeable, one styled item module serves both.
+- Long-press on touch surfaces for the same contextual-action affordance desktop
+  gets from right-click (single-touch only, 500ms delay, 10px movement-cancel
+  threshold).
 
 ## When not to use
 
-Full cluster comparison: [Menus](?path=/docs/research-c-component-briefs-clusters-menus--docs).
-
-- **Never as the only path to an action** — see the Usage guideline above; this is
-  the key "when not to use" fact for the whole component.
-- **vs Menu** — identical popup capabilities (submenus, checkbox/radio items,
+- **Never as the only path to an action**: see the Usage guideline above.
+- **vs Menu**: identical popup capabilities (submenus, checkbox/radio items,
   groups); differs only in gesture (`contextmenu`/long-press vs click/hover/keyboard)
   and anchoring (pointer coordinates vs trigger element). Context menus have no
   `openOnHover` and no detached-trigger/`handle` support. Use Menu when the action
   list needs a persistently visible trigger or detached/imperative opening.
-- **vs Menubar** — Menubar hosts persistent, always-visible menu triggers in a bar;
+- **vs Menubar**: Menubar hosts persistent, always-visible menu triggers in a bar;
   Context Menu has no persistent visual affordance at all. They solve opposite
   discoverability problems.
 
@@ -158,21 +153,21 @@ import { ContextMenu } from '@base-ui/react/context-menu';
 
 ### Right-click open flow
 
-Right-click the trigger area and the popup opens at the pointer position — a virtual
-anchor, not a DOM ref — suppressing the native OS context menu:
+Right-click the trigger area and the popup opens at the pointer position (a virtual
+anchor, not a DOM ref), suppressing the native OS context menu:
 
 <Canvas of={ContextMenuStories.Hero} />
 
 ### Nested submenus
 
-Nest menus with `SubmenuRoot` + `SubmenuTrigger`, never a nested `Root` — the
-identical rule Menu documents for itself:
+Nest menus with `SubmenuRoot` + `SubmenuTrigger`, never a nested `Root` (the same
+rule as Menu):
 
 <Canvas of={ContextMenuStories.NestedSubmenu} />
 
 ### Checkbox and radio items
 
-`CheckboxItem`/`RadioItem` are the same components as Menu's — `role`,
+`CheckboxItem`/`RadioItem` are the same components as Menu's. `role`,
 `aria-checked`, and the `closeOnClick={false}` default all carry over unchanged:
 
 <Canvas of={ContextMenuStories.CheckboxAndRadioItems} />
@@ -180,14 +175,15 @@ identical rule Menu documents for itself:
 ### Custom anchor override
 
 An explicit `anchor` prop on `Positioner` always wins over the automatic
-pointer-derived anchor — a fix landed by
-[#3202](https://github.com/mui/base-ui/pull/3202), not the original behavior:
+pointer-derived anchor, a precedence fixed by
+[#3202](https://github.com/mui/base-ui/pull/3202):
 
 <Canvas of={ContextMenuStories.CustomAnchorOverride} />
 
-### Disabled trigger — native menu restored
+### Disabled trigger: native menu restored
 
-`disabled` restores native OS behavior completely, not just "no Base UI popup":
+`disabled` restores native OS behavior completely, bringing back the browser's own
+context menu:
 
 <Canvas of={ContextMenuStories.DisabledTrigger} />
 
@@ -203,15 +199,15 @@ pointer-derived anchor — a fix landed by
 
 ### Link items
 
-`LinkItem` is a direct re-export of `Menu.LinkItem` — a real `<a href>` carrying
+`LinkItem` is a direct re-export of `Menu.LinkItem`, a real `<a href>` carrying
 `role="menuitem"`:
 
 <Canvas of={ContextMenuStories.LinkItems} />
 
 ### Mixed `Menu.*`/`ContextMenu.*` composition
 
-Bare `Menu.*` parts nested directly inside a `ContextMenu.Popup` — showing the
-re-exported parts genuinely interchange:
+Bare `Menu.*` parts nested directly inside a `ContextMenu.Popup`, showing that the
+re-exported parts interchange:
 
 <Canvas of={ContextMenuStories.MixedMenuPartsComposition} />
 
@@ -232,28 +228,27 @@ re-exported parts genuinely interchange:
 | ArrowDown/ArrowUp/Home/End, Enter/Space, Escape       | popup open   | Same as Menu (inherited, re-exported Item components)                                                                                         |
 | Right-click again while `disabled`                    | trigger area | No-op **and** the native context menu is restored                                                                                             |
 
-- **ARIA managed by the component** — inherited wholesale from Menu since every
-  popup part is the same component: `role="menu"` on Popup, `role="menuitem"` /
-  `menuitemcheckbox` / `menuitemradio` on the respective Item variants.
-- The docs page does not independently link an APG pattern — the popup follows
-  Menu's own **Menu Button** pattern by direct re-export, but this citation is not
-  restated on the official Context Menu page itself.
+- **ARIA managed by the component**: inherited from Menu since every popup part is
+  the same component. Popup renders `role="menu"`; the Item variants render
+  `role="menuitem"`, `menuitemcheckbox`, and `menuitemradio` respectively.
+- The popup follows Menu's own **Menu Button** APG pattern by direct re-export;
+  our Context Menu docs page does not restate that citation itself.
 
 {/* END: a11y */}
 
 {/* BEGIN: general */}
 ## Choosing the right props
 
-- **`disabled` (Root)** — the single most decision-relevant prop, precisely because
-  its effect is broader than "prevent opening": it also restores the OS's native
-  context menu on right-click.
-- **`Positioner.anchor`** — explicit override of the automatic pointer-derived
+- **`disabled` (Root)**: the most decision-relevant prop, because its effect is
+  broader than preventing opening. It also restores the OS's native context menu
+  on right-click.
+- **`Positioner.anchor`**: explicit override of the automatic pointer-derived
   anchor; wins over the pointer anchor since [#3202](https://github.com/mui/base-ui/pull/3202).
-- **`Positioner.align`/`alignOffset`/`sideOffset`** — default to `'start'`/`2`/`-5`
+- **`Positioner.align`/`alignOffset`/`sideOffset`**: default to `'start'`/`2`/`-5`
   specifically under context-menu parentage, tuned for pointer-seated placement.
-- **No `openOnHover`/`delay`/`closeDelay`/`handle`/`triggerId`/`defaultTriggerId`** —
-  all omitted from the type; these are the props that signal "this scenario needs
-  Menu, not Context Menu."
+- **No `openOnHover`/`delay`/`closeDelay`/`handle`/`triggerId`/`defaultTriggerId`**:
+  all omitted from the type. A scenario that needs these props needs Menu rather
+  than Context Menu.
 
 {/* END: general */}
 
@@ -265,12 +260,12 @@ re-exported parts genuinely interchange:
 - Pair every context menu with a visible control offering the same actions (see the
   Usage guideline at the top of this page).
 - Reuse one styled item module for both a button-triggered Menu and a
-  right-click-triggered Context Menu — the parts are interchangeable by design.
+  right-click-triggered Context Menu; the parts are interchangeable by design.
 
 **Don't**
 
 - Don't make a context menu the only way to perform an important action.
-- Don't assume `disabled` fully suppresses right-click feedback — it hands the
+- Don't assume `disabled` fully suppresses right-click feedback: it hands the
   surface back to the native OS context menu instead of showing nothing.
 
 {/* END: do-dont */}
@@ -332,14 +327,14 @@ re-exported parts genuinely interchange:
 ## FAQ
 
 - **"My context menu doesn't open when it's nested inside another popup's
-  trigger"** → fixed upstream by [#2506](https://github.com/mui/base-ui/pull/2506)
+  trigger"** → fixed by [#2506](https://github.com/mui/base-ui/pull/2506)
   (Aug 2025), which resets `MenuRootContext` so a `Menu.Root` inside a
   `ContextMenu.Trigger` correctly detects it's at the top of its own tree.
-- **"Setting an explicit `anchor` doesn't do anything — it still opens at the
+- **"Setting an explicit `anchor` doesn't do anything; it still opens at the
   pointer"** → fixed by [#3202](https://github.com/mui/base-ui/pull/3202); the
   explicit prop now correctly takes precedence.
 - **"Drag-to-select from a right-click works on my Mac but not for teammates on
-  Windows/Linux"** → intentional platform split, not a bug — only Mac supports the
+  Windows/Linux"** → an intentional platform split: only Mac supports the
   native-macOS-style drag-hold-release-to-select gesture (`ContextMenuRoot.non-mac.test.tsx`
   mocks `platform.os.mac = false` to cover the other branch).
 - **"I disabled the context menu but right-clicking still shows something"** →
@@ -354,8 +349,7 @@ re-exported parts genuinely interchange:
 - For a persistently visible trigger, hover-open behavior, or detached/imperative
   opening, use [Menu](?path=/docs/overlays-menu--docs) instead.
 - For a bar of always-visible application menus, use
-  [Menubar](?path=/docs/navigation-menubar--docs) — a different mechanism entirely.
-- Cluster-level decision guidance for all menu components: [Menus](?path=/docs/research-c-component-briefs-clusters-menus--docs).
+  [Menubar](?path=/docs/navigation-menubar--docs), a different mechanism entirely.
 
 {/* END: when-to-use */}
 

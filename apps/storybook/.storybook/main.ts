@@ -19,7 +19,16 @@ function getAbsolutePath(value: string) {
 // apps/storybook (the directory containing this app's tsconfig.json / package.json).
 const storybookRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  // The research pages (src/stories/research) are internal working notes for the
+  // project team, not part of the public docs. They are excluded from the build by
+  // default; set STORYBOOK_INCLUDE_RESEARCH=true to build them (they then remain
+  // hidden from the sidebar via the `research` tag filter below).
+  stories: process.env.STORYBOOK_INCLUDE_RESEARCH
+    ? ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']
+    : [
+        '../src/stories/!(research)/**/*.mdx',
+        '../src/stories/!(research)/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+      ],
   addons: [
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-vitest'),

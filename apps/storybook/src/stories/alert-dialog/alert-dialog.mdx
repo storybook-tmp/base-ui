@@ -10,26 +10,25 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 <Meta of={AlertDialogStories} />
 
 {/* BEGIN: general */}
-A dialog that requires a user response to proceed — destructive-action confirmations,
+A dialog that requires a user response to proceed: destructive-action confirmations,
 unsaved-changes warnings, and required-acknowledgment prompts that must be impossible
 to dismiss by accident.
 
 - **Import:** `import { AlertDialog } from '@base-ui/react/alert-dialog';`
-- **Parts:** 9 — `Root`, `Trigger`, `Portal`, `Backdrop`, `Viewport`, `Popup`, `Title`,
-  `Description`, `Close` — plus the non-element `AlertDialog.createHandle()`. Only
-  `Root` and `Trigger` are original; every other part is a verbatim re-export of the
+- **Parts:** 9 (`Root`, `Trigger`, `Portal`, `Backdrop`, `Viewport`, `Popup`, `Title`,
+  `Description`, `Close`), plus the non-element `AlertDialog.createHandle()`. Only
+  `Root` and `Trigger` are original; every other part is a re-export of the
   corresponding Dialog part ([#3237](https://github.com/mui/base-ui/pull/3237)).
 - **Status:** Stable. Created together with Dialog in the same founding PR
   ([#372](https://github.com/mui/base-ui/pull/372), Jun 2024).
-- **ARIA pattern:** [Alert Dialog (Alert and Message Dialogs)](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/) —
+- **ARIA pattern:** [Alert Dialog (Alert and Message Dialogs)](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/),
   distinct from Dialog's plain Dialog (Modal) pattern.
-- **Docs verified against:** `@base-ui/react` workspace source (v1.6.0 line).
 
 <Canvas of={AlertDialogStories.Hero} />
 
 ## Features
 
-- **Three axes hard-coded, at the type level** — AlertDialog is Dialog with `role`,
+- **Three axes hard-coded, at the type level**: AlertDialog is Dialog with `role`,
   `modal`, and `disablePointerDismissal` all fixed at their most conservative setting.
   `useRenderDialogRoot(props, 'alert-dialog')` derives:
 
@@ -41,25 +40,25 @@ to dismiss by accident.
   ```
 
   `AlertDialogRoot.Props` **`Omit`s `modal` and `disablePointerDismissal` from
-  `DialogRoot.Props` entirely** — not merely defaulted, removed from the public API
-  surface, so a consumer cannot even attempt to override them. If a scenario needs
+  `DialogRoot.Props` entirely**: removed from the public API surface, not merely
+  defaulted, so a consumer cannot even attempt to override them. If a scenario needs
   `modal={false}` or a dismissible confirmation, that scenario needs plain Dialog,
   not AlertDialog.
 
-- **Why a separate component instead of a `severity` prop on Dialog** — "The main
-  reason for separating them [from Dialog] is accessibility" (michaldudak,
-  [#2146](https://github.com/mui/base-ui/issues/2146)), citing MDN's `alertdialog`
+- **Why a separate component instead of a `severity` prop on Dialog**: we separated
+  it from Dialog for accessibility reasons
+  ([#2146](https://github.com/mui/base-ui/issues/2146)), following MDN's `alertdialog`
   role. The separation is an ARIA-semantics decision, not a styling one.
-- **Esc is deliberately _not_ part of the lockdown** — `useDialogRoot.ts` gates
-  outside-press dismissal on `isTopmost && !disablePointerDismissal`, but gates the
-  Escape-key handler only on `isTopmost` — no `disablePointerDismissal` check at all.
+- **Esc is _not_ part of the lockdown**: `useDialogRoot.ts` gates outside-press
+  dismissal on `isTopmost && !disablePointerDismissal`, but gates the Escape-key
+  handler only on `isTopmost`, with no `disablePointerDismissal` check at all.
   "No light dismiss" means specifically _no outside-press dismissal_, not _no
   keyboard dismissal at all_: Esc still closes an AlertDialog by default.
-- **Nominally-branded handle** — `AlertDialog.createHandle()` returns an
+- **Nominally-branded handle**: `AlertDialog.createHandle()` returns an
   `AlertDialogHandle`, a subclass of `DialogHandle` carrying a type-only brand so it
   can't be passed interchangeably with a `Dialog.Handle`, even though both behave
   identically at runtime.
-- **Architectural consolidation** — for its first ~17 months AlertDialog had fully
+- **Architectural consolidation**: for its first ~17 months AlertDialog had fully
   duplicated part implementations; [#3237](https://github.com/mui/base-ui/pull/3237)
   (Nov 2025) deleted ~1,600 lines of duplication in favor of the re-export shape
   described above.
@@ -70,37 +69,34 @@ to dismiss by accident.
 ## When to use
 
 - Destructive-action confirmations (discard/delete), unsaved-changes warnings, and
-  terms-of-service/required-acknowledgment prompts — the hero demo's "Discard draft?"
-  is exactly this shape.
+  terms-of-service/required-acknowledgment prompts, such as the hero demo's
+  "Discard draft?" confirmation.
 - When the interruption must be impossible to dismiss by accident: no backdrop click,
-  no outside click — only an explicit in-dialog choice (or Esc, which the app can
+  no outside click; only an explicit in-dialog choice (or Esc, which the app can
   still veto in `onOpenChange`).
-- As the nested confirmation inside an in-progress Dialog flow — the canonical
+- As the nested confirmation inside an in-progress Dialog flow, the canonical
   "close confirmation" pattern (see [Dialog](?path=/docs/overlays-dialog--docs)'s
   `NestedAlertDialogGuard`/`CloseConfirmation` stories): a regular dismissible Dialog
   for the main flow, an AlertDialog for the one "are you sure?" decision point inside it.
-- Multiple/detached triggers and payload-driven content — identical mechanism to
-  Dialog's `createHandle`/`payload` kit.
+- Multiple/detached triggers and payload-driven content, using the same mechanism
+  as Dialog's `createHandle`/`payload` kit.
 
 ## When not to use
 
-Full cluster comparison: [Overlays](?path=/docs/research-c-component-briefs-clusters-overlays--docs).
-
-- **vs Dialog (the primary boundary)** — use plain Dialog for anything dismissible:
+- **vs Dialog (the primary boundary)**: use plain Dialog for anything dismissible:
   settings panels, forms the user can back out of, notification centers. Use
   AlertDialog only for the one case Dialog can't express: a decision the user cannot
   escape by clicking outside. Reversing the decision (making a Dialog behave like an
   AlertDialog) is possible by setting `modal` + `disablePointerDismissal` explicitly;
-  the reverse — making an AlertDialog dismissible — is not possible, since the props
+  the reverse (making an AlertDialog dismissible) is not possible, since the props
   are removed from its type, not merely defaulted.
-- **vs Toast** — passive, self-clearing notifications are Toast's job. "Toasts are
-  used to notify users without interrupting their workflow… In scenarios when users'
-  input is required, AlertDialog is better suited" (aarongarciah,
-  [#4533](https://github.com/mui/base-ui/issues/4533)).
-- **Don't build a `confirm()` abstraction on top of a manager** — the same
-  `dialogManager` rejection that applies to Dialog
-  ([#2802](https://github.com/mui/base-ui/issues/2802)) applies here: compose
-  handles + `onOpenChange` reason-branching per confirmation instance.
+- **vs Toast**: passive, self-clearing notifications are Toast's job. Toasts notify
+  users without interrupting their workflow; when user input is required, AlertDialog
+  is better suited ([#4533](https://github.com/mui/base-ui/issues/4533)).
+- **Don't build a `confirm()` abstraction on top of a manager**: we declined a
+  `dialogManager` API for Dialog
+  ([#2802](https://github.com/mui/base-ui/issues/2802)), and the same applies here.
+  Compose handles + `onOpenChange` reason-branching per confirmation instance.
 
 {/* END: when-to-use */}
 
@@ -128,14 +124,14 @@ import { AlertDialog } from '@base-ui/react/alert-dialog';
 | Part                         | Renders    | Purpose                                                                                                       | Optional?                                      |
 | :---------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------- | :---------------------------------------------- |
 | `AlertDialog.Root`           | no element | Groups all parts; calls `useRenderDialogRoot(props, 'alert-dialog')`                                          | required                                       |
-| `AlertDialog.Trigger`        | `<button>` | Thin re-export of `DialogTrigger`, cast to a distinct alert-dialog-flavored type                              | yes — controlled/handle modes work without one |
+| `AlertDialog.Trigger`        | `<button>` | Thin re-export of `DialogTrigger`, cast to a distinct alert-dialog-flavored type                              | yes (controlled/handle modes work without one) |
 | `AlertDialog.Portal`         | `<div>`    | Moves the popup subtree to `<body>` (or `container`)                                                          | required for popup parts                       |
 | `AlertDialog.Backdrop`       | `<div>`    | Presentation-only; **never closes the dialog when clicked**                                                   | yes                                            |
 | `AlertDialog.Viewport`       | `<div>`    | Positioning/scroll container, identical to Dialog's                                                           | yes                                            |
 | `AlertDialog.Popup`          | `<div>`    | The `role="alertdialog"` surface                                                                              | required                                       |
-| `AlertDialog.Title`          | `<h2>`     | Labels the dialog — auto-wires `aria-labelledby`                                                              | yes — strongly recommended                     |
-| `AlertDialog.Description`    | `<p>`      | Describes the consequence — auto-wires `aria-describedby`                                                     | yes                                            |
-| `AlertDialog.Close`          | `<button>` | **The only pointer-accessible way out besides Esc** — outside-press and backdrop click never close the dialog | yes — required in practice                     |
+| `AlertDialog.Title`          | `<h2>`     | Labels the dialog; auto-wires `aria-labelledby`                                                              | yes (strongly recommended)                     |
+| `AlertDialog.Description`    | `<p>`      | Describes the consequence; auto-wires `aria-describedby`                                                     | yes                                            |
+| `AlertDialog.Close`          | `<button>` | **The only pointer-accessible way out besides Esc**; outside-press and backdrop click never close the dialog | yes (required in practice)                     |
 | `AlertDialog.createHandle()` | —          | Returns an `AlertDialogHandle` (nominally distinct from `DialogHandle`)                                       | yes                                            |
 
 `Close` carries more weight here than in Dialog: since outside-press is always
@@ -154,7 +150,7 @@ Click the trigger, the popup opens with `role="alertdialog"` and `aria-labelledb
 
 <Canvas of={AlertDialogStories.Hero} />
 
-### No outside-press dismissal — the hard-coded contract
+### No outside-press dismissal: the hard-coded contract
 
 `disablePointerDismissal` is permanently `true` and cannot be overridden. Clicking the
 backdrop is a documented no-op; Esc is **not** blocked by the same lockdown and closes
@@ -165,7 +161,7 @@ if an unconfirmed destructive action shouldn't be closeable via Esc either):
 
 ### Required-acknowledgment composition
 
-AlertDialog has no built-in validation — compose it with ordinary form state to gate
+AlertDialog has no built-in validation. Compose it with ordinary form state to gate
 the destructive action behind a typed confirmation phrase:
 
 <Canvas of={AlertDialogStories.FormWithConfirmation} />
@@ -173,7 +169,7 @@ the destructive action behind a typed confirmation phrase:
 ### Cross-type nesting: AlertDialog inside a Dialog
 
 A regular, dismissible Dialog for the main flow, guarded by a controlled AlertDialog
-that opens if the user tries to close a dirty form — the canonical "close
+that opens if the user tries to close a dirty form: the canonical "close
 confirmation" pattern. The nested AlertDialog still counts toward the parent's
 `[data-nested-dialog-open]` machinery even though it's a different component type:
 
@@ -192,8 +188,8 @@ Dialog's "Open from a menu" pattern:
 
 ### Exit animation
 
-`onOpenChangeComplete` fires once a CSS transition genuinely finishes — the popup
-stays mounted through the exit transition:
+`onOpenChangeComplete` fires once a CSS transition finishes; the popup stays
+mounted through the exit transition:
 
 <Canvas of={AlertDialogStories.ExitAnimation} />
 
@@ -207,7 +203,7 @@ is preserved unchanged:
 
 ### Esc closes and returns focus
 
-Esc is the one dismissal path still open — closing via Esc restores focus to the
+Esc is the one dismissal path still open. Closing via Esc restores focus to the
 Trigger that opened the dialog:
 
 <Canvas of={AlertDialogStories.EscFocusReturn} />
@@ -215,7 +211,7 @@ Trigger that opened the dialog:
 ### Handle + payload reused across many triggers
 
 One `AlertDialog.createHandle<Payload>()` shared by many detached triggers, each
-with its own `payload` — a single confirmation instance reused across a list of
+with its own `payload`: a single confirmation instance reused across a list of
 delete buttons:
 
 <Canvas of={AlertDialogStories.HandleWithPayload} />
@@ -227,16 +223,16 @@ delete buttons:
 
 | Key                              | Action                                                                                                              |
 | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
-| `Tab` / `Shift+Tab`              | Moves through tabbables inside the popup; **always loops** (trapped) — `modal` can never be relaxed for AlertDialog |
-| `Esc`                            | Closes the topmost open alert dialog (reason `escape-key`) — **not** blocked by the pointer-dismissal lockdown      |
+| `Tab` / `Shift+Tab`              | Moves through tabbables inside the popup; **always loops** (trapped), since `modal` can never be relaxed for AlertDialog |
+| `Esc`                            | Closes the topmost open alert dialog (reason `escape-key`); **not** blocked by the pointer-dismissal lockdown      |
 | `Enter`/`Space` on Trigger/Close | Native button activation                                                                                            |
-| Click/tap on Backdrop            | **No-op** — the one row that most distinguishes AlertDialog from Dialog                                             |
+| Click/tap on Backdrop            | **No-op**; the one row that most distinguishes AlertDialog from Dialog                                             |
 
 - **ARIA wiring**: Popup `role="alertdialog"`, `aria-labelledby` ← `Title`,
   `aria-describedby` ← `Description`. Trigger: `aria-haspopup="dialog"` (stays
-  `"dialog"`, not `"alertdialog"` — there is no `alertdialog` token in the ARIA spec
+  `"dialog"`, not `"alertdialog"`; there is no `alertdialog` token in the ARIA spec
   for `aria-haspopup`), `aria-expanded`, `aria-controls`.
-- **No `aria-modal`** — same deliberate omission as Dialog, for the same reason
+- **No `aria-modal`**: omitted for the same reason as in Dialog
   (outside elements are marked `aria-hidden`/inert instead).
 - **Touch screen readers**: because `modal` is always `true`, rendering an
   `AlertDialog.Close` inside the Popup is closer to a hard requirement than Dialog's
@@ -247,17 +243,17 @@ delete buttons:
 {/* BEGIN: general */}
 ## Choosing the right props
 
-- **No `modal` prop** — cannot be set at all. If a scenario needs `modal={false}` or
+- **No `modal` prop**: cannot be set at all. If a scenario needs `modal={false}` or
   `'trap-focus'`, it needs plain Dialog, not AlertDialog.
-- **No `disablePointerDismissal` prop** — permanently forced `true`. There is no way
+- **No `disablePointerDismissal` prop**: permanently forced `true`. There is no way
   to make an AlertDialog instance dismissible by clicking outside.
-- **`onOpenChange(open, eventDetails)`** — same `eventDetails.reason`/`.cancel()`/
+- **`onOpenChange(open, eventDetails)`**: same `eventDetails.reason`/`.cancel()`/
   `.trigger` contract as Dialog; the reason that matters most here is distinguishing
   `escape-key` (the one dismissal path still open) from `close-press`/`trigger-press`.
-- **`handle` + `AlertDialog.createHandle<Payload>()`** — nominally typed apart from
+- **`handle` + `AlertDialog.createHandle<Payload>()`**: nominally typed apart from
   `Dialog.createHandle()`; otherwise identical semantics for reusing one confirmation
   instance across many trigger points (e.g. delete buttons throughout a list).
-- **`actionsRef`** — `{ unmount, close }`, identical shape and purpose to Dialog's.
+- **`actionsRef`**: `{ unmount, close }`, identical shape and purpose to Dialog's.
 
 {/* END: general */}
 
@@ -266,7 +262,7 @@ delete buttons:
 
 **Do**
 
-- Always render an `AlertDialog.Close` inside the Popup — it's the only pointer exit.
+- Always render an `AlertDialog.Close` inside the Popup: it's the only pointer exit.
 - Branch on `eventDetails.reason === 'escape-key'` in `onOpenChange` if Esc should be
   treated the same as an explicit Cancel for a given confirmation.
 - Use AlertDialog for the one "are you sure?" decision point nested inside a larger,
@@ -274,10 +270,10 @@ delete buttons:
 
 **Don't**
 
-- Don't reach for Dialog + manual "are you sure" state when AlertDialog says it for
-  free — that pattern (no dismiss path, `role="alertdialog"`) is exactly what
-  AlertDialog already provides with the correct ARIA semantics.
-- Don't expect the backdrop or an outside click to ever close an AlertDialog — it's
+- Don't rebuild this with Dialog + manual "are you sure" state. AlertDialog already
+  provides that pattern (no dismiss path, `role="alertdialog"`) with the correct
+  ARIA semantics.
+- Don't expect the backdrop or an outside click to ever close an AlertDialog: it's
   a permanent, type-level guarantee, not a runtime default that can be flipped.
 
 {/* END: do-dont */}
@@ -295,7 +291,7 @@ delete buttons:
     reuse="link-only, do not copy"
   >
     one file per Base UI part (root/popup/trigger/portal/context) plus its own test suite and
-    Storybook story — a complete one-to-one part mapping.
+    Storybook story: a complete one-to-one part mapping.
   </WildCard>
   <WildCard
     repo="borabaloglu/9ui"
@@ -328,17 +324,16 @@ delete buttons:
 {/* BEGIN: behavior */}
 ## FAQ
 
-- **"Why doesn't clicking the backdrop close my alert dialog?"** → by design —
+- **"Why doesn't clicking the backdrop close my alert dialog?"** → this is by design:
   `disablePointerDismissal` is permanently `true`; use `AlertDialog.Close` (or a
   controlled `onOpenChange` call from your own button) as the exit path.
-- **"Esc still closes it even though I can't click outside — is that a bug?"** → no.
-  Outside-press is blocked, Esc is not. This is an acknowledged docs gap upstream —
-  [#1687](https://github.com/mui/base-ui/issues/1687) "[dialog][docs] Document the
-  difference(s) between `Dialog` and `AlertDialog`" (open) asks for the three
-  differences (role, modal, pointer dismissal) to be stated on the official docs
-  site; they still aren't.
+- **"Esc still closes it even though I can't click outside. Is that a bug?"** → no.
+  Outside-press is blocked, Esc is not. This is a known gap in our docs:
+  [#1687](https://github.com/mui/base-ui/issues/1687) (open) asks for the three
+  Dialog/AlertDialog differences (role, modal, pointer dismissal) to be stated on
+  the official docs site; they still aren't.
 - **"Can I make my AlertDialog dismissible by clicking outside for one particular
-  case?"** → no — `modal` and `disablePointerDismissal` are `Omit`ted from the type,
+  case?"** → no. `modal` and `disablePointerDismissal` are `Omit`ted from the type,
   enforced at compile time. If a case needs that, it needs Dialog, not AlertDialog.
 
 {/* END: behavior */}
@@ -346,15 +341,13 @@ delete buttons:
 {/* BEGIN: when-to-use */}
 ## Related
 
-- For everything dismissible, use [Dialog](?path=/docs/overlays-dialog--docs) —
+- For everything dismissible, use [Dialog](?path=/docs/overlays-dialog--docs):
   same parts, but every axis Dialog exposes as configurable is fixed at its most
   conservative setting here.
 - For contextual action lists, see [Menu](?path=/docs/overlays-menu--docs) or
-  [Context Menu](?path=/docs/overlays-context-menu--docs) — opening an AlertDialog
+  [Context Menu](?path=/docs/overlays-context-menu--docs). Opening an AlertDialog
   from a `Menu.Item`'s `onClick` is a documented composition (see Dialog's
   "Open from a menu" pattern, identical for AlertDialog).
-- Cluster-level decision guidance for all overlay components:
-  [Overlays](?path=/docs/research-c-component-briefs-clusters-overlays--docs).
 
 {/* END: when-to-use */}
 

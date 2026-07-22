@@ -9,10 +9,9 @@ import { Meta } from '@storybook/addon-docs/blocks';
 [Radio (Group)](?path=/docs/form-inputs-radio--docs), and
 [Tabs](?path=/docs/navigation-tabs--docs) all wrap the same `CompositeRoot` roving-tabindex
 engine: **one Tab stop for the whole widget**, arrow keys move focus among its members. This is
-a defended design choice, not an accident — "fewer tab stops is more accessible" is the library's
-own framing for why keyboard users shouldn't have to Tab through every toolbar button or menu
-item individually. This page is the single place that compares the model
-across all five composites, including where each one deliberately deviates from it.
+a design choice: fewer tab stops are more accessible, so keyboard users shouldn't have to Tab
+through every toolbar button or menu item individually. This page compares the model
+across all five composites, including where each one deviates from it.
 
 ## The shared model
 
@@ -25,7 +24,7 @@ across all five composites, including where each one deliberately deviates from 
 | [Tabs](?path=/docs/navigation-tabs--docs) | 1 for the whole tablist | orientation-appropriate | yes | — |
 
 Arrow direction always flips correctly under `dir="rtl"` for horizontal orientation across every
-one of these — tested identically in Toolbar's and Toggle Group's suites (parametrized
+one of these, tested identically in Toolbar's and Toggle Group's suites (parametrized
 `[direction, orientation]` matrices).
 
 ## Toolbar never enables Home/End
@@ -41,48 +40,47 @@ Toolbar-hosted Toggle Group defers its entire composite behavior to the *hosting
 ## Deliberate deviations from the roving-focus model
 
 **Accordion removed roving focus entirely** ([mui/base-ui#4965](https://github.com/mui/base-ui/pull/4965)),
-aligning with a change to the W3C APG pattern itself: "The Accordion APG pattern no longer
+aligning with a change to the W3C APG pattern itself: the Accordion APG pattern no longer
 recommends roving focus, as documented in
-[w3c/aria-practices#3434](https://github.com/w3c/aria-practices/pull/3434)… removing roving focus
-from Accordion to align with the latest APG guidance" (PR body, verbatim). Every
-`Accordion.Trigger` is now its own ordinary Tab stop — Tab/Shift+Tab moves between headers the
+[w3c/aria-practices#3434](https://github.com/w3c/aria-practices/pull/3434), so we removed roving
+focus from Accordion to align with the latest APG guidance. Every
+`Accordion.Trigger` is now its own ordinary Tab stop: Tab/Shift+Tab moves between headers the
 plain way, and arrow keys do nothing. The companion PR
 ([mui/base-ui#4961](https://github.com/mui/base-ui/pull/4961)) removed `role="region"` from
 `Accordion.Root` the same day, since that role belongs on `Panel`, which already had it. The
-`orientation`/`loopFocus` Root props are now `@deprecated` — they still drive the
-`data-orientation` styling hook, but "no longer affect keyboard focus behavior"
-(`AccordionRoot.tsx` JSDoc). Accordion is filed under Disclosure & structure, not this cluster,
-precisely because it isn't a composite anymore — see
+`orientation`/`loopFocus` Root props are now `@deprecated`: they still drive the
+`data-orientation` styling hook but no longer affect keyboard focus behavior (see the
+`AccordionRoot.tsx` JSDoc). Accordion is documented under Disclosure & structure rather than
+here because it isn't a composite anymore; see
 [Disclosure: Accordion, Collapsible, Tabs](?path=/docs/overview-choosing-components--docs) for the
 full three-way comparison.
 
-**Tabs switched from focus-activation to click-activation** —
+**Tabs switched from focus-activation to click-activation**:
 [mui/base-ui#3176](https://github.com/mui/base-ui/pull/3176) flipped `activateOnFocus`'s default
-to `false` after a WCAG 2.5.2 (pointer cancellation) argument beat the "feels more responsive"
-counter-case. Arrow-key movement still roves focus across the tablist, but
-selecting a tab now requires a distinct activation (Enter/Space, or focus if you explicitly
+to `false` after a WCAG 2.5.2 (pointer cancellation) argument outweighed the counter-case that
+focus activation feels more responsive. Arrow-key movement still roves focus across the tablist,
+but selecting a tab now requires a distinct activation (Enter/Space, or focus if you explicitly
 opt back in) rather than firing on every arrow press. See
 [Tabs: keyboard focus does not activate](?path=/story/navigation-tabs--keyboard-focus-does-not-activate)
 and [Tabs: activate on focus](?path=/story/navigation-tabs--activate-on-focus) to compare both
 modes directly.
 
-**Radio Group selects on navigation — the opposite deviation.** Unlike every other composite
+**Radio Group selects on navigation, the opposite deviation.** Unlike every other composite
 here, arrow-key movement in a Radio Group both moves focus **and commits the selection**,
 matching native `<input type="radio">` group behavior: focusing an untouched radio via keyboard
 synthetically clicks its own hidden input (pinned by the
-"should automatically select radio upon navigation" test). This is a deliberate parity choice
-with the native element, not an inconsistency — Radio Group is the one composite in this table
-where "move focus" and "select" are the same action. Holding **Shift** while arrowing suppresses
+"should automatically select radio upon navigation" test). This parity with the native element
+is by design: Radio Group is the one composite in this table
+where moving focus and selecting are the same action. Holding **Shift** while arrowing suppresses
 the auto-select and moves focus only. See
 [Radio: arrow-down selects on navigation](?path=/story/form-inputs-radio--arrow-down-selects-on-navigation).
 
 ## Toolbar-hosted Toggle Group: the Home/End asymmetry in full
 
-The sharpest cross-component nuance: the Home/End gap
-traces to its exact origin — Home/End shipped for standalone Toggle Group in
+The Home/End gap has a specific origin. Home/End shipped for standalone Toggle Group in
 [#3971](https://github.com/mui/base-ui/pull/3971), closing a reported gap
 ([#3970](https://github.com/mui/base-ui/issues/3970)), by passing `enableHomeAndEndKeys` into
-*Toggle Group's own* `CompositeRoot`. That PR could not — and structurally did not — touch
+*Toggle Group's own* `CompositeRoot`. That PR structurally could not, and did not, touch
 Toolbar's separate `CompositeRoot` the same way, so a Toggle Group loses Home/End the moment it's
 hosted inside a Toolbar. If your toolbar-hosted segmented control needs Home/End, it isn't
 available today; file it as a Toolbar-side gap rather than assuming user error.
