@@ -10,6 +10,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Progress
 
+{/* BEGIN: general */}
 Displays the status of a task that takes a long time.
 
 - **Import:** `import { Progress } from '@base-ui/react/progress';`
@@ -28,6 +29,9 @@ Displays the status of a task that takes a long time.
 - **Clamping guarantees** — out-of-range and degenerate values (`value > max`, `min === max`) clamp safely instead of overflowing (pinned by `ProgressRoot.test.tsx`).
 - **Screen-reader label workaround built in** — Root injects a hidden span so NVDA announces the label ([#4184](https://github.com/mui/base-ui/issues/4184) / [#4200](https://github.com/mui/base-ui/pull/4200)).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Long-running async tasks where completion is knowable or trackable — uploads, downloads, exports, multi-step processing (the docs hero simulates "Export data").
@@ -39,6 +43,9 @@ Displays the status of a task that takes a long time.
 - For a **bounded measurement with no notion of "done"** (disk usage, battery level), use [Meter](?path=/docs/status-display-meter--docs), because the APG meter pattern explicitly excludes "progress, such as loading or percent completion of a task" — full boundary on the [Status](?path=/docs/research-c-component-briefs-clusters-status--docs) research page.
 - If your team wants **zero custom ARIA** and accepts native quirks, native `<progress>` remains a documented (maintainer-declined) alternative — the ask was closed citing cross-browser/screen-reader inconsistencies and "parity with Radix and React Aria" ([#4558](https://github.com/mui/base-ui/issues/4558)).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -54,7 +61,7 @@ import { Progress } from '@base-ui/react/progress';
 ```
 
 | Part                 | Renders                      | Purpose                                                      | Optional? |
-| -------------------- | ---------------------------- | ------------------------------------------------------------ | --------- |
+| :-------------------- | :---------------------------- | :------------------------------------------------------------ | :--------- |
 | `Progress.Root`      | `<div role="progressbar">`   | Owns all `aria-value*` attributes and context                | required  |
 | `Progress.Label`     | `<span role="presentation">` | Visible label, auto-wired to Root's `aria-labelledby`        | yes       |
 | `Progress.Track`     | `<div>`                      | Positioning/overflow context for the indicator               | yes       |
@@ -63,6 +70,9 @@ import { Progress } from '@base-ui/react/progress';
 
 Root also renders a visually hidden `<span role="presentation">` sibling — the NVDA workaround ([#4200](https://github.com/mui/base-ui/pull/4200)), not a stylable part.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Determinate values, clamping, and status
@@ -93,6 +103,9 @@ Default text is the percentage of the range via `Intl.NumberFormat(locale, { sty
 
 <Canvas of={ProgressStories.WithLabelAndCustomAriaValueText} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 **Keyboard:** none — Progress is not interactive or focusable by design (no key handlers or `tabIndex` anywhere in source).
@@ -101,18 +114,24 @@ Default text is the percentage of the range via `Intl.NumberFormat(locale, { sty
 - **You must provide**: a label (`Progress.Label` or `aria-label`), and sufficient track/indicator contrast.
 - **Known issues**: [#4184](https://github.com/mui/base-ui/issues/4184) — NVDA/JAWS ignored the programmatic label; partially fixed by [#4200](https://github.com/mui/base-ui/pull/4200) (hidden-span workaround), JAWS behavior remains outside Base UI's control. [#4616](https://github.com/mui/base-ui/issues/4616) — SSR `aria-valuetext` hydration mismatch (see below).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 State attributes are identical on **every** part (shared `progressStateAttributesMapping`):
 
 | Attribute            | Present when                     |
-| -------------------- | -------------------------------- |
+| :-------------------- | :-------------------------------- |
 | `data-progressing`   | value is between `min` and `max` |
 | `data-complete`      | clamped value has reached `max`  |
 | `data-indeterminate` | `value` is `null` or non-finite  |
 
 **No CSS variables.** The fill percentage is applied as plain inline `style.width` on the Indicator — a verified exception to the library's usual "CSS variables carry dynamic numeric values" principle (B-P14). You cannot key `calc()`/`transform` styling off a `--progress-percentage` variable; accept the width-based fill or replace `style`/`className` entirely.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`value`** — the only state-driving prop; `null` means indeterminate. There is no `defaultValue`/`onValueChange` — you always own the state.
@@ -121,6 +140,9 @@ State attributes are identical on **every** part (shared `progressStateAttribute
 - **`locale`** — pass explicitly in SSR apps: `Intl.NumberFormat(undefined, …)` resolves the runtime locale on each side, which can hydration-mismatch `aria-valuetext` (open [#4616](https://github.com/mui/base-ui/issues/4616)).
 - **`getAriaValueText`** — use for enriched spoken text ("3 of 10 files uploaded") without changing the visible `Value`.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -132,6 +154,9 @@ State attributes are identical on **every** part (shared `progressStateAttribute
 
 - Don't rely on `Progress.Value` for accessible text — it is always `aria-hidden`; the accessible path is exclusively `aria-valuetext`/`aria-labelledby` on Root.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="progress">
@@ -171,6 +196,9 @@ State attributes are identical on **every** part (shared `progressStateAttribute
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-07** — Progress ships with Root/Track/Indicator only ([#470](https://github.com/mui/base-ui/pull/470)).
@@ -181,17 +209,26 @@ State attributes are identical on **every** part (shared `progressStateAttribute
 - **2026-02** — NVDA label-announcement workaround lands ([#4200](https://github.com/mui/base-ui/pull/4200)).
 - **2026-04** — native-`<progress>` request declined, design question left open ([#4558](https://github.com/mui/base-ui/issues/4558)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#4184](https://github.com/mui/base-ui/issues/4184) — open: NVDA/JAWS label announcement, partially mitigated by the hidden-span workaround; verify with your target AT combination.
 - [#4616](https://github.com/mui/base-ui/issues/4616) — open: SSR hydration mismatch on `aria-valuetext`; workaround: explicit `locale`.
 - [#4558](https://github.com/mui/base-ui/issues/4558) — closed, but the "why not native `<progress>` in 2026?" question was left explicitly unresolved by the maintainer reply.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To display a **bounded measurement** that is not a task, use [Meter](?path=/docs/status-display-meter--docs) — full comparison in [Status](?path=/docs/research-c-component-briefs-clusters-status--docs).
 - To show identity/image state (same taxonomy category, different job), see [Avatar](?path=/docs/status-display-avatar--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Progress.Root
@@ -216,6 +253,4 @@ State attributes are identical on **every** part (shared `progressStateAttribute
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/progress](https://base-ui.com/react/components/progress#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+progress) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/progress)._
+{/* END: props */}

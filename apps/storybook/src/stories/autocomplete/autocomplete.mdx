@@ -17,10 +17,11 @@ export const autocompleteFiles = [
   { path: '../autocomplete-real-world.module.css', code: autocompleteRealWorldCss },
 ];
 
-<Meta of={AutocompleteStories} />
-
 # Autocomplete
 
+<Meta of={AutocompleteStories} tags={["verified"]} />
+
+{/* BEGIN: general */}
 An input that suggests options as you type — the typed string **is** the committed value; the popup list only suggests (and optionally inline-completes) it. Nothing is "selected" in a remembered sense.
 
 - **Import:** `import { Autocomplete } from '@base-ui/react/autocomplete';`
@@ -42,6 +43,9 @@ An input that suggests options as you type — the typed string **is** the commi
 - **Command palettes and grids** — `inline` drops the popup for in-place lists (Dialog palettes), `grid` + `Row` gives 2D emoji-picker navigation ([#2683](https://github.com/mui/base-ui/pull/2683)).
 - **Forms for free** — the typed text submits under `name`, participates in constraint validation, and honors browser autofill ([#4725](https://github.com/mui/base-ui/pull/4725), [#4809](https://github.com/mui/base-ui/pull/4809)).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Free-form text where suggestions help but any value is legal — search fields, tag/query inputs: "the input can have any value… For example, Google Search" (atomiks, [#2105](https://github.com/mui/base-ui/pull/2105)).
@@ -60,6 +64,9 @@ The pickers boundary in one line: _free-form text → Autocomplete; visible filt
 - **Multi-value tokenized entry → Combobox `multiple` + Chips** — Autocomplete's value is one string; it has no `multiple`.
 - **Plain text field without suggestions → Input/Field** — the popup machinery is pure overhead then; no maintainer statement makes this comparison directly, but it follows from the component's stated purpose.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -98,7 +105,7 @@ import { Autocomplete } from '@base-ui/react/autocomplete';
 ```
 
 | Part                                | Renders    | Purpose                                                                                                                                                                                   | Optional?            |
-| ----------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| :----------------------------------- | :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `Autocomplete.Root`                 | no element | Groups all parts; owns the text value, filtering, and popup state                                                                                                                         | required             |
 | `Autocomplete.Input`                | `<input>`  | The text input — **the interactive control**; wrap in a `<label>` or `Field`                                                                                                              | required in practice |
 | `Autocomplete.InputGroup`           | `<div>`    | Wrapper for the input and its associated controls; carries the same state attributes as Trigger ([#3745](https://github.com/mui/base-ui/pull/3745))                                       | yes                  |
@@ -122,6 +129,9 @@ import { Autocomplete } from '@base-ui/react/autocomplete';
 | `Autocomplete.useFilter`            | hook       | `Intl.Collator`-based `contains`/`startsWith` matchers for your own filtering code                                                                                                        | yes                  |
 | `Autocomplete.useFilteredItems`     | hook       | Reads the internally filtered items inside `Root` — the virtualization hook ([#3732](https://github.com/mui/base-ui/pull/3732))                                                           | yes                  |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The full interaction
@@ -238,12 +248,15 @@ Standard popup contract: `data-open`/`data-closed`/`data-starting-style`/`data-e
 
 <Canvas of={AutocompleteStories.AnimatedPopup} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: [APG editable combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) with list/inline autocomplete per `mode`.
 
 | Key                     | Context                | Action                                                                                                                                                                                                                                                                                       |
-| ----------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :----------------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Printable characters    | any                    | Edits text; opens the popup; filters in `list`/`both` modes                                                                                                                                                                                                                                  |
 | `ArrowDown` / `ArrowUp` | closed                 | Opens the popup; with `autoHighlight`, `ArrowDown` highlights the first item                                                                                                                                                                                                                 |
 | `ArrowDown` / `ArrowUp` | open                   | Moves the virtual highlight (loops per `loopFocus`, [#3592](https://github.com/mui/base-ui/pull/3592)); in `both`/`inline` modes temporarily writes the highlighted item into the input                                                                                                      |
@@ -259,10 +272,13 @@ Pattern: [APG editable combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 - **You must provide**: an accessible name — a `<label>`, `Field.Label`, or `aria-label` on the Input for standalone search/command inputs ([#4949](https://github.com/mui/base-ui/pull/4949)) — plus visible `:focus-visible` styling and highlight contrast that doesn't rely on color alone ([#4182](https://github.com/mui/base-ui/issues/4182)).
 - **Known issues (honesty list)**: [#4182](https://github.com/mui/base-ui/issues/4182) (open) — command-palette demo focus indicator relies on color alone; [#4183](https://github.com/mui/base-ui/issues/4183) (open) — command palette lacks a persistently visible label; [#4666](https://github.com/mui/base-ui/issues/4666) (open) — `disabled` items are highlightable (focusable-when-disabled is APG-intentional, highlightability is disputed); [#2669](https://github.com/mui/base-ui/issues/2669) (open) — inline completion doesn't select the appended text like Chrome does; [#5146](https://github.com/mui/base-ui/issues/5146) (open) — no vim-style Ctrl+N/P navigation.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                         | Attribute / variable                                                                           | Present when                                                                                                                  |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| :---------------------------- | :---------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------- |
 | Input / Trigger / InputGroup | `data-popup-open`                                                                              | the popup is open                                                                                                             |
 | Input / Trigger / InputGroup | `data-list-empty`                                                                              | the filtered list is empty ([`7df1230`](https://github.com/mui/base-ui/commit/7df1230))                                       |
 | Input / Trigger              | `data-popup-side`                                                                              | popup open, mirrors its side ([#3491](https://github.com/mui/base-ui/pull/3491))                                              |
@@ -278,6 +294,10 @@ Pattern: [APG editable combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 
 There is **no `data-selected`** on Item (removed from the public contract in [#4409](https://github.com/mui/base-ui/pull/4409) — items are never "selected" in `selectionMode="none"`) and **no `data-placeholder`** (a test pins its absence).
 
+
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`mode`** — pick per `aria-autocomplete` semantics: `list` for classic suggestion dropdowns (default); `both` for omnibox-style inline completion over a filtered list; `inline` for static lists where only completion matters; `none` for static "recent searches" lists (Root JSDoc).
@@ -291,7 +311,9 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
 - **`limit`** — cap rendered suggestions and surface the remainder via `Status` (docs Limit).
 - **`itemToStringValue`** — object items: the string used for input fill and form submission; `{ value, label }` shapes auto-use `label`; TypeScript inference flows from `items` (docs section flagged confusing in [#3853](https://github.com/mui/base-ui/issues/3853), open).
 - **`onItemHighlighted`** — `(value | undefined, { reason: 'keyboard' | 'pointer' | 'none', index })`; the hook for custom inline behaviors, virtualizer scroll-sync, and analytics (stale-data fix [#2829](https://github.com/mui/base-ui/pull/2829)).
+{/* END: general */}
 
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -311,6 +333,10 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
 - Don't rely on a highlight reset when swapping item sets mid-flow — there's no public API to reset it yet; temporarily empty `items` as a workaround ([#4745](https://github.com/mui/base-ui/issues/4745), open).
 - Don't forget `[data-disabled]` styling — disabled items are still highlightable for now ([#4666](https://github.com/mui/base-ui/issues/4666), open).
 
+{/* END: do-dont */}
+
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="autocomplete">
@@ -418,37 +444,9 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
     Autocomplete as an installable registry item, published in the `@lumi-ui` package.
   </WildCard>
 </WildCards>
+{/* END: examples */}
 
-Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and a full-anatomy multi-skin registry component (reui). Each `MiniPlayground` below shows the live recreation alongside its JSX, its live-captured rendered HTML, and its CSS:
-
-<MiniPlayground
-  title="Field-integrated wrapper"
-  source={{
-    repo: 'cloudflare/kumo',
-    href: 'https://github.com/cloudflare/kumo/blob/8f2c40b3a9d14dc8e6b3b39ba87e1fa7b03d8f26/packages/kumo/src/components/autocomplete/autocomplete.tsx',
-    license: 'MIT',
-  }}
-  code={fieldIntegratedAutocompleteSource}
-  css={autocompleteRealWorldCss}
-  dependencies={autocompleteFiles}
->
-  <FieldIntegratedAutocompleteExample />
-</MiniPlayground>
-
-<MiniPlayground
-  title="Multi-skin registry component"
-  source={{
-    repo: 'keenthemes/reui',
-    href: 'https://github.com/keenthemes/reui/blob/0946f9667f4bea44873cf9391b3b801c16660c01/registry-reui/bases/base/reui/autocomplete.tsx',
-    license: 'MIT',
-  }}
-  code={multiSkinAutocompleteSource}
-  css={autocompleteRealWorldCss}
-  dependencies={autocompleteFiles}
->
-  <MultiSkinAutocompleteExample />
-</MiniPlayground>
-
+{/* BEGIN: history */}
 ## Decision log
 
 - **2025-09-03 — Autocomplete ships as its own component** ([#2105](https://github.com/mui/base-ui/pull/2105), closing [#222](https://github.com/mui/base-ui/issues/222)): a mid-PR pivot split the monolithic Combobox into Combobox (restricted input) / Autocomplete (`selectionMode="none"`, free text) / a deferred `FilterableMenu` — "Combobox in its current form is taking on too many roles to the point of becoming overly monolithic" (atomiks). The `value` semantics follow from the split: "for Autocomplete, `value` could refer to the `inputValue` instead?" (atomiks) — "Yes, this is what I'd intuitively expect" (michaldudak).
@@ -462,6 +460,9 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 - **2026-03/04 (v1.4.0) — Autocomplete owns its exports and docs** ([#4409](https://github.com/mui/base-ui/pull/4409)): own part files, JSDoc, data-attribute enums; `data-selected` removed from Item's public contract. Native FormData for popup-rendered inputs ([#4725](https://github.com/mui/base-ui/pull/4725)).
 - **2026-05/06 — a11y & docs wave**: command-palette demo a11y ([#4949](https://github.com/mui/base-ui/pull/4949), closing [#4247](https://github.com/mui/base-ui/issues/4247)/[#4248](https://github.com/mui/base-ui/issues/4248)); `inline`-requires-`open` documented ([#5069](https://github.com/mui/base-ui/pull/5069)); memoization guidance ([#5062](https://github.com/mui/base-ui/pull/5062)).
 
+{/* END: history */}
+{/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4408](https://github.com/mui/base-ui/issues/4408) — transition flicker on input clear when no items match (open).
@@ -473,6 +474,9 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 - [#4157](https://github.com/mui/base-ui/issues/4157) — searchable menu with submenus fits no component; a future component may cover it (open).
 - [#2854](https://github.com/mui/base-ui/issues/2854) — popups inside third-party overlays (Radix dialogs etc.) need `Portal container` for pointer-events interop.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To **remember a selection** restricted to the list, use [Combobox](?path=/docs/form-inputs-combobox--docs).
@@ -481,6 +485,9 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 - To add labels, descriptions, and validation, wrap in Field inside a Form (see the `InFieldWithValidation` story).
 - To build a **command palette**, pair with Dialog (see the `CommandPalette` story).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Autocomplete.Root
@@ -510,7 +517,7 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 ### Autocomplete.Value
 
 | Prop          | Type                                | Description                                                                       |
-| ------------- | ----------------------------------- | --------------------------------------------------------------------------------- |
+| :------------- | :----------------------------------- | :--------------------------------------------------------------------------------- |
 | `children`    | `ReactNode \| (value) => ReactNode` | Render the current value, or a function receiving the selected value              |
 | `placeholder` | `ReactNode`                         | Shown when no value is selected (overridden by `children` or a null item's label) |
 
@@ -553,7 +560,7 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 ### Autocomplete.Collection
 
 | Prop       | Type                         | Description                                   |
-| ---------- | ---------------------------- | --------------------------------------------- |
+| :---------- | :---------------------------- | :--------------------------------------------- |
 | `children` | `(item, index) => ReactNode` | Render function called for each filtered item |
 
 ### Autocomplete.Status
@@ -572,8 +579,4 @@ Two recreations live in this Storybook — a Field-integrated wrapper (Kumo) and
 
 <ArgTypes of={Autocomplete.Arrow} />
 
-_Full JSDoc-driven reference: [base-ui.com/react/components/autocomplete](https://base-ui.com/react/components/autocomplete#api-reference)._
-
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+autocomplete) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/autocomplete)._
+{/* END: props */}

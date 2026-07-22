@@ -37,6 +37,7 @@ const config: StorybookConfig = {
     },
     getAbsolutePath('@storybook/addon-mcp'),
     getAbsolutePath('@storybook/addon-themes'),
+    getAbsolutePath('storybook-addon-tag-badges'),
   ],
   framework: getAbsolutePath('@storybook/react-vite'),
   viteFinal: async (config) => {

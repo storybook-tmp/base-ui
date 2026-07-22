@@ -10,6 +10,7 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 # Toolbar
 
+{/* BEGIN: general */}
 A container for grouping a set of buttons and controls.
 
 - **Import:** `import { Toolbar } from '@base-ui/react/toolbar';`
@@ -27,6 +28,9 @@ A container for grouping a set of buttons and controls.
 - **Disabled cascade with a link exemption** — `disabled` on `Toolbar.Root` propagates to every Button/Input/Group, but never to `Toolbar.Link` (links can't be disabled).
 - **`focusableWhenDisabled` defaults to `true`** on `Toolbar.Button`/`Toolbar.Input` — the opposite default from standalone [Button](?path=/docs/actions-button--docs) — so disabled composite items stay discoverable.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - A persistent command bar grouping buttons, toggle groups, links, an occasional single input, and/or popup triggers that should share **one Tab stop** with arrow-key navigation among them.
@@ -39,6 +43,9 @@ A container for grouping a set of buttons and controls.
 - **A row of exclusive/multi-select toggle buttons with no other mixed content → [Toggle Group](?path=/docs/actions-toggle-group--docs) alone**, standalone, without a hosting Toolbar.
 - **A single popup trigger with no surrounding command bar → use the popup component's own Trigger directly**, not `Toolbar.Button render={<Menu.Trigger/>}`.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -57,7 +64,7 @@ import { Toolbar } from '@base-ui/react/toolbar';
 ```
 
 | Part                | Renders                  | Purpose                                              | Optional?                                      |
-| ------------------- | ------------------------ | ---------------------------------------------------- | ---------------------------------------------- |
+| :------------------- | :------------------------ | :---------------------------------------------------- | :---------------------------------------------- |
 | `Toolbar.Root`      | `<div role="toolbar">`   | The single composite region                          | required                                       |
 | `Toolbar.Button`    | `<button>`               | A button, or a trigger host via `render`             | optional (one or more typically)               |
 | `Toolbar.Link`      | `<a>`                    | A link item; can never be disabled                   | optional                                       |
@@ -65,6 +72,9 @@ import { Toolbar } from '@base-ui/react/toolbar';
 | `Toolbar.Group`     | `<div role="group">`     | Groups items with a shared disabled cascade          | optional                                       |
 | `Toolbar.Separator` | re-export of `Separator` | Visual divider, orientation auto-flipped             | optional                                       |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Composite keyboard navigation
@@ -95,10 +105,13 @@ The non-inverted composition direction: `<Toolbar.Button render={<Menu.Trigger /
 
 <Canvas of={ToolbarStories.ToolbarButtonAsMenuTrigger} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                        | Action                                                                                                               |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
 | `Tab`                      | Moves focus to exactly one item — single tab stop for the entire toolbar                                             |
 | `ArrowRight` / `ArrowLeft` | `orientation="horizontal"`, LTR: move roving focus to next/previous item across all item types; wraps if `loopFocus` |
 | `ArrowDown` / `ArrowUp`    | `orientation="vertical"`: move roving focus to next/previous item                                                    |
@@ -109,16 +122,22 @@ The non-inverted composition direction: `<Toolbar.Button render={<Menu.Trigger /
 - **You must provide**: an accessible name per icon-only Button (`aria-label`); a `Toolbar.Group`'s own accessible name via `aria-label` on the Group itself.
 - **Known issues**: the disabled-forwarding-for-composed-`render`-buttons behavior has an open, in-source-acknowledged follow-up ([#1976](https://github.com/mui/base-ui/issues/1976#issuecomment-2916905663)) — flagged honestly as unsettled rather than presented as finished design.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Attribute          | Present on                                  | Present when                             |
-| ------------------ | ------------------------------------------- | ---------------------------------------- |
+| :------------------ | :------------------------------------------- | :---------------------------------------- |
 | `data-disabled`    | Root, Button, Group, Input (not Link)       | disabled                                 |
 | `data-orientation` | Root, Button, Group, Link, Input, Separator | always, reflects `orientation`           |
 | `data-focusable`   | Button, Input                               | the item remains focusable-when-disabled |
 
 No CSS variables — no dynamic measurements to expose.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`orientation`** (Root, default `'horizontal'`) — determines the active arrow-key axis and the default perpendicular `Separator` flip; set `'vertical'` for a sidebar-style command rail.
@@ -127,6 +146,9 @@ No CSS variables — no dynamic measurements to expose.
 - **`focusableWhenDisabled`** (Button/Input, default `true`) — the opposite default from standalone Button; override to `false` only when a specific disabled item should be fully removed from the roving-focus sequence.
 - **`render` composition direction matters and is asymmetric** — `Toolbar.Button render={<X.Trigger/>}` for Dialog/AlertDialog/Menu/Popover/Select (Toolbar.Button outermost); `Tooltip.Trigger render={<Toolbar.Button/>}` for Tooltip (inverted). Getting the Tooltip direction wrong attaches hover/focus listeners to the wrong node.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -138,6 +160,9 @@ No CSS variables — no dynamic measurements to expose.
 - Don't build a File/Edit/View-style menu bar with Toolbar — use [Menubar](?path=/docs/navigation-menubar--docs); the interaction models (directly-actionable controls vs. drop-down menu triggers with hover-switching) are fundamentally different.
 - Don't invert the composition direction for Menu/Select the way Tooltip requires — `Toolbar.Button render={<Menu.Trigger/>}`, not the reverse.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="toolbar">
@@ -177,6 +202,9 @@ No CSS variables — no dynamic measurements to expose.
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **Introduced — [#1349](https://github.com/mui/base-ui/pull/1349)** "[Toolbar] Add Toolbar components" (closing [#661](https://github.com/mui/base-ui/issues/661)): shipped with Root/Button/Input/Link/Group/Separator, `focusableWhenDisabled`, `orientation`, roving focus with `loop`, and a `cols` grid-layout prop; explicitly deferred a `hotkey` prop to [#1454](https://github.com/mui/base-ui/issues/1454).
@@ -184,17 +212,26 @@ No CSS variables — no dynamic measurements to expose.
 - **`#2176`** — Set `disabled` attr on toolbar button when `focusableWhenDisabled={false}`.
 - **`#4967`/`#4968`** — Do not forward `disabled` to the default toolbar button / fix disabled state and roving focus bugs — the two most recent Toolbar-scoped commits, explaining the asymmetric disabled-forwarding behavior above.
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#1976](https://github.com/mui/base-ui/issues/1976#issuecomment-2916905663) — disabled forwarding for `render`-composed buttons is an acknowledged, still-evolving area.
 - No other Toolbar-specific accessibility bug beyond this was found in a search of the project's discussions/issues.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a menu bar of drop-down application menus, use [Menubar](?path=/docs/navigation-menubar--docs).
 - For a standalone exclusive/multi-toggle cluster with no other mixed content, use [Toggle Group](?path=/docs/actions-toggle-group--docs).
 - For a single actionable control, use [Button](?path=/docs/actions-button--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Toolbar.Root
@@ -223,6 +260,4 @@ No CSS variables — no dynamic measurements to expose.
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/toolbar](https://base-ui.com/react/components/toolbar#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+toolbar) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/toolbar)._
+{/* END: props */}

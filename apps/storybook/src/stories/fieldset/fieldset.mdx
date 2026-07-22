@@ -9,6 +9,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Fieldset
 
+{/* BEGIN: general */}
 A native fieldset element with an easily stylable legend.
 
 - **Import:** `import { Fieldset } from '@base-ui/react/fieldset';`
@@ -19,15 +20,6 @@ A native fieldset element with an easily stylable legend.
 
 <Canvas of={FieldsetStories.Hero} />
 
-## Does it render native `<fieldset>`/`<legend>`? — verified directly
-
-| Part              | Native element?                    | Verified by                                                                                                            |
-| ----------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `Fieldset.Root`   | **Yes** — a real `<fieldset>`      | `describeConformance` `inheritComponent: 'fieldset'`; the native `disabled` attribute cascades to descendants for free |
-| `Fieldset.Legend` | **No** — a `<div>`, not `<legend>` | `describeConformance` `refInstanceof: HTMLDivElement`; linked via `aria-labelledby` instead                            |
-
-**This is a deliberate, cited design decision, not an oversight.** Asked directly in closed issue [#3044](https://github.com/mui/base-ui/issues/3044) ("Why does `Fieldset.Legend` render a `div` instead of a `legend` by default?"), maintainer atomiks answered: _"`<legend>` elements are hard to style/position and don't act like regular [flow] elements. The description mentions 'easily stylable legend' for this reason."_ A follow-up asked whether `aria-labelledby` on the `<fieldset>` is equally accessible to a native `<legend>`; mj12albert replied: _"There are some trade-offs between `<legend>`, `aria-label` and `aria-labelledby`... None of them are perfect but it seems using `div` + `aria-labelledby` avoids the [styling issues] and minimizes the a11y issues,"_ citing [adrianroselli.com's research on `<legend>` bugs](https://adrianroselli.com/2022/07/use-legend-and-fieldset.html#Bugs) directly. Native `<legend>` fails Base UI's own scope test for building a primitive at all: an HTML element that can't be styled.
-
 ## Features
 
 - **Native `<fieldset>` disabled cascade, for free** — `disabled` sets the real DOM `disabled` attribute; descendant native controls are disabled by the _browser_, independent of any React wiring (pinned by `FieldsetRoot.test.tsx`: an inner `<input>` is disabled with zero Base UI wiring at all).
@@ -37,6 +29,9 @@ A native fieldset element with an easily stylable legend.
 
 <Canvas of={FieldsetStories.DisabledCascade} />
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - **One label, several controls** — "Compose `Fieldset` when a single label applies to multiple controls, such as a range slider with multiple thumbs or a section that combines several inputs" (forms handbook).
@@ -49,6 +44,9 @@ A native fieldset element with an easily stylable legend.
 - **A single control needing a label** — use `Field.Label` (or a plain `<label>`), not Fieldset; wrapping one control in a `Fieldset.Root` for no grouping benefit gains nothing.
 - **A group of non-identical controls needing shared validation** — the boundary is genuinely unsettled today (see Known issues below); don't assume a definitive answer exists yet.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -60,20 +58,36 @@ import { Fieldset } from '@base-ui/react/fieldset';
 ```
 
 | Part              | Renders      | Purpose                                                  |
-| ----------------- | ------------ | -------------------------------------------------------- |
+| :----------------- | :------------ | :-------------------------------------------------------- |
 | `Fieldset.Root`   | `<fieldset>` | The native grouping boundary; carries `disabled` cascade |
 | `Fieldset.Legend` | `<div>`      | The stylable label, auto-linked via `aria-labelledby`    |
 
+{/* END: anatomy */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boolean state — the only styling hook either part exposes is `data-disabled`, derived from `state.disabled`.
 
+{/* END: styling */}
+
+{/* BEGIN: history */}
+## Decision log
+
+- **`Fieldset.Legend` renders a `<div>`, not a native `<legend>`** ([#3044](https://github.com/mui/base-ui/issues/3044), closed): "`<legend>` elements are hard to style/position and don't act like regular [flow] elements" (atomiks); on the a11y trade-off, "using `div` + `aria-labelledby` avoids the [styling issues] and minimizes the a11y issues" (mj12albert), citing [adrianroselli.com's `<legend>` bug research](https://adrianroselli.com/2022/07/use-legend-and-fieldset.html#Bugs).
+
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - **[#3930](https://github.com/mui/base-ui/issues/3930)** ("Investigate `Fieldset`s as validation boundaries", open) — today, a group of _non-identical_ controls gets its validation boundary from an outer `Field.Root` wrapping the whole `Fieldset.Root` (`<Field.Root><Fieldset.Root>...</Fieldset.Root></Field.Root>`), while _identical_ repeated controls (radio/checkbox groups) each get their own `Field.Item` inside the Fieldset. A maintainer flagged this as an asymmetry worth reconsidering — possibly making `Fieldset.Root` itself the validation boundary directly, with one `Field.Root` per repeated control nested _inside_ it instead. **Treat this as unresolved, not settled behavior.**
 - **[#3260](https://github.com/mui/base-ui/issues/3260)** (open) — `Fieldset.Description`/`Fieldset.Error` parts requested; Fieldset ships with exactly 2 parts today. Group-level description/error text has no dedicated part — author it manually or rely on per-item `Field.Description`/`Field.Error`.
 - **[#3262](https://github.com/mui/base-ui/issues/3262)** (open) — `useFieldsetRootContext` is not publicly exported; consumers can't read Fieldset's `disabled` state the sanctioned way. `data-disabled` is the escape hatch today.
 
+{/* END: known-issues */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -86,6 +100,9 @@ No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boo
 - Don't expect `Fieldset.Legend` to be a native `<legend>` — it's a `<div>`, by deliberate design ([#3044](https://github.com/mui/base-ui/issues/3044)).
 - Don't assume a single right answer for validation boundaries around heterogeneous grouped controls — [#3930](https://github.com/mui/base-ui/issues/3930) is open and unresolved.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="fieldset">
@@ -125,10 +142,16 @@ No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boo
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - [Field](?path=/docs/form-inputs-field--docs) — the single-control labeling/validation counterpart; `Field.Item` labels each option inside a Fieldset-grouped control.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Fieldset.Root
@@ -141,6 +164,4 @@ No `Fieldset*CssVars.ts` and no dedicated data-attribute file beyond the one boo
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/fieldset](https://base-ui.com/react/components/fieldset#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+fieldset) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/fieldset)._
+{/* END: props */}

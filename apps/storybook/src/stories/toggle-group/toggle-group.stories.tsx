@@ -280,7 +280,12 @@ export const DisabledGroupAndItem: Story = {
         <Toggle aria-label="Align top" value="top" className={styles.Button}>
           Top
         </Toggle>
-        <Toggle aria-label="Align middle (disabled)" value="middle" disabled className={styles.Button}>
+        <Toggle
+          aria-label="Align middle (disabled)"
+          value="middle"
+          disabled
+          className={styles.Button}
+        >
           Mid
         </Toggle>
         <Toggle aria-label="Align bottom" value="bottom" className={styles.Button}>

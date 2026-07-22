@@ -79,11 +79,7 @@ export const WithFieldLabel: Story = {
 export const NativeButton: Story = {
   render: () => (
     <label className={styles.Label}>
-      <Switch.Root
-        nativeButton
-        render={<button type="button" />}
-        className={styles.Switch}
-      >
+      <Switch.Root nativeButton render={<button type="button" />} className={styles.Switch}>
         <Switch.Thumb className={styles.Thumb} />
       </Switch.Root>
       Dark mode

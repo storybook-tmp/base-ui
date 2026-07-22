@@ -10,6 +10,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Preview Card
 
+{/* BEGIN: general */}
 A popup that appears when a link is hovered, showing a preview for sighted users.
 
 - **Import:** `import { PreviewCard } from '@base-ui/react/preview-card';`
@@ -28,6 +29,9 @@ A popup that appears when a link is hovered, showing a preview for sighted users
 - **Detached triggers and typed payloads** — `PreviewCard.createHandle<Payload>()` mirrors Tooltip's handle pattern for a Trigger that can't be nested inside its Root.
 - **Hoverable popup** — moving the pointer from the Trigger into the Popup keeps the card open, satisfying the WCAG 1.4.13 "hoverable" sub-requirement.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Showing a preview of what a **link** points to before the user commits to navigating — the canonical evidenced examples are Wikipedia-style article previews and GitHub-style profile/PR hover previews, both named directly by maintainers ([#4170](https://github.com/mui/base-ui/issues/4170), [#4778](https://github.com/mui/base-ui/issues/4778)) as the real-world precedent this component follows.
@@ -46,6 +50,9 @@ Both Tooltip and Preview Card are hover/focus-only and sighted-only, never move 
 
 Litmus test verbatim from the maintainer: "If you're not rendering a link, you should not use PreviewCard."
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -66,7 +73,7 @@ import { PreviewCard } from '@base-ui/react/preview-card';
 ```
 
 | Part                            | Renders    | Purpose                                                                                                        | Optional?            |
-| ------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------- | -------------------- |
+| :------------------------------- | :---------- | :-------------------------------------------------------------------------------------------------------------- | :-------------------- |
 | `PreviewCard.Root`              | no element | Groups all parts; owns open state                                                                              | required             |
 | `PreviewCard.Trigger`           | `<a>`      | A link that opens the preview card; carries `delay`/`closeDelay`/`payload`                                     | required in practice |
 | `PreviewCard.Portal`            | portal     | Moves the popup subtree to `<body>`; required for the popup to render at all                                   | required             |
@@ -79,6 +86,9 @@ import { PreviewCard } from '@base-ui/react/preview-card';
 
 **No `Provider` part exists** — confirmed by the source tree (no `provider/` directory, no `Provider` export in `index.parts.ts`). If a page has ten Preview Card triggers, hovering the second one within the first one's close-delay window does not get a shortened/instant open the way grouped tooltips do — each `PreviewCard.Root` (or handle-backed cluster) tracks its own delay state independently.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Hover opens after a delay — and so does focus
@@ -117,16 +127,22 @@ All positioning lives on the Positioner: `side`, `align`, `sideOffset`. `Preview
 
 <Canvas of={PreviewCardStories.PositioningWithArrow} />
 
+{/* END: behavior */}
+
+{/* BEGIN: examples */}
 ## Examples
 
 <Canvas of={PreviewCardStories.Hero} />
 
+{/* END: examples */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unlike Select→Combobox or Dialog→Dialog). This is a design pattern seen on real sites (Wikipedia, GitHub) rather than a codified ARIA role/pattern.
 
 | Key / action                | Context         | Result                                                         |
-| --------------------------- | --------------- | -------------------------------------------------------------- |
+| :--------------------------- | :--------------- | :-------------------------------------------------------------- |
 | Tab to focus the trigger    | closed          | Opens after `delay` (default `600ms`) — same delay as hover    |
 | Shift+Tab / Tab away (blur) | open            | Closes                                                         |
 | Enter                       | trigger focused | Native `<a>` activation — navigates to `href`; not intercepted |
@@ -138,21 +154,30 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
 - **You must provide**: nothing extra for the trigger's own accessible name (it's a real link), but never put content in the popup that isn't also reachable at the link's destination — that's the whole accessibility contract.
 - **Known issues**: [#4170](https://github.com/mui/base-ui/issues/4170) ("no a11y warning in the docs") — closed, resolved by adding a Usage guidelines section and underlining demo links, not by changing the accessibility model. [#4778](https://github.com/mui/base-ui/issues/4778) ("Touch support") — closed as expected/by-design.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                                  | Attribute / variable                                                                                                                                                                 | Present when                                                                                            |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------- |
 | Trigger                               | `data-popup-open`                                                                                                                                                                    | the only trigger data attribute — no `data-pressed`-style richness, because the trigger is a plain link |
 | Popup / Arrow / Backdrop / Positioner | `data-open` / `data-closed`, `data-starting-style` / `data-ending-style`, `data-side` / `data-align` (not on Backdrop), `data-anchor-hidden` (Positioner), `data-uncentered` (Arrow) | open state / transition frames / resolved placement                                                     |
 | Positioner (CSS vars)                 | `--available-width/height`, `--anchor-width/height`, `--transform-origin`, `--positioner-width/height`                                                                               | while positioned                                                                                        |
 | Viewport (CSS vars)                   | `--popup-width/height`                                                                                                                                                               | on the "previous" content container during a transition                                                 |
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`Trigger.delay` (default `600`) / `.closeDelay` (default `300`)** — the only delay knobs, since there is no Provider; set per-trigger when different links warrant different hover patience.
 - **`handle` (Root + Trigger, via `PreviewCard.createHandle<P>()`)** — reach for this only when a Trigger cannot be practically nested inside its Root, or when several distant links should share one popup.
 - **`Trigger.href`** — always give the Trigger a real `href`; every test fixture, docs demo, and maintainer statement treats it as expected in practice even though it's not required at the type level.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -166,6 +191,9 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
 - Don't expect a second preview card to open instantly the way grouped tooltips do — there is no Provider/shared-delay part for Preview Card.
 - Don't rely on Preview Card for content a touch or screen-reader user must reach — it is excluded by design, confirmed twice by maintainers ([#4170](https://github.com/mui/base-ui/issues/4170), [#4778](https://github.com/mui/base-ui/issues/4778)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="preview-card">
@@ -205,6 +233,9 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **Introducing commit** — `00aebe315` "[PreviewCard] Create new component" ([#469](https://github.com/mui/base-ui/pull/469)).
@@ -213,16 +244,25 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
 - **mui/base-ui#4170 (closed, docs-only fix)** — accessibility-warning-in-docs request; resolved by adding a Usage guidelines section and underlining demo links, not by changing behavior.
 - **mui/base-ui#4778 (closed, no change)** — touch-support request; closed as expected behavior, with Popover(`openOnHover`) named as the correct alternative.
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - No further open accessibility issues were found beyond [#4170](https://github.com/mui/base-ui/issues/4170)/[#4778](https://github.com/mui/base-ui/issues/4778) — the only two issues found for Preview Card in a search of the project's discussions.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To label a control whose **own action** is the point, use [Tooltip](?path=/docs/overlays-tooltip--docs) — sighted-hover-only hint, no link required.
 - For **essential or interactive** anchored content reachable by every modality, use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover`.
 - Cluster-wide overlay decision guidance: [Overlays](?path=/docs/research-c-component-briefs-clusters-overlays--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### PreviewCard.Root
@@ -259,6 +299,4 @@ Pattern: **none** — there is no W3C APG pattern for a link-hover preview (unli
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/preview-card](https://base-ui.com/react/components/preview-card#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+preview-card) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/preview-card)._
+{/* END: props */}

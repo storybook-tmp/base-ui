@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/Composite keyboard navigation" />
-
 # Composite keyboard navigation
+
+<Meta title="BaseUI Patterns/Composite keyboard navigation" tags={['general-do-dont', 'verified']} />
 
 [Toolbar](?path=/docs/actions-toolbar--docs), [Menubar](?path=/docs/navigation-menubar--docs),
 [Toggle Group](?path=/docs/actions-toggle-group--docs),
@@ -17,7 +17,7 @@ across all five composites, including where each one deliberately deviates from 
 ## The shared model
 
 | | Tab stops | Arrow keys move | Wraps at ends | Home/End |
-|---|---|---|---|---|
+|:---|:---|:---|:---|:---|
 | [Toolbar](?path=/docs/actions-toolbar--docs) | 1 for the whole bar | orientation-appropriate | `loopFocus` (default `true`) | **not wired** |
 | [Menubar](?path=/docs/navigation-menubar--docs) | 1 for the whole bar | left/right between menu triggers | yes | — |
 | [Toggle Group](?path=/docs/actions-toggle-group--docs) (standalone) | 1 for the whole group | orientation-appropriate | `loopFocus` (default `true`) | enabled since [#3971](https://github.com/mui/base-ui/pull/3971) |

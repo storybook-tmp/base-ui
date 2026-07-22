@@ -1,10 +1,8 @@
-{/* Overview page. MDX-only — no stories.tsx. Every claim below keeps its issue/PR citation. */}
-
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Overview/Principles" />
-
 # Principles
+
+<Meta title="Overview/Principles" tags={["general-do-dont", "verified"]} />
 
 Base UI's component APIs are not 37 independent designs — they're one grammar applied
 37 times. Once you know the grammar, a new component page holds very few surprises. This
@@ -192,7 +190,7 @@ The full vocabulary lives on the [Glossary](?path=/docs/research-b-library-princ
 research page; these are the terms every other page assumes.
 
 | Term | Meaning |
-|---|---|
+|:---|:---|
 | **part** | One named subcomponent of a multi-part component (`Menu.Trigger`); renders exactly one DOM node. |
 | **root** | The stateful coordinating part; owns controlled/uncontrolled state and the private context descendants read. |
 | **trigger** | The interactive part that opens or controls a popup; can be detached from its Root via a handle. |

@@ -10,6 +10,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Number Field
 
+{/* BEGIN: general */}
 A numeric input element with increment and decrement buttons, and a scrub area.
 
 - **Import:** `import { NumberField } from '@base-ui/react/number-field';`
@@ -27,6 +28,9 @@ A numeric input element with increment and decrement buttons, and a scrub area.
 - **A scrub area for pointer users** — click-and-drag anywhere in `ScrubArea` to change the value continuously, with a portaled virtual cursor (`ScrubAreaCursor`) replacing the OS cursor during the gesture. Fully optional; both parts render `role="presentation"`.
 - **Locale- and format-aware** — `format` (raw `Intl.NumberFormatOptions`) and `locale` control currency, percent, unit, and numeral-system display without a separate parsing layer to maintain yourself.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Any numeric value that benefits from formatted display (currency, percent, units) alongside typed entry and click-to-step controls — the entire `parse.ts`/`validate.ts`/`formatNumber` pipeline exists specifically for this.
@@ -40,6 +44,9 @@ A numeric input element with increment and decrement buttons, and a scrub area.
 - For plain unformatted numeric entry with no locale/formatting/stepping need, a bare `Input` (or native `<input type="number">`) is lower overhead — no maintainer quote makes this comparison directly; it follows from Number Field's stated purpose.
 - Not for math-expression evaluation (`"5+20"`) — maintainers explicitly declined this direction and suggested a separate component (mui/base-ui#2152).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -58,7 +65,7 @@ import { NumberField } from '@base-ui/react/number-field';
 ```
 
 | Part                                  | Renders                       | Purpose                                                                                      | Optional?                                   |
-| ------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| :------------------------------------- | :----------------------------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------- |
 | `NumberField.Root`                    | `<div>`                       | Manages state; renders a hidden `<input type="number">` for native form participation        | required                                    |
 | `NumberField.Group`                   | `<div>`, `role="group"`       | Semantic wrapper around Decrement/Input/Increment                                            | yes — purely ARIA/visual grouping           |
 | `NumberField.Input`                   | `<input type="text">`         | The only structurally-required part beyond Root; the formatted, typed value                  | required                                    |
@@ -66,6 +73,9 @@ import { NumberField } from '@base-ui/react/number-field';
 | `NumberField.ScrubArea`               | `<span>`                      | Click-and-drag gesture area                                                                  | yes                                         |
 | `NumberField.ScrubAreaCursor`         | `<span>` (portaled to `body`) | Virtual cursor shown while scrubbing                                                         | yes, and only meaningful inside `ScrubArea` |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### `onValueChange` vs `onValueCommitted`
@@ -146,10 +156,13 @@ Wrapping in `Field.Root` with a `validate` function demonstrates the duplicated-
 
 `disabled` removes the field from interaction and native form submission entirely — the hidden input itself becomes `disabled`. `readOnly` keeps the `Input` focusable and copyable but blocks edits, and disables the stepper buttons via computed `disabled` rather than `aria-readonly` (invalid on `role="button"`).
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                                                                                       | Context                        | Action                                                                              |
-| ----------------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------- |
+| :----------------------------------------------------------------------------------------- | :------------------------------ | :----------------------------------------------------------------------------------- |
 | Any numeral / decimal / group / sign / currency / unit / percent symbol the format allows | Input focused                  | Typed directly; parseable intermediate values fire `onValueChange` (`input-change`) |
 | ArrowUp / ArrowDown                                                                       | Input focused                  | Steps by `step` (Shift → `largeStep`, Alt → `smallStep`); commits immediately       |
 | Home / End                                                                                | Input focused, `min`/`max` set | Jumps to `min`/`max`; commits immediately. No-op (native caret behavior) when unset |
@@ -161,18 +174,24 @@ Wrapping in `Field.Root` with a `validate` function demonstrates the duplicated-
 - This was a considered decision: the founding PR [#186](https://github.com/mui/base-ui/issues/186)'s checklist included "Research if spinbutton ARIA props become necessary for iOS" as an open TODO — the shipped component never added them, and no later PR reversed that. The likely rationale (not a maintainer quote): a spinbutton's `aria-valuenow`/`aria-valuetext` model fits a value that's _set_, whereas this component's primary interaction is free-form formatted text editing where the visible text should simply be read like any other text input.
 - **Known issues**: no dedicated open accessibility-issue sweep beyond source verification has been performed for this page.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 State attributes present on **every** part (`data-scrubbing` included, per the library-wide duplicated-attribute doctrine):
 
 | Attribute                                                                                      | Present when                                                                                           |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| :---------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
 | `data-scrubbing`                                                                               | a scrub gesture is active — on every part, not just `ScrubArea`, useful for dimming steppers mid-scrub |
 | `data-disabled` / `data-readonly` / `data-required`                                            | matching prop set                                                                                      |
 | `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field integration only                                                                                 |
 
 **No CSS custom properties exist for this component** — confirmed by directory listing; the only dynamic visual element (the scrub cursor) is positioned via a directly-set inline `transform`, not a variable.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`format` / `locale`** — the entire formatting surface is delegated to standard `Intl.NumberFormatOptions`; combine with `locale` to vary independently.
@@ -180,6 +199,9 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 - **`snapOnStep`** — snaps increment/decrement results to the nearest multiple of `step`, using directional snapping for regular steps and nearest-multiple snapping for Alt/`smallStep` moves.
 - **`allowWheelScrub`** — one step per discrete wheel tick while the input is focused; distinct from the accumulating drag-based `ScrubArea` gesture. Explicitly ignores `ctrlKey` wheel events (pinch-zoom) so it doesn't hijack browser zoom.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -192,6 +214,9 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 - Don't expect `role="spinbutton"` or `aria-valuenow` — verified absent from source, not merely undocumented.
 - Don't expect PageUp/PageDown to large-step — only Home/End (when bounds are set) and Shift+Arrow do.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="number-field">
@@ -231,11 +256,17 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For continuous/glanceable range selection instead of typed precision, use [Slider](?path=/docs/form-inputs-slider--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### NumberField.Root
@@ -268,6 +299,4 @@ State attributes present on **every** part (`data-scrubbing` included, per the l
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/number-field](https://base-ui.com/react/components/number-field#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+number-field) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/number-field)._
+{/* END: props */}

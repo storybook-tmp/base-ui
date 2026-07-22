@@ -10,6 +10,7 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 # Meter
 
+{/* BEGIN: general */}
 A graphical display of a numeric value within a range.
 
 - **Import:** `import { Meter } from '@base-ui/react/meter';`
@@ -28,6 +29,9 @@ A graphical display of a numeric value within a range.
 - **A11y-only text override** — `getAriaValueText` changes the spoken text without touching the visible `Meter.Value`.
 - **Shared anatomy with Progress, deliberately** — "Uses the same anatomy as `Progress` since they are closely related" ([#743](https://github.com/mui/base-ui/pull/743)).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Storage/disk usage — the hero demo's own subject.
@@ -40,6 +44,9 @@ A graphical display of a numeric value within a range.
 - When the amount is **unknown** — Meter is never indeterminate, by design: `value` is a required, always-numeric prop with no `null` mode anywhere in source, tests, or docs (a verified true negative). "Unknown duration, still working" is Progress's indeterminate mode.
 - For an **interactive** value the user can change, use Slider — Meter has no focusability or key handling anywhere in source; it is read-only by construction.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -55,7 +62,7 @@ import { Meter } from '@base-ui/react/meter';
 ```
 
 | Part              | Renders              | Purpose                                                                    | Optional? |
-| ----------------- | -------------------- | -------------------------------------------------------------------------- | --------- |
+| :----------------- | :-------------------- | :-------------------------------------------------------------------------- | :--------- |
 | `Meter.Root`      | `<div role="meter">` | Owns `aria-value*`/`aria-labelledby`, computes formatted/percentage values | required  |
 | `Meter.Label`     | `<span>`             | Visible label; self-registers into Root's `aria-labelledby`                | yes       |
 | `Meter.Track`     | `<div>`              | Pure layout container representing the range                               | yes       |
@@ -64,6 +71,9 @@ import { Meter } from '@base-ui/react/meter';
 
 All parts throw outside `<Meter.Root>`. Root also renders the same visually hidden NVDA-workaround span as Progress ([#4184](https://github.com/mui/base-ui/issues/4184)).
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Value, bounds, and clamping
@@ -92,6 +102,9 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 <Canvas of={MeterStories.ValueTierStyling} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 **Keyboard:** none — the APG meter pattern itself lists keyboard interaction as "Not applicable"; Meter has no `tabIndex` or key handlers anywhere in source.
@@ -100,12 +113,18 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 - **You must provide**: a label (`Meter.Label` or `aria-label`) and sufficient track/indicator contrast.
 - **Known issues**: [#4184](https://github.com/mui/base-ui/issues/4184) — NVDA/JAWS label announcement (shared with Progress), partially mitigated by the hidden-span workaround from [#4200](https://github.com/mui/base-ui/pull/4200). [#4616](https://github.com/mui/base-ui/issues/4616) — SSR `aria-valuetext` hydration mismatch; pass an explicit `locale`.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 **No data attributes exist on any Meter part** — a stark, deliberate contrast with Progress's `data-progressing`/`data-complete`/`data-indeterminate`. Every part's `State` interface is empty, so even the `className`/`style` state-function form has nothing to branch on. This traces directly to the designed-then-dropped segment feature ([#743](https://github.com/mui/base-ui/pull/743) → open [#1434](https://github.com/mui/base-ui/issues/1434)).
 
 **No CSS variables either.** The fill is plain inline `style.width` on the Indicator — the same verified B-P14 exception as Progress ([Status](?path=/docs/research-c-component-briefs-clusters-status--docs)). Style meters by class, or compute conditional classes from the props you already control.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`value`** — required; there is no indeterminate escape hatch. If you can't produce a number yet, render Progress (indeterminate) or nothing.
@@ -114,6 +133,9 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 - **`locale`** — pass explicitly in SSR apps to avoid the [#4616](https://github.com/mui/base-ui/issues/4616) hydration mismatch.
 - **`getAriaValueText`** — add units/context for screen readers ("6.5 GB of 16 gigabytes used") without changing the visible number.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -124,6 +146,9 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 - Don't reach for Meter to show task/loading progress — that's [Progress](?path=/docs/status-display-progress--docs)'s contract per the APG's own distinction.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="meter">
@@ -163,6 +188,9 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-09** — founding issue scopes Meter against the APG meter pattern; flags `[data-optimum]` styling as an open question ([#662](https://github.com/mui/base-ui/issues/662)).
@@ -173,17 +201,26 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 - **2026-01** — formatting logic de-duplicated with Progress ([#3805](https://github.com/mui/base-ui/pull/3805)).
 - **2026-05** — value text synced with indicator width computation ([#4904](https://github.com/mui/base-ui/pull/4904)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#1434](https://github.com/mui/base-ui/issues/1434) — open: no ARIA-equivalent for native `<meter>`'s high/low/optimum segments; consumer-computed classes are the interim answer.
 - [#4184](https://github.com/mui/base-ui/issues/4184) — open: NVDA/JAWS label announcement, partially mitigated.
 - [#4616](https://github.com/mui/base-ui/issues/4616) — open: SSR hydration mismatch on `aria-valuetext`; workaround: explicit `locale`.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To display **task completion** (including unknown-duration work), use [Progress](?path=/docs/status-display-progress--docs) — full comparison in [Status](?path=/docs/research-c-component-briefs-clusters-status--docs).
 - To let users **set** a value in a range, use Slider (interactive, keyboard-operable — everything Meter deliberately is not).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Meter.Root
@@ -208,6 +245,4 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/meter](https://base-ui.com/react/components/meter#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+meter) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/meter)._
+{/* END: props */}

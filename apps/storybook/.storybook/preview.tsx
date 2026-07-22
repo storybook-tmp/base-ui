@@ -24,7 +24,7 @@ const preview: Preview = {
     }),
   ],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
 
     controls: {
       matchers: {
@@ -38,7 +38,7 @@ const preview: Preview = {
       // under "API reference", plus many behavior + recreation h3s — including them overflows
       // the sticky TOC and pushes sections like "In the wild" below the fold.
       toc: {
-        headingSelector: 'h2',
+        headingSelector: "h2",
       },
     },
 
@@ -46,36 +46,36 @@ const preview: Preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: 'todo',
+      test: "todo",
     },
 
     options: {
       storySort: {
         order: [
-          'Overview',
-          ['Introduction', 'Principles', 'Choosing components'],
-          'Patterns',
+          "Overview",
+          ["Introduction", "Principles", "Choosing components", "Brand principles"],
+          "BaseUI Patterns",
           [
-            'Build a validated form',
-            'Choosing an overlay',
-            'Pickers: select, combobox, autocomplete',
-            'Menus & navigation',
-            'Composite keyboard navigation',
-            'Animating open and close',
+            "Build a validated form",
+            "Choosing an overlay",
+            "Pickers: select, combobox, autocomplete",
+            "Menus & navigation",
+            "Composite keyboard navigation",
+            "Animating open and close",
           ],
-          'Form inputs',
-          'Overlays',
-          'Navigation',
-          'Disclosure & structure',
-          'Actions',
-          'Status & display',
-          'Utilities',
-          'Research',
+          "Form inputs",
+          "Overlays",
+          "Navigation",
+          "Disclosure & structure",
+          "Actions",
+          "Status & display",
+          "Utilities",
+          "Research",
           [
-            'About this research',
-            'The brief (PROMPT)',
-            'Progress ledger',
-            'Final report (SUMMARY)',
+            "About this research",
+            "The brief (PROMPT)",
+            "Progress ledger",
+            "Final report (SUMMARY)",
           ],
         ],
       },

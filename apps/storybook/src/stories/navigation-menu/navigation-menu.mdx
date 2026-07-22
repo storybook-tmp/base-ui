@@ -10,6 +10,7 @@ import kumoUiComShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Navigation Menu
 
+{/* BEGIN: general */}
 A collection of links and menus for website navigation — a `<nav>` bar whose disclosure buttons reveal rich link panels in one shared, morphing popup.
 
 - **Import:** `import { NavigationMenu } from '@base-ui/react/navigation-menu';`
@@ -30,6 +31,9 @@ A collection of links and menus for website navigation — a `<nav>` bar whose d
 - **Crawlable by default when you opt in** — `Content keepMounted` server-renders the panel as hidden inline HTML "for SEO purposes … the content is crawlable" ([#3794](https://github.com/mui/base-ui/pull/3794)), then it moves into the popup permanently on first open.
 - **Every `Link` composes your router** — `render={<NextLink href={…}/>}` (or any client-router Link) is the documented "Custom links" recipe, with `active` → `aria-current="page"` for the current destination.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Site headers where top-level entries open **rich link panels** — the hero renders "Overview"/"Handbook" triggers whose panels are link cards (title + description), plus a plain "GitHub" link with no panel: triggers and plain links mix freely in one `List`.
@@ -50,6 +54,9 @@ Comparative guidance for the four menu-shaped components lives on the [Menus](?p
 - **A single dropdown of arbitrary interactive content** (one trigger, no cross-trigger morphing) → [Popover](?path=/docs/overlays-popover--docs). Navigation Menu's extra machinery (shared viewport, composite list, morph sizing) only pays off with ≥2 panels.
 - **A simple row of links with no panels** → plain `<nav><ul><li><a>` — HTML already does this.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -81,7 +88,7 @@ import { NavigationMenu } from '@base-ui/react/navigation-menu';
 ```
 
 | Part                        | Renders                                | Purpose                                                                                                                                                    | Optional?                     |
-| --------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| :--------------------------- | :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------- |
 | `NavigationMenu.Root`       | `<nav>` (top level) / `<div>` (nested) | Groups all parts; owns the scalar `value` — exactly one panel open at a time                                                                               | required                      |
 | `NavigationMenu.List`       | `<ul>`                                 | Roving arrow-key composite over top-level items (no `aria-orientation`, removed in [#4355](https://github.com/mui/base-ui/pull/4355))                      | required                      |
 | `NavigationMenu.Item`       | `<li>`                                 | One entry; provides its `value` (auto-generated if omitted)                                                                                                | required                      |
@@ -104,6 +111,9 @@ import { NavigationMenu } from '@base-ui/react/navigation-menu';
 
 <Canvas of={NavigationMenuStories.NestedPopupSubmenu} />
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The shared, morphing popup
@@ -182,12 +192,15 @@ Popup/Positioner/Backdrop/Content expose `data-open`/`data-closed`/`data-startin
 
 <Canvas of={NavigationMenuStories.AnimatedMorphTransition} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: [APG Disclosure Navigation](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/) — a `<nav>` landmark, a plain list, and `<button aria-expanded aria-controls>` disclosure triggers over link panels. This is deliberately **not** the ARIA menu pattern: there is no `role="menu"`, `menuitem`, or `menubar` anywhere, a choice pinned twice — once by reworking `List`/`Item` into real `<ul>/<li>` with `Link active` → `aria-current` ([#2526](https://github.com/mui/base-ui/pull/2526)), and again when an axe-audit request to add `role="menubar"` was declined in favor of removing the invalid `aria-orientation` instead ([#4349](https://github.com/mui/base-ui/issues/4349) → [#4355](https://github.com/mui/base-ui/pull/4355)).
 
 | Key                                    | Context                      | Result                                                                                                                   |
-| -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| :-------------------------------------- | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
 | `Tab` / `Shift+Tab`                    | anywhere                     | Sequential focus: triggers → (into an open panel's links) → next trigger; leaving the whole menu closes it (`focus-out`) |
 | `ArrowRight` / `ArrowLeft`             | trigger focused (horizontal) | Move focus between top-level items (roving composite, no loop); does **not** open or switch content                      |
 | `ArrowDown`                            | trigger focused (horizontal) | Open that item's panel, focus moves into it (reason `list-navigation`)                                                   |
@@ -203,10 +216,13 @@ Home/End inside the List: no Navigation Menu test pins this behavior, so it isn'
 - **You must provide**: focus-visible styling, sufficient contrast, and an `aria-label` on `Root` when a page has multiple `<nav>` landmarks (`Popup` itself renders `<nav>`).
 - **Known issues**: [#2254](https://github.com/mui/base-ui/issues/2254) — no per-trigger click-only mode (open); [#3570](https://github.com/mui/base-ui/issues/3570) — pre-hydration hover lost, needs a second hover pass (open); [#5103](https://github.com/mui/base-ui/issues/5103) — a suspending child inside `Content` crashes on first open, put the Suspense boundary inside `Content` (open); [#4496](https://github.com/mui/base-ui/issues/4496) — `keepMounted` preserves stale submenu state across reopens, by design (open). Fixed & shipped: Shift+Tab submenu re-entry ([#4464](https://github.com/mui/base-ui/pull/4464)); arrow keys reaching submenu triggers ([#3344](https://github.com/mui/base-ui/pull/3344)); duplicate/invalid `aria-orientation` ([#4309](https://github.com/mui/base-ui/pull/4309), [#4355](https://github.com/mui/base-ui/pull/4355)).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                                    | Attribute / variable                                                      | Present when                                                                                                    |
-| --------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| :--------------------------------------- | :------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
 | Trigger                                 | `data-popup-open` / `data-pressed`                                        | the trigger's panel is open / pressed                                                                           |
 | Icon                                    | `data-popup-open`                                                         | rotate the chevron when the panel is open                                                                       |
 | Link                                    | `data-active`                                                             | `active` prop is set (pairs with `aria-current`)                                                                |
@@ -221,6 +237,9 @@ Home/End inside the List: no Navigation Menu test pins this behavior, so it isn'
 
 Popup/Positioner **must** consume the size variables for morphing to work at all — `.Positioner { width: var(--positioner-width); height: var(--positioner-height) }`, `.Popup { width: var(--popup-width); height: var(--popup-height) }`, plus `[data-instant] { transition: none }`. Constrain scrollable panels with `max-height: var(--available-height)` and `box-sizing: border-box` on `Content`/`Popup` ("really wish it was CSS's default" — maintainer, [#2240](https://github.com/mui/base-ui/pull/2240)).
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`value` / `defaultValue` / `onValueChange` (Root)** — uncontrolled + `Item` auto-values for plain headers; add explicit `Item value`s + controlled `value` when syncing to router state or building disclosure analytics. Type it with `NavigationMenu.Root<MyId>` ([#4328](https://github.com/mui/base-ui/pull/4328)).
@@ -235,6 +254,9 @@ Popup/Positioner **must** consume the size variables for morphing to work at all
 - **`Portal` (optional!) + `container`** — include it for the classic anchored flyout; omit `Portal`/`Positioner`/`Popup` entirely in nested Roots to get inline content swapping.
 - **`Positioner` props** — `side` (default `bottom`), `align` (default `center`), `sideOffset`, `collisionPadding` (default 5), `sticky`, `disableAnchorTracking`. The hero sets `collisionAvoidance={{ side: 'none' }}` so a shared header popup never flips above the bar mid-morph.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -253,6 +275,9 @@ Popup/Positioner **must** consume the size variables for morphing to work at all
 - Don't reach for Navigation Menu for a plain row of links with no panels — HTML already does that.
 - Don't port Radix idioms directly: `forceMount` → `Content keepMounted`; no `asChild` — use `render`; no `data-state` — use `data-open`/`data-popup-open`; there is no `NavigationMenu.Indicator` part (`Arrow` covers the pointer). Positioning is anchored per-trigger via Floating UI, not a CSS-Grid full-width strip — "we also investigated CSS Grid … but decided not to use it" ([#2253](https://github.com/mui/base-ui/issues/2253)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="navigation-menu">
@@ -300,6 +325,9 @@ A follow-up ranking pass surfaced 11 genuine candidates, topped by wevm/vocs —
 
 <Canvas of={NavigationMenuStories.RealWorldCmsDrivenNav} />
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2025-05 — [#1741](https://github.com/mui/base-ui/pull/1741)** — component ships (beta.0). Founding goals: nested menus and full interruptibility of transitions.
@@ -312,6 +340,9 @@ A follow-up ranking pass surfaced 11 genuine candidates, topped by wevm/vocs —
 - **2026-03/04 — [#4355](https://github.com/mui/base-ui/pull/4355)** — removes invalid `aria-orientation`; a menubar-role alternative ([#4349](https://github.com/mui/base-ui/issues/4349)) was explicitly declined. **[#4328](https://github.com/mui/base-ui/pull/4328)** — generic `Value` typing. **[#4464](https://github.com/mui/base-ui/pull/4464)** — Shift+Tab submenu re-entry.
 - **2026-05/06 — [#4855](https://github.com/mui/base-ui/pull/4855)** — controlled exit transitions preserved (v1.6.0). **[#4942](https://github.com/mui/base-ui/pull/4942)** — "Codex sweep": disabled triggers, duplicate keyboard `onValueChange`, falsy values, `actionsRef.unmount` wiring (v1.6.0).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#2254](https://github.com/mui/base-ui/issues/2254) — no per-trigger click-only mode; the documented workaround is a very large `delay` (open).
@@ -320,6 +351,9 @@ A follow-up ranking pass surfaced 11 genuine candidates, topped by wevm/vocs —
 - [#4496](https://github.com/mui/base-ui/issues/4496) — `keepMounted` preserves stale submenu state/scroll across reopens — by design, not a bug, but easy to be surprised by (open).
 - [#4186](https://github.com/mui/base-ui/issues/4186) — no first-class "link that is also a trigger" part; the split-chevron pattern is the recommended composition, and can leave `pointer-events: none` stuck on `<body>` in rare route-change races (open).
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For **action lists behind a button**, use [Menu](?path=/docs/overlays-menu--docs).
@@ -327,6 +361,9 @@ A follow-up ranking pass surfaced 11 genuine candidates, topped by wevm/vocs —
 - For **mobile hamburger navigation**, use [Drawer](?path=/docs/overlays-drawer--docs).
 - For **a single anchored dropdown of arbitrary content**, use [Popover](?path=/docs/overlays-popover--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### NavigationMenu.Root
@@ -383,6 +420,4 @@ A follow-up ranking pass surfaced 11 genuine candidates, topped by wevm/vocs —
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/navigation-menu](https://base-ui.com/react/components/navigation-menu#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+navigation-menu) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/navigation-menu)._
+{/* END: props */}

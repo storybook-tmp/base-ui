@@ -9,6 +9,7 @@ import latitudeSoShot from '../../../../../research/d-real-world-usage/_captures
 
 # Combobox
 
+{/* BEGIN: general */}
 An input combined with a list of predefined items to select — in the docs' own framing, "Combobox is a filterable Select": the text filters, but the committed value is always one of the predefined items.
 
 - **Import:** `import { Combobox } from '@base-ui/react/combobox';`
@@ -29,6 +30,9 @@ An input combined with a list of predefined items to select — in the docs' own
 - **Form participation for free** — a visually-hidden input (one per value in `multiple` mode) carries `name`/value into native submission, constraint validation, and browser autofill, which even force-mounts the list to resolve labels ([#4972](https://github.com/mui/base-ui/pull/4972)).
 - **Perf as a design pole** — items are `React.memo`-wrapped, per-keystroke re-renders were eliminated library-side ([#4964](https://github.com/mui/base-ui/pull/4964)), and `virtualized` + `useFilteredItems` cover the 1,000+ item range ([#222](https://github.com/mui/base-ui/issues/222) set the perf bar before a line was written).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Choosing predefined value(s) when the item count is "sufficiently large to warrant filtering" (docs usage guidelines; mirrored on the select page).
@@ -48,6 +52,9 @@ Decision guidance for the three listbox-driven pickers lives in [Pickers](?path=
 - For hierarchical/tree selection or select-all rows, use something else: "trees are out of combobox scope" ([#2695](https://github.com/mui/base-ui/issues/2695), [#4489](https://github.com/mui/base-ui/issues/4489)) and a listbox may only contain options ([#4927](https://github.com/mui/base-ui/issues/4927)).
 - For very small, static option sets, prefer [Select](?path=/docs/form-inputs-select--docs) or a radio group — filtering overhead buys nothing (the inverse of the "sufficiently large" guideline above; no maintainer statement sets a numeric threshold).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -95,7 +102,7 @@ import { Combobox } from '@base-ui/react/combobox';
 ```
 
 | Part                                     | Renders                    | Purpose                                                                                                                                                         | Optional?                                                                                      |
-| ---------------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| :---------------------------------------- | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------- |
 | `Combobox.Root`                          | no element                 | Groups all parts; owns `value`/`inputValue`/`open` state and the hidden form input(s)                                                                           | required                                                                                       |
 | `Combobox.Label`                         | `<div>`                    | Accessible label auto-associated with the combobox trigger — for the input-inside-popup pattern                                                                 | yes — use `<label>`/`Field.Label` when the input is outside                                    |
 | `Combobox.Value`                         | no element                 | The current value; function child renders selected value(s) (used for chips)                                                                                    | yes                                                                                            |
@@ -122,6 +129,9 @@ import { Combobox } from '@base-ui/react/combobox';
 
 Non-element exports: `Combobox.useFilter` (collator matching: `contains`/`startsWith`/`endsWith`) and `Combobox.useFilteredItems` (reads the internally filtered items inside `Root`). Invisible machinery to know about: a visually-hidden `<input>` carries the serialized value (one per value in `multiple` mode — it can confound DOM-position-dependent CSS and drag-and-drop libs, [#3019](https://github.com/mui/base-ui/issues/3019)); while open + `modal`, hidden "Dismiss" buttons render around the popup as an AT escape hatch ([#4084](https://github.com/mui/base-ui/pull/4084)); with the input outside the popup, the rest of the page — including the Trigger — is made inert while open.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The full interaction
@@ -256,12 +266,15 @@ Type inference flows from `value`/`defaultValue`; for reuse, write the documente
 
 <Canvas of={ComboboxStories.TypedWrapperComponent} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: [APG Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), editable variant with list autocomplete. The input is always included in the focus loop (Root `loopFocus` JSDoc cites the APG directly).
 
 | Key                        | Context                       | Action                                                                                                                                                                     |
-| -------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :-------------------------- | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Printable characters       | any                           | Filter the list (opens on `input-change`); typing clears the highlight so virtual focus returns to the input                                                               |
 | `ArrowDown` / `ArrowUp`    | closed                        | Open the popup and highlight the first/last item                                                                                                                           |
 | `ArrowDown` / `ArrowUp`    | open                          | Move the virtual highlight; with `loopFocus` (default) it loops through the input at list edges                                                                            |
@@ -281,10 +294,13 @@ Pattern: [APG Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), edi
 - **You must provide**: an accessible name — a `<label>`/`Field.Label` on the Input (input outside) or `Combobox.Label` on the Trigger (input inside popup) — plus visible `:focus-visible` styling and contrast. Keep `Status`/`Empty` mounted and conditionally render their children.
 - **Known issues**: [#4657](https://github.com/mui/base-ui/issues/4657) (open) — passing `index` to Item breaks hover highlight; [#3227](https://github.com/mui/base-ui/issues/3227) (open) — `--available-height` misbehaves when the iOS keyboard opens; [#2991](https://github.com/mui/base-ui/issues/2991) (open) — mobile popup-as-aside layout bug; [#4938](https://github.com/mui/base-ui/issues/4938) (open, has workaround) — clearing the value in the input-inside-popup pattern. No open screen-reader-specific bug was found beyond these (searched upstream 2026-07).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                  | Attribute / variable                                                                           | Present when                                                                                               |
-| --------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| :--------------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
 | Input / Trigger       | `data-popup-open`, `data-pressed`, `data-popup-side`, `data-list-empty`                        | popup/interaction state                                                                                    |
 | Input / Trigger       | `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field validation/interaction state                                                                         |
 | Trigger               | `data-placeholder`                                                                             | no value selected (input-inside-popup pattern)                                                             |
@@ -297,6 +313,9 @@ Pattern: [APG Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), edi
 
 Hover and keyboard highlight are one unified `data-highlighted` state by design (items never receive DOM focus, [#2731](https://github.com/mui/base-ui/issues/2731)); set `highlightItemOnHover={false}` to split them, and `keepHighlight` to preserve the highlight on pointer leave.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`items` (Root)** — supply whenever possible: it enables internal filtering + `Empty`, label lookup for value→text derivation, and autofill label matching. Grouped shape: `[{ value: 'Fruits', items: […] }]`.
@@ -314,6 +333,9 @@ Hover and keyboard highlight are one unified `data-highlighted` state by design 
 - **`loopFocus` (default `true`)** — disable to stop arrow keys wrapping through the input ([#3592](https://github.com/mui/base-ui/pull/3592)).
 - **`name` / `form` / `required` / `readOnly` / `disabled`** — full native-form citizenship via the hidden input; `readOnly` blocks opening while keeping the value submittable.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -334,6 +356,9 @@ Hover and keyboard highlight are one unified `data-highlighted` state by design 
 - Don't write DOM-position-dependent CSS (`:nth-child`) or drag-and-drop logic around Root's children — visually-hidden inputs live there ([#3019](https://github.com/mui/base-ui/issues/3019)).
 - Don't be surprised by Enter needing a highlight: with `autoHighlight` an item is always highlighted, so Enter selects instead of submitting the form — decide which contract you want ([#2686](https://github.com/mui/base-ui/issues/2686)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 A path-based scan turned up 20 repos importing the `@base-ui/react/combobox` subpath; the four most illustrative, read directly:
@@ -436,6 +461,9 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 
 <Canvas of={ComboboxStories.RealWorldMultiSelectModelPickerWithGroups} />
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024** — [#222](https://github.com/mui/base-ui/issues/222) specs Combobox as the closer of 7 Base UI issues and heir to 6 Material UI Autocomplete lessons; performance named the top risk ("it took me 1,000 hr" — oliviertassinari).
@@ -447,6 +475,9 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 - **2026-04 → 2026-06** — initial live-region announcement fix ([#4286](https://github.com/mui/base-ui/pull/4286)); iOS viewport settling delay ([#4351](https://github.com/mui/base-ui/pull/4351)); per-keystroke re-render elimination ([#4964](https://github.com/mui/base-ui/pull/4964)); grouped `limit` fix ([#5086](https://github.com/mui/base-ui/pull/5086)); `inline`+`open` requirement documented ([#5069](https://github.com/mui/base-ui/pull/5069)).
 - **Standing decisions** — Clear stays non-tabbable ([#3630](https://github.com/mui/base-ui/issues/3630), not-planned); multiple+filtered close stays for now ([#3181](https://github.com/mui/base-ui/issues/3181), open); no input-less combobox ([#4086](https://github.com/mui/base-ui/issues/4086)); no trees ([#2695](https://github.com/mui/base-ui/issues/2695), [#4489](https://github.com/mui/base-ui/issues/4489)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#4657](https://github.com/mui/base-ui/issues/4657) — passing `index` to Item breaks hover highlight (open; affects virtualized compositions).
@@ -457,6 +488,9 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 - [#3559](https://github.com/mui/base-ui/issues/3559) — Suspense-first async support (open, unplanned).
 - Docs feedback on record: inline examples ([#3966](https://github.com/mui/base-ui/issues/3966)), custom-value rendering ([#2759](https://github.com/mui/base-ui/issues/2759)), Tab-to-select question ([#2894](https://github.com/mui/base-ui/issues/2894)), async pagination guidance ([#3719](https://github.com/mui/base-ui/issues/3719)) — all open.
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a dropdown of predefined values **without typing**, use [Select](?path=/docs/form-inputs-select--docs) — "Combobox is a filterable Select".
@@ -464,6 +498,9 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 - For a popup of **actions**, use Menu; a filterable menu remains open demand ([#4157](https://github.com/mui/base-ui/issues/4157)).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs) inside a [Form](?path=/docs/form-inputs-form--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Combobox.Root
@@ -565,7 +602,7 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 ### Combobox.Collection
 
 | Prop       | Type                         | Description                                   |
-| ---------- | ---------------------------- | --------------------------------------------- |
+| :---------- | :---------------------------- | :--------------------------------------------- |
 | `children` | `(item, index) => ReactNode` | Render function called for each filtered item |
 
 ### Combobox.Separator
@@ -574,6 +611,4 @@ Two recreations live in this Storybook — a grouped, separated sync-target pick
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/combobox](https://base-ui.com/react/components/combobox#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+combobox) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/combobox)._
+{/* END: props */}

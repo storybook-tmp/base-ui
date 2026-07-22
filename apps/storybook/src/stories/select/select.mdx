@@ -27,6 +27,7 @@ import graphqlOrgOpenShot from '../../../../../research/d-real-world-usage/_capt
 
 # Select
 
+{/* BEGIN: general */}
 A common form component for choosing a predefined value in a dropdown menu — a button trigger opening a listbox popup, with native-`<select>` behavior and full styling control.
 
 - **Import:** `import { Select } from '@base-ui/react/select';`
@@ -47,6 +48,9 @@ A common form component for choosing a predefined value in a dropdown menu — a
 - **Object values** — non-string values with pluggable equality, label, and form-serialization functions ([#2704](https://github.com/mui/base-ui/pull/2704)).
 - **ARIA wiring managed for you** — combobox trigger, listbox popup, option/group roles, label association, and focus movement all come built in.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Choosing one predefined value in a dropdown, especially inside forms — the hidden-input contract makes it a first-class form control (docs subtitle; forms handbook).
@@ -65,6 +69,9 @@ Decision guidance for the three listbox-driven pickers lives in [Pickers](?path=
 - For a list of _actions_ rather than a persisted value, use Menu — the dividing line is whether choosing writes a `value` that submits with a form (Select) or performs a command (Menu).
 - For binary or tiny option sets, prefer Radio, Switch, or Checkbox — a popup is overhead when all options can be visible (based on the components' API design; no maintainer statement makes this comparison directly).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -101,7 +108,7 @@ import { Select } from '@base-ui/react/select';
 ```
 
 | Part                                              | Renders    | Purpose                                                                                                                                                                                                                                 | Optional?                                                    |
-| ------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| :------------------------------------------------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------ |
 | `Select.Root`                                     | no element | Groups all parts; owns value/open state and the hidden form input                                                                                                                                                                       | required                                                     |
 | `Select.Label`                                    | `<div>`    | Accessible label auto-associated with the trigger; clicking focuses without opening ([#4167](https://github.com/mui/base-ui/pull/4167))                                                                                                 | yes — or `Field.Label`/`aria-label`                          |
 | `Select.Trigger`                                  | `<button>` | Opens the popup; carries the combobox role and all form-state attributes                                                                                                                                                                | required                                                     |
@@ -123,6 +130,9 @@ import { Select } from '@base-ui/react/select';
 
 Note: `Select.Popup`/`Select.List` inject a scrollbar-hiding `<style>` tag while `alignItemWithTrigger` is active — relevant under a strict CSP.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The full interaction
@@ -249,12 +259,15 @@ A select nested in a dialog needs no `z-index` at all — popups layer correctly
 
 <Canvas of={SelectStories.TypedWrapper} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: [APG select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
 
 | Key                     | Context         | Action                                                                                                         |
-| ----------------------- | --------------- | -------------------------------------------------------------------------------------------------------------- |
+| :----------------------- | :--------------- | :-------------------------------------------------------------------------------------------------------------- |
 | `Enter` / `Space`       | trigger, closed | Opens the popup (`readOnly` blocks it)                                                                         |
 | `ArrowDown` / `ArrowUp` | trigger, closed | Opens the popup (`openOnArrowKeyDown`, default true)                                                           |
 | Printable characters    | trigger, closed | Typeahead commits a matching value **without opening**; skips disabled items; disabled in `multiple` mode      |
@@ -270,10 +283,13 @@ Pattern: [APG select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/com
 - **You must provide**: an accessible name — `Select.Label`, `Field.Label`, or `aria-label` on the Trigger for icon-only triggers — plus visible `:focus-visible` styling and sufficient contrast.
 - **Known issues**: [#5139](https://github.com/mui/base-ui/issues/5139) (open) — `focusableWhenDisabled` not configurable on items; [#1761](https://github.com/mui/base-ui/issues/1761) (open, has workaround) — focus indicator lost on the trigger while the popup is open; [#1425](https://github.com/mui/base-ui/issues/1425) (open) — Field does not invalidate some required controls including Select. No open screen-reader-specific Select bugs were found beyond the answered [#4754](https://github.com/mui/base-ui/issues/4754) (searched upstream 2026-07).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                            | Attribute / variable                                                                           | Present when                                                                                                                   |
-| ------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| :------------------------------- | :---------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | Trigger                         | `data-popup-open`                                                                              | the popup is open                                                                                                              |
 | Trigger                         | `data-pressed`                                                                                 | pressed                                                                                                                        |
 | Trigger                         | `data-placeholder`                                                                             | no value is selected ([#2737](https://github.com/mui/base-ui/pull/2737))                                                       |
@@ -292,6 +308,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 
 <Canvas of={SelectStories.HoverVersusHighlight} />
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`items` (Root)** — supply it whenever `Select.Value` should render the item's _label_ instead of the raw value; accepts an object map, `{ label, value }` array, or grouped arrays ([#2087](https://github.com/mui/base-ui/pull/2087)). Without it, format via a `children` function on `Value`.
@@ -305,6 +324,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - **Lifecycle** — `actionsRef` (`unmount()` for JS exit animations), `onOpenChangeComplete`, `finalFocus` (Popup; [#3785](https://github.com/mui/base-ui/pull/3785)) to redirect close-focus somewhere other than the trigger.
 - **Trigger `nativeButton`** — declare `false` when `render` swaps the trigger away from `<button>` so ARIA and keyboard handling adapt ([#3177](https://github.com/mui/base-ui/pull/3177), [#1909](https://github.com/mui/base-ui/pull/1909)).
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -323,6 +345,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - Don't `render` a non-button trigger without `nativeButton={false}` — the trigger is a native `<button>` since beta.5 ([#3177](https://github.com/mui/base-ui/pull/3177)).
 - Don't push the popup away with a large `sideOffset` to "fix" the default overlap — that's `alignItemWithTrigger` working as designed; set it to `false` instead (observed misuse in the wild — see the [Select examples](?path=/docs/research-d-real-world-usage-select-examples--docs) research page, [#15](https://github.com/mui/base-ui/issues/15)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="select">
@@ -429,6 +454,9 @@ Three recreations live in this Storybook — a theme picker (graphql.org), a reg
   <DashboardFilterExample />
 </MiniPlayground>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-11** — the new Select ships as a ground-up rewrite closing 15 legacy `@mui/base` issues, with item-aligned positioning and Field integration from day one ([#541](https://github.com/mui/base-ui/pull/541)).
@@ -444,6 +472,9 @@ Three recreations live in this Storybook — a theme picker (graphql.org), a reg
 - **2025-11 (beta.6)** — `placeholder` prop returns on `Select.Value` ([#3604](https://github.com/mui/base-ui/pull/3604)); `null` accepted for controlled `value` ([#3488](https://github.com/mui/base-ui/pull/3488)); `highlightItemOnHover` ([#3377](https://github.com/mui/base-ui/pull/3377)).
 - **2026-03 (v1.3.0)** — `Select.Label` part: first-class visible labeling without Field ([#4167](https://github.com/mui/base-ui/pull/4167)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#1761](https://github.com/mui/base-ui/issues/1761) — focus indicator lost on the trigger while the popup is open (open, workaround in thread).
@@ -453,6 +484,9 @@ Three recreations live in this Storybook — a theme picker (graphql.org), a reg
 - [#2734](https://github.com/mui/base-ui/issues/2734) — clearable-select remains an acknowledged gray area between Select and Combobox (open).
 - [#2474](https://github.com/mui/base-ui/issues/2474) — docs ask for a conditional-prop-types example (open; the `TypedWrapper` story above covers it).
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To let users **filter** a large list, use [Combobox](?path=/docs/form-inputs-combobox--docs).
@@ -460,6 +494,9 @@ Three recreations live in this Storybook — a theme picker (graphql.org), a reg
 - To show a dropdown of **actions**, use Menu.
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs) inside a [Form](?path=/docs/form-inputs-form--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Select.Root
@@ -540,6 +577,4 @@ Three recreations live in this Storybook — a theme picker (graphql.org), a reg
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/select](https://base-ui.com/react/components/select#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+select) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/select)._
+{/* END: props */}

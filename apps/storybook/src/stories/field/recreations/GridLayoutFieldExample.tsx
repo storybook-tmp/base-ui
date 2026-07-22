@@ -38,8 +38,8 @@ export function GridLayoutFieldExample() {
       </span>
       <Field.Control required placeholder="e.g. useRender" className={rw.GridInput} />
       <Field.Description className={rw.GridDescription}>
-        Aligned under the control, not the label — try resizing to compare with the
-        vertical-stack stories above.
+        Aligned under the control, not the label — try resizing to compare with the vertical-stack
+        stories above.
       </Field.Description>
       <Field.Error className={rw.GridError} match="valueMissing">
         A search term is required.

@@ -9,6 +9,7 @@ import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Collapsible
 
+{/* BEGIN: general */}
 A collapsible panel controlled by a button.
 
 - **Import:** `import { Collapsible } from '@base-ui/react/collapsible';`
@@ -26,6 +27,9 @@ A collapsible panel controlled by a button.
 - **Browser find-in-page support** — `hiddenUntilFound` uses `hidden="until-found"` (mirroring `<details>`'s own semantics) so collapsed content stays searchable via Ctrl/Cmd+F.
 - **`keepMounted`** — keep the panel's DOM node alive while closed, for JS animation libraries, scroll/focus/form-state preservation, or SEO.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - A single, independently-toggleable panel — settings sections, "show more" content, expandable detail panels — controlled by exactly one trigger button. Unlike `Accordion.Item`, Collapsible has no `value`/identity prop of any kind, since there's nothing to coordinate with.
@@ -38,6 +42,9 @@ A collapsible panel controlled by a button.
 - For a tabbed, single-visible-panel-at-a-time UI where all panel labels stay visible together, use [Tabs](?path=/docs/navigation-tabs--docs).
 - See the full three-way comparison in [Disclosure](?path=/docs/research-c-component-briefs-clusters-disclosure--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -50,13 +57,16 @@ import { Collapsible } from '@base-ui/react/collapsible';
 ```
 
 | Part                  | Renders    | Purpose                                                 | Optional? |
-| --------------------- | ---------- | ------------------------------------------------------- | --------- |
+| :--------------------- | :---------- | :------------------------------------------------------- | :--------- |
 | `Collapsible.Root`    | `<div>`    | Groups all parts; owns open/closed state                | required  |
 | `Collapsible.Trigger` | `<button>` | Opens and closes the panel                              | required  |
 | `Collapsible.Panel`   | `<div>`    | The collapsible contents; owns height/width measurement | required  |
 
 No Portal/Positioner layering — Collapsible renders inline in normal document flow, unlike popup components.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Open/close
@@ -95,10 +105,13 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 
 <Canvas of={CollapsibleStories.Disabled} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key               | Action                                                                                                                     |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| :----------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | `Enter` / `Space` | Toggles the panel (native `<button>` activation)                                                                           |
 | `Tab`             | Ordinary single-tab-stop button focus — no composite/roving-tabindex behavior, since there is only one interactive element |
 
@@ -106,21 +119,30 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 - **You must provide**: an accessible trigger label (text content is enough — no `aria-label`/`Field.Label` wiring is required or provided).
 - **Known issues**: [#4915](https://github.com/mui/base-ui/issues/4915) (open) — `data-starting-style` exists for exactly one frame, not the animation's whole duration; maintainers acknowledged the general docs wording on this point is imprecise. [#1608](https://github.com/mui/base-ui/issues/1608) (open, has workaround) — Tailwind v4's `[hidden]{display:none!important}` reset can defeat JS animation libraries' inline styles; workaround is `hidden={undefined}` on the Panel.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part            | Attribute / variable                                      | Present when                                                                                                               |
-| --------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| :--------------- | :--------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | `Root`, `Panel` | `data-open` / `data-closed`                               | reflects open state                                                                                                        |
 | `Trigger`       | `data-panel-open` (not `data-open`)                       | the associated panel is open — deliberately named differently, since it describes the panel's state, not the trigger's own |
 | `Root`, `Panel` | `data-starting-style` / `data-ending-style`               | one-frame/transition-duration animation boundary markers                                                                   |
 | `Panel`         | `--collapsible-panel-height`, `--collapsible-panel-width` | always, drives the height/width transition                                                                                 |
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`hiddenUntilFound`** — use for FAQ-style or documentation content that should be discoverable via native find-in-page even while collapsed; it is the single most distinctive capability Collapsible offers over a hand-rolled show/hide `div`.
 - **`keepMounted`** — use when driving the panel with a JS animation library (`AnimatePresence`-style patterns), or to preserve scroll/focus/uncontrolled form state inside the panel across closes.
 - **`nativeButton`** — set `false` only when `render`-swapping `Trigger` to a non-`<button>` element, so ARIA/keyboard adapt correctly.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -131,6 +153,9 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 
 - Don't expect a JS animation library's exit sequencing to work from `keepMounted` alone — Motion/framer-motion-style libraries need the _element_, not just non-unmounting, to drive their own exit timing.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## Examples
 
 An independent, nested `Collapsible.Root` inside another's Panel, and a single Collapsible composed inside a settings-card layout:
@@ -209,17 +234,26 @@ An independent, nested `Collapsible.Root` inside another's Panel, and a single C
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-08-28** — Collapsible introduced ([#481](https://github.com/mui/base-ui/pull/481)).
 - **2025** — `[Accordion][Collapsible] Modernize implementation` ([#889](https://github.com/mui/base-ui/pull/889)) and `[Accordion][Collapsible] Rework animations and transitions` ([#1601](https://github.com/mui/base-ui/pull/1601)) — the shared-primitive architecture with Accordion (see Features above) was present from early on, not a later refactor.
 - **2026** — `[collapsible] Refactor panel logic` ([#4565](https://github.com/mui/base-ui/pull/4565)) and `[collapsible] Fix trigger and panel state bugs` ([#4848](https://github.com/mui/base-ui/pull/4848)) — the most recent structural reworks of the measurement engine.
 
+{/* END: history */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a coordinated set of collapsible panels, use [Accordion](?path=/docs/disclosure-structure-accordion--docs) — it is built directly from this component's own hooks.
 - For switching between mutually exclusive peer views, use [Tabs](?path=/docs/navigation-tabs--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Collapsible.Root
@@ -236,6 +270,4 @@ An independent, nested `Collapsible.Root` inside another's Panel, and a single C
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/collapsible](https://base-ui.com/react/components/collapsible#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+collapsible) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/collapsible)._
+{/* END: props */}

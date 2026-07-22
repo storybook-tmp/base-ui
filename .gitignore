@@ -48,5 +48,6 @@ test-results/
 # Benchmark results
 test/performance/benchmarks/results.json
 
-# Storybook build output
-storybook-static/
+# Build folders
+apps/storybook/storybook-static
+apps/mcp-server/dist

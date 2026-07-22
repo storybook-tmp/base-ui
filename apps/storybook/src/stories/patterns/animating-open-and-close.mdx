@@ -1,25 +1,18 @@
-{/* Pattern page. MDX-only — no stories.tsx. Owns the animation model shared by every
-    popup plus collapsible/accordion/drawer: starting/ending styles vs data-open/closed
-    keyframes, transitions-over-animations, unmount-on-close + keepMounted +
-    actionsRef.unmount, the #2186 conditional-render pitfall, JS-library integration,
-    and per-component CSS-var hooks. */}
-
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/Animating open and close" />
-
 # Animating open and close
+
+<Meta title="BaseUI Patterns/Animating open and close" tags={['general-do-dont', 'verified']} />
 
 Every popup (Tooltip, Popover, Preview Card, Dialog, Alert Dialog, Drawer, Menu, Context Menu,
 Select, Combobox, Autocomplete, Toast) and every in-place disclosure (Collapsible, Accordion)
 shares one animation model: two style-hook pairs, an unmount-on-close default, and an explicit
-contract for exit animations. This page is the one canonical reference every component page
-should link instead of restating.
+contract for exit animations. This page is the canonical reference for such animation.
 
 ## Two style-hook pairs, two techniques
 
 | Hooks | Technique | Why |
-|---|---|---|
+|:---|:---|:---|
 | `[data-starting-style]` / `[data-ending-style]` | CSS **transitions** | Recommended: "a transition can be smoothly cancelled midway. For example, if the user closes a popup before it finishes opening…" (animation handbook) |
 | `[data-open]` / `[data-closed]` | CSS **keyframe animations** | The alternative, not the default — keyframes replay from scratch on every mount and don't interrupt mid-flight the way transitions do |
 

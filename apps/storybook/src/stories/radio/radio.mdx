@@ -10,6 +10,7 @@ import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Radio
 
+{/* BEGIN: general */}
 A mutually-exclusive, always-visible option picker, treated as one research unit with **Radio Group** — the two are never meaningfully used apart.
 
 - **Import:** `import { Radio } from '@base-ui/react/radio';` + `import { RadioGroup } from '@base-ui/react/radio-group';`
@@ -28,6 +29,9 @@ A mutually-exclusive, always-visible option picker, treated as one research unit
 - **Native `<input type="radio">` semantics are the contract** — every radio ships a hidden native input that participates in real form submission, `FormData`, and native validation.
 - **Unselected state submits `null`**, not an empty string and not an omitted field — matching native radio-group behavior exactly (`#2473`).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - A small, always-visible set of mutually exclusive options where the user picks exactly one (or leaves the group at its unselected `null` state).
@@ -40,6 +44,9 @@ A mutually-exclusive, always-visible option picker, treated as one research unit
 - **A single-select-you-can't-clear-back-to-nothing widget disguised as a toggle group** → use RadioGroup, not Toggle Group. A maintainer drew this line directly: "a single-select-you-can't-clear widget _is_ a RadioGroup; making a toggle announce as a radio is semantically wrong" (`mui/base-ui#3525`).
 - **A single on/off value, or a submit-time bulk boolean set** → use [Checkbox](?path=/docs/form-inputs-checkbox--docs) / [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs) instead — cardinality differs: Radio always resolves to "exactly one of N, or none," Checkbox resolves to "any independent subset."
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -55,11 +62,14 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 ```
 
 | Part              | Renders                                                             | Purpose                                                             | Optional?           |
-| ----------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------- |
+| :----------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------- | :------------------- |
 | `RadioGroup`      | `<div role="radiogroup">`                                           | Shared state + roving-tabindex composite for a series of radios     | required            |
 | `Radio.Root`      | `<span role="radio">` (or `<button>` via `render` + `nativeButton`) | One option: state, interaction, hidden native input                 | required            |
 | `Radio.Indicator` | `<span>`                                                            | The selected-state visual; conditionally rendered, transition-aware | yes — purely visual |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Uncontrolled vs controlled
@@ -104,6 +114,9 @@ A `disabled` radio stays keyboard-discoverable (roving-tabindex composites keep 
 
 With `name` on `RadioGroup`, the selected value submits via each radio's hidden native input. With **nothing selected**, the group submits `null` — matching native `<input type="radio">` group behavior, not an empty string.
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 <Canvas of={RadioStories.ArrowDownSelectsOnNavigation} />
@@ -113,7 +126,7 @@ With `name` on `RadioGroup`, the selected value submits via each radio's hidden 
 <Canvas of={RadioStories.HomeEndHaveNoEffect} />
 
 | Key                              | Context                               | Action                                                                                                                                                                         |
-| -------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| :-------------------------------- | :------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `Tab`                            | anywhere before/in the group          | Moves focus to the group as one stop — lands on the checked radio if one exists, otherwise the first enabled radio                                                             |
 | `ArrowDown` / `ArrowRight` (LTR) | focus in the group                    | Moves focus to the next radio **and selects it**, wraps last→first                                                                                                             |
 | `ArrowUp` / `ArrowLeft` (LTR)    | focus in the group                    | Moves focus to the previous radio **and selects it**, wraps first→last                                                                                                         |
@@ -127,12 +140,15 @@ With `name` on `RadioGroup`, the selected value submits via each radio's hidden 
 - **You must provide**: an accessible name for the group (label element, `Field`/`Fieldset`, or `aria-labelledby`) and for each option, plus visible `:focus-visible` styling.
 - **Known issues**: `.radio:hover` does not fire when hovering an enclosing `<label>` (post-`#3205`'s `<span>` shape) — an acknowledged CSS-authoring surprise, not a bug (`#3263`).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 State attributes present on **both** `Root` and `Indicator`:
 
 | Attribute                                     | Present when                         |
-| --------------------------------------------- | ------------------------------------ |
+| :--------------------------------------------- | :------------------------------------ |
 | `data-checked` / `data-unchecked`             | the radio is selected / not selected |
 | `data-disabled`                               | disabled                             |
 | `data-readonly`                               | read-only                            |
@@ -141,12 +157,18 @@ State attributes present on **both** `Root` and `Indicator`:
 | `data-touched` / `data-dirty` / `data-filled` | Field interaction state              |
 | `data-focused`                                | visibly focused                      |
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`nativeButton` + `render`** — use for the sibling-label pattern (`htmlFor`/`id`); the default `<span>` supports enclosing labels without the invalid-HTML problem.
 - **`name`/`form` (RadioGroup)** — `name` (or the enclosing `Field.Root`'s `name`, which wins) identifies the submitted value; `form` targets an owning `<form>` when the group renders outside it.
 - **`inputRef` (RadioGroup)** — unusually, points to _the checked radio's_ native input, re-pointed dynamically as selection changes.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -157,6 +179,9 @@ State attributes present on **both** `Root` and `Indicator`:
 
 - Don't expect Home/End to jump to the first/last option — that's deliberately unsupported (`enableHomeAndEndKeys={false}`), not a bug.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="radio">
@@ -227,6 +252,9 @@ State attributes present on **both** `Root` and `Indicator`:
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-07-24** — Radio Group ships (`#487`, closing `#26`), a ground-up answer to accumulated pain documented in `mui/material-ui#6218`.
@@ -235,12 +263,18 @@ State attributes present on **both** `Root` and `Indicator`:
 - **2026 (`#4930`)** — "Fix selection on space key press": pins Space-selects-on-keyup as a fixed regression, not incidental.
 - **2026 (`#4926`)** — "Fix disabled selected form submission": hardens the disabled-radio-excluded-from-form-data contract.
 
+{/* END: history */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a mutually-**independent** set of boolean values, use [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs).
 - For a single boolean setting with **immediate** effect, use [Switch](?path=/docs/form-inputs-switch--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### RadioGroup
@@ -257,6 +291,4 @@ State attributes present on **both** `Root` and `Indicator`:
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/radio](https://base-ui.com/react/components/radio#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+radio) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/radio)._
+{/* END: props */}

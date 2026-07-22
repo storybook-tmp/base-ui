@@ -9,6 +9,7 @@ import reuiIoOpenShot from '../../../../../research/d-real-world-usage/_captures
 
 # Switch
 
+{/* BEGIN: general */}
 A toggle for a boolean setting that takes effect immediately, rendered as a switch control with full keyboard and form support.
 
 - **Import:** `import { Switch } from '@base-ui/react/switch';`
@@ -26,6 +27,9 @@ A toggle for a boolean setting that takes effect immediately, rendered as a swit
 - **Native form participation** — serializes through a hidden input; integrates with `Field` validation state.
 - **State styling contract** — every state is a data-attribute on both parts; no wrapper classes needed.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - A boolean setting that applies **immediately** (notifications on/off, dark mode) — the docs hero's own framing.
@@ -36,6 +40,9 @@ A toggle for a boolean setting that takes effect immediately, rendered as a swit
 - For a boolean that only applies when a form is **submitted**, prefer [Checkbox](?path=/docs/form-inputs-checkbox--docs), because switch semantics imply immediate effect (derived from ARIA switch-vs-checkbox convention; no direct maintainer statement makes this comparison).
 - For an on/off **tool state** that is not a form value (e.g. bold in a toolbar), use [Toggle](?path=/docs/actions-toggle--docs) (`aria-pressed`), which does not submit form data.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -47,10 +54,13 @@ import { Switch } from '@base-ui/react/switch';
 ```
 
 | Part           | Renders                                                | Purpose                                                    | Optional?           |
-| -------------- | ------------------------------------------------------ | ---------------------------------------------------------- | ------------------- |
+| :-------------- | :------------------------------------------------------ | :---------------------------------------------------------- | :------------------- |
 | `Switch.Root`  | `<span>` (or `<button>` via `render` + `nativeButton`) | The control: state, interaction, hidden form input         | required            |
 | `Switch.Thumb` | `<span>`                                               | The moving indicator; mirrors state attributes for styling | yes — purely visual |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Uncontrolled vs controlled
@@ -77,10 +87,13 @@ With a `name`, the switch submits via a hidden `<input>` (value `on` when checke
 
 <Canvas of={SwitchStories.FormIntegration} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key     | Action                         |
-| ------- | ------------------------------ |
+| :------- | :------------------------------ |
 | `Space` | Toggles the switch             |
 | `Enter` | Toggles the switch             |
 | `Tab`   | Moves focus to/from the switch |
@@ -89,12 +102,15 @@ With a `name`, the switch submits via a hidden `<input>` (value `on` when checke
 - **You must provide**: an accessible name (label element, `Field.Label`, or `aria-label`), visible `:focus-visible` styling, and sufficient contrast.
 - **Known issues**: none found in a search of upstream issues (2026-07); a deeper sweep hasn't been run yet.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttributes.ts`):
 
 | Attribute                                     | Present when            |
-| --------------------------------------------- | ----------------------- |
+| :--------------------------------------------- | :----------------------- |
 | `data-checked` / `data-unchecked`             | the switch is on / off  |
 | `data-disabled`                               | disabled                |
 | `data-readonly`                               | read-only               |
@@ -105,12 +121,18 @@ State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttribut
 
 <Canvas of={SwitchStories.Disabled} />
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`nativeButton` + `render`** — use when your design system standardizes on `<button>` controls or you need native button behaviors; the default `<span>` keeps markup minimal ([#3205](https://github.com/mui/base-ui/pull/3205) made span the default).
 - **`uncheckedValue`** — use when your backend expects an explicit "off" value on submit; by default unchecked submits nothing, matching native checkboxes ([#3406](https://github.com/mui/base-ui/pull/3406)).
 - **`name`** — required for any form participation; without it no hidden input value is submitted.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -121,6 +143,9 @@ State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttribut
 
 - Don't use a switch for values that only apply on submit — that's a checkbox's contract.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="switch">
@@ -179,18 +204,27 @@ State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttribut
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-04** — Switch ships as one of the three founding components of the rebooted Base UI (with Checkbox and NumberField).
 - **2025-11 (beta.5)** — Root element changed to render a `<span>` by default as part of the native-element alignment sweep ([#3205](https://github.com/mui/base-ui/pull/3205)).
 - **2025-12 (rc.0)** — Stops submitting `"off"` when unchecked unless `uncheckedValue` is set, aligning with native checkbox semantics ([#3406](https://github.com/mui/base-ui/pull/3406)).
 
+{/* END: history */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To capture a boolean **at submit time**, use [Checkbox](?path=/docs/form-inputs-checkbox--docs).
 - To toggle a **tool/UI state** without form semantics, use [Toggle](?path=/docs/actions-toggle--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Switch.Root
@@ -203,6 +237,4 @@ State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttribut
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/switch](https://base-ui.com/react/components/switch#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+switch) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/switch)._
+{/* END: props */}

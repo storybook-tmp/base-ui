@@ -18,6 +18,7 @@ import t3CodesShot from '../../../../../research/d-real-world-usage/_captures/t3
 
 # Dialog
 
+{/* BEGIN: general */}
 A popup that opens on top of the entire page — a focus-managed, screen-reader-safe modal layer whose every behavior (focus, scroll, pointer, dismissal, mounting) is independently controllable.
 
 - **Import:** `import { Dialog } from '@base-ui/react/dialog';`
@@ -39,6 +40,9 @@ A popup that opens on top of the entire page — a focus-managed, screen-reader-
 - **Animation contract** — `data-starting-style`/`data-ending-style` for CSS transitions, `onOpenChangeComplete` for settle callbacks, `actionsRef.unmount()` for JS animation libraries.
 - **ARIA wiring for free** — `role="dialog"`, `aria-labelledby`/`aria-describedby` auto-linked from `Title`/`Description`, `aria-haspopup`/`aria-expanded`/`aria-controls` on every trigger (accurate even with multiple detached triggers).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Self-contained tasks or messages layered over the whole page — settings panels, confirmation-with-input flows, notification centers, forms in overlays (docs subtitle and hero).
@@ -58,6 +62,9 @@ Cluster-level decision guidance for all overlay components lives in [Overlays](?
 - For passive, self-expiring notifications, use Toast (which _does_ have an imperative manager). Dialogs wait for the user; a `dialogManager` was explicitly declined ([#2802](https://github.com/mui/base-ui/issues/2802)) — reach for handles + payloads instead.
 - For an inline panel that needs no focus, scroll, or pointer management, plain markup suffices — Dialog's value _is_ that management.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -79,7 +86,7 @@ import { Dialog } from '@base-ui/react/dialog';
 ```
 
 | Part                    | Renders    | Purpose                                                                                                                                                                                                                                           | Optional?                                                                    |
-| ----------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| :----------------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
 | `Dialog.Root`           | no element | Groups all parts; owns open state, modality, and the handle/payload plumbing                                                                                                                                                                      | required                                                                     |
 | `Dialog.Trigger`        | `<button>` | Opens the dialog; carries `aria-haspopup`/`aria-expanded`/`aria-controls` and `data-popup-open`; may live outside the Root via `handle`                                                                                                           | yes — controlled/handle modes work without one                               |
 | `Dialog.Portal`         | `<div>`    | Moves the popup subtree to `<body>` (or `container`); `keepMounted` lives here                                                                                                                                                                    | required for popup parts ([#1222](https://github.com/mui/base-ui/pull/1222)) |
@@ -93,6 +100,9 @@ import { Dialog } from '@base-ui/react/dialog';
 
 Root children can also be a **function** `({ payload }) => …` rendering per-trigger content (see the detached-trigger stories below).
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The full interaction
@@ -203,10 +213,13 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 
 <Canvas of={DialogStories.KeepMounted} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                                | Action                                                                                                                                                                                                       |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `Tab` / `Shift+Tab`                | Moves through tabbables inside the popup; **loops** when `modal` is `true` or `'trap-focus'`; can leave the popup when `modal={false}` (which may close it via `focus-out` unless `disablePointerDismissal`) |
 | `Esc`                              | Closes the topmost open dialog only (reason `escape-key`); propagation to parent popups is stopped by default (customizable via `eventDetails.allowPropagation()`)                                           |
 | `Enter` / `Space` on Trigger/Close | Native button activation — these parts render real `<button>` elements                                                                                                                                       |
@@ -218,10 +231,13 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 - **You must provide**: a `Dialog.Title` (or `aria-label`), a visible close affordance, `:focus-visible` styles, and sufficient contrast.
 - **Known issues**: [#4678](https://github.com/mui/base-ui/issues/4678) (open) — backgrounds are `aria-hidden` but focusable elements are not removed from tab order (aXe `aria-hidden-focus` violation); [#4583](https://github.com/mui/base-ui/issues/4583) (open) — Esc closes multiple sibling dialogs when 3+ are open simultaneously; [#3750](https://github.com/mui/base-ui/issues/3750) (open) — no way yet to keep designated outside elements focusable while modal; [#3905](https://github.com/mui/base-ui/issues/3905) (open) — CloseWatcher / Android back button support.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                        | Attribute / variable                        | Present when                                                                      |
-| --------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------- |
+| :--------------------------- | :------------------------------------------- | :--------------------------------------------------------------------------------- |
 | Popup / Backdrop / Viewport | `data-open` / `data-closed`                 | the dialog is open / closed                                                       |
 | Popup / Backdrop / Viewport | `data-starting-style` / `data-ending-style` | the enter / exit transition frame — hang CSS transitions here                     |
 | Popup / Viewport            | `data-nested`                               | this dialog is nested inside another                                              |
@@ -230,6 +246,9 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 | Trigger                     | `data-popup-open`                           | its dialog is open                                                                |
 | Trigger / Close             | `data-disabled`                             | disabled                                                                          |
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`modal` (Root, default `true`)** — the central decision. `false` for inspector/tool panels the user works alongside; `'trap-focus'` for keyboard-contained but visually non-blocking flows ([#623](https://github.com/mui/base-ui/issues/623), [#1571](https://github.com/mui/base-ui/pull/1571)). AlertDialog removes the choice.
@@ -243,6 +262,9 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 - **`Portal.container`** — portal into a custom container; the interop fix when embedding inside third-party overlays that set `pointer-events: none` on `<body>` (Radix/vaul drawers, [#3725](https://github.com/mui/base-ui/issues/3725), [#2854](https://github.com/mui/base-ui/issues/2854)).
 - **`Backdrop.forceRender`** — render a nested dialog's backdrop anyway ([#2037](https://github.com/mui/base-ui/pull/2037)).
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -261,6 +283,9 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 - Don't expect an initially open dialog to server-render — portal content mounts client-side ([#3326](https://github.com/mui/base-ui/issues/3326), open).
 - Don't rely on `onClick` isolation across the portal — React portals propagate events through the React tree, so clicks inside the popup reach wrapper handlers; stop propagation on the popup if needed ([#2312](https://github.com/mui/base-ui/issues/2312)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="dialog">
@@ -350,6 +375,9 @@ Two recreations live in this Storybook — an edge-docked side panel (Oxide) and
   <SettingsModalExample />
 </MiniPlayground>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-06** — Dialog ships alongside Alert Dialog, designed against the APG Dialog (Modal) pattern from day one ([#215](https://github.com/mui/base-ui/issues/215) → [#372](https://github.com/mui/base-ui/pull/372)).
@@ -362,6 +390,9 @@ Two recreations live in this Storybook — an edge-docked side panel (Oxide) and
 - **2025-11 (beta.5)** — `dismissible` renamed to `disablePointerDismissal` in the `disable*` convention sweep ([#3190](https://github.com/mui/base-ui/pull/3190)); Alert Dialog re-exports Dialog's parts ([#3237](https://github.com/mui/base-ui/pull/3237)).
 - **2025-12 → 2026** — hardening: all root tests also run in detached-trigger mode ([#3485](https://github.com/mui/base-ui/pull/3485)); HMR-recreated handles ([#4472](https://github.com/mui/base-ui/pull/4472)); multi-touch outside-press filtering ([#5096](https://github.com/mui/base-ui/pull/5096)); Root owns the store across dialog/alert-dialog/drawer ([#5109](https://github.com/mui/base-ui/pull/5109)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#4678](https://github.com/mui/base-ui/issues/4678) — modal marks the background `aria-hidden` but doesn't remove focusable elements from the tab order (aXe violation; open).
@@ -374,6 +405,9 @@ Two recreations live in this Storybook — an edge-docked side panel (Oxide) and
 - [#3326](https://github.com/mui/base-ui/issues/3326) — SSR cannot render an initially open dialog (open, waiting for upvotes).
 - [#2689](https://github.com/mui/base-ui/issues/2689) — draggable dialogs deferred to community demand (open, waiting for upvotes).
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - To force a response to a destructive or irreversible action, use [Alert Dialog](?path=/docs/overlays-alert-dialog--docs) (same parts, hard-coded modality).
@@ -382,6 +416,9 @@ Two recreations live in this Storybook — an edge-docked side panel (Oxide) and
 - To open a dialog from a list of actions, compose with [Menu](?path=/docs/overlays-menu--docs) (see "Opening from a menu" above).
 - To collect input inside the dialog, use [Form](?path=/docs/form-inputs-form--docs) and [Field](?path=/docs/form-inputs-field--docs) (see "Forms in dialogs" above).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Dialog.Root
@@ -422,6 +459,4 @@ Two recreations live in this Storybook — an edge-docked side panel (Oxide) and
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/dialog](https://base-ui.com/react/components/dialog#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+dialog) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/dialog)._
+{/* END: props */}

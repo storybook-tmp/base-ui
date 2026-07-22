@@ -209,9 +209,7 @@ export const PositioningMatrix: Story = {
       {arrowSides.map((side) =>
         alignments.map((align) => (
           <Tooltip.Root key={`${side}-${align}`} defaultOpen>
-            <Tooltip.Trigger className={styles.TextButton}>
-              {`${side}/${align}`}
-            </Tooltip.Trigger>
+            <Tooltip.Trigger className={styles.TextButton}>{`${side}/${align}`}</Tooltip.Trigger>
             <Tooltip.Portal>
               <Tooltip.Positioner side={side} align={align} sideOffset={8}>
                 <Tooltip.Popup className={styles.Popup}>
@@ -365,10 +363,18 @@ export const DetachedTriggerHandle: Story = {
   render: () => (
     <div className={styles.Form}>
       <div className={styles.Row}>
-        <Tooltip.Trigger handle={detachedHandle} id="detached-trigger" className={styles.TextButton}>
+        <Tooltip.Trigger
+          handle={detachedHandle}
+          id="detached-trigger"
+          className={styles.TextButton}
+        >
           Detached trigger
         </Tooltip.Trigger>
-        <button type="button" className={styles.TextButton} onClick={() => detachedHandle.open('detached-trigger')}>
+        <button
+          type="button"
+          className={styles.TextButton}
+          onClick={() => detachedHandle.open('detached-trigger')}
+        >
           Open programmatically
         </button>
         <button type="button" className={styles.TextButton} onClick={() => detachedHandle.close()}>

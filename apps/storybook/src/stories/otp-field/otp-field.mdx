@@ -10,6 +10,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # OTP Field <span title="Recently added, not experimental — see the Identity strip below">[New]</span>
 
+{/* BEGIN: general */}
 A one-time password input composed of individual character slots.
 
 - **Import:** `import { OTPField } from '@base-ui/react/otp-field';`
@@ -28,6 +29,9 @@ A one-time password input composed of individual character slots.
 - **Three built-in `validationType` presets** (`'numeric'` default, `'alpha'`, `'alphanumeric'`) plus a `'none'` + `normalizeValue` escape hatch for fully custom rules.
 - **`autoSubmit` and `onValueComplete` are independent capabilities** — `onValueComplete` fires whenever the code becomes complete regardless of `autoSubmit`; `autoSubmit` additionally calls `requestSubmit()` right after.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - One-time password, SMS/email verification code, or 2FA code entry where each character should occupy its own visually distinct, individually-focusable box.
@@ -43,6 +47,9 @@ A one-time password input composed of individual character slots.
 - A masked _password_ field with an unknown/variable length → a plain password `Input`, not OTP Field with `mask` — OTP Field's fixed-`length` contract and per-slot navigation model are built for known-length codes, not open-ended password entry.
 - Math-expression or free-form numeric entry → [Number Field](?path=/docs/form-inputs-number-field--docs), which has an `Intl.NumberFormat`-based parsing pipeline this component doesn't.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -56,13 +63,16 @@ import { OTPField } from '@base-ui/react/otp-field';
 ```
 
 | Part                 | Renders                  | Purpose                                                                        | Optional?             |
-| -------------------- | ------------------------ | ------------------------------------------------------------------------------ | --------------------- |
+| :-------------------- | :------------------------ | :------------------------------------------------------------------------------ | :--------------------- |
 | `OTPField.Root`      | `<div>`, `role="group"`  | Owns the single string value, `length` contract, and a hidden validation input | required              |
 | `OTPField.Input`     | `<input>`                | One character slot; `length` of these are expected                             | required (× `length`) |
 | `OTPField.Separator` | re-export of `Separator` | Purely visual grouping between subsets of Inputs                               | yes                   |
 
 The anatomy is intentionally flat — no `Group`/`Slot`/`Digit` wrapper part exists. Arbitrary DOM nesting between Root and its Inputs is explicitly supported (the docs' own "Grouped layouts" demo wraps subsets of Inputs in plain `<div>`s), since slot order is tracked via actual render order, not tree depth.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Typing to completion
@@ -144,10 +154,13 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 
 `length` isn't hardcoded to 6 — any positive integer works, here a 4-character PIN.
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                                     | Context      | Action                                                                             |
-| --------------------------------------- | ------------ | ---------------------------------------------------------------------------------- |
+| :--------------------------------------- | :------------ | :---------------------------------------------------------------------------------- |
 | Any character matching `validationType` | Slot focused | Fills the slot; focus advances                                                     |
 | ArrowLeft / ArrowRight (flipped in RTL) | Slot focused | Moves focus to the previous/next slot; Ctrl/Cmd jumps to the first/end-target slot |
 | Home / ArrowUp                          | Slot focused | Jumps to the first slot                                                            |
@@ -164,10 +177,13 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 - `aria-invalid` is applied **per-slot**, not just at the group level — a screen-reader user landing on any slot hears the invalid state.
 - **Known issues**: masked slots (`mask` prop, native `type="password"`) may not expose the same accessible `textbox` role that unmasked slots do in all browser/AT combinations — flagged as a nuance to verify independently with a real screen reader, not a confirmed fact. No dedicated open accessibility-issue sweep was performed beyond source verification for this page.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Attribute                                                                      | Where                | Present when                                                                                                                                                               |
-| ------------------------------------------------------------------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------------------------------------------------------------------------------ | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `data-complete`                                                                | Root and every Input | all slots are filled — on Input, this reflects the _whole field's_ state, not the individual slot                                                                          |
 | `data-filled`                                                                  | Root                 | at least one character exists anywhere in the value                                                                                                                        |
 | `data-filled`                                                                  | Input                | **this individual slot** has a character — a genuine naming collision with Root's meaning; a shared `[data-filled]` selector across both levels can give confusing results |
@@ -176,6 +192,9 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 
 **No CSS custom properties exist for this component** — no popup/positioning surface, and every slot is a plain styled `<input>` with nothing dynamic to expose.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`length`** — must exactly match the rendered `Input` count; drives validation, forms, completion, and SSR.
@@ -184,6 +203,9 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 - **`autoSubmit`** — submits the owning form via `requestSubmit()` right after `onValueComplete` fires; blocked if a sibling field in the same `Form` is invalid, with focus redirected there instead.
 - **`mask`** — switches every slot's native `type` to `"password"`; overridable per-slot via an explicit `type` prop.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -197,6 +219,9 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 - Don't assume `getByRole('textbox')` finds masked slots the same way it finds unmasked ones — verify independently.
 - Don't import `OTPFieldPreview` — it was renamed to `OTPField` as a breaking change in v1.6.0.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="otp-field">
@@ -238,11 +263,17 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a plain, unsegmented numeric value with formatting, use [Number Field](?path=/docs/form-inputs-number-field--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### OTPField.Root
@@ -259,6 +290,4 @@ Slots can be nested in arbitrary DOM structure — here two plain `<div>` groups
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/otp-field](https://base-ui.com/react/components/otp-field#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+otp-field) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/otp-field)._
+{/* END: props */}

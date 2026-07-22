@@ -5,10 +5,11 @@ import { WildCards, WildCard } from '../shared/InTheWild';
 import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/9ui-dev.png';
 import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captures/lumiui-dev-open.png';
 
-<Meta of={AlertDialogStories} />
-
 # Alert Dialog
 
+<Meta of={AlertDialogStories} />
+
+{/* BEGIN: general */}
 A dialog that requires a user response to proceed — destructive-action confirmations,
 unsaved-changes warnings, and required-acknowledgment prompts that must be impossible
 to dismiss by accident.
@@ -63,6 +64,9 @@ to dismiss by accident.
   (Nov 2025) deleted ~1,600 lines of duplication in favor of the re-export shape
   described above.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Destructive-action confirmations (discard/delete), unsaved-changes warnings, and
@@ -98,6 +102,9 @@ Full cluster comparison: [Overlays](?path=/docs/research-c-component-briefs-clus
   ([#2802](https://github.com/mui/base-ui/issues/2802)) applies here: compose
   handles + `onOpenChange` reason-branching per confirmation instance.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -119,7 +126,7 @@ import { AlertDialog } from '@base-ui/react/alert-dialog';
 ```
 
 | Part                         | Renders    | Purpose                                                                                                       | Optional?                                      |
-| ---------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| :---------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------- | :---------------------------------------------- |
 | `AlertDialog.Root`           | no element | Groups all parts; calls `useRenderDialogRoot(props, 'alert-dialog')`                                          | required                                       |
 | `AlertDialog.Trigger`        | `<button>` | Thin re-export of `DialogTrigger`, cast to a distinct alert-dialog-flavored type                              | yes — controlled/handle modes work without one |
 | `AlertDialog.Portal`         | `<div>`    | Moves the popup subtree to `<body>` (or `container`)                                                          | required for popup parts                       |
@@ -135,6 +142,9 @@ import { AlertDialog } from '@base-ui/react/alert-dialog';
 disabled and the backdrop never closes the dialog, every docs demo renders at least
 one `Close` inside the Popup.
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The destructive-confirm flow
@@ -210,10 +220,13 @@ delete buttons:
 
 <Canvas of={AlertDialogStories.HandleWithPayload} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                              | Action                                                                                                              |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| :-------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
 | `Tab` / `Shift+Tab`              | Moves through tabbables inside the popup; **always loops** (trapped) — `modal` can never be relaxed for AlertDialog |
 | `Esc`                            | Closes the topmost open alert dialog (reason `escape-key`) — **not** blocked by the pointer-dismissal lockdown      |
 | `Enter`/`Space` on Trigger/Close | Native button activation                                                                                            |
@@ -229,6 +242,9 @@ delete buttons:
   `AlertDialog.Close` inside the Popup is closer to a hard requirement than Dialog's
   equivalent guidance, which only applies when a consumer opts into `modal={true}`.
 
+{/* END: a11y */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **No `modal` prop** — cannot be set at all. If a scenario needs `modal={false}` or
@@ -243,6 +259,9 @@ delete buttons:
   instance across many trigger points (e.g. delete buttons throughout a list).
 - **`actionsRef`** — `{ unmount, close }`, identical shape and purpose to Dialog's.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -261,6 +280,9 @@ delete buttons:
 - Don't expect the backdrop or an outside click to ever close an AlertDialog — it's
   a permanent, type-level guarantee, not a runtime default that can be flipped.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="alert-dialog">
@@ -301,6 +323,9 @@ delete buttons:
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: behavior */}
 ## FAQ
 
 - **"Why doesn't clicking the backdrop close my alert dialog?"** → by design —
@@ -317,6 +342,9 @@ delete buttons:
   case?"** → no — `modal` and `disablePointerDismissal` are `Omit`ted from the type,
   enforced at compile time. If a case needs that, it needs Dialog, not AlertDialog.
 
+{/* END: behavior */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For everything dismissible, use [Dialog](?path=/docs/overlays-dialog--docs) —
@@ -329,6 +357,9 @@ delete buttons:
 - Cluster-level decision guidance for all overlay components:
   [Overlays](?path=/docs/research-c-component-briefs-clusters-overlays--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### AlertDialog.Root
@@ -369,6 +400,4 @@ delete buttons:
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/alert-dialog](https://base-ui.com/react/components/alert-dialog#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+alert-dialog) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/alert-dialog)._
+{/* END: props */}

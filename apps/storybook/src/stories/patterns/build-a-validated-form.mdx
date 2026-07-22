@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/Build a validated form" />
-
 # Build a validated form
+
+<Meta title="BaseUI Patterns/Build a validated form" tags={['general-do-dont', 'verified']} />
 
 A Base UI form is three layers working together: [Form](?path=/docs/form-inputs-form--docs)
 owns submission and server-error distribution, [Field](?path=/docs/form-inputs-field--docs)
@@ -60,7 +60,7 @@ problem with live validation* as the rationale for an option "even less noisy th
 ([mui/base-ui#2142](https://github.com/mui/base-ui/issues/2142)).
 
 | Mode | When it validates | Use for |
-|---|---|---|
+|:---|:---|:---|
 | `onSubmit` (default) | Nothing until Form's submit; invalid fields then revalidate on every change | Ordinary forms — the native-feeling default |
 | `onBlur` | Commits validation when the control blurs | A middle ground when you want earlier feedback than submit |
 | `onChange` | Every change, debounced via `validationDebounceTime` | Instant feedback (username availability) with an async `validate` |

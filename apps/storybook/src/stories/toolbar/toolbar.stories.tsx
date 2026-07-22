@@ -40,18 +40,10 @@ export const Hero: Story = {
   render: () => (
     <Toolbar.Root aria-label="Formatting" className={styles.Toolbar}>
       <ToggleGroup aria-label="Alignment" defaultValue={['align-left']} className={styles.Group}>
-        <Toolbar.Button
-          render={<Toggle />}
-          value="align-left"
-          className={styles.Button}
-        >
+        <Toolbar.Button render={<Toggle />} value="align-left" className={styles.Button}>
           Align Left
         </Toolbar.Button>
-        <Toolbar.Button
-          render={<Toggle />}
-          value="align-right"
-          className={styles.Button}
-        >
+        <Toolbar.Button render={<Toggle />} value="align-right" className={styles.Button}>
           Align Right
         </Toolbar.Button>
       </ToggleGroup>

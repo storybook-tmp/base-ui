@@ -21,6 +21,7 @@ import kumoUiComOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 # Menu
 
+{/* BEGIN: general */}
 A list of actions in a dropdown, enhanced with keyboard navigation — a button trigger opening a `role="menu"` popup of commands, with typeahead, submenus, and checkbox/radio items.
 
 - **Import:** `import { Menu } from '@base-ui/react/menu';`
@@ -41,6 +42,9 @@ A list of actions in a dropdown, enhanced with keyboard navigation — a button 
 - **One menu, many triggers** — detached triggers via `createHandle()` with per-trigger typed `payload`, plus `Viewport` content morphing when switching triggers ([#3170](https://github.com/mui/base-ui/pull/3170), [#4060](https://github.com/mui/base-ui/pull/4060)).
 - **The engine for two other components** — Context Menu re-exports every part except Root/Trigger, and Menubar hosts plain `Menu.Root`s, so one styled menu serves click, right-click, and app-chrome modalities ([#3365](https://github.com/mui/base-ui/issues/3365)).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Action lists behind a button — the docs hero is a Song menu ("Add to Library, Play Next, Share"): commands that _do things_ and forget, with keyboard navigation for free (docs subtitle).
@@ -61,6 +65,9 @@ Comparative guidance for the four menu-shaped components lives on the [Menus](?p
 - **Popups containing free-form interactive content** (inputs, arbitrary buttons, forms) → [Popover](?path=/docs/overlays-popover--docs): "Only the components with `menuitem*` roles are supported as interactive elements inside a menu" ([#2693](https://github.com/mui/base-ui/issues/2693)); typing in an input nested inside a menu is a known conflict ([#2755](https://github.com/mui/base-ui/issues/2755), open).
 - **A tooltip/popover attached to a disabled item** — possible but partial: `Popover.Trigger render={<Button focusableWhenDisabled/>}` works for pointer, keyboard flow is still imperfect ([#2693](https://github.com/mui/base-ui/issues/2693), open).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -104,7 +111,7 @@ import { Menu } from '@base-ui/react/menu';
 ```
 
 | Part                         | Renders    | Purpose                                                                                                                                                                                  | Optional?                                                                                                             |
-| ---------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| :---------------------------- | :---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
 | `Menu.Root`                  | no element | Groups all parts; owns open state, modality, and highlight behavior                                                                                                                      | required                                                                                                              |
 | `Menu.Trigger`               | `<button>` | Opens the menu; hover props live here; supports `handle`/`payload` for detached use                                                                                                      | required — at least one trigger (or a `handle` on both sides) since [#3170](https://github.com/mui/base-ui/pull/3170) |
 | `Menu.Portal`                | `<div>`    | Moves the popup subtree to `<body>` (or `container`); `keepMounted` lives here                                                                                                           | required — its absence throws ([#1222](https://github.com/mui/base-ui/pull/1222))                                     |
@@ -130,6 +137,9 @@ Non-element exports: `Menu.createHandle()` returns a `Menu.Handle` that connects
 
 Submenus have no `modal`, `handle`, or `triggerId` props — "only top-level menus can have detached triggers" (docs).
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### The open/close contract
@@ -250,12 +260,15 @@ For multi-trigger menus, freeze the Positioner to `var(--positioner-width/height
 
 No menu-specific SSR caveats were found — trigger ARIA renders server-side (searched release notes and upstream issues, 2026-07).
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 Pattern: [APG Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) + [Menu/Menubar](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/) — maintainers cite the APG verbatim when defending behavior ([#1733](https://github.com/mui/base-ui/issues/1733)).
 
 | Key                             | Context           | Action                                                                                                                                                            |
-| ------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------------------------------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Enter` / `Space` / `ArrowDown` | closed trigger    | Open; focus the first item                                                                                                                                        |
 | `ArrowUp`                       | closed trigger    | Open; focus the last item                                                                                                                                         |
 | `ArrowDown` / `ArrowUp`         | in menu           | Move highlight; loops while `loopFocus` (default `true`); disabled items are _included_                                                                           |
@@ -271,10 +284,13 @@ Pattern: [APG Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 - **You must provide**: an accessible name for icon-only triggers (`aria-label`), a `label` for icon-only items, visible `:focus-visible` styling, and sufficient contrast for `data-highlighted`/`data-disabled` states.
 - **Known issues**: [#5139](https://github.com/mui/base-ui/issues/5139) (open) — no `focusableWhenDisabled` opt-out exposed on Menu items; [#3256](https://github.com/mui/base-ui/issues/3256) (open) — typeahead label inference can include SVG text; [#2693](https://github.com/mui/base-ui/issues/2693) (open) — keyboard access to popovers on disabled items unresolved; [#1894](https://github.com/mui/base-ui/issues/1894) (open) — no non-cascading/drilldown submenu option for narrow screens. Fixed and shipped: `Space` activation timing ([#4053](https://github.com/mui/base-ui/pull/4053)), Safari/Firefox visible-focus restore after keyboard close ([#5093](https://github.com/mui/base-ui/pull/5093)).
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Part                             | Attribute / variable                                                                                         | Present when                                                                                                    |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| :-------------------------------- | :------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------- |
 | Trigger                          | `data-popup-open`                                                                                            | the menu is open                                                                                                |
 | Trigger                          | `data-pressed`                                                                                               | pressed — kept distinct from `data-popup-open` on purpose ([#3036](https://github.com/mui/base-ui/issues/3036)) |
 | Item / LinkItem / SubmenuTrigger | `data-highlighted`                                                                                           | one unified highlight for pointer and keyboard; the highlighted item carries the roving `tabIndex={0}`          |
@@ -291,6 +307,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 
 <Canvas of={MenuStories.HighlightItemOnHoverDisabled} />
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`modal` (Root, default `true`)** — keep the default for dropdown menus (matches native behavior); use `modal={false}` when the page must stay interactive — dense toolbars, table row actions. The internal backdrop needs the quick-start `isolation: isolate` app-root setup to always win stacking ([#4012](https://github.com/mui/base-ui/issues/4012)).
@@ -306,6 +325,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - **`actionsRef` (Root)** — `{ unmount, close }`; `unmount` for externally orchestrated exit animations.
 - **`finalFocus` (Popup)** — boolean/ref/function-by-interaction-type control of where focus lands on close ([#1918](https://github.com/mui/base-ui/pull/1918)).
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -325,6 +347,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - Don't `render={<button disabled/>}` on items — it breaks highlighting; use `data-disabled` styling with the `disabled` prop instead ([#1733](https://github.com/mui/base-ui/issues/1733)).
 - Don't port Radix idioms: there is no `asChild` (use `render`), no `data-state` (use `data-open`/`data-popup-open`), and submenus need `SubmenuRoot`, not nested roots ([#3983](https://github.com/mui/base-ui/issues/3983), [#717](https://github.com/mui/base-ui/issues/717)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="menu">
@@ -477,6 +502,9 @@ Three recreations live in this Storybook — table row actions (Oxide), a settin
   <ShadowPortalExample />
 </MiniPlayground>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **2024-08** — the new-API Menu ships, designed against a Notion API doc ([#214](https://github.com/mui/base-ui/issues/214)) and closing the founding issues: animation-aware dismissal ([#9](https://github.com/mui/base-ui/issues/9)), configurable `closeOnClick` ([#46](https://github.com/mui/base-ui/issues/46)), press-drag-release ([#63](https://github.com/mui/base-ui/issues/63)), and Tab-close focus restoration ([#411](https://github.com/mui/base-ui/issues/411)) ([#468](https://github.com/mui/base-ui/pull/468), breaking).
@@ -490,6 +518,9 @@ Three recreations live in this Storybook — table row actions (Oxide), a settin
 - **2026-06/07** — submenu hover-open uses a plain delay without waiting for pointer rest ([#4990](https://github.com/mui/base-ui/pull/4990)); guard against Chrome dropping `mouseleave` during fast sweeps ([#5153](https://github.com/mui/base-ui/pull/5153)).
 - **Standing decision** — pointer open does not focus the first item; keyboard open does. Defended with APG examples, macOS behavior, and library consensus ([#4818](https://github.com/mui/base-ui/issues/4818)). Likewise: disabled items stay focusable per APG/VoiceOver ([#1733](https://github.com/mui/base-ui/issues/1733), [#4881](https://github.com/mui/base-ui/issues/4881)).
 
+{/* END: history */}
+
+{/* BEGIN: known-issues */}
 ## Known issues & open questions
 
 - [#5139](https://github.com/mui/base-ui/issues/5139) — `focusableWhenDisabled` opt-out not exposed on Menu items (open).
@@ -499,6 +530,9 @@ Three recreations live in this Storybook — table row actions (Oxide), a settin
 - [#2755](https://github.com/mui/base-ui/issues/2755) — typing in an input nested inside a menu conflicts with typeahead (open).
 - [#4157](https://github.com/mui/base-ui/issues/4157) — searchable/filterable menu is acknowledged but undecided; today's answer is Autocomplete, which lacks submenus (open).
 
+{/* END: known-issues */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For **right-click or long-press** actions on a surface, use [Context Menu](?path=/docs/overlays-context-menu--docs) — same parts, pointer-anchored.
@@ -511,6 +545,9 @@ Three recreations live in this Storybook — table row actions (Oxide), a settin
 
 <Canvas of={MenuStories.OpenDialogFromMenu} />
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### Menu.Root
@@ -595,6 +632,4 @@ Three recreations live in this Storybook — table row actions (Oxide), a settin
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/menu](https://base-ui.com/react/components/menu#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+menu) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/menu)._
+{/* END: props */}

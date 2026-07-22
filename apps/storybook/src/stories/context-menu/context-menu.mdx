@@ -10,6 +10,7 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Context Menu
 
+{/* BEGIN: general */}
 A menu that appears at the pointer on right click or long press — the same
 action-list popup as Menu, provoked by a gesture on content instead of a visible
 trigger button.
@@ -26,6 +27,9 @@ trigger button.
 
 <Canvas of={ContextMenuStories.Hero} />
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## Usage guideline (read this first)
 
 **Use context menus as an enhancement, never as the only way to perform an action.**
@@ -37,9 +41,12 @@ as the sole affordance for an important action is a documented anti-pattern (doc
 Usage Guidelines).
 
 |                     | Do                                                                                           | Don't                                                                                     |
-| ------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| :------------------- | :-------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
 | **Discoverability** | Pair the context menu with a visible "⋯" button or toolbar control exposing the same actions | Make right-click/long-press the _only_ way to delete, rename, or otherwise act on an item |
 
+{/* END: when-to-use */}
+
+{/* BEGIN: general */}
 ## Features
 
 - **2-of-19 re-export ratio, by design** — "all the context menu parts are direct
@@ -80,6 +87,9 @@ Usage Guidelines).
   OS's own context menu. This is a meaningfully different `disabled` contract than
   most Base UI popups: the surface reverts fully to native browser behavior.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Surfacing contextual actions on a specific area/element via right-click (desktop)
@@ -106,6 +116,9 @@ Full cluster comparison: [Menus](?path=/docs/research-c-component-briefs-cluster
   Context Menu has no persistent visual affordance at all. They solve opposite
   discoverability problems.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -128,7 +141,7 @@ import { ContextMenu } from '@base-ui/react/context-menu';
 ```
 
 | Part                                                           | Renders                     | Purpose                                                                                                  | Optional?                |
-| -------------------------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------ |
+| :-------------------------------------------------------------- | :--------------------------- | :-------------------------------------------------------------------------------------------------------- | :------------------------ |
 | `ContextMenu.Root`                                             | no element                  | Holds anchor state (a virtual element); resets `MenuRootContext` so nested Menus detect the right parent | required                 |
 | `ContextMenu.Trigger`                                          | `<div>`                     | The area that opens the menu on right click or long press                                                | required                 |
 | `ContextMenu.Portal`                                           | `<div>`                     | Re-export of `Menu.Portal`                                                                               | required for popup parts |
@@ -138,6 +151,9 @@ import { ContextMenu } from '@base-ui/react/context-menu';
 | `ContextMenu.SubmenuRoot` / `SubmenuTrigger`                   | re-export                   | Nested-menu composition, unchanged by context-menu parentage                                             | —                        |
 | `ContextMenu.Separator`                                        | shared standalone primitive | Same as `Menu.Separator`                                                                                 | yes                      |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### Right-click open flow
@@ -203,10 +219,13 @@ re-exported parts genuinely interchange:
 
 <Canvas of={ContextMenuStories.CloseOnClickConfiguration} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & gesture reference
 
 | Key / gesture                                         | Context      | Action                                                                                                                                        |
-| ----------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| :----------------------------------------------------- | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
 | Right-click (mouse, `button: 2`)                      | trigger area | Opens the popup at the pointer position; suppresses the native OS context menu (unless `disabled`)                                            |
 | Long-press (single touch, ~500ms)                     | trigger area | Opens the popup at the touch point; cancelled by >10px movement                                                                               |
 | Hold right mouse button + drag + release over an item | popup open   | Selects the item on release, except within 1px of the original click point, or on non-Mac when the release is the tail of the opening gesture |
@@ -221,6 +240,9 @@ re-exported parts genuinely interchange:
   restated on the Context Menu page itself (a documentable gap, honestly flagged
   rather than assumed).
 
+{/* END: a11y */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`disabled` (Root)** — the single most decision-relevant prop, precisely because
@@ -234,6 +256,9 @@ re-exported parts genuinely interchange:
   all omitted from the type; these are the props that signal "this scenario needs
   Menu, not Context Menu."
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -249,6 +274,9 @@ re-exported parts genuinely interchange:
 - Don't assume `disabled` fully suppresses right-click feedback — it hands the
   surface back to the native OS context menu instead of showing nothing.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="context-menu">
@@ -299,6 +327,9 @@ re-exported parts genuinely interchange:
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: behavior */}
 ## FAQ
 
 - **"My context menu doesn't open when it's nested inside another popup's
@@ -316,6 +347,9 @@ re-exported parts genuinely interchange:
   expected: `disabled` restores the browser's native context menu rather than
   showing nothing.
 
+{/* END: behavior */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For a persistently visible trigger, hover-open behavior, or detached/imperative
@@ -324,6 +358,9 @@ re-exported parts genuinely interchange:
   [Menubar](?path=/docs/navigation-menubar--docs) — a different mechanism entirely.
 - Cluster-level decision guidance for all menu components: [Menus](?path=/docs/research-c-component-briefs-clusters-menus--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### ContextMenu.Root
@@ -376,6 +413,4 @@ re-exported parts genuinely interchange:
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/context-menu](https://base-ui.com/react/components/context-menu#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+context-menu) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/context-menu)._
+{/* END: props */}

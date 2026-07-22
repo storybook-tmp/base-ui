@@ -63,17 +63,13 @@ export const AnatomyAllParts: Story = {
     <Field.Root name="username" validationMode="onChange" className={styles.Field}>
       <Field.Label className={styles.Label}>Username</Field.Label>
       <Field.Control required placeholder="e.g. ada" className={styles.Input} />
-      <Field.Description className={styles.Description}>
-        Visible on your profile.
-      </Field.Description>
+      <Field.Description className={styles.Description}>Visible on your profile.</Field.Description>
       <Field.Error className={styles.Error} match="valueMissing">
         Please enter a username.
       </Field.Error>
       <Field.Validity>
         {(state) => (
-          <output className={styles.Output}>
-            validity.valid: {String(state.validity.valid)}
-          </output>
+          <output className={styles.Output}>validity.valid: {String(state.validity.valid)}</output>
         )}
       </Field.Validity>
     </Field.Root>
@@ -83,9 +79,7 @@ export const AnatomyAllParts: Story = {
     const input = canvas.getByLabelText('Username');
     const description = canvas.getByText('Visible on your profile.');
 
-    await waitFor(() =>
-      expect(input.getAttribute('aria-describedby')).toContain(description.id),
-    );
+    await waitFor(() => expect(input.getAttribute('aria-describedby')).toContain(description.id));
     // Pristine field: `valid` is null (tri-state), so no aria-invalid yet.
     await expect(input).not.toHaveAttribute('aria-invalid');
 
@@ -120,7 +114,12 @@ export const HandbookLabeling: Story = {
       </Field.Root>
 
       <Field.Root className={styles.Field}>
-        <Field.Control aria-label="Search" type="search" placeholder="Search…" className={styles.Input} />
+        <Field.Control
+          aria-label="Search"
+          type="search"
+          placeholder="Search…"
+          className={styles.Input}
+        />
       </Field.Root>
     </div>
   ),
@@ -130,9 +129,7 @@ export const HandbookLabeling: Story = {
     await expect(canvas.getByText('Full name')).toHaveAttribute('for', nameInput.id);
 
     // Implicit label: enclosing the checkbox names it without htmlFor plumbing.
-    await expect(
-      canvas.getByRole('checkbox', { name: 'Enable notifications' }),
-    ).toBeVisible();
+    await expect(canvas.getByRole('checkbox', { name: 'Enable notifications' })).toBeVisible();
 
     // Fallback: aria-label directly on the control.
     await expect(canvas.getByRole('searchbox', { name: 'Search' })).toBeVisible();
@@ -181,9 +178,7 @@ export const GroupWithFieldItem: Story = {
 
     const hdd = canvas.getByRole('radio', { name: 'HDD' });
     const hddDescription = canvas.getByText('Higher capacity at lower cost.');
-    await waitFor(() =>
-      expect(hdd.getAttribute('aria-describedby')).toContain(hddDescription.id),
-    );
+    await waitFor(() => expect(hdd.getAttribute('aria-describedby')).toContain(hddDescription.id));
 
     await userEvent.click(hdd);
     await expect(hdd).toHaveAttribute('aria-checked', 'true');
@@ -471,9 +466,7 @@ export const WrapsInput: Story = {
 
     await userEvent.click(canvas.getByText('API key'));
     await expect(input).toHaveFocus();
-    await waitFor(() =>
-      expect(input.getAttribute('aria-describedby')).toContain(description.id),
-    );
+    await waitFor(() => expect(input.getAttribute('aria-describedby')).toContain(description.id));
   },
 };
 
@@ -593,9 +586,7 @@ export const WrapsCheckbox: Story = {
     const checkbox = canvas.getByRole('checkbox', { name: 'Accept the terms' });
 
     await userEvent.click(canvas.getByRole('button', { name: 'Sign up' }));
-    await expect(
-      await canvas.findByText('You must accept the terms to continue.'),
-    ).toBeVisible();
+    await expect(await canvas.findByText('You must accept the terms to continue.')).toBeVisible();
 
     await userEvent.click(checkbox);
     await userEvent.click(canvas.getByRole('button', { name: 'Sign up' }));

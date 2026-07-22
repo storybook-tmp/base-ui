@@ -10,6 +10,7 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 # Toggle Group
 
+{/* BEGIN: general */}
 Provides a shared state to a series of toggle buttons.
 
 - **Import:** `import { ToggleGroup } from '@base-ui/react/toggle-group';`
@@ -27,6 +28,9 @@ Provides a shared state to a series of toggle buttons.
 - **Toolbar-aware** — detects a hosting `Toolbar.Root` via context and defers its entire composite/roving-focus behavior to the Toolbar's own `CompositeRoot` instead of creating its own.
 - **Full composite keyboard contract when standalone** — single Tab stop, arrow-key roving focus with looping, and Home/End support.
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - A row/column of related, independently-styleable toggle buttons that need shared pressed-state bookkeeping — e.g. text alignment (single mode, the hero above) or text formatting (`multiple` mode, below).
@@ -43,6 +47,9 @@ Provides a shared state to a series of toggle buttons.
 - **A binary immediate-effect setting, singular (not a row of related toggles) → [Switch](?path=/docs/form-inputs-switch--docs)** — Toggle Group's value is inherently an array; using it for a single boolean is the wrong cardinality.
 - **Values that must submit with a native `<form>` → CheckboxGroup**, not Toggle Group — like standalone Toggle, it has no hidden-input form participation.
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -55,10 +62,13 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 ```
 
 | Part                                | Renders              | Purpose                                              | Optional?              |
-| ----------------------------------- | -------------------- | ---------------------------------------------------- | ---------------------- |
+| :----------------------------------- | :-------------------- | :---------------------------------------------------- | :---------------------- |
 | `ToggleGroup`                       | `<div role="group">` | Shared pressed-state context provider                | required               |
 | `Toggle` (from the sibling package) | `<button>`           | Each group item — not a dedicated `ToggleGroup.Item` | required (one or more) |
 
+{/* END: anatomy */}
+
+{/* BEGIN: behavior */}
 ## How it works
 
 ### `multiple` and selection semantics
@@ -89,10 +99,13 @@ The Toolbar-hosted case, shown side by side with the standalone one above: arrow
 
 <Canvas of={ToggleGroupStories.DisabledGroupAndItem} />
 
+{/* END: behavior */}
+
+{/* BEGIN: a11y */}
 ## Keyboard & screen reader
 
 | Key                        | Action                                                                                                          |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------- |
 | `Tab`                      | Moves focus to exactly one item — a single tab stop for the whole group                                         |
 | `ArrowRight` / `ArrowLeft` | `orientation="horizontal"`: move roving focus to next/previous item; wraps at the ends if `loopFocus` (default) |
 | `ArrowDown` / `ArrowUp`    | `orientation="vertical"`: move roving focus to next/previous item                                               |
@@ -104,16 +117,22 @@ The Toolbar-hosted case, shown side by side with the standalone one above: arrow
 - **You must provide**: a group-level accessible name via `aria-label`/`aria-labelledby` on `<ToggleGroup>`.
 - **Known issues**: [#3525](https://github.com/mui/base-ui/issues/3525) (open) — no non-visual signal distinguishes single-selection Toggle Group from "you can also select nothing"; maintainers have declined `role="radio"`. The Home/End Toolbar-hosted gap has no dedicated maintainer discussion found — flagged as a documentation-worthy nuance, not a confirmed tracked bug.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
 | Attribute          | Present when                           |
-| ------------------ | -------------------------------------- |
+| :------------------ | :-------------------------------------- |
 | `data-disabled`    | the group is disabled                  |
 | `data-orientation` | `horizontal` / `vertical`              |
 | `data-multiple`    | present only when `multiple` is `true` |
 
 Each child Toggle carries its own independent `data-pressed`/`data-disabled` — style selection state on the Toggle, not the group.
 
+{/* END: styling */}
+
+{/* BEGIN: general */}
 ## Choosing the right props
 
 - **`multiple`** (default `false`) — set `true` when items are independently toggleable (bold/italic/underline); leave `false` for exclusive-with-clear (alignment, view mode).
@@ -121,6 +140,9 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
 - **`loopFocus`** (default `true`) — set `false` if wrap-around arrow navigation at the ends is undesired.
 - **`disabled`** — cascades to every child Toggle; combines with a hosting Toolbar's own cascading `disabled` when nested.
 
+{/* END: general */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
@@ -131,6 +153,9 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
 
 - Don't reach for single-mode Toggle Group when "always exactly one selected, never clearable" is the real requirement — use RadioGroup ([#3525](https://github.com/mui/base-ui/issues/3525)).
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="toggle-group">
@@ -169,6 +194,9 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
 - **Introduced jointly with Toggle — [#763](https://github.com/mui/base-ui/pull/763)** (closing [#11](https://github.com/mui/base-ui/issues/11), [#31](https://github.com/mui/base-ui/issues/31)).
@@ -176,12 +204,18 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
 - **`#4488`** — Fix incorrect keyboard nav on cross axis.
 - **`#4628`** — Remove invalid `aria-orientation` from `role="group"` element.
 
+{/* END: history */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
 - For an exclusive, non-clearable single choice, use RadioGroup.
 - For a standalone two-state control, use [Toggle](?path=/docs/actions-toggle--docs).
 - To host this alongside plain buttons, links, and popup triggers in one command bar, use [Toolbar](?path=/docs/actions-toolbar--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 ### ToggleGroup
@@ -194,6 +228,4 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled` —
 
 _Full JSDoc-driven reference: [base-ui.com/react/components/toggle-group](https://base-ui.com/react/components/toggle-group#api-reference)._
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+toggle-group) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/toggle-group)._
+{/* END: props */}

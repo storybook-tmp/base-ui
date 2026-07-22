@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/Choosing an overlay" />
-
 # Choosing an overlay
+
+<Meta title="BaseUI Patterns/Choosing an overlay" tags={['general-when-to-use', 'verified']} />
 
 Base UI ships six page-level overlays plus Menu (an anchored action list, covered by
 [Menus & navigation](?path=/docs/patterns-menus-navigation--docs)). They share one Portal→
@@ -63,7 +63,7 @@ Toast, not a Tooltip, for transient feedback like "Copied" so it's announced to 
 ## Per-overlay mini-profiles
 
 | | Opens on | Modal default | Anchoring | Dismissed by outside press |
-|---|---|---|---|---|
+|:---|:---|:---|:---|:---|
 | [Tooltip](?path=/docs/overlays-tooltip--docs) | hover/focus | never modal | anchored | n/a (hover-out) |
 | [Popover](?path=/docs/overlays-popover--docs) | click (+ opt. hover) | `false` | anchored | yes, cancelable |
 | [Preview Card](?path=/docs/overlays-preview-card--docs) | link hover | never modal | anchored | n/a (hover-out) |

@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Utilities/CSP Provider" />
+<Meta title="Utilities/CSP Provider" tags={['general-setup']} />
 
 # CSP Provider
 
@@ -108,7 +108,3 @@ If you'd rather ship no injected style tags at all, skip nonce plumbing entirely
 
 - **2025/2026** — [#3550](https://github.com/mui/base-ui/issues/3550) reported ScrollArea broken under strict CSP → [#3553](https://github.com/mui/base-ui/pull/3553) added `CSPProvider` (`nonce` + `disableStyleElements`).
 - **Precedent** — [#1110](https://github.com/mui/base-ui/issues/1110): keep only minimal functional inline styles, and allow per-prop unsetting — the philosophy the "Inline style attributes" workaround operationalizes.
-
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+csp) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/csp-provider)._

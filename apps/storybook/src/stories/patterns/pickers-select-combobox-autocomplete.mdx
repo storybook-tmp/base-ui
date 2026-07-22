@@ -1,25 +1,19 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Patterns/Pickers: select, combobox, autocomplete" />
-
 # Pickers: select, combobox, autocomplete
+
+<Meta title="BaseUI Patterns/Pickers: select, combobox, autocomplete" tags={['general-when-to-use', 'verified']} />
 
 [Select](?path=/docs/form-inputs-select--docs), [Combobox](?path=/docs/form-inputs-combobox--docs),
 and [Autocomplete](?path=/docs/form-inputs-autocomplete--docs) shipped with deliberately
 parallel part grammars — Combobox and Autocomplete even landed in the same PR
 ([mui/base-ui#2105](https://github.com/mui/base-ui/pull/2105)) — because they're the same
-listbox-popup engine answering three different questions about the value. This page owns the
-boundary; [Overview/Choosing components](?path=/docs/overview-choosing-components--docs) has the
-condensed table.
+listbox-popup engine answering three different questions about the value.
 
 ## The anatomy-driven boundary
 
-The single deciding signal, stated directly in the docs, is **whether a visible text input is
-rendered** — not list length: "Use Select instead of Combobox if no input is being rendered,
-which includes accessibility features specific to a listbox without an input" (combobox
-docs usage guidelines). Once an input exists, the next question is whether it accepts free text:
-"Combobox does not allow free-form text input. For search widgets, consider using Autocomplete
-instead" (same source).
+The deciding signal is **whether a visible text input is
+rendered**. Use Select instead of Combobox if no input is being rendered, which includes accessibility features specific to a listbox without an input. Once an input exists, the next question is whether it accepts free text. Combobox does not allow free-form text input. For search widgets, consider using Autocomplete instead.
 
 1. **Does the user type text that is itself the answer** (a search box, tags with novel values)?
    → [Autocomplete](?path=/docs/form-inputs-autocomplete--docs) — free text *is* the value; the
@@ -37,7 +31,7 @@ instead" (same source).
 ## Decision table
 
 | Question | Select | Combobox | Autocomplete |
-|---|---|---|---|
+|:---|:---|:---|:---|
 | Renders a text input? | never | yes | yes — it *is* the control |
 | Filterable by typing? | no (typeahead only) | yes — its reason to exist | yes |
 | Free-form text allowed? | no | no | yes |
