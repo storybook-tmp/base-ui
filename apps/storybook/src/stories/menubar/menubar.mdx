@@ -194,8 +194,8 @@ clicked open, hovering the others switches without another click:
 
 ### Menubar vs Toolbar
 
-`isInMenubar` and `insideToolbar` are two independent context checks; a Toolbar
-may embed a single menu-triggered button without ever becoming a Menubar:
+The two components stay distinct even when a Toolbar hosts a menu (see When not to
+use for the boundary):
 
 <Canvas of={MenubarStories.ToolbarContrastSideBySide} />
 

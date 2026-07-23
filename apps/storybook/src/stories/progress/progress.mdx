@@ -111,7 +111,6 @@ Default text is the percentage of the range via `Intl.NumberFormat(locale, { sty
 
 - **ARIA**: `role="progressbar"`; `aria-valuemin`/`aria-valuemax` always set; `aria-valuenow` = clamped value (omitted when indeterminate); `aria-valuetext` = formatted value or `"indeterminate progress"`, overridable via `getAriaValueText`; `aria-labelledby` auto-wired from `Progress.Label`.
 - **You must provide**: a label (`Progress.Label` or `aria-label`), and sufficient track/indicator contrast.
-- **Known issues**: [#4184](https://github.com/mui/base-ui/issues/4184): NVDA/JAWS ignored the programmatic label; partially fixed by [#4200](https://github.com/mui/base-ui/pull/4200) (hidden-span workaround), JAWS behavior remains outside our control. [#4616](https://github.com/mui/base-ui/issues/4616): SSR `aria-valuetext` hydration mismatch (see below).
 
 {/* END: a11y */}
 

@@ -118,7 +118,7 @@ External `open`/`onOpenChange` state works the same as uncontrolled use, plus `e
 
 ### Touch never opens it
 
-No touch-specific interaction hook is wired in `PreviewCardTrigger.tsx`; `mouseOnly: true` on the hover interaction is what enforces this. For touch, it is as if the component doesn't exist ([#4778](https://github.com/mui/base-ui/issues/4778)); keyboard focus does work, per above. A bug report asking for touch parity with Radix's hover-card was closed as expected behavior in both [#4170](https://github.com/mui/base-ui/issues/4170) and [#4778](https://github.com/mui/base-ui/issues/4778).
+No touch-specific interaction hook is wired in `PreviewCardTrigger.tsx`; `mouseOnly: true` on the hover interaction is what enforces this. For touch, it is as if the component doesn't exist; keyboard focus does work, per above. See Keyboard & screen reader for what this means for accessibility.
 
 ### Positioning
 
@@ -151,7 +151,6 @@ Pattern: **none**. There is no W3C APG pattern for a link-hover preview (unlike 
 - **ARIA managed for you**: none. The only ARIA in the part family is `PreviewCard.Arrow`'s `aria-hidden` (decorative) and `PreviewCard.Backdrop`'s `role="presentation"`. **No `role="tooltip"`, no `role="dialog"`, no `aria-describedby`/`aria-expanded`/`aria-haspopup`** anywhere.
 - **Screen reader**: a screen reader user tabbing to the trigger hears only the link's own accessible name/href, nothing about the popup's existence or content. This is by design ([#4170](https://github.com/mui/base-ui/issues/4170), [#4778](https://github.com/mui/base-ui/issues/4778)).
 - **You must provide**: nothing extra for the trigger's own accessible name (it's a real link), but never put content in the popup that isn't also reachable at the link's destination; that's the whole accessibility contract.
-- **Known issues**: [#4170](https://github.com/mui/base-ui/issues/4170) (no accessibility warning in the docs): closed, resolved by adding a Usage guidelines section and underlining demo links, without changing the accessibility model. [#4778](https://github.com/mui/base-ui/issues/4778) (touch support): closed as expected/by-design.
 
 {/* END: a11y */}
 
@@ -186,9 +185,9 @@ Pattern: **none**. There is no W3C APG pattern for a link-hover preview (unlike 
 
 **Don't**
 
-- Don't reach for Preview Card when there's no real link; use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover` instead ([#4778](https://github.com/mui/base-ui/issues/4778)).
+- Don't reach for Preview Card when there's no real link; use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover` instead.
 - Don't expect a second preview card to open instantly the way grouped tooltips do: there is no Provider/shared-delay part for Preview Card.
-- Don't rely on Preview Card for content a touch or screen-reader user must reach; it is excluded by design ([#4170](https://github.com/mui/base-ui/issues/4170), [#4778](https://github.com/mui/base-ui/issues/4778)).
+- Don't rely on Preview Card for content a touch or screen-reader user must reach; put that content at the link's destination instead.
 
 {/* END: do-dont */}
 

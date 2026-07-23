@@ -155,7 +155,7 @@ Set `openOnHover` on the _Trigger_ (moved off Root in [#3170](https://github.com
 
 ### Keyboard navigation and focus
 
-Keyboard open (`Enter`/`Space`/`ArrowDown`) focuses the first item (`ArrowUp`: the last). Pointer open does **not**, by design: keyboard activation is a commitment to operate the menu, while pointer activation often just reveals it. The ARIA examples don't move focus when opened via pointer, macOS doesn't, and the top libraries all behave this way ([#4818](https://github.com/mui/base-ui/issues/4818)). Inside, arrows rove one tab stop through the items, `Home`/`End` jump, and navigation loops while `loopFocus` (default `true`).
+Keyboard open (`Enter`/`Space`/`ArrowDown`) focuses the first item (`ArrowUp`: the last). Pointer open does **not**, by design, in alignment with ARIA examples and other libraries ([#4818](https://github.com/mui/base-ui/issues/4818)). Inside, arrows rove one tab stop through the items, `Home`/`End` jump, and navigation loops while `loopFocus` (default `true`).
 
 <Canvas of={MenuStories.KeyboardNavigation} />
 
@@ -205,7 +205,7 @@ Every close path is a typed `onOpenChange` reason: `trigger-press`, `item-press`
 
 <Canvas of={MenuStories.EventDetailsReasons} />
 
-`closeOnClick` defaults are deliberately asymmetric: plain `Item` closes the menu, checkbox/radio/link items don't ([#46](https://github.com/mui/base-ui/issues/46); values pinned in JSDoc). Override per item in either direction:
+`closeOnClick` defaults are deliberately asymmetric, so plain `Item` closes the menu while checkbox/radio/link items don't ([#46](https://github.com/mui/base-ui/issues/46); values pinned in JSDoc). Override per item in either direction:
 
 <Canvas of={MenuStories.CloseOnClickConfig} />
 
@@ -281,7 +281,6 @@ Pattern: [APG Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 - **ARIA managed for you**: Trigger: `<button aria-haspopup="menu" aria-expanded>` (inside a Menubar it additionally gets `role="menuitem"`). Popup: `role="menu"` + `aria-labelledby={triggerId}`. Item/LinkItem: `role="menuitem"`. CheckboxItem: `role="menuitemcheckbox"` + `aria-checked`. RadioItem: `role="menuitemradio"` + `aria-checked`. Group/RadioGroup: `role="group"` auto-labelled by GroupLabel (`role="presentation"`). Disabled items get `aria-disabled`, never the `disabled` attribute.
 - **Screen reader**: pointer open leaves focus on the trigger by design ([#4818](https://github.com/mui/base-ui/issues/4818)); disabled items are announced rather than skipped (VoiceOver behavior, [#4881](https://github.com/mui/base-ui/issues/4881)).
 - **You must provide**: an accessible name for icon-only triggers (`aria-label`), a `label` for icon-only items, visible `:focus-visible` styling, and sufficient contrast for `data-highlighted`/`data-disabled` states.
-- **Known issues**: [#5139](https://github.com/mui/base-ui/issues/5139) (open): no `focusableWhenDisabled` opt-out exposed on Menu items; [#3256](https://github.com/mui/base-ui/issues/3256) (open): typeahead label inference can include SVG text; [#2693](https://github.com/mui/base-ui/issues/2693) (open): keyboard access to popovers on disabled items unresolved; [#1894](https://github.com/mui/base-ui/issues/1894) (open): no non-cascading/drilldown submenu option for narrow screens. Fixed and shipped: `Space` activation timing ([#4053](https://github.com/mui/base-ui/pull/4053)), Safari/Firefox visible-focus restore after keyboard close ([#5093](https://github.com/mui/base-ui/pull/5093)).
 
 {/* END: a11y */}
 
@@ -515,6 +514,7 @@ Three recreations live in this Storybook: table row actions (Oxide), a settings 
 - **2026-01 (v1.2.0)**: `LinkItem` part, the replacement for `<Menu.Item render={<a href/>}>` ([#3400](https://github.com/mui/base-ui/pull/3400)).
 - **2026-03 (v1.3.0)**: `Space` activates on keydown and navigates LinkItem, matching react-aria/Fluent ([#4053](https://github.com/mui/base-ui/pull/4053)); `Viewport` content transitions for multi-trigger menus ([#4060](https://github.com/mui/base-ui/pull/4060)).
 - **2026-06/07**: submenu hover-open uses a plain delay without waiting for pointer rest ([#4990](https://github.com/mui/base-ui/pull/4990)); guard against Chrome dropping `mouseleave` during fast sweeps ([#5153](https://github.com/mui/base-ui/pull/5153)).
+- **2026-07**: visible focus is restored on the trigger in Safari and Firefox after closing with the keyboard ([#5093](https://github.com/mui/base-ui/pull/5093)).
 - **Standing decision**: pointer open does not focus the first item; keyboard open does. We keep it this way because APG examples, macOS behavior, and library consensus agree ([#4818](https://github.com/mui/base-ui/issues/4818)). Likewise: disabled items stay focusable per APG/VoiceOver ([#1733](https://github.com/mui/base-ui/issues/1733), [#4881](https://github.com/mui/base-ui/issues/4881)).
 
 {/* END: history */}

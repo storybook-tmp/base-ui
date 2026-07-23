@@ -101,7 +101,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 
 - **ARIA**: no dedicated role is applied by Avatar itself beyond the native `<img>`'s implicit image semantics.
 - **You must provide**: `alt` text on `Avatar.Image`. **Our docs don't yet give this guidance, and both hero demos omit `alt`**. Decide decorative (`alt=""`, name shown as adjacent text) vs. informative (real alt text, the avatar is the sole identifier) per context; informative is the intended default.
-- **Known issues**: `Avatar.Fallback` is **not** auto-hidden from assistive tech. A community proposal to default it to `aria-hidden="true"` was closed without merging ([#3095](https://github.com/mui/base-ui/pull/3095)), so fallback text (e.g. initials) remains in the accessibility tree by default. Add `aria-hidden` yourself if Fallback is meant purely decoratively.
+- **`Avatar.Fallback` is not hidden from assistive tech**: fallback text such as initials stays in the accessibility tree, so add `aria-hidden` yourself when the fallback is purely decorative.
 
 {/* END: a11y */}
 

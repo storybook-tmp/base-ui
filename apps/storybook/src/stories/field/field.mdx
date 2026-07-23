@@ -194,7 +194,6 @@ Field itself adds only one keyboard binding. Everything else belongs to whatever
 
 - **ARIA managed for you**: `Field.Label` → `htmlFor`/`id` (or `aria-labelledby` for span-based controls); `Field.Description`/`Field.Error` → merged, deduplicated into the control's `aria-describedby`; `aria-invalid` added when `valid === false` and the control isn't disabled.
 - **You must provide**: for a form library's own inputs, forward the `ref` to the underlying Base UI control so tools like React Hook Form can focus invalid fields on submit.
-- **Known issues**: error-message customization for multiple simultaneous rules is a known rough edge ([#1923](https://github.com/mui/base-ui/issues/1923), open; `Field.Validity` is the escape hatch); the `invalid` prop cannot be reset to resume internal computed validity ([#3777](https://github.com/mui/base-ui/issues/3777), open).
 
 {/* END: a11y */}
 

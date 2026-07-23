@@ -232,7 +232,6 @@ Transitions hang off `[data-starting-style]`/`[data-ending-style]`, exactly like
 - **Snap-point changes make no announcement**: moving between detents is visual state only; no live region is wired in the snap-point code.
 - **`SwipeArea` is invisible and pointer-only**: it must never be the sole way to open the drawer; always pair it with a real `Trigger`.
 - **You must provide**: a `Drawer.Title` (or `aria-label`), a visible `Drawer.Close`, `:focus-visible` styles, and sufficient contrast.
-- **Known issues**: the Dialog-family issues apply unchanged ([#4678](https://github.com/mui/base-ui/issues/4678) aria-hidden tabbables, [#4843](https://github.com/mui/base-ui/issues/4843) `aria-modal`, [#4583](https://github.com/mui/base-ui/issues/4583) multi-Esc). No Drawer-specific open accessibility issues are known.
 
 {/* END: a11y */}
 
@@ -373,8 +372,8 @@ The vaul succession, in order:
 {/* BEGIN: when-to-use */}
 ## Related
 
-- To use the same overlay **without** gestures, snap points, or an indent effect, use [Dialog](?path=/docs/overlays-dialog--docs); Drawer runs its engine underneath.
-- To force a response to a destructive or irreversible action, use [Alert Dialog](?path=/docs/overlays-alert-dialog--docs); never present a required-response flow as a swipeable sheet.
+- To use the same overlay **without** gestures, snap points, or an indent effect, use [Dialog](?path=/docs/overlays-dialog--docs).
+- To force a response to a destructive or irreversible action, use [Alert Dialog](?path=/docs/overlays-alert-dialog--docs).
 - To attach content to a specific trigger element instead of the whole page's edge, use [Popover](?path=/docs/overlays-popover--docs).
 
 {/* END: when-to-use */}

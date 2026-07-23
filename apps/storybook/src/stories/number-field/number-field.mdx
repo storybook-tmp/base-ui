@@ -79,7 +79,7 @@ import { NumberField } from '@base-ui/react/number-field';
 
 ### `onValueChange` vs `onValueCommitted`
 
-The key behavioral contract in this component: `onValueChange(value, eventDetails)` fires on every parseable intermediate change (each keystroke that parses, each step). A separate `onValueCommitted(value, eventDetails)` fires only when a value is finalized: on blur after typing, on pointer release after scrubbing/button-press, or simultaneously with `onValueChange` for keyboard/wheel interactions. `onValueCommitted` is a generic event, not a change event; only `onValueChange`'s `eventDetails.cancel()` can veto a change.
+The key behavioral contract is that `onValueChange(value, eventDetails)` fires on every parseable intermediate change (each keystroke that parses, each step). A separate `onValueCommitted(value, eventDetails)` fires only when a value is finalized: on blur after typing, on pointer release after scrubbing/button-press, or simultaneously with `onValueChange` for keyboard/wheel interactions. `onValueCommitted` is a generic event, not a change event; only `onValueChange`'s `eventDetails.cancel()` can veto a change.
 
 ### Keyboard stepping
 
@@ -105,7 +105,7 @@ Click-and-drag anywhere in `ScrubArea` to change the value continuously (pointer
 
 <Canvas of={NumberFieldStories.FormIntegration} />
 
-The story applies `noValidate` on the surrounding `<form>` deliberately: the default `step={1}` triggers native step validation once an explicit `min` is present, and forms that skip `noValidate` can have submission silently blocked by a native browser popup the developer didn't expect (mui/base-ui#3552, a confirmed shadcn/RHF-forms pitfall). Base UI's `Field`/`Form` validation is meant to be authoritative instead.
+The story applies `noValidate` on the surrounding `<form>` deliberately, because the default `step={1}` triggers native step validation once an explicit `min` is present, and forms that skip `noValidate` can have submission silently blocked by a native browser popup the developer didn't expect (mui/base-ui#3552, a confirmed shadcn/RHF-forms pitfall). Base UI's `Field`/`Form` validation is meant to be authoritative instead.
 
 ### Press-and-hold stepping
 

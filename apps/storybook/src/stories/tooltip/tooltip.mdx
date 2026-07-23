@@ -24,7 +24,7 @@ A popup that appears when an element is hovered or focused, showing a hint for s
 - **Hover and focus open it**: no click-to-open path exists; touch never opens it either (see below).
 - **`Tooltip.Provider` delay-grouping**: sibling tooltips inside one Provider share a "warm" window so sweeping across a toolbar instantly shows tooltips after the initial display delay.
 - **Detached triggers and typed payloads**: `Tooltip.createHandle<Payload>()` associates a Trigger anywhere in the tree with a Root/Popup rendered elsewhere, the same handle pattern as Popover/Dialog.
-- **Purely visual, no ARIA wiring**: the Popup carries no role and is never linked via `aria-describedby`; this is by design (see Keyboard & screen reader).
+- **Purely visual, no ARIA wiring**: label the trigger yourself (see Keyboard & screen reader).
 
 {/* END: general */}
 
@@ -37,12 +37,12 @@ A popup that appears when an element is hovered or focused, showing a hint for s
 
 ## When not to use
 
-The core distinction ([#3530](https://github.com/mui/base-ui/issues/3530)): a popover's trigger's purpose is to open the popover itself (and every platform is supported), while a tooltip's trigger's purpose is unrelated to the tooltip (and touch platforms are excluded).
+A popover's trigger's purpose is to open the popover itself (and every platform is supported), while a tooltip's trigger's purpose is unrelated to the tooltip (and touch platforms are excluded).
 
 - To reveal **essential content behind an info icon**, use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover` instead, so touch users and screen reader users can access the content. A Tooltip never appears on touch and carries no ARIA relationship to its content ([#3530](https://github.com/mui/base-ui/issues/3530)).
 - To preview a **link's destination on hover**, use [Preview Card](?path=/docs/overlays-preview-card--docs) instead. Both are hover/focus-only and sighted-only, but Preview Card's trigger is specifically an `<a>` whose destination independently contains the previewed content.
 - For **transient contextual feedback** ("Copied!", "Saved"), use an anchored Toast instead, so the message is announced to screen readers ([#3096](https://github.com/mui/base-ui/issues/3096)).
-- If **touch support is a hard requirement**, Tooltip is not an option: there is no touch fallback by design (see below).
+- If **touch support is a hard requirement**, Tooltip is not an option.
 
 {/* END: when-to-use */}
 
@@ -74,7 +74,7 @@ import { Tooltip } from '@base-ui/react/tooltip';
 | `Tooltip.Trigger`           | `<button>` | The element the tooltip attaches to; may be "contained" (inside Root) or "detached" (anywhere, via `handle`)        | required in practice |
 | `Tooltip.Portal`            | portal     | Moves the popup subtree to `<body>`; **required**: the parts below throw if used outside it                         | required             |
 | `Tooltip.Positioner`        | `<div>`    | Positions the popup against the trigger                                                                             | required             |
-| `Tooltip.Popup`             | `<div>`    | Container for the tooltip contents; carries no ARIA role                                                            | required             |
+| `Tooltip.Popup`             | `<div>`    | Container for the tooltip contents                                                                                  | required             |
 | `Tooltip.Arrow`             | `<div>`    | Visual pointer at the anchor                                                                                        | yes                  |
 | `Tooltip.Viewport`          | `<div>`    | Content-transition container; only needed when one popup serves multiple triggers with animated content swaps       | yes                  |
 | `Tooltip.createHandle<P>()` | —          | Factory returning a handle: connect detached triggers and Roots; imperative control                                 | yes                  |
@@ -122,7 +122,7 @@ Wrap several `Tooltip.Root`s in one `<Tooltip.Provider timeout={400}>` (the `tim
 
 ### Touch is excluded by design
 
-Tooltip **never opens on touch input**: `TooltipTrigger.tsx` passes `mouseOnly: true` to the shared hover-reference-interaction hook, which unconditionally guards against non-mouse-like `pointerType`s before opening. This is by design ([#3530](https://github.com/mui/base-ui/issues/3530)): iOS has no system-standard touch-tooltip affordance, and Android's long-press convention conflicts with the browser's own contextual-menu gesture. If touch users must reach the content, Tooltip is the wrong component regardless of content weight (see When not to use).
+Tooltip **never opens on touch input**: `TooltipTrigger.tsx` passes `mouseOnly: true` to the shared hover-reference-interaction hook, which unconditionally guards against non-mouse-like `pointerType`s before opening. This is by design ([#3530](https://github.com/mui/base-ui/issues/3530)), because iOS has no system-standard touch-tooltip affordance and Android's long-press convention conflicts with the browser's own contextual-menu gesture. If touch users must reach the content, Tooltip is the wrong component regardless of content weight (see When not to use).
 
 ### Positioning
 
@@ -157,7 +157,6 @@ Pattern: **none**. Tooltip does **not** implement the W3C APG ["Tooltip"](https:
 
 - **ARIA managed for you**: none. Giving the Popup a `role="tooltip"` plus a live `aria-describedby` link would make its content part of the accessible name/description tree, which a tooltip is _not_ meant to be (that is Popover's job; see When not to use).
 - **Screen reader**: no tooltip announcement at all, by design. **You must provide** an `aria-label` directly on the Trigger that closely matches the tooltip's content. The tooltip itself is invisible to assistive technology, so the trigger must carry its own label.
-- **Known issues**: no tooltip-specific accessibility bug reports are known beyond the design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530).
 
 {/* END: a11y */}
 
@@ -195,7 +194,6 @@ Pattern: **none**. Tooltip does **not** implement the W3C APG ["Tooltip"](https:
 
 **Don't**
 
-- Don't expect `role="tooltip"` or `aria-describedby` to show up in the rendered DOM; neither exists. This is by design ([#3530](https://github.com/mui/base-ui/issues/3530)).
 - Don't use Tooltip for "Copied!"-style contextual feedback; use an anchored Toast instead so the message is announced to screen readers.
 - Don't rely on Tooltip for content a touch-only user must reach: there is no touch fallback ([#3530](https://github.com/mui/base-ui/issues/3530)).
 

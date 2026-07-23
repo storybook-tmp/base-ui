@@ -22,7 +22,7 @@ A self-managing stack of transient, non-interrupting status notifications. It is
 
 ## Features
 
-- **Imperative manager, not a trigger**: `useToastManager()` returns `{ toasts, add, update, close, promise }`; `createToastManager()` gives the same surface outside React (websocket handlers, route loaders). This is deliberate and toast-specific: when [#2802](https://github.com/mui/base-ui/issues/2802) asked for the same pattern for dialogs, we declined, because toasts are usually simple, with a basic render structure where a hook passing the data payload works well.
+- **Imperative manager, not a trigger**: `useToastManager()` returns `{ toasts, add, update, close, promise }`; `createToastManager()` gives the same surface outside React (websocket handlers, route loaders). The manager pattern is specific to Toast; other overlays use `createHandle()` instead.
 - **Sonner-benchmarked stacking**: newest toast at index 0, older toasts peek behind at reduced scale, and hovering/focusing the viewport fans the stack out via `--toast-offset-y` ([#1955](https://github.com/mui/base-ui/issues/1955) cites Emil Kowalski's CSS-transforms article as the model). All layout is your CSS on the exposed hooks.
 - **Announcement architecture rebuilt for correctness**: `Toast.Viewport` is itself the polite `aria-live` container; high-priority toasts additionally render into a separate visually hidden `role="alert"` container so they announce assertively without double-announcing ([#2246](https://github.com/mui/base-ui/pull/2246)).
 - **Toasts never steal focus**: we rejected a proposed `focus` option on `add()` because moving focus to a toast is not desired; when user input is required, AlertDialog is better suited ([#4533](https://github.com/mui/base-ui/pull/4533)).
@@ -152,7 +152,7 @@ Anchored toasts wrap `Toast.Root` in `Toast.Positioner` + `Toast.Arrow` and read
 
 ### Manager API
 
-`createToastManager()` at module scope plus `<Toast.Provider toastManager>` drives toasts from outside React, from a plain function rather than a hook. Caveat: toasts fired before the provider mounts are dropped ([#4986](https://github.com/mui/base-ui/issues/4986), open).
+`createToastManager()` at module scope plus `<Toast.Provider toastManager>` drives toasts from outside React, from a plain function rather than a hook.
 
 <Canvas of={ToastStories.GlobalManager} />
 
@@ -210,7 +210,6 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 <Canvas of={ToastStories.PriorityAnnouncements} />
 
 - **You must provide**: `:focus-visible` styles on toasts and actions, sufficient contrast, and, for any toast carrying an action, a timeout long enough for keyboard/screen-reader users to reach it (or `timeout: 0`).
-- **Known issues**: [#4253](https://github.com/mui/base-ui/issues/4253) (open): keyboard/screen-reader users can't reach an Undo action before dismissal; our position is that moving focus is the wrong fix, so pair important actions with long/infinite timeouts instead. [#4229](https://github.com/mui/base-ui/issues/4229) (open): a known gap in our docs; the component has no usage-level a11y documentation yet, and Primer's guidance (which discourages toasts) is the referenced model.
 
 {/* END: a11y */}
 
@@ -241,7 +240,7 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 
 - **`Provider.timeout`** (default 5000): global auto-dismiss. Set `0` to make all toasts persistent by default; per-toast `timeout` in `add()` overrides it. Use ≥10s (or `0`) when a toast carries an action the user must reach ([#4975](https://github.com/mui/base-ui/pull/4975), [#4253](https://github.com/mui/base-ui/issues/4253)).
 - **`Provider.limit`** (default 3): visible-stack cap. Style the overflow with `[data-limited]` (e.g. `opacity: 0`); limited toasts are `inert` but still mounted and will return ([#1953](https://github.com/mui/base-ui/pull/1953)).
-- **`Provider.toastManager`**: pass a `createToastManager()` instance to drive toasts from outside React. Known gap: toasts added before the Provider mounts are dropped ([#4986](https://github.com/mui/base-ui/issues/4986), open), which matters for islands architectures.
+- **`Provider.toastManager`**: pass a `createToastManager()` instance to drive toasts from outside React.
 - **`Root.swipeDirection`** (default `['down', 'right']`): match your viewport corner (bottom-right stack → down/right; top-center → `['up']`). Ignored for anchored toasts.
 - **`add()` `type`**: free-form styling/behavior discriminator surfaced as `data-type`; `'loading'` is special (no auto-dismiss). We declined literal-union typing in favor of a future typed manager ([#3952](https://github.com/mui/base-ui/issues/3952)).
 - **`add()` `priority`** (default `'low'`): `'high'` gets assertive `role="alert"` announcement plus `alertdialog` role; reserve it for urgent, actionable failures.
@@ -350,6 +349,7 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 - **2025-10/11**: Anchored toasts: Positioner + Arrow parts, `positionerProps` on `add()` ([#3096](https://github.com/mui/base-ui/pull/3096), closing [#3026](https://github.com/mui/base-ui/issues/3026)).
 - **2026-01→03**: Manager API maturation: generics `useToastManager<Data>`/`createToastManager<Data>` ([#3882](https://github.com/mui/base-ui/pull/3882)); `close()` with no id closes all ([#3979](https://github.com/mui/base-ui/pull/3979), Sonner/Chakra `dismiss` precedent); timer rescheduling on update fixed ([#3564](https://github.com/mui/base-ui/pull/3564)).
 - **2026-03→05**: Dedup/upsert via `add({ id })` + `updateKey` counter ([#4440](https://github.com/mui/base-ui/pull/4440), from [#4228](https://github.com/mui/base-ui/issues/4228)); timers resume after window refocus ([#4438](https://github.com/mui/base-ui/pull/4438)).
+- **Manager pattern stays toast-only**: we declined the same imperative-manager API for Dialog ([#2802](https://github.com/mui/base-ui/issues/2802)), because toasts have a simple render structure where a hook passing the data payload works well; Dialog uses `createHandle()` instead.
 - **2026-06**: `focus` option rejected ([#4533](https://github.com/mui/base-ui/pull/4533)): toasts must not move focus; AlertDialog is the alternative. Companion docs fix: undo demo timeout raised to 10s ([#4975](https://github.com/mui/base-ui/pull/4975)). Open counterparts: [#4253](https://github.com/mui/base-ui/issues/4253) (a11y timing), [#4229](https://github.com/mui/base-ui/issues/4229) (a11y guide).
 
 {/* END: history */}

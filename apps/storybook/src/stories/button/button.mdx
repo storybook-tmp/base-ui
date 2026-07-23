@@ -102,8 +102,6 @@ Button enforces `role="button"` and button keyboard interaction. Style a link-st
 
 - **ARIA**: `role="button"` only on non-native renders; `aria-disabled="true"` when disabled (either non-native, or native + `focusableWhenDisabled`); native `disabled` attribute only for a native `<button>` without `focusableWhenDisabled`.
 - **You must provide**: an accessible name (text content or `aria-label`), visible `:focus-visible` styling.
-- **Dev-time correctness guard**: a mismatched `nativeButton` vs actual rendered tag throws a console `Base UI:` error explaining the risk, in both directions.
-- **Known issues**: no open Button-specific accessibility issues are known beyond the scope debate covered in the decision log below.
 
 {/* END: a11y */}
 

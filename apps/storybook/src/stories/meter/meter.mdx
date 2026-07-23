@@ -110,7 +110,6 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 - **ARIA**: `role="meter"` (unconditional); `aria-valuemin`/`aria-valuemax`/`aria-valuenow` always set; `aria-valuetext` = percent-of-range, `format`-driven, or `getAriaValueText`-overridden; `aria-labelledby` auto-wired from `Meter.Label`.
 - **You must provide**: a label (`Meter.Label` or `aria-label`) and sufficient track/indicator contrast.
-- **Known issues**: [#4184](https://github.com/mui/base-ui/issues/4184), NVDA/JAWS label announcement (shared with Progress), partially mitigated by the hidden-span workaround from [#4200](https://github.com/mui/base-ui/pull/4200). [#4616](https://github.com/mui/base-ui/issues/4616), SSR `aria-valuetext` hydration mismatch; pass an explicit `locale`.
 
 {/* END: a11y */}
 
@@ -206,7 +205,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 ## Known issues & open questions
 
 - [#1434](https://github.com/mui/base-ui/issues/1434) (open): no ARIA-equivalent for native `<meter>`'s high/low/optimum segments; consumer-computed classes are the interim answer.
-- [#4184](https://github.com/mui/base-ui/issues/4184) (open): NVDA/JAWS label announcement, partially mitigated.
+- [#4184](https://github.com/mui/base-ui/issues/4184) (open): NVDA/JAWS label announcement, partially mitigated by the hidden-span workaround from [#4200](https://github.com/mui/base-ui/pull/4200); verify with your target AT combination.
 - [#4616](https://github.com/mui/base-ui/issues/4616) (open): SSR hydration mismatch on `aria-valuetext`; workaround: explicit `locale`.
 
 {/* END: known-issues */}

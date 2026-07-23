@@ -163,7 +163,6 @@ Form adds no widget semantics of its own: it is a native `<form>`, so native key
 - **ARIA**: no role or `aria-*` attributes are added by Base UI. Error announcement happens at Field level: `Field.Error` joins the control's `aria-describedby` and the control gets `aria-invalid` when invalid. Form's contribution is _timing_ (errors appear and focus moves on submit, matching the native mental model).
 - **Focus management**: on a failed submit (including one that returns server errors), the first invalid control is focused and its text selected, so keyboard and screen-reader users land directly on the problem.
 - **You must provide**: an accessible name for the form landmark itself (`aria-label`/`aria-labelledby` on Form) if the page has multiple forms; Base UI leaves this to you. Also provide the usual Field-level labels via `Field.Label`.
-- **Known issues**: none known against Form itself; the closest is OTP-field autosubmit focus ([#5088](https://github.com/mui/base-ui/issues/5088)), owned by otp-field.
 
 {/* END: a11y */}
 
@@ -304,6 +303,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 
 - [#4737](https://github.com/mui/base-ui/issues/4737): Standard Schema support (Zod/Valibot/ArkType as a Form-level prop): open feature request; today's shapes are per-field `validate` or schema-at-submit → `errors`.
 - [#1346](https://github.com/mui/base-ui/issues/1346): no Field-aware `reset()` API yet; native `form.reset()` resets DOM values but not Field state uniformly. Workaround: remount via `key` or control values.
+- [#5088](https://github.com/mui/base-ui/issues/5088): OTP-field autosubmit focus, owned by otp-field rather than Form itself (open).
 - [#3552](https://github.com/mui/base-ui/issues/3552): recurring confusion at the plain-`<form>` boundary: add `noValidate` to your own `<form>` when not using Base UI Form.
 
 {/* END: known-issues */}

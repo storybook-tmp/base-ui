@@ -183,7 +183,7 @@ Opt out by canceling the `escape-key` reason in `onValueChange`, the documented 
 
 ### Free text and forms
 
-The key difference from Combobox: the typed text submits even when it matches no suggestion. Enter with **no** highlighted item closes the popup and lets native form submission proceed; this was reported as a bug against Google-Search expectations and fixed in [#2700](https://github.com/mui/base-ui/pull/2700):
+Unlike Combobox, the typed text submits even when it matches no suggestion. Enter with **no** highlighted item closes the popup and lets native form submission proceed; this was reported as a bug against Google-Search expectations and fixed in [#2700](https://github.com/mui/base-ui/pull/2700):
 
 <Canvas of={AutocompleteStories.FreeTextSubmit} />
 
@@ -243,7 +243,7 @@ Memoize items (`React.memo` + item-as-prop) up to ~1,000 items; beyond that, vir
 
 ### Animation
 
-Standard popup contract: `data-open`/`data-closed`/`data-starting-style`/`data-ending-style` transitions with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires when the transition settles, and `actionsRef.unmount()` serves JS animation libraries. Known wart: a transition flicker on input clear when no items match ([#4408](https://github.com/mui/base-ui/issues/4408), open):
+The popup follows the standard animation contract, with `data-open`/`data-closed`/`data-starting-style`/`data-ending-style` transitions and `transform-origin: var(--transform-origin)`. `onOpenChangeComplete` fires when the transition settles, and `actionsRef.unmount()` serves JS animation libraries. One known issue is a transition flicker on input clear when no items match ([#4408](https://github.com/mui/base-ui/issues/4408), open):
 
 <Canvas of={AutocompleteStories.AnimatedPopup} />
 
@@ -269,7 +269,6 @@ Pattern: [APG editable combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 - **ARIA managed for you**: Input gets `role="combobox"`, `aria-expanded`, `aria-haspopup="listbox"` (`"grid"` in grid mode), `aria-controls` while open, `aria-autocomplete={mode}`, `aria-activedescendant` (virtual focus), plus DOM hygiene (`autoComplete="off"`, `spellCheck=false`, `autoCorrect="off"`, `autoCapitalize="none"`). Popup gets `role="presentation"`, or `role="dialog"` when the Input is inside. List gets `role="listbox"`/`role="grid"`. Item gets `role="option"`/`gridcell`, **no `aria-selected`** ([#4409](https://github.com/mui/base-ui/pull/4409)). Status/Empty get `role="status"`, `aria-live="polite"`, `aria-atomic`, with the initial announcement handled via a mutation trick ([#4181](https://github.com/mui/base-ui/issues/4181)).
 - **Screen reader**: typing announces filtered results via the listbox and any `Status`/`Empty` text; arrowing announces options through `aria-activedescendant` without moving DOM focus.
 - **You must provide**: an accessible name (a `<label>`, `Field.Label`, or `aria-label` on the Input for standalone search/command inputs, [#4949](https://github.com/mui/base-ui/pull/4949)), plus visible `:focus-visible` styling and highlight contrast that doesn't rely on color alone ([#4182](https://github.com/mui/base-ui/issues/4182)).
-- **Known issues**: [#4182](https://github.com/mui/base-ui/issues/4182) (open): command-palette demo focus indicator relies on color alone; [#4183](https://github.com/mui/base-ui/issues/4183) (open): command palette lacks a persistently visible label; [#4666](https://github.com/mui/base-ui/issues/4666) (open): `disabled` items are highlightable (focusable-when-disabled is APG-intentional, highlightability is disputed); [#2669](https://github.com/mui/base-ui/issues/2669) (open): inline completion doesn't select the appended text like Chrome does; [#5146](https://github.com/mui/base-ui/issues/5146) (open): no vim-style Ctrl+N/P navigation.
 
 {/* END: a11y */}
 
@@ -472,6 +471,9 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
 - [#3853](https://github.com/mui/base-ui/issues/3853): `itemToStringValue`/`Item value` TypeScript inference docs flagged confusing (open).
 - [#4157](https://github.com/mui/base-ui/issues/4157): searchable menu with submenus fits no component; a future component may cover it (open).
 - [#2854](https://github.com/mui/base-ui/issues/2854): popups inside third-party overlays (Radix dialogs etc.) need `Portal container` for pointer-events interop.
+- [#4182](https://github.com/mui/base-ui/issues/4182): the command-palette demo's focus indicator relies on color alone (open).
+- [#4183](https://github.com/mui/base-ui/issues/4183): the command palette lacks a persistently visible label (open).
+- [#5146](https://github.com/mui/base-ui/issues/5146): no vim-style Ctrl+N/P navigation (open).
 
 {/* END: known-issues */}
 

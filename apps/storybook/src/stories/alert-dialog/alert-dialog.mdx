@@ -40,10 +40,8 @@ to dismiss by accident.
   ```
 
   `AlertDialogRoot.Props` **`Omit`s `modal` and `disablePointerDismissal` from
-  `DialogRoot.Props` entirely**: removed from the public API surface, not merely
-  defaulted, so a consumer cannot even attempt to override them. If a scenario needs
-  `modal={false}` or a dismissible confirmation, that scenario needs plain Dialog,
-  not AlertDialog.
+  `DialogRoot.Props` entirely**, so passing either one is a type error. If a scenario
+  needs `modal={false}` or a dismissible confirmation, use plain Dialog.
 
 - **Why a separate component instead of a `severity` prop on Dialog**: we separated
   it from Dialog for accessibility reasons
@@ -85,11 +83,10 @@ to dismiss by accident.
 
 - **vs Dialog (the primary boundary)**: use plain Dialog for anything dismissible:
   settings panels, forms the user can back out of, notification centers. Use
-  AlertDialog only for the one case Dialog can't express: a decision the user cannot
-  escape by clicking outside. Reversing the decision (making a Dialog behave like an
-  AlertDialog) is possible by setting `modal` + `disablePointerDismissal` explicitly;
-  the reverse (making an AlertDialog dismissible) is not possible, since the props
-  are removed from its type, not merely defaulted.
+  AlertDialog only for the case Dialog can't express: a decision the user cannot
+  escape by clicking outside. A Dialog can be made to behave like an AlertDialog by
+  setting `modal` + `disablePointerDismissal` explicitly, but an AlertDialog can
+  never be made dismissible.
 - **vs Toast**: passive, self-clearing notifications are Toast's job. Toasts notify
   users without interrupting their workflow; when user input is required, AlertDialog
   is better suited ([#4533](https://github.com/mui/base-ui/issues/4533)).
@@ -332,9 +329,6 @@ delete buttons:
   [#1687](https://github.com/mui/base-ui/issues/1687) (open) asks for the three
   Dialog/AlertDialog differences (role, modal, pointer dismissal) to be stated on
   the official docs site; they still aren't.
-- **"Can I make my AlertDialog dismissible by clicking outside for one particular
-  case?"** → no. `modal` and `disablePointerDismissal` are `Omit`ted from the type,
-  enforced at compile time. If a case needs that, it needs Dialog, not AlertDialog.
 
 {/* END: behavior */}
 

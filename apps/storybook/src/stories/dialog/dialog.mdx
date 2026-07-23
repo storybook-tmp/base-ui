@@ -228,7 +228,6 @@ CSS transitions hook onto `[data-starting-style]`/`[data-ending-style]` on Popup
 - **No `aria-modal`, by design**: modal dialogs instead mark outside elements `aria-hidden`/inert, with an exception that keeps `[aria-live]` regions (e.g. `Toast.Viewport`) announcing. Relying on `aria-modal` would let assistive tech treat live announcers outside the dialog as hidden ([#4843](https://github.com/mui/base-ui/issues/4843), [w3c/aria#1854](https://github.com/w3c/aria/issues/1854)); React Spectrum avoids it too due to a Safari bug.
 - **Touch screen readers**: when `modal` is `true` or `'trap-focus'`, render a `<Dialog.Close>` inside the Popup so touch screen-reader users can escape (JSDoc on `modal`). Hidden focus-guard `<span>`s are rendered around triggers and popups for the same reason ([#3693](https://github.com/mui/base-ui/issues/3693)).
 - **You must provide**: a `Dialog.Title` (or `aria-label`), a visible close affordance, `:focus-visible` styles, and sufficient contrast.
-- **Known issues**: [#4678](https://github.com/mui/base-ui/issues/4678) (open): backgrounds are `aria-hidden` but focusable elements are not removed from tab order (aXe `aria-hidden-focus` violation); [#4583](https://github.com/mui/base-ui/issues/4583) (open): Esc closes multiple sibling dialogs when 3+ are open simultaneously; [#3750](https://github.com/mui/base-ui/issues/3750) (open): no way yet to keep designated outside elements focusable while modal; [#3905](https://github.com/mui/base-ui/issues/3905) (open): CloseWatcher / Android back button support.
 
 {/* END: a11y */}
 
@@ -403,6 +402,8 @@ Two recreations live in this Storybook: an edge-docked side panel (Oxide) and a 
 - [#1893](https://github.com/mui/base-ui/issues/1893): iOS scroll-lock edge cases (collapsed navbar, focused inputs); largely fixed by iOS 26.4, docs callout still missing (open).
 - [#3326](https://github.com/mui/base-ui/issues/3326): SSR cannot render an initially open dialog (open, waiting for upvotes).
 - [#2689](https://github.com/mui/base-ui/issues/2689): draggable dialogs deferred to community demand (open, waiting for upvotes).
+- [#3750](https://github.com/mui/base-ui/issues/3750): no way yet to keep designated outside elements focusable while modal (open).
+- [#3905](https://github.com/mui/base-ui/issues/3905): CloseWatcher / Android back button support (open).
 
 {/* END: known-issues */}
 

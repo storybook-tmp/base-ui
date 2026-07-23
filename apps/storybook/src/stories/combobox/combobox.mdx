@@ -255,7 +255,7 @@ The hidden input provides full native-form citizenship: `name`, `form`, `require
 
 ### Animation
 
-Standard popup hooks: `data-open`/`data-closed`/`data-starting-style`/`data-ending-style` on Popup/Positioner, `--transform-origin`/`--available-height` CSS variables, and `actionsRef.unmount()` + `onOpenChangeComplete` for JS animation libraries (a transition/status edge case is open at [#3811](https://github.com/mui/base-ui/issues/3811)):
+The popup exposes the standard animation hooks: `data-open`/`data-closed`/`data-starting-style`/`data-ending-style` on Popup/Positioner, `--transform-origin`/`--available-height` CSS variables, and `actionsRef.unmount()` + `onOpenChangeComplete` for JS animation libraries (a transition/status edge case is open at [#3811](https://github.com/mui/base-ui/issues/3811)):
 
 <Canvas of={ComboboxStories.AnimatedPopup} />
 
@@ -291,7 +291,6 @@ Pattern: [APG Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/), edi
 - **ARIA managed for you**: Input: `role="combobox"`, `aria-expanded`, `aria-autocomplete="list"`, `aria-haspopup="listbox"`, `aria-controls`, `aria-activedescendant` → highlighted option (virtual focus), auto `aria-labelledby`. List: `role="listbox"` (+ `aria-multiselectable` in multiple mode). Popup: `role="presentation"`, or `role="dialog"` with the trigger as `role="combobox"` in the input-inside-popup pattern. Item: `role="option"`, `aria-selected`; grid mode emits `row`/`gridcell`. Chips: container `role="toolbar"` while chips exist; chips take real DOM focus. Hidden form input: `aria-hidden`, focus forwarded.
 - **Screen reader fixes shipped**: initial live-region announcements ([#4286](https://github.com/mui/base-ui/pull/4286)), TalkBack option-wrapper structure ([#4607](https://github.com/mui/base-ui/pull/4607)), iOS VoiceOver double-tap close ([#3859](https://github.com/mui/base-ui/issues/3859)), NVDA chips navigation ([#3647](https://github.com/mui/base-ui/pull/3647)), hidden Dismiss buttons in modal flows ([#4084](https://github.com/mui/base-ui/pull/4084)).
 - **You must provide**: an accessible name (a `<label>`/`Field.Label` on the Input when it sits outside, or `Combobox.Label` on the Trigger when the input is inside the popup), plus visible `:focus-visible` styling and contrast. Keep `Status`/`Empty` mounted and conditionally render their children.
-- **Known issues**: [#4657](https://github.com/mui/base-ui/issues/4657) (open): passing `index` to Item breaks hover highlight; [#3227](https://github.com/mui/base-ui/issues/3227) (open): `--available-height` misbehaves when the iOS keyboard opens; [#2991](https://github.com/mui/base-ui/issues/2991) (open): mobile popup-as-aside layout bug; [#4938](https://github.com/mui/base-ui/issues/4938) (open, has workaround): clearing the value in the input-inside-popup pattern. No other open screen-reader-specific bugs are known.
 
 {/* END: a11y */}
 
@@ -485,6 +484,7 @@ Two recreations live in this Storybook: a grouped, separated sync-target picker 
 - [#4938](https://github.com/mui/base-ui/issues/4938): clearing the value in the input-inside-popup pattern (open, has workaround).
 - [#4188](https://github.com/mui/base-ui/issues/4188): `autoHighlight: 'always'` typing/docs gap (open).
 - [#3559](https://github.com/mui/base-ui/issues/3559): Suspense-first async support (open, unplanned).
+- [#2991](https://github.com/mui/base-ui/issues/2991): mobile popup-as-aside layout bug (open).
 - Open docs feedback: inline examples ([#3966](https://github.com/mui/base-ui/issues/3966)), custom-value rendering ([#2759](https://github.com/mui/base-ui/issues/2759)), a Tab-to-select question ([#2894](https://github.com/mui/base-ui/issues/2894)), and async pagination guidance ([#3719](https://github.com/mui/base-ui/issues/3719)).
 
 {/* END: known-issues */}
