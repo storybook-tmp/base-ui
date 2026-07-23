@@ -31,7 +31,6 @@ const meta = {
     'Autocomplete.Status': Autocomplete.Status,
     'Autocomplete.Empty': Autocomplete.Empty,
   },
-  tags: ['verified'],
 } satisfies Meta<typeof Autocomplete.Root>;
 
 export default meta;
@@ -101,7 +100,7 @@ function DemoAutocomplete({
 
 /** The docs hero anatomy extended with `InputGroup`: Input plus the optional non-tabbable Clear and the Trigger that opens the popup without typing. Free-form text is the value; the list only suggests. */
 export const Hero: Story = {
-  tags: ['showcase', 'verified', 'base'],
+  tags: ['showcase', 'base'],
   render: () => (
     <Autocomplete.Root items={tags}>
       <label className={styles.Label}>
