@@ -143,6 +143,7 @@ function LinkCards({
 
 /** The docs hero demo: a `<nav>` bar whose triggers open link-card panels in one shared, morphing popup, plus a plain link item — triggers and plain links mix freely in one List. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <NavigationMenu.Root className={styles.Root}>
       <NavigationMenu.List className={styles.List}>
@@ -266,6 +267,7 @@ function NestedPopupSubmenuExample() {
 
 /** The docs "Nested submenus" demo: a nested vertical `Root` with its own Portal/Positioner inside a parent `Content` opens a second flyout beside the first — both share one FloatingTree so dismissal propagates ([#2978](https://github.com/mui/base-ui/pull/2978)). */
 export const NestedPopupSubmenu: Story = {
+  tags: ['highlight', 'base'],
   render: () => <NestedPopupSubmenuExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -368,6 +370,7 @@ function NestedInlineSubmenuExample() {
 
 /** The docs "Nested inline submenus" demo: Portal/Positioner/Popup are optional as a group — a nested `Root` rendering only `List` + `Viewport` (with `defaultValue`) swaps second-level content in place inside the parent panel. */
 export const NestedInlineSubmenu: Story = {
+  tags: ['highlight', 'base'],
   render: () => <NestedInlineSubmenuExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const doc = canvasElement.ownerDocument;
@@ -443,6 +446,7 @@ function MorphExample() {
 
 /** The founding [#1741](https://github.com/mui/base-ui/pull/1741) behavior: all triggers feed ONE popup. Switching triggers re-anchors and resizes it via `--popup-width/height` + `--positioner-width/height` while Content cross-fades directionally (`data-activation-direction`) — no close/reopen flicker. */
 export const FlyoutViewportMorph: Story = {
+  tags: ['highlight'],
   render: () => <MorphExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -523,6 +527,7 @@ function KeyboardExample() {
 
 /** The disclosure-navigation keyboard contract: arrow keys rove focus between top-level items WITHOUT opening (no open-on-focus — WCAG 3.2.1, [#4186](https://github.com/mui/base-ui/issues/4186)); `ArrowDown` opens and moves focus in; `Tab` walks through panel links and closes on the way out; `Escape` closes and refocuses the trigger. */
 export const KeyboardNavigation: Story = {
+  tags: ['tests'],
   render: () => <KeyboardExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -656,6 +661,7 @@ function ClientRouterExample() {
 
 /** Every `Link` composes a client router — the docs "Custom links" recipe is `render={<NextLink href={…}/>}`; this demo wires the equivalent `href`/`onClick` pair directly (a router `render` target is a real component with its own event handlers, which this Chromium test runner doesn't reliably click through). `active` marks the current page with `aria-current="page"` + `data-active`. Panel links keep the menu open by default (`closeOnClick={false}` — [#2740](https://github.com/mui/base-ui/pull/2740)). */
 export const LinkWithRenderClientRouter: Story = {
+  tags: ['highlight'],
   render: () => <ClientRouterExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -686,6 +692,7 @@ export const LinkWithRenderClientRouter: Story = {
 
 /** Positioner props are the standard anchored-positioning set: `side`/`align`/`sideOffset` plus collision config; the Popup and Arrow expose the resolved placement via `data-side`/`data-align`. The hero uses `collisionAvoidance={{ side: 'none' }}` so a header popup never flips above the bar mid-morph. */
 export const PositioningSideAlign: Story = {
+  tags: ['highlight'],
   render: () => (
     <NavigationMenu.Root className={styles.Root} aria-label="Main">
       <NavigationMenu.List className={styles.List}>
@@ -731,6 +738,7 @@ export const PositioningSideAlign: Story = {
 
 /** Click toggles only the active item (`trigger-press`), and clicking a *different* trigger switches panels without a flicker-close — presses on other nav triggers are exempt from outside-press dismissal via a trigger marker attribute. */
 export const ClickToggleActivation: Story = {
+  tags: ['highlight'],
   render: () => <MorphExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -761,6 +769,7 @@ export const ClickToggleActivation: Story = {
 
 /** The "patient click" threshold: for 500ms after a hover-open, clicking the trigger will NOT toggle it shut — preventing the accidental open-then-instantly-close double take when users hover and click near-simultaneously. */
 export const PatientClickThreshold: Story = {
+  tags: ['highlight'],
   render: () => <MorphExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -846,6 +855,7 @@ function ControlledExample() {
 
 /** Open state is value-driven, not boolean: `value` names WHICH item is open (`open === value != null`). Control it with `value` + `onValueChange(value, eventDetails)` — every close path carries a typed `reason` (`trigger-press`, `escape-key`, `outside-press`, `link-press`, …). Give `Item`s explicit `value`s when controlling. */
 export const ControlledValueWithEventDetails: Story = {
+  tags: ['highlight'],
   render: () => <ControlledExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -921,6 +931,7 @@ function CloseOnClickExample() {
 
 /** `Link closeOnClick` defaults to `false` after a deliberate reversal ([#2535](https://github.com/mui/base-ui/pull/2535) → [#2740](https://github.com/mui/base-ui/pull/2740)): "Stripe and Apple leave theirs open as they act as external links". Opt in per link for client-side navigations within a persistent layout (`link-press` reason). */
 export const CloseOnClickLinks: Story = {
+  tags: ['api-ref'],
   render: () => <CloseOnClickExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -987,6 +998,7 @@ function VerticalExample() {
 
 /** `orientation="vertical"` turns the bar into a side rail: `ArrowDown`/`ArrowUp` rove focus along the rail, and the open key becomes `ArrowRight` (`ArrowLeft` in RTL) — pair it with `Positioner side="right"` so panels fly out beside the rail. */
 export const VerticalOrientation: Story = {
+  tags: ['api-ref'],
   render: () => <VerticalExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1007,6 +1019,7 @@ export const VerticalOrientation: Story = {
 
 /** There is no click-only prop yet ([#2254](https://github.com/mui/base-ui/issues/2254), open) — the documented approximation is a very large `delay` so hover effectively never opens, while click and keyboard still work (`delay` only applies to hover events). */
 export const DelayTuningClickOnlyApprox: Story = {
+  tags: ['api-ref'],
   render: () => (
     <NavigationMenu.Root className={styles.Root} aria-label="Main" delay={600000}>
       <NavigationMenu.List className={styles.List}>
@@ -1041,6 +1054,7 @@ export const DelayTuningClickOnlyApprox: Story = {
 
 /** `Content keepMounted` server-renders the panel as hidden inline HTML so crawlers see it before any interaction ([#3794](https://github.com/mui/base-ui/pull/3794) — "the content is crawlable"); on first open it moves into the popup permanently. `Portal keepMounted` is NOT needed for SEO. */
 export const KeepMountedSEOContent: Story = {
+  tags: ['api-ref'],
   render: () => (
     <NavigationMenu.Root className={styles.Root} aria-label="Main">
       <NavigationMenu.List className={styles.List}>
@@ -1077,6 +1091,7 @@ export const KeepMountedSEOContent: Story = {
 
 /** Touch never hover-opens (`pointerType === 'touch'` is guarded out) — a tap opens, a tap outside closes. There is no separate mobile presentation mode; for hamburger-style small-screen navigation reach for a drawer instead. */
 export const TouchTapToOpen: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Stack}>
       <MorphExample />
@@ -1144,6 +1159,7 @@ function AnimatedExample() {
 
 /** The animation contract: Popup/Content expose `data-open`/`data-starting-style`/`data-ending-style` (+ `data-activation-direction` on Content, `data-instant` on the Positioner), the popup CSS transitions the size variables, and `onOpenChangeComplete(false)` fires only after the exit transition settles. */
 export const AnimatedMorphTransition: Story = {
+  tags: ['animation'],
   render: () => <AnimatedExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1228,6 +1244,7 @@ function SplitPatternExample() {
 
 /** A top-level item that is BOTH a link and a trigger breaks keyboard flow if you overload one element. The recommended pattern ([#4186](https://github.com/mui/base-ui/issues/4186)) is Apple.com's split: a plain `Link` label plus a separate keyboard-visible chevron `Trigger` for the panel. */
 export const TriggerAndLinkSplitPattern: Story = {
+  tags: ['highlight'],
   render: () => <SplitPatternExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1314,7 +1331,7 @@ function AnatomyTourExample() {
  * ([G] the component is never modal) — it dims the page while a panel is open.
  */
 export const RealWorldAnatomyTourWithBackdrop: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <AnatomyTourExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1401,7 +1418,7 @@ function CmsDrivenNavExample() {
  * item, the shape a page-builder CMS would hand you.
  */
 export const RealWorldCmsDrivenNav: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <CmsDrivenNavExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

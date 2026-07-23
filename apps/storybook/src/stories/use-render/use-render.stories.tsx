@@ -40,6 +40,7 @@ function Text(props: TextProps) {
 
 /** `useRender` lets a component built entirely from scratch accept a `render` prop exactly like Base UI's own parts do — the docs' Text example, built with `defaultTagName: 'p'` and `mergeProps(defaultProps, otherProps)`. Passing `render={<a href="..." />}` swaps the rendered element while keeping the merged props (`className`, `children`) intact. */
 export const CustomComponent: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Stack}>
       <Text>Text component rendered as a paragraph tag</Text>
@@ -101,6 +102,7 @@ function Counter(props: CounterProps) {
 
 /** Passing `state` as the second `useRender` argument makes it available to the function-form `render` callback *and* auto-converts it to `data-*` attributes on the rendered element (here `data-odd`) — the docs' Counter example, pinning the state→data-attribute conversion and the "you own the spread" contract of the function form. */
 export const StateToDataAttributes: Story = {
+  tags: ['highlight'],
   render: () => (
     <Counter
       render={(props, state) => (

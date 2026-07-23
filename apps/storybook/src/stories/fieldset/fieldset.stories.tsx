@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero shape: one Legend labeling two unrelated `Field.Root`s. `Fieldset.Root` renders a real `<fieldset>` (native grouping for free); `Fieldset.Legend` renders a `<div>` linked to it via `aria-labelledby`, not a native `<legend>` (brief §5, §7). */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Fieldset.Root className={styles.Fieldset}>
       <Fieldset.Legend className={styles.Legend}>Billing details</Fieldset.Legend>
@@ -76,6 +77,7 @@ function GroupedRadioExample() {
 
 /** Fieldset composed via `render` over `RadioGroup` — the forms handbook's canonical grouped-control pattern (brief §5): `Fieldset.Root` becomes the literal element the composed-over Root renders as (here RadioGroup's own `<div role="radiogroup">`, not a `<fieldset>` — the native-element semantics are RadioGroup's, not Fieldset's, once composed this way), and the Legend still labels the *group* via `aria-labelledby` while each `Field.Item` labels its own option. */
 export const GroupedRadio: Story = {
+  tags: ['highlight'],
   render: () => <GroupedRadioExample />,
   play: async ({ canvas, userEvent }) => {
     const group = canvas.getByRole('radiogroup', { name: 'Storage type' });
@@ -104,6 +106,7 @@ export const GroupedRadio: Story = {
  *   ("passes disabled to rendered Base UI roots").
  */
 export const DisabledCascade: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.FieldRoot}>
       <Fieldset.Root disabled className={styles.Fieldset}>

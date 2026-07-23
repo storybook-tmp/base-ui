@@ -28,6 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a RadioGroup of three mutually exclusive options, each wrapped in an enclosing label. */
 export const Basic: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
       <label className={styles.Item}>
@@ -65,6 +66,7 @@ export const Basic: Story = {
  * radio upon navigation").
  */
 export const ArrowDownSelectsOnNavigation: Story = {
+  tags: ['highlight'],
   render: () => (
     <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
       <label className={styles.Item}>
@@ -106,6 +108,7 @@ export const ArrowDownSelectsOnNavigation: Story = {
 
 /** A `disabled` radio stays visible and focusable (composite-widget policy) but cannot be selected by click or keyboard. */
 export const DisabledItem: Story = {
+  tags: ['api-ref'],
   render: () => (
     <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
       <label className={styles.Item}>
@@ -174,6 +177,7 @@ function FormExample() {
 
 /** A RadioGroup with nothing selected submits `null` for its name, matching native `<input type="radio">` group behavior — not an empty string, not omitted, a real `null` (#2473). */
 export const FormIntegration: Story = {
+  tags: ['highlight'],
   render: () => <FormExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
@@ -192,6 +196,7 @@ export const FormIntegration: Story = {
 
 /** `Space` selects a focused, unchecked radio on **keyup**, not keydown — pressing the key down alone must not yet flip selection (`useButton`'s composite-item Space-activates-on-keyup contract, pinned by `#4930`). */
 export const SpaceSelectsOnKeyUp: Story = {
+  tags: ['highlight'],
   render: () => (
     <RadioGroup aria-label="Best apple" className={styles.RadioGroup}>
       <label className={styles.Item}>
@@ -222,6 +227,7 @@ export const SpaceSelectsOnKeyUp: Story = {
 
 /** `Home`/`End` have **no effect**, by design — `enableHomeAndEndKeys={false}` is passed explicitly inside `RadioGroup`, a deliberate divergence from listbox-style composites like Select. */
 export const HomeEndHaveNoEffect: Story = {
+  tags: ['highlight'],
   render: () => (
     <RadioGroup defaultValue="gala-apple" aria-label="Best apple" className={styles.RadioGroup}>
       <label className={styles.Item}>
@@ -298,6 +304,7 @@ function ControlledValueExample() {
 
 /** External `value`/`onValueChange` state drives selection; `null` is a real, externally-reachable app state (matching the native-parity contract), not merely "nothing selected yet" (#2473 decision log). */
 export const ControlledValue: Story = {
+  tags: ['highlight'],
   render: () => <ControlledValueExample />,
   play: async ({ canvas, userEvent }) => {
     await expect(canvas.getByText('value=gala-apple')).toBeVisible();
@@ -323,6 +330,7 @@ export const ControlledValue: Story = {
  * enclosing `<label>` (brief.md Anatomy composition).
  */
 export const WithFieldAndFieldset: Story = {
+  tags: ['highlight'],
   render: () => (
     <Field.Root name="shippingSpeed" className={styles.RadioGroup}>
       <Fieldset.Root className={styles.RadioGroup} render={<RadioGroup />}>
@@ -384,6 +392,7 @@ function RequiredInvalidExample() {
 
 /** `required` on the `Field.Root`/`RadioGroup` pair flags `valueMissing` on submit when nothing is selected; selecting an option clears the error (mirrors `RadioGroup.test.tsx` "clears required validation when a value is selected"). */
 export const RequiredInvalidState: Story = {
+  tags: ['api-ref'],
   render: () => <RequiredInvalidExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
@@ -398,6 +407,7 @@ export const RequiredInvalidState: Story = {
 
 /** `readOnly` on `RadioGroup` blocks every selection path (click, arrow-key auto-select, Space) while keeping the group focusable and its current value visible — distinct from `disabled`, which also removes it from the tab sequence. */
 export const ReadOnlyGroup: Story = {
+  tags: ['api-ref'],
   render: () => (
     <RadioGroup
       defaultValue="fuji-apple"

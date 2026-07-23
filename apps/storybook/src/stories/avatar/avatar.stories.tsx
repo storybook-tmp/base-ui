@@ -23,6 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: an image avatar with a delayed initials fallback, next to a second avatar with plain text children and no `Image`/`Fallback` parts at all — the docs-sanctioned "no photo available" pattern. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <div className={styles.Row}>
       <Avatar.Root className={styles.Root}>
@@ -44,6 +45,7 @@ export const Hero: Story = {
 
 /** A broken/unreachable `src` makes the off-DOM loading probe resolve to `error`, so `Avatar.Fallback` renders in its place — the mandatory image-load-fallback contract (brief §6/§10, story-plan #1). Status resolves asynchronously in a real browser (no mocking, unlike the unit tests), so the play function awaits the fallback text rather than asserting synchronously, then confirms the `<img>` never mounted. */
 export const BrokenImageFallback: Story = {
+  tags: ['highlight'],
   render: () => (
     <Avatar.Root className={styles.Root}>
       <Avatar.Image
@@ -72,6 +74,7 @@ export const BrokenImageFallback: Story = {
  * behavior best seen, not asserted against a fixed clock in a browser test.
  */
 export const DefaultDelay: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <Avatar.Root className={styles.Root}>
@@ -104,6 +107,7 @@ export const DefaultDelay: Story = {
  * as adjacent text, so `alt=""` avoids redundant announcement).
  */
 export const AltTextVariations: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <div>
@@ -157,6 +161,7 @@ function LoadingStatusExample() {
  * a custom loading indicator instead of (or alongside) `Avatar.Fallback`.
  */
 export const OnLoadingStatusChangeCallback: Story = {
+  tags: ['api-ref'],
   render: () => <LoadingStatusExample />,
   play: async ({ canvas }) => {
     await expect(await canvas.findByText(/error/)).toBeVisible();

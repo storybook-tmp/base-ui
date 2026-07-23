@@ -19,10 +19,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Grid: Story = {};
+export const Grid: Story = {
+  tags: ['infra'],
+};
 
 /** Dark-theme variant of Grid — the whole dark semantic layer in one snapshot. */
 export const Dark: Story = {
   ...Grid,
+  tags: ['infra'],
   globals: { theme: 'dark' },
 };

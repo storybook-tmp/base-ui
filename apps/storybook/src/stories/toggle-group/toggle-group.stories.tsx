@@ -117,6 +117,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: single-select text alignment. Clicking the pressed item again deselects it (not a RadioGroup). */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <ToggleGroup aria-label="Text alignment" defaultValue={['left']} className={styles.Panel}>
       <Toggle aria-label="Align left" value="left" className={styles.Button}>
@@ -137,6 +138,7 @@ export const Hero: Story = {
  * are each toggleable without affecting the others' pressed state.
  */
 export const Multiple: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <ToggleGroup
       multiple
@@ -179,6 +181,7 @@ export const Multiple: Story = {
  * stop with roving arrow-key focus (looping at the ends) and Home/End support.
  */
 export const CompositeKeyboardNavigation: Story = {
+  tags: ['tests'],
   render: () => (
     <ToggleGroup aria-label="Numbered options" className={styles.Panel}>
       <Toggle aria-label="One" value="one" className={styles.Button}>
@@ -231,6 +234,7 @@ export const CompositeKeyboardNavigation: Story = {
  * (`_clusters/binary-controls.md`, brief §4).
  */
 export const SingleSelectClearable: Story = {
+  tags: ['highlight'],
   render: () => (
     <ToggleGroup aria-label="View mode" defaultValue={['grid']} className={styles.Panel}>
       <Toggle aria-label="Grid view" value="grid" className={styles.Button}>
@@ -266,6 +270,7 @@ export const SingleSelectClearable: Story = {
  * behavior, since Toggle has no `focusableWhenDisabled` prop of its own).
  */
 export const DisabledGroupAndItem: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <ToggleGroup aria-label="Alignment (group disabled)" disabled className={styles.Panel}>
@@ -345,6 +350,7 @@ function ToolbarHostedToggleGroupExample() {
  * keyboard-navigation suite) — so Home/End are no-ops here, unlike standalone.
  */
 export const InsideToolbar: Story = {
+  tags: ['highlight'],
   render: () => <ToolbarHostedToggleGroupExample />,
   play: async ({ canvas, userEvent }) => {
     const left = canvas.getByRole('button', { name: 'Left' });

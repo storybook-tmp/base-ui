@@ -56,6 +56,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a side drawer (`swipeDirection="right"`) with Title, Description, and Close, whose backdrop fades with `--drawer-swipe-progress` while dragging. The `--bleed` margin lets the panel overshoot its edge during spring-back without showing a gap. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Drawer.Root swipeDirection="right">
       <Drawer.Trigger className={styles.Button}>Open drawer</Drawer.Trigger>
@@ -143,6 +144,7 @@ function OpenCloseReasonsExample() {
  * does not do yet, [#3905](https://github.com/mui/base-ui/issues/3905)).
  */
 export const OpenCloseReasons: Story = {
+  tags: ['api-ref'],
   render: () => <OpenCloseReasonsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -233,24 +235,28 @@ function playEdgeDrawer(side: SwipeSide): Story['play'] {
 
 /** `swipeDirection="up"`: a sheet attached to the top edge, dismissed by swiping up. */
 export const SideTop: Story = {
+  tags: ['highlight'],
   render: () => <EdgeDrawerExample side="up" />,
   play: playEdgeDrawer('up'),
 };
 
 /** `swipeDirection="down"` — the default: the canonical mobile bottom sheet. */
 export const SideBottom: Story = {
+  tags: ['highlight', 'base'],
   render: () => <EdgeDrawerExample side="down" />,
   play: playEdgeDrawer('down'),
 };
 
 /** `swipeDirection="left"`: a navigation-style panel on the left edge. */
 export const SideLeft: Story = {
+  tags: ['highlight'],
   render: () => <EdgeDrawerExample side="left" />,
   play: playEdgeDrawer('left'),
 };
 
 /** `swipeDirection="right"`: a detail/settings panel on the right edge. */
 export const SideRight: Story = {
+  tags: ['highlight'],
   render: () => <EdgeDrawerExample side="right" />,
   play: playEdgeDrawer('right'),
 };
@@ -314,6 +320,7 @@ function SnapPointsExample() {
  * disables velocity-based point skipping for tall multi-detent sheets.
  */
 export const SnapPoints: Story = {
+  tags: ['api-ref', 'base'],
   render: () => <SnapPointsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -349,6 +356,7 @@ export const SnapPoints: Story = {
  * verifies the resting state of the contract.
  */
 export const SwipeProgressStyling: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Drawer.Root>
       <Drawer.Trigger className={styles.Button}>Open styled sheet</Drawer.Trigger>
@@ -398,6 +406,7 @@ export const SwipeProgressStyling: Story = {
  * pairs it with a regular Trigger, and the play uses the trigger, not a gesture.
  */
 export const SwipeAreaOpen: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Drawer.Root swipeDirection="right">
       <Drawer.SwipeArea className={styles.SwipeAreaStrip} data-testid="swipe-area">
@@ -489,6 +498,7 @@ function IndentProviderExample() {
  * `--drawer-swipe-progress` on the Indent.
  */
 export const IndentProvider: Story = {
+  tags: ['highlight', 'base'],
   render: () => <IndentProviderExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -517,6 +527,7 @@ export const IndentProvider: Story = {
  * Each drawer remains independently focus-managed.
  */
 export const NestedDrawers: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Drawer.Root>
       <Drawer.Trigger className={styles.Button}>Open drawer stack</Drawer.Trigger>
@@ -584,6 +595,7 @@ export const NestedDrawers: Story = {
  * the topmost popup (the dialog), leaving the drawer open.
  */
 export const DialogInsideDrawer: Story = {
+  tags: ['highlight'],
   render: () => (
     <Drawer.Root>
       <Drawer.Trigger className={styles.Button}>Open cart</Drawer.Trigger>
@@ -721,6 +733,7 @@ function DrawerWithFormExample() {
  * the controlled-close contract.
  */
 export const DrawerWithForm: Story = {
+  tags: ['highlight'],
   render: () => <DrawerWithFormExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -796,6 +809,7 @@ function CloseConfirmationExample() {
  * swipe path needs a real pointer drag.
  */
 export const CloseConfirmation: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CloseConfirmationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -857,6 +871,7 @@ function ExitAnimationExample() {
  * release duration so a hard fling exits faster) — both wired in this story's CSS.
  */
 export const ExitAnimation: Story = {
+  tags: ['animation'],
   render: () => <ExitAnimationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -885,6 +900,7 @@ export const ExitAnimation: Story = {
  * changes make no announcement.
  */
 export const KeyboardAndFocus: Story = {
+  tags: ['tests'],
   render: () => (
     <Drawer.Root>
       <Drawer.Trigger className={styles.Button}>Open filters</Drawer.Trigger>
@@ -1004,6 +1020,7 @@ function MobileNavigationExample() {
  * the documented archetype rather than a specific production repo [G].
  */
 export const MobileNavigation: Story = {
+  tags: ['highlight', 'base'],
   render: () => <MobileNavigationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1095,7 +1112,7 @@ function ProfileEditorExample() {
  * open.
  */
 export const RealWorldHandleFormReset: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <ProfileEditorExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1204,7 +1221,7 @@ function PositionAwareExample() {
  * consumers never author `swipeDirection` themselves.
  */
 export const RealWorldPositionAwareWrapper: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <PositionAwareExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1243,3 +1260,177 @@ function MenuIcon(props: React.ComponentProps<'svg'>) {
     </svg>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Non-modal drawer (docs "non-modal" demo)                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * `modal={false}` leaves the page interactive: focus is not trapped and the
+ * background keeps scrolling. Paired with `disablePointerDismissal`, the drawer
+ * only closes through an explicit control or a swipe.
+ */
+export const NonModal: Story = {
+  tags: ['api-ref', 'base'],
+  render: () => (
+    <Drawer.Root swipeDirection="right" modal={false} disablePointerDismissal>
+      <Drawer.Trigger className={styles.Button}>Open non-modal drawer</Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Viewport className={styles.EdgeViewportRight}>
+          <Drawer.Popup className={styles.EdgePopup}>
+            <Drawer.Content className={styles.Content}>
+              <Drawer.Title className={styles.Title}>Non-modal drawer</Drawer.Title>
+              <Drawer.Description className={styles.Description}>
+                This drawer does not trap focus and ignores outside clicks. Use the close button or
+                swipe to dismiss it.
+              </Drawer.Description>
+              <div className={styles.Actions}>
+                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              </div>
+            </Drawer.Content>
+          </Drawer.Popup>
+        </Drawer.Viewport>
+      </Drawer.Portal>
+    </Drawer.Root>
+  ),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open non-modal drawer' }));
+
+    const dialog = await body.findByRole('dialog');
+    await waitFor(() => expect(dialog).toBeVisible());
+    // Non-modal: the trigger behind the drawer stays reachable.
+    await expect(canvas.getByRole('button', { name: 'Open non-modal drawer' })).toBeVisible();
+
+    await userEvent.click(body.getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* Uncontained content (docs "uncontained" demo)                        */
+/* ------------------------------------------------------------------ */
+
+const UNCONTAINED_ACTIONS = ['Unfollow', 'Mute', 'Add to Favourites', 'Restrict'];
+
+function UncontainedExample() {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Drawer.Root open={open} onOpenChange={setOpen}>
+      <Drawer.Trigger className={styles.Button}>Open action sheet</Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Backdrop className={styles.Backdrop} />
+        <Drawer.Viewport className={styles.SheetViewport}>
+          <Drawer.Popup className={styles.SheetPopup}>
+            <Drawer.Content className={styles.Content}>
+              <Drawer.Title className={styles.SheetTitle}>Profile actions</Drawer.Title>
+              <Drawer.Description className={styles.SheetDescription}>
+                Choose an action for this user.
+              </Drawer.Description>
+              <div className={styles.Actions}>
+                {UNCONTAINED_ACTIONS.map((action) => (
+                  <button
+                    key={action}
+                    type="button"
+                    className={styles.Button}
+                    onClick={() => setOpen(false)}
+                  >
+                    {action}
+                  </button>
+                ))}
+              </div>
+            </Drawer.Content>
+            {/* A second surface outside Content: the popup is not one contained box. */}
+            <div className={styles.StackContent}>
+              <button type="button" className={styles.Button} onClick={() => setOpen(false)}>
+                Block User
+              </button>
+            </div>
+          </Drawer.Popup>
+        </Drawer.Viewport>
+      </Drawer.Portal>
+    </Drawer.Root>
+  );
+}
+
+/**
+ * The popup holds two visually separate surfaces rather than a single contained
+ * box: the action list in `Drawer.Content`, and a detached destructive action
+ * below it. Both still ride the same swipe and snap geometry.
+ */
+export const UncontainedContent: Story = {
+  tags: ['highlight', 'base'],
+  render: () => <UncontainedExample />,
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open action sheet' }));
+
+    const dialog = await body.findByRole('dialog');
+    await waitFor(() => expect(dialog).toBeVisible());
+    await expect(body.getByRole('button', { name: 'Block User' })).toBeVisible();
+
+    await userEvent.click(body.getByRole('button', { name: 'Block User' }));
+    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* Virtual-keyboard-aware drawer (docs "virtual-keyboard-aware" demo)   */
+/* ------------------------------------------------------------------ */
+
+const KEYBOARD_FIELDS = [
+  ['Name', 'Ada Lovelace'],
+  ['Phone', '+1 (555) 123-4567'],
+  ['Street address', '12 Computing Way'],
+  ['City', 'San Francisco'],
+];
+
+/**
+ * `Drawer.VirtualKeyboardProvider` wraps the Portal so the popup resizes above
+ * the on-screen keyboard instead of being covered by it. The effect is only
+ * observable on a real touch device; this story documents the composition.
+ */
+export const VirtualKeyboardAware: Story = {
+  tags: ['highlight', 'base'],
+  render: () => (
+    <Drawer.Root>
+      <Drawer.Trigger className={styles.Button}>Open keyboard-aware drawer</Drawer.Trigger>
+      <Drawer.VirtualKeyboardProvider>
+        <Drawer.Portal>
+          <Drawer.Backdrop className={styles.Backdrop} />
+          <Drawer.Viewport className={styles.KeyboardViewport}>
+            <Drawer.Popup className={styles.SheetPopup}>
+              <div className={styles.Grabber} />
+              <Drawer.Title className={styles.SheetTitle}>Delivery details</Drawer.Title>
+              <Drawer.Content className={styles.Content}>
+                <div className={styles.Form}>
+                  {KEYBOARD_FIELDS.map(([label, placeholder]) => (
+                    <label className={styles.Field} key={label}>
+                      <span className={styles.Label}>{label}</span>
+                      <input className={styles.Input} placeholder={placeholder} type="text" />
+                    </label>
+                  ))}
+                </div>
+              </Drawer.Content>
+              <div className={styles.Actions}>
+                <Drawer.Close className={styles.Button}>Save</Drawer.Close>
+              </div>
+            </Drawer.Popup>
+          </Drawer.Viewport>
+        </Drawer.Portal>
+      </Drawer.VirtualKeyboardProvider>
+    </Drawer.Root>
+  ),
+  play: async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'Open keyboard-aware drawer' }));
+
+    const dialog = await body.findByRole('dialog');
+    await waitFor(() => expect(dialog).toBeVisible());
+    await expect(body.getByLabelText('Street address')).toBeVisible();
+
+    await userEvent.click(body.getByRole('button', { name: 'Save' }));
+    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
+  },
+};

@@ -87,6 +87,7 @@ const languages = {
 
 /** The docs hero demo: labeled select with the `items` prop, a placeholder, and scroll arrows. Use as the starting point for choosing one predefined value in a form. */
 export const Basic: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root items={apples}>
@@ -145,6 +146,7 @@ function OpenSelectCloseExample() {
 
 /** The full interaction contract in one story: open on click, move the highlight with arrow keys, commit with Enter, close, and receive `(value, eventDetails)`. The popup portals to `document.body`. */
 export const OpenSelectClose: Story = {
+  tags: ['api-ref'],
   render: () => <OpenSelectCloseExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -190,6 +192,7 @@ function ControlledValueExample() {
 
 /** Use `value` + `onValueChange` when external state drives the select. Clear with `null` — never `''` — and note that programmatic changes no longer force-mount the popup (#5119). */
 export const ControlledValue: Story = {
+  tags: ['highlight'],
   render: () => <ControlledValueExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -240,6 +243,7 @@ function ControlledOpenExample() {
 
 /** Use `open` + `onOpenChange` to control the popup. `eventDetails.reason` tells you why a change was requested, and `eventDetails.cancel()` vetoes it while staying uncontrolled-friendly. */
 export const ControlledOpen: Story = {
+  tags: ['highlight'],
   render: () => <ControlledOpenExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -271,6 +275,7 @@ export const ControlledOpen: Story = {
 
 /** Use `<Select.Value placeholder>` for display-only placeholder text; style it via `[data-placeholder]`. Users cannot clear the value from the select itself. */
 export const PlaceholderValue: Story = {
+  tags: ['api-ref'],
   render: () => (
     <DemoSelect
       label="Theme"
@@ -282,6 +287,7 @@ export const PlaceholderValue: Story = {
 
 /** Use a `{ value: null }` item rendered in the list when users should be able to clear the selection from the popup itself (docs "Placeholder values"). */
 export const ClearableNullItem: Story = {
+  tags: ['highlight'],
   render: () => <DemoSelect label="Theme" options={themeItems} root={{ defaultValue: null }} />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -306,6 +312,7 @@ const fontFamilies: Record<string, string> = {
 
 /** Pass a function as `<Select.Value>` children to render a formatted value — here previewing the font family itself (docs "Formatting the value"). */
 export const FormattedValue: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root defaultValue="monospace">
@@ -347,6 +354,7 @@ export const FormattedValue: Story = {
 
 /** Use `multiple` for array values: the popup stays open while selecting and the trigger renders comma-separated labels via `items` (kept docs demo). */
 export const MultipleSelection: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root multiple defaultValue={['javascript', 'typescript']} items={languages}>
@@ -458,6 +466,7 @@ function DemoSelectMultiple({
 
 /** Base UI deliberately ships no built-in Clear button (#2734) — pair a controlled `multiple` select with an external "Clear all" action instead. */
 export const MultipleControlledWithClearAll: Story = {
+  tags: ['api-ref'],
   render: () => <MultipleClearAllExample />,
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole('combobox');
@@ -488,6 +497,7 @@ const shippingMethods: ShippingMethod[] = [
 
 /** Use object values with `isItemEqualToValue` (non-referential equality), `itemToStringLabel` (typeahead/autofill label), and `itemToStringValue` (form serialization) — kept docs demo. */
 export const ObjectValues: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root
@@ -561,6 +571,7 @@ const groupedProduce = [
 
 /** Use `Group` + `GroupLabel` (auto-associated) and `Separator` for related options; the grouped array also feeds the `items` prop (kept docs demo). */
 export const GroupedItems: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root items={groupedProduce}>
@@ -623,6 +634,7 @@ const manyItems = Array.from({ length: 100 }, (_, index) => ({
 
 /** With long lists the popup fills the available height and `ScrollUpArrow`/`ScrollDownArrow` scroll it on hover; they only mount while scrollable and never on touch (recreates `experiments/long-select.tsx`). */
 export const LongListScrollArrows: Story = {
+  tags: ['highlight'],
   render: () => (
     <DemoSelect
       label="Item"
@@ -646,6 +658,7 @@ export const LongListScrollArrows: Story = {
 
 /** Set `alignItemWithTrigger={false}` for a conventional anchored dropdown — only then do `side`, `align`, and `sideOffset` take effect (#2712). */
 export const ConventionalDropdownPositioning: Story = {
+  tags: ['highlight'],
   render: () => (
     <DemoSelect
       label="Apple"
@@ -659,6 +672,7 @@ export const ConventionalDropdownPositioning: Story = {
 
 /** The default macOS-style mode: the popup overlaps the trigger so the selected item's text aligns with the trigger text, and `data-side` becomes `"none"` for styling. Falls back to anchored positioning on touch or when space is tight. */
 export const AlignItemWithTriggerDefault: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Field}>
       <Select.Root items={apples} defaultValue="honeycrisp">
@@ -701,6 +715,7 @@ export const AlignItemWithTriggerDefault: Story = {
 
 /** DirectionProvider + `dir="rtl"`: item alignment and indicator columns follow the text direction (recreates `experiments/select-rtl-align-item-with-trigger.tsx`). */
 export const RTLItemAlignment: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div dir="rtl" className={styles.Rtl}>
       <DirectionProvider direction="rtl">
@@ -727,6 +742,7 @@ export const RTLItemAlignment: Story = {
 
 /** Like native `<select>`, typing on the closed trigger commits a matching value without opening the popup (single mode only; disabled items are skipped, #5025). */
 export const TypeaheadKeyboard: Story = {
+  tags: ['tests'],
   render: () => <DemoSelect label="Country" placeholder="Select country" options={countries} />,
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole('combobox');
@@ -746,6 +762,7 @@ export const TypeaheadKeyboard: Story = {
 
 /** Disabled items stay focusable so screen reader users can discover them, but they cannot be selected; a `disabled` root disables the whole control. */
 export const DisabledOptions: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <DemoSelect
@@ -797,6 +814,7 @@ export const DisabledOptions: Story = {
 
 /** `readOnly` exposes the value but blocks opening by pointer and keyboard (#2717) — use it for temporarily locked form state instead of `disabled` when the value must stay readable and submittable. */
 export const ReadOnly: Story = {
+  tags: ['api-ref'],
   render: () => (
     <DemoSelect label="Apple" options={apples} root={{ defaultValue: 'fuji', readOnly: true }} />
   ),
@@ -874,6 +892,7 @@ function FieldValidationExample() {
 
 /** Inside `Field`/`Form`, the select participates in constraint validation: `required` blocks submission, `Field.Error` renders the message, and `data-invalid`/`data-touched`/`data-filled` style the trigger. */
 export const InFieldWithValidation: Story = {
+  tags: ['highlight'],
   render: () => <FieldValidationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -945,6 +964,7 @@ function NativeFormExample() {
 
 /** A visually-hidden `<input>` carries `name`/value into native form submission; for object values, `itemToStringValue` controls the serialized payload (#3441). */
 export const NativeFormSubmission: Story = {
+  tags: ['highlight'],
   render: () => <NativeFormExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -959,6 +979,7 @@ export const NativeFormSubmission: Story = {
 
 /** The hidden input also receives browser autofill: `autoComplete` provides the hint, and autofilled values are matched against the serialized value, then the label (#4005, #4934). */
 export const BrowserAutofillHint: Story = {
+  tags: ['highlight'],
   render: () => (
     <form className={styles.Form}>
       <DemoSelect
@@ -980,6 +1001,7 @@ export const BrowserAutofillHint: Story = {
 
 /** Set `modal={false}` to keep the rest of the page scrollable and interactive while the popup is open (default `modal` locks scroll and disables outside pointers). */
 export const NonModal: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <DemoSelect
@@ -1004,6 +1026,7 @@ export const NonModal: Story = {
 
 /** Set `highlightItemOnHover={false}` to keep CSS `:hover` (dashed outline) separate from the keyboard-driven `[data-highlighted]` state (solid fill) — #3377. */
 export const HoverVersusHighlight: Story = {
+  tags: ['highlight'],
   render: () => (
     <DemoSelect
       label="Apple"
@@ -1034,6 +1057,7 @@ function AnimatedPopupExample() {
 
 /** Animate via `[data-starting-style]`/`[data-ending-style]` transitions with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires after the transition settles. */
 export const AnimatedPopup: Story = {
+  tags: ['animation'],
   render: () => <AnimatedPopupExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('combobox'));
@@ -1046,6 +1070,7 @@ export const AnimatedPopup: Story = {
 
 /** A select nested in a dialog needs no `z-index` at all — popups layer correctly by DOM order; if you must set one, put it on the Positioner, never the Popup (#2450). */
 export const InsideDialog: Story = {
+  tags: ['highlight'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>Edit preferences</Dialog.Trigger>
@@ -1133,6 +1158,7 @@ function MySelect<Value, Multiple extends boolean | undefined = false>(
 
 /** A `MySelect<Value, Multiple>` wrapper (docs "Typed wrapper component") — the story compiling is the test: single mode takes a scalar `defaultValue`, multiple mode requires an array. */
 export const TypedWrapper: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <MySelect label="Font" items={fontOptions} defaultValue="serif" />
@@ -1157,7 +1183,7 @@ export const TypedWrapper: Story = {
  * research/d-real-world-usage/select/ranked.json #9).
  */
 export const RealWorldDashboardFilter: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <DashboardFilterExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1180,7 +1206,7 @@ export const RealWorldDashboardFilter: Story = {
  * research/d-real-world-usage/select/ranked.json #5).
  */
 export const RealWorldThemePicker: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <ThemePickerExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1200,7 +1226,7 @@ export const RealWorldThemePicker: Story = {
  * research/d-real-world-usage/select/ranked.json #1).
  */
 export const RealWorldWrappedRegistrySelect: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <RegistrySelectExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

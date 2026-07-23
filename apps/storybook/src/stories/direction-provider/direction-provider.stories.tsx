@@ -23,6 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero pattern: `dir="rtl"` on the container (visual direction, owned by the app) paired with `DirectionProvider direction="rtl"` (behavioral direction, owned by Base UI) — the two-part RTL setup decided in #831. */
 export const Hero: Story = {
+  tags: ['showcase'],
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
@@ -41,6 +42,7 @@ export const Hero: Story = {
 
 /** The behavior the provider exists for: composite keyboard navigation flips with direction. `useCompositeRoot` swaps the "forward" arrow key in RTL (`ArrowLeft` instead of `ArrowRight`) — this is a real interaction change, not a visual one, and it only happens because `DirectionProvider` tells the `ToggleGroup` its direction is RTL. */
 export const FlipCompositeRTL: Story = {
+  tags: ['highlight'],
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">

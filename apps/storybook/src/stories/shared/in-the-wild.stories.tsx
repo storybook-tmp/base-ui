@@ -30,6 +30,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Two sample cards; clicking the first thumbnail opens the shared Dialog viewer, ArrowRight advances the carousel, and Escape closes it. */
 export const Viewer: Story = {
+  tags: ['infra'],
   render: () => (
     <WildCards>
       <WildCard
@@ -82,6 +83,7 @@ export const Viewer: Story = {
  * "Full page / Component" toggle and a copyable locator bar.
  */
 export const WithComponentHighlight: Story = {
+  tags: ['infra'],
   render: () => (
     <WildCards>
       <WildCard
@@ -151,6 +153,7 @@ export const WithComponentHighlight: Story = {
  * fallback card has no "View full size" button at all.
  */
 export const OnlyCapturesInCarousel: Story = {
+  tags: ['infra'],
   render: () => (
     <WildCards>
       <WildCard

@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a "Storage Used" measurement. Root exposes `role="meter"` with the full `aria-value*` contract — and unlike Progress, there is no indeterminate mode: `value` is always a required number. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Meter.Root className={styles.Meter} value={24}>
       <Meter.Label className={styles.Label}>Storage Used</Meter.Label>
@@ -44,6 +45,7 @@ export const Hero: Story = {
 
 /** `min`/`max` define arbitrary bounds — the default text stays the position within the range (6 of 0–8 hours reads as 75%), so text and fill agree for any bounds. */
 export const BoundedRange: Story = {
+  tags: ['highlight'],
   render: () => (
     <Meter.Root className={styles.Meter} value={6} min={0} max={8} locale="en-US">
       <Meter.Label className={styles.Label}>Battery life</Meter.Label>
@@ -63,6 +65,7 @@ export const BoundedRange: Story = {
 
 /** `format` switches the visible text to the raw value (here a unit format); `getAriaValueText` overrides only the spoken text — the visible `Meter.Value` is unaffected. */
 export const FormattedValue: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Meter.Root
       className={styles.Meter}
@@ -107,6 +110,7 @@ function TieredMeter({ label, value }: { label: string; value: number }) {
 
 /** Meter ships **no** data attributes (low/high segment styling was designed then dropped — open #1434), so tier colors must be computed by the consumer from `value`/`min`/`max`, as here. */
 export const ValueTierStyling: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Stack}>
       <TieredMeter label="Disk A" value={30} />
@@ -124,6 +128,7 @@ export const ValueTierStyling: Story = {
  * the same 0% as below-min rather than propagating `NaN` into the DOM.
  */
 export const ClampedOutOfRangeValues: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Stack}>
       <Meter.Root className={styles.Meter} value={150} locale="en-US">
@@ -181,6 +186,7 @@ export const ClampedOutOfRangeValues: Story = {
  * ambient locale).
  */
 export const LocaleVariants: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Stack}>
       <Meter.Root

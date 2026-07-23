@@ -156,6 +156,7 @@ function CreateToastButton() {
 
 /** The docs hero demo: toasts are created imperatively — `useToastManager().add({ title, description })` — and render into a bottom-right stacked viewport. There is no Trigger part and no `open` prop. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => <HeroExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -177,6 +178,7 @@ function StackingExample() {
 
 /** Newest toast is index 0 (front); older toasts peek behind at reduced scale via `--toast-index`. Hovering or focusing the viewport sets `data-expanded` and fans the stack out along `--toast-offset-y` — all layout is user CSS on these hooks. */
 export const StackingAndExpand: Story = {
+  tags: ['highlight'],
   render: () => <StackingExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -241,6 +243,7 @@ function VaryingHeightsButton() {
 
 /** The docs `varying-heights` demo: `Toast.Content` measures each toast's natural height, collapsed toasts clamp to `--toast-frontmost-height`, and `[data-behind]` hides overflowing content until the stack expands ([#2742](https://github.com/mui/base-ui/pull/2742)). */
 export const VaryingHeights: Story = {
+  tags: ['highlight', 'base'],
   render: () => <VaryingHeightsExample />,
 };
 
@@ -258,6 +261,7 @@ function LimitExample() {
 
 /** `limit` caps the visible stack. Overflowing older toasts are not removed: they get `data-limited` + HTML `inert` and return into view when newer ones close ([#1953](https://github.com/mui/base-ui/pull/1953)). Style the overflow (here `opacity: 0`) instead of expecting unmounts. */
 export const LimitOverflow: Story = {
+  tags: ['api-ref'],
   render: () => <LimitExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const doc = canvasElement.ownerDocument;
@@ -316,6 +320,7 @@ function DurationButtons() {
 
 /** Per-toast `timeout` in `add()` overrides the provider default (5000ms). Use long timeouts (≥10s) when a toast carries an action the user must reach ([#4975](https://github.com/mui/base-ui/pull/4975)). */
 export const CustomDuration: Story = {
+  tags: ['highlight'],
   render: () => <DurationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -370,6 +375,7 @@ function PersistentButtons() {
 
 /** `timeout: 0` disables auto-dismiss — the WCAG 2.2.1 (Timing Adjustable) mitigation for content the user must not miss ([#4253](https://github.com/mui/base-ui/issues/4253)). Persistent toasts need an explicit `Toast.Close` affordance. The provider here uses `timeout={1500}` so the control toast expires quickly. */
 export const PersistentToast: Story = {
+  tags: ['highlight'],
   render: () => <PersistentExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -423,6 +429,7 @@ function HoverPauseButton() {
 
 /** Timers pause while the viewport is hovered, focus-visibly focused, or the window is blurred, and resume with the remaining time afterwards ([#4438](https://github.com/mui/base-ui/pull/4438)). The toast here has a 1.2s timeout but survives much longer under the pointer. */
 export const HoverPausesTimers: Story = {
+  tags: ['highlight'],
   render: () => <HoverPauseExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -484,6 +491,7 @@ function SwipeButton() {
 
 /** Drag a toast past the 40px threshold in an allowed `swipeDirection` (default `['down', 'right']` — match your viewport corner) to dismiss it. While swiping, `data-swiping` and `--toast-swipe-movement-x/-y` track the pointer; on release, `data-swipe-direction` plus the frozen movement variables let the exit animation continue from the release point ([#2769](https://github.com/mui/base-ui/pull/2769)). `user-select: none` on the root is load-bearing — swipe feels sticky without it ([#1467](https://github.com/mui/base-ui/pull/1467) review). Gesture-only behavior: try it by hand, there is no simulated-pointer play. */
 export const SwipeToDismiss: Story = {
+  tags: ['highlight'],
   render: () => <SwipeExample />,
 };
 
@@ -523,6 +531,7 @@ function TopCenterButton() {
 
 /** The docs `position` demo: position is pure CSS on the viewport (top-center here), with the stack offsets and enter/exit transforms mirrored. Match `swipeDirection` to the placement — a top stack swipes `"up"`. */
 export const CustomPosition: Story = {
+  tags: ['highlight', 'base'],
   render: () => <TopCenterExample />,
 };
 
@@ -571,6 +580,7 @@ function CopyButton() {
 
 /** Anchored toasts (docs `anchored` demo, simplified — the docs version adds a Tooltip): pass `positionerProps: { anchor }` in `add()` and wrap the Root in `Toast.Positioner` + `Toast.Arrow` ([#3096](https://github.com/mui/base-ui/pull/3096)). Preferred over a tooltip for "Copied"-style feedback because toasts are announced to screen readers. Keep anchored timeouts short, render them in a separate provider from stacked toasts, and note that swiping is disabled for anchored toasts. */
 export const AnchoredToast: Story = {
+  tags: ['api-ref', 'base'],
   render: () => <AnchoredExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -603,6 +613,7 @@ function notifyFromOutsideReact() {
 
 /** `Toast.createToastManager()` at module scope + `<Toast.Provider toastManager>` drives toasts from outside React. The button here lives outside the provider subtree and calls a plain function. Caveat: toasts fired before the provider mounts are dropped ([#4986](https://github.com/mui/base-ui/issues/4986), open). */
 export const GlobalManager: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Stack}>
       {/* This button is NOT inside the Toast.Provider subtree. */}
@@ -660,6 +671,7 @@ function UpdateButtons() {
 
 /** `add()` returns the toast id; `update(id, options)` edits it in place. Updating `timeout` (or upserting) also reschedules the timer ([#3564](https://github.com/mui/base-ui/pull/3564)). */
 export const UpdateToast: Story = {
+  tags: ['highlight'],
   render: () => <UpdateExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -694,6 +706,7 @@ function CloseAllButtons() {
 
 /** `close(id)` closes one toast; `close()` with no id closes all — the same single-`dismiss` shape Sonner and Chakra expose ([#3979](https://github.com/mui/base-ui/pull/3979)). */
 export const CloseAllToasts: Story = {
+  tags: ['highlight'],
   render: () => <CloseAllExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -755,6 +768,7 @@ function PulseToastItem({ toast }: { toast: Toast.Root.ToastObject }) {
 
 /** The docs `deduplicate` demo: `add({ id })` with an existing id upserts instead of stacking a duplicate, refreshes the timer, and increments `toast.updateKey` — alternate two animation classes on its parity to replay a pulse ([#4440](https://github.com/mui/base-ui/pull/4440)). */
 export const DeduplicateToast: Story = {
+  tags: ['highlight', 'base'],
   render: () => <DeduplicateExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -832,6 +846,7 @@ function CustomDataButton() {
 
 /** The docs `custom` demo: `add({ data })` carries an arbitrary typed payload to your renderer; narrow per-toast with a type guard, or type the whole manager with `useToastManager<Data>()` ([#3882](https://github.com/mui/base-ui/pull/3882)). */
 export const CustomDataToast: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CustomDataExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -879,6 +894,7 @@ function RunPromiseButton() {
 
 /** `promise()` models loading → success/error as one updating toast: `type: 'loading'` never auto-dismisses, then the settled type takes normal timers. It returns the chained promise, not an id — pass your own `id` if you need to address the toast later ([#2833](https://github.com/mui/base-ui/issues/2833)). Style states via `[data-type]`. */
 export const PromiseToast: Story = {
+  tags: ['highlight', 'base'],
   render: () => <PromiseExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -952,6 +968,7 @@ function PerformActionButton() {
 
 /** The docs `undo` demo: `actionProps` (full button props incl. `children`) renders through `Toast.Action`; the handler closes this toast and confirms with another. Pair actions with long timeouts — the docs raised this demo to 10s after a11y review ([#4975](https://github.com/mui/base-ui/pull/4975); [#4253](https://github.com/mui/base-ui/issues/4253) tracks the reachability gap). */
 export const UndoAction: Story = {
+  tags: ['highlight', 'base'],
   render: () => <UndoExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1001,6 +1018,7 @@ function LifecycleButton({ onLog }: { onLog: (entry: string) => void }) {
 
 /** `onClose` fires when closing starts; `onRemove` fires only after exit animations complete and the toast leaves the array — react at close-start (analytics) vs after-exit (releasing resources). */
 export const OnCloseVsOnRemove: Story = {
+  tags: ['highlight'],
   render: () => <LifecycleExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1063,6 +1081,7 @@ function PriorityButtons() {
 
 /** The two announcement paths ([#2246](https://github.com/mui/base-ui/pull/2246)): low priority announces politely through the viewport live region and renders `role="dialog"`; high priority renders `role="alertdialog"` plus a separate visually hidden `role="alert"` container carrying the title/description strings (the root itself is aria-hidden while unfocused to avoid double announcement). Reserve `'high'` for urgent, actionable failures. */
 export const PriorityAnnouncements: Story = {
+  tags: ['highlight'],
   render: () => <PriorityExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const doc = canvasElement.ownerDocument;
@@ -1092,6 +1111,7 @@ function KeyboardExample() {
 
 /** The keyboard contract: F6 jumps to the viewport from anywhere (recording the previously focused element and pausing timers), Tab enters the stack at the newest toast, Escape closes the focused toast and moves focus to the next one, and Shift+Tab hands focus back to where you were. Toasts never steal focus on open ([#4533](https://github.com/mui/base-ui/pull/4533) rejected a `focus` option). */
 export const KeyboardNavigation: Story = {
+  tags: ['tests'],
   render: () => <KeyboardExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1167,6 +1187,7 @@ function TypeStylingButtons() {
 
 /** `type` is a free-form styling/behavior discriminator surfaced as `data-type` on Root, Title, Description, Action, and Close — key your CSS on it (`'loading'` is special: no auto-dismiss). Literal-union typing was declined in favor of a future typed manager ([#3952](https://github.com/mui/base-ui/issues/3952)). */
 export const TypeStyling: Story = {
+  tags: ['api-ref'],
   render: () => <TypeStylingExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1267,7 +1288,7 @@ function AnchoredActionExample() {
  * Recomposed here as an "Archive, with Undo" row action.
  */
 export const RealWorldAnchoredActionableToast: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <AnchoredActionExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1386,7 +1407,7 @@ function AlertToastExample() {
  * Alert's own dismiss button calls `close(id)` directly.
  */
 export const RealWorldAlertInsideContent: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <AlertToastExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

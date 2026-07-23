@@ -29,6 +29,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo, plus a labeled `Slider.Value` readout. Recreates `demos/hero`. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Slider.Root defaultValue={25} className={styles.Root}>
       <Slider.Label className={styles.Label}>Volume</Slider.Label>
@@ -55,6 +56,7 @@ export const Hero: Story = {
 
 /** A two-thumb range slider. Each thumb needs its own distinguishing `aria-label`, since a single `Slider.Label` names the group, not any one thumb. */
 export const RangeTwoThumb: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Slider.Root defaultValue={[25, 45]} className={styles.Root}>
       <Slider.Label className={styles.Label}>Price range</Slider.Label>
@@ -83,6 +85,7 @@ export const RangeTwoThumb: Story = {
 
 /** `orientation="vertical"` flips the geometry; ArrowUp/ArrowDown still govern stepping regardless of orientation. */
 export const Vertical: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <Slider.Root orientation="vertical" defaultValue={35} className={styles.Root}>
       <Slider.Label className={styles.Label}>Volume</Slider.Label>
@@ -137,6 +140,7 @@ function FormExample() {
 
 /** Each `Slider.Thumb` nests a real native `<input type="range">` carrying `name`/`form`, so a single-thumb slider participates in native form submission with zero extra machinery. */
 export const FormIntegration: Story = {
+  tags: ['api-ref'],
   render: () => <FormExample />,
   play: async ({ canvas, userEvent }) => {
     const thumb = canvas.getByRole('slider', { name: 'Volume' });
@@ -157,6 +161,7 @@ export const FormIntegration: Story = {
  * which only commits on release).
  */
 export const KeyboardStepping: Story = {
+  tags: ['tests'],
   render: () => (
     <Slider.Root
       defaultValue={50}
@@ -211,6 +216,7 @@ export const KeyboardStepping: Story = {
  * (`neighbor - step * minStepsBetweenValues`); one further `ArrowRight` press is then rejected.
  */
 export const MinStepsBetweenValues: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Slider.Root
       defaultValue={[30, 50]}
@@ -253,6 +259,7 @@ export const MinStepsBetweenValues: Story = {
  * (`dir="rtl"` + `DirectionProvider`) is shown without a play in `direction-provider.stories.tsx`.
  */
 export const RTL: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
@@ -319,6 +326,7 @@ function ControlledExample() {
  * release (mirrors Number Field's analogous `ValueChangeVsCommitted` story).
  */
 export const ControlledValueWithCommit: Story = {
+  tags: ['highlight'],
   render: () => <ControlledExample />,
   play: async ({ canvas, userEvent }) => {
     const thumb = canvas.getByRole('slider', { name: 'Controlled volume' });
@@ -338,6 +346,7 @@ export const ControlledValueWithCommit: Story = {
  * simultaneously, and `Field.Error` renders from the `validate` function.
  */
 export const FieldIntegration: Story = {
+  tags: ['highlight'],
   render: () => (
     <Field.Root
       validationMode="onChange"
@@ -381,6 +390,7 @@ export const FieldIntegration: Story = {
  * coverage: a documented workaround recipe, not a port of an existing docs demo.
  */
 export const CustomMarks: Story = {
+  tags: ['highlight'],
   render: () => (
     <Slider.Root defaultValue={2} min={0} max={5} step={1} className={styles.Root}>
       <Slider.Label className={styles.Label}>Delay until repeat</Slider.Label>
@@ -405,6 +415,7 @@ export const CustomMarks: Story = {
  * meaningful screen-reader announcement than the raw formatted number.
  */
 export const FormattedValueWithGetAriaValueText: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Slider.Root
       defaultValue={40}
@@ -439,6 +450,7 @@ export const FormattedValueWithGetAriaValueText: Story = {
  * excluded from the Tab order, requiring zero workaround.
  */
 export const DisabledState: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <Slider.Root defaultValue={50} disabled className={styles.Root}>
@@ -471,5 +483,32 @@ export const DisabledState: Story = {
     await expect(disabledControl).toHaveAttribute('data-disabled');
 
     await expect(enabledThumb).not.toBeDisabled();
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* Edge-aligned thumb (docs "edge-alignment" demo)                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * `thumbAlignment="edge"` aligns the thumb's edge with the track's edge at the
+ * extremes instead of centering it, so the thumb never overhangs the track.
+ */
+export const EdgeAlignment: Story = {
+  tags: ['api-ref', 'base'],
+  render: () => (
+    <Slider.Root thumbAlignment="edge" defaultValue={25} className={styles.Root}>
+      <Slider.Label className={styles.Label}>Volume</Slider.Label>
+      <Slider.Control className={styles.Control}>
+        <Slider.Track className={styles.Track}>
+          <Slider.Indicator className={styles.Indicator} />
+          <Slider.Thumb className={styles.Thumb} />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider.Root>
+  ),
+  play: async ({ canvas }) => {
+    const thumb = canvas.getByRole('slider', { name: 'Volume' });
+    await expect(thumb).toHaveAttribute('aria-valuenow', '25');
   },
 };

@@ -76,6 +76,7 @@ function HandlerOrderExample() {
 
 /** `mergeProps(props, { onClick })` puts the user's handler rightmost, so it runs *before* Base UI's internal one and can call `event.preventBaseUIHandler()` to stop it from running at all — without touching `preventDefault()`/`stopPropagation()`. Unlocked, both handlers fire in order; locked, only the user's does and the pressed state freezes. */
 export const HandlerOrderAndCancellation: Story = {
+  tags: ['highlight'],
   render: () => <HandlerOrderExample />,
   play: async ({ canvas, userEvent }) => {
     const toggle = canvas.getByRole('button', { name: 'Favorite' });

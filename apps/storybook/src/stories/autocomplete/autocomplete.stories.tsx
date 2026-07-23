@@ -9,15 +9,6 @@ import styles from './autocomplete.module.css';
 import { FieldIntegratedAutocompleteExample } from './recreations/FieldIntegratedAutocompleteExample';
 import { MultiSkinAutocompleteExample } from './recreations/MultiSkinAutocompleteExample';
 
-/**
- * Stories follow research/c-components/autocomplete (Tier 1): the kept docs demos
- * (hero, inline completion, grouped, fuzzy, limit, auto-highlight, command palette,
- * grid, virtualized, async), one story per documented use case (filtering modes,
- * empty state, free-text submit, `submitOnItemClick`, Escape behaviors, forms…),
- * and the required type→suggest→select interaction story, plus two real-world
- * recreations picked from the code-ok entries in
- * research/d-real-world-usage/autocomplete/ranked.json.
- */
 const meta = {
   title: 'Form inputs/Autocomplete',
   component: Autocomplete.Root,
@@ -40,6 +31,7 @@ const meta = {
     'Autocomplete.Status': Autocomplete.Status,
     'Autocomplete.Empty': Autocomplete.Empty,
   },
+  tags: ['verified'],
 } satisfies Meta<typeof Autocomplete.Root>;
 
 export default meta;
@@ -109,6 +101,7 @@ function DemoAutocomplete({
 
 /** The docs hero anatomy extended with `InputGroup`: Input plus the optional non-tabbable Clear and the Trigger that opens the popup without typing. Free-form text is the value; the list only suggests. */
 export const Hero: Story = {
+  tags: ['showcase', 'verified', 'base'],
   render: () => (
     <Autocomplete.Root items={tags}>
       <label className={styles.Label}>
@@ -166,6 +159,7 @@ function TypeSuggestSelectExample() {
 
 /** The full interaction contract in one story: typing opens and filters the listbox (`aria-expanded`, `aria-autocomplete="list"`), ArrowDown highlights, Enter fills the input with the item's text (`fillInputOnItemPress`) and closes. The popup portals to `document.body`. */
 export const TypeSuggestSelect: Story = {
+  tags: ['highlight'],
   render: () => <TypeSuggestSelectExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -199,6 +193,7 @@ export const TypeSuggestSelect: Story = {
 
 /** `mode="list"` (default) filters items without touching the input; `mode="none"` shows a static list — the "recent searches" pattern. The prop value is passed straight through as `aria-autocomplete`. */
 export const FilteringModePerVariant: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <DemoAutocomplete label='mode="list" (filters)' placeholder="Type to filter" />
@@ -230,6 +225,7 @@ export const FilteringModePerVariant: Story = {
 
 /** `mode="both"` adds inline completion on top of list filtering: arrowing through suggestions temporarily writes the highlighted item into the input (keyboard only — pointer highlights never overwrite typed text). */
 export const InlineAutocompletion: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <DemoAutocomplete
       label="Search tags (inline completion)"
@@ -261,6 +257,7 @@ export const InlineAutocompletion: Story = {
 
 /** `Empty` renders its children only when no item matches, as a polite live region (`role="status"`). Keep it mounted and toggle its children — hiding the part itself breaks screen-reader announcements. */
 export const EmptyNoResultsState: Story = {
+  tags: ['highlight'],
   render: () => <DemoAutocomplete label="Search tags" placeholder="e.g. feature" />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -276,6 +273,7 @@ export const EmptyNoResultsState: Story = {
 
 /** `autoHighlight` compared: `true` highlights the first match only while typing; `"always"` keeps the first item highlighted whenever the list renders — the command-palette setting, so Enter always has a target. */
 export const AutoHighlight: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <div className={styles.Row}>
       <Autocomplete.Root items={tags} autoHighlight>
@@ -366,6 +364,7 @@ export const AutoHighlight: Story = {
 
 /** `openOnInputClick` defaults to `false` for Autocomplete (the popup stays out of the way until the user types) — set it to `true` for browse-friendly fields that should open on focus-click, like the Combobox default. */
 export const OpenOnInputClick: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <DemoAutocomplete label="Default (opens on typing)" placeholder="Click me first" />
@@ -414,6 +413,7 @@ function EscapeClearsExample() {
 
 /** Escape on an open popup only closes it; Escape on a *closed* popup clears the input — Chrome-omnibox parity. The clear arrives through `onValueChange` with reason `escape-key`. */
 export const EscapeClearsInputWhenClosed: Story = {
+  tags: ['highlight'],
   render: () => <EscapeClearsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -462,6 +462,7 @@ function CancelEscapeClearExample() {
 
 /** Opting out of the Escape clear: cancel the `escape-key` reason inside `onValueChange` via `eventDetails.cancel()` — the documented workaround while a dedicated prop remains an open feature ask (#4245). */
 export const CancelEscapeClear: Story = {
+  tags: ['highlight'],
   render: () => <CancelEscapeClearExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -505,6 +506,7 @@ function FreeTextSubmitExample() {
 
 /** The signature Autocomplete behavior versus Combobox: the typed text *is* the value even when it matches no suggestion. Enter with no highlighted item closes the popup and lets native form submission proceed (#2700). */
 export const FreeTextSubmit: Story = {
+  tags: ['highlight'],
   render: () => <FreeTextSubmitExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -549,6 +551,7 @@ function SubmitOnItemClickExample() {
 
 /** `submitOnItemClick` for single-field search forms: pressing a suggestion (pointer or Enter) fills the input and immediately submits the owning form. A submit button must be present inside the form (#3018). */
 export const SubmitOnItemClick: Story = {
+  tags: ['api-ref'],
   render: () => <SubmitOnItemClickExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -618,6 +621,7 @@ function ObjectItemsExample() {
 
 /** Object items with `itemToStringValue`: the returned string fills the input on item press and is what native form submission serializes. `{ value, label }` shapes resolve their `label` automatically. */
 export const ObjectItemsStringification: Story = {
+  tags: ['highlight'],
   render: () => <ObjectItemsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -666,6 +670,7 @@ function FieldValidationExample() {
 
 /** Inside `Field`/`Form`, the input participates in constraint validation: `required` blocks empty submission, `Field.Error` renders the message, and `data-invalid`/`data-touched`/`data-filled` style the input. Free text satisfies the field — no item needs to be chosen. */
 export const InFieldWithValidation: Story = {
+  tags: ['highlight'],
   render: () => <FieldValidationExample />,
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole('combobox');
@@ -712,6 +717,7 @@ function HighlightTrackingExample() {
 
 /** `onItemHighlighted` reports every highlight change with `(value, { reason })` — `keyboard` for arrow navigation, `pointer` for hover — the hook for analytics and custom inline behaviors. */
 export const HighlightTrackingWithOnItemHighlighted: Story = {
+  tags: ['highlight'],
   render: () => <HighlightTrackingExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -741,6 +747,7 @@ const groupedTags = [
 
 /** Grouped suggestions need the grouped `items` shape (`{ value, items }`), `Group` + `GroupLabel`, and `Collection` to re-render each group's filtered subset — a plain `.map` over groups won't wire per-group filtering. */
 export const GroupedSuggestions: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Autocomplete.Root items={groupedTags}>
       <label className={styles.Label}>
@@ -808,6 +815,7 @@ function fuzzyMatch(text: string, query: string): boolean {
 
 /** The `filter` prop replaces the default `Intl.Collator` contains matcher with custom logic — here a dependency-free subsequence matcher over title and description (try "rhg"). The docs demo uses `match-sorter` for the same slot. */
 export const FuzzyMatching: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Autocomplete.Root
       items={docEntries}
@@ -903,6 +911,7 @@ function LimitResultsExample() {
 
 /** `limit` caps how many suggestions render; surface the remainder through the `Status` live region ("Hiding N results…") to guide users toward a narrower query instead of a giant list. */
 export const LimitResults: Story = {
+  tags: ['highlight', 'base'],
   render: () => <LimitResultsExample />,
 };
 
@@ -1017,6 +1026,7 @@ function AsyncSuggestionsExample() {
 
 /** Server-backed suggestions: control `value`, pass `filter={null}` so the already-filtered results aren't filtered again (#4196), abort stale requests, and report progress through the `Status` polite live region. */
 export const AsyncSuggestions: Story = {
+  tags: ['highlight', 'base'],
   render: () => <AsyncSuggestionsExample />,
 };
 
@@ -1116,6 +1126,7 @@ function CommandPaletteExample() {
 
 /** The maintainer-endorsed filterable-menu recipe (#4157): `Dialog` + `<Autocomplete.Root inline open autoHighlight="always" keepHighlight>`. `inline` drops the popup so the list renders in place; `Item.onClick` fires for pointer *and* Enter (#2816). Keep `Empty` mounted so Escape stays contained (#2935). */
 export const CommandPalette: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CommandPaletteExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1228,6 +1239,7 @@ function GridLayoutExample() {
 
 /** `grid` + `Row` for 2D suggestion layouts (emoji pickers): columns are inferred from each `Row`, and arrow keys move the highlight across and down cells. With the Input inside the Popup, the popup takes `role="dialog"` (#3213). */
 export const GridLayout: Story = {
+  tags: ['api-ref', 'base'],
   render: () => <GridLayoutExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1376,6 +1388,7 @@ function VirtualizedExample() {
 
 /** Large lists: the `virtualized` prop + `useFilteredItems()` render only the visible window (here a dependency-free scroll window; the docs demo uses `@tanstack/react-virtual`). Set `aria-setsize`/`aria-posinset` and the `index` prop on windowed items. */
 export const Virtualized: Story = {
+  tags: ['highlight', 'base'],
   render: () => <VirtualizedExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1412,6 +1425,7 @@ function AnimatedPopupExample() {
 
 /** The standard popup animation contract: transitions on `[data-starting-style]`/`[data-ending-style]` with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires once the transition settles, after which the popup unmounts. */
 export const AnimatedPopup: Story = {
+  tags: ['animation'],
   render: () => <AnimatedPopupExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1440,7 +1454,7 @@ export const AnimatedPopup: Story = {
  * research/d-real-world-usage/autocomplete/ranked.json #7).
  */
 export const RealWorldFieldIntegratedWrapper: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <FieldIntegratedAutocompleteExample />,
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole('combobox');
@@ -1468,7 +1482,7 @@ export const RealWorldFieldIntegratedWrapper: Story = {
  * research/d-real-world-usage/autocomplete/ranked.json #4).
  */
 export const RealWorldMultiSkinRegistry: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <MultiSkinAutocompleteExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

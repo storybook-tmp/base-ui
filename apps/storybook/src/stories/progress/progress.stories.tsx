@@ -48,11 +48,13 @@ function HeroExample() {
 
 /** The docs hero demo: a labeled export task whose value increments over time — the consumer always drives `value` (there is no uncontrolled mode). */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => <HeroExample />,
 };
 
 /** A fixed determinate value. Root exposes `role="progressbar"` with `aria-valuenow`/`aria-valuemin`/`aria-valuemax`, and the default text is the percentage of the range. */
 export const Determinate: Story = {
+  tags: ['highlight'],
   render: () => (
     <Progress.Root className={styles.Progress} value={40} locale="en-US">
       <Progress.Label className={styles.Label}>Uploading files</Progress.Label>
@@ -73,6 +75,7 @@ export const Determinate: Story = {
 
 /** `value={null}` puts Progress in indeterminate mode: `aria-valuenow` is omitted entirely, `aria-valuetext` defaults to "indeterminate progress", and the Indicator gets no inline width — the sweep animation here is plain consumer CSS on `[data-indeterminate]`. */
 export const Indeterminate: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Progress.Root className={styles.Progress} value={null}>
       <Progress.Label className={styles.Label}>Preparing download</Progress.Label>
@@ -91,6 +94,7 @@ export const Indeterminate: Story = {
 
 /** With `format`, the raw value (not the percentage) is formatted — e.g. a budget in dollars. An explicit `locale` keeps `Intl.NumberFormat` output stable, which is also the documented mitigation for the open SSR hydration issue (#4616). */
 export const CustomFormat: Story = {
+  tags: ['highlight'],
   render: () => (
     <Progress.Root
       className={styles.Progress}
@@ -141,6 +145,7 @@ function LiveValueUpdatesExample() {
  * updates at every single step (one assertion per `waitFor`, per AGENTS.md).
  */
 export const LiveValueUpdates: Story = {
+  tags: ['highlight'],
   render: () => <LiveValueUpdatesExample />,
   play: async ({ canvas, userEvent }) => {
     const progressbar = canvas.getByRole('progressbar', { name: 'Uploading files' });
@@ -170,6 +175,7 @@ export const LiveValueUpdates: Story = {
  * and the spoken text together via `format`.
  */
 export const WithLabelAndCustomAriaValueText: Story = {
+  tags: ['highlight'],
   render: () => (
     <Progress.Root
       className={styles.Progress}
@@ -193,6 +199,7 @@ export const WithLabelAndCustomAriaValueText: Story = {
 
 /** `min`/`max` support arbitrary ranges, and overshooting values clamp: `min={0} max={40} value={50}` reports `aria-valuenow="40"`, fills 100%, and gains `data-complete`. */
 export const CustomRange: Story = {
+  tags: ['highlight'],
   render: () => (
     <Progress.Root className={styles.Progress} value={50} min={0} max={40} locale="en-US">
       <Progress.Label className={styles.Label}>Processed items</Progress.Label>

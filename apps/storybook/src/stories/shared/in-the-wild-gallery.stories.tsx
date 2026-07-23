@@ -38,6 +38,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Every captured component highlight. */
 export const Gallery: Story = {
+  tags: ['infra'],
   render: () => (
     <WildCards>
       <WildCard

@@ -46,6 +46,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: Trigger → Portal → Backdrop → Popup with Title, Description, and Close. Use as the starting point for any self-contained task or message layered over the whole page. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>View notifications</Dialog.Trigger>
@@ -69,6 +70,7 @@ export const Hero: Story = {
 
 /** The full interaction contract in one story: open on click (popup portals to `document.body`), focus moves inside the popup, the trigger reflects state, and closing returns focus to the trigger. */
 export const OpenCloseInteraction: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
@@ -110,6 +112,7 @@ export const OpenCloseInteraction: Story = {
 
 /** Dialogs nest without extra APIs: the parent tracks descendants and exposes `[data-nested-dialog-open]` + `--nested-dialogs` so it can recede behind the child (docs `nested` demo). Esc closes only the topmost dialog. */
 export const NestedDialogs: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>View notifications</Dialog.Trigger>
@@ -246,6 +249,7 @@ function CloseConfirmationExample() {
 
 /** Guard unsaved input by branching in `onOpenChange`: a close request with text present opens a nested AlertDialog instead of closing (docs `close-confirmation` demo). */
 export const CloseConfirmation: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CloseConfirmationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -345,6 +349,7 @@ function OutsideScrollExample() {
 
 /** The outside-scroll layout (docs `outside-scroll` demo): `Dialog.Viewport` wraps a Scroll Area so the page container scrolls and the popup may extend past the bottom edge ([#2808](https://github.com/mui/base-ui/pull/2808)). */
 export const OutsideScroll: Story = {
+  tags: ['highlight', 'base'],
   render: () => <OutsideScrollExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -360,6 +365,7 @@ export const OutsideScroll: Story = {
 
 /** The inside-scroll layout (docs `inside-scroll` demo): the popup stays fully on screen and its body region scrolls via a nested Scroll Area. */
 export const InsideScroll: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
@@ -409,6 +415,7 @@ export const InsideScroll: Story = {
 
 /** Elements that look detached (a floating close button) must stay inside `Dialog.Popup` for tab order and screen readers: the popup gets `pointer-events: none` and the inner surface restores `pointer-events: auto` (docs `uncontained` demo). */
 export const UncontainedContent: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
@@ -451,6 +458,7 @@ const notificationsDialog = Dialog.createHandle();
 
 /** `Dialog.createHandle()` associates a `Dialog.Trigger` rendered anywhere in the app with its `Dialog.Root` — no shared React state needed (docs `detached-triggers-simple` demo, [#2974](https://github.com/mui/base-ui/pull/2974)). */
 export const DetachedTriggerSimple: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <React.Fragment>
       <Dialog.Trigger className={styles.Button} handle={notificationsDialog}>
@@ -556,6 +564,7 @@ function DetachedTriggersControlledExample() {
 
 /** Controlled mode with multiple detached triggers: manage `open` + `triggerId` (read `eventDetails.trigger` — there is no separate `onTriggerIdChange`), and each trigger's `payload` reaches the Root's render-prop children (docs `detached-triggers-controlled` demo). */
 export const DetachedTriggersControlled: Story = {
+  tags: ['highlight', 'base'],
   render: () => <DetachedTriggersControlledExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -638,6 +647,7 @@ function HandleImperativePayloadExample() {
 
 /** `createHandle<Payload>()` types per-trigger payloads and adds imperative `open`/`openWithPayload`/`close` — Base UI's answer to `dialogManager.confirm()` requests ([#2802](https://github.com/mui/base-ui/issues/2802) was declined in favor of this). */
 export const HandleImperativePayload: Story = {
+  tags: ['api-ref'],
   render: () => <HandleImperativePayloadExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -717,6 +727,7 @@ function ModalVsNonModalExample() {
 
 /** The `modal` prop decides pointer/scroll/focus modality ([#623](https://github.com/mui/base-ui/issues/623)): the default `true` blocks the page behind an invisible internal backdrop, while `modal={false}` keeps it fully interactive. */
 export const ModalVsNonModal: Story = {
+  tags: ['highlight'],
   render: () => <ModalVsNonModalExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -746,6 +757,7 @@ export const ModalVsNonModal: Story = {
 
 /** `modal="trap-focus"` traps only focus: Tab loops inside the popup while page scroll and outside pointer interactions remain enabled ([#1571](https://github.com/mui/base-ui/pull/1571)). */
 export const TrapFocusMode: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <Dialog.Root modal="trap-focus">
@@ -840,6 +852,7 @@ function ControlledExample() {
 
 /** Use `open` + `onOpenChange` when external state (a route, a store, another widget) drives the dialog. Built-in behaviors like Esc still request changes through `onOpenChange`. */
 export const Controlled: Story = {
+  tags: ['highlight'],
   render: () => <ControlledExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -856,6 +869,7 @@ export const Controlled: Story = {
 
 /** `disablePointerDismissal` keeps the dialog open on outside press — use it for forms where a stray backdrop click would destroy input; Esc and the Close button still work ([#3190](https://github.com/mui/base-ui/pull/3190) renamed it from `dismissible`). */
 export const DisablePointerDismissal: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Dialog.Root disablePointerDismissal>
       <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
@@ -932,6 +946,7 @@ function ChangeReasonExample() {
 
 /** Every `onOpenChange` call carries `eventDetails.reason` (`trigger-press`, `escape-key`, `outside-press`, `close-press`, `focus-out`, …) — branch on it instead of guessing from the event object. */
 export const ChangeReasonInspector: Story = {
+  tags: ['highlight'],
   render: () => <ChangeReasonExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -994,6 +1009,7 @@ function CancelCloseExample() {
 
 /** `eventDetails.cancel()` vetoes a single change request without taking over the state — a lighter tool than `disablePointerDismissal` when only some reasons should be blocked. */
 export const CancelClose: Story = {
+  tags: ['highlight'],
   render: () => <CancelCloseExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1062,6 +1078,7 @@ function InitialAndFinalFocusExample() {
 
 /** `initialFocus` / `finalFocus` on the Popup steer where focus lands on open and close; both also accept functions of the interaction type (`mouse`/`touch`/`keyboard`) ([#2536](https://github.com/mui/base-ui/pull/2536), [#2599](https://github.com/mui/base-ui/pull/2599)). */
 export const InitialAndFinalFocus: Story = {
+  tags: ['highlight'],
   render: () => <InitialAndFinalFocusExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1131,6 +1148,7 @@ function FormInDialogExample() {
 
 /** The forms-in-dialog recipe (docs "Controlled dialog" example): control the dialog, submit the `Form`, and close from the submit handler so validation failures keep it open. */
 export const FormInDialog: Story = {
+  tags: ['highlight'],
   render: () => <FormInDialogExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1187,6 +1205,7 @@ function OpenFromMenuExample() {
 
 /** The docs "Open from a menu" pattern: control the dialog and set state in `Menu.Item`'s `onClick` — the menu closes itself, then the dialog opens. */
 export const OpenFromMenu: Story = {
+  tags: ['highlight'],
   render: () => <OpenFromMenuExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1250,6 +1269,7 @@ function NestedAlertDialogGuardExample() {
 
 /** Cross-type nesting: an AlertDialog inside a Dialog still counts toward the parent's `[data-nested-dialog-open]` — use AlertDialog for the destructive confirmation because it forces `modal` and disables pointer dismissal. */
 export const NestedAlertDialogGuard: Story = {
+  tags: ['highlight'],
   render: () => <NestedAlertDialogGuardExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1300,6 +1320,7 @@ function ExitAnimationExample() {
 
 /** Animate with plain CSS transitions on `[data-starting-style]`/`[data-ending-style]`; the popup stays mounted until the exit transition finishes, then `onOpenChangeComplete(false)` fires. */
 export const ExitAnimation: Story = {
+  tags: ['animation'],
   render: () => <ExitAnimationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1323,6 +1344,7 @@ export const ExitAnimation: Story = {
  * Storybook; see the Motion recipe in the animation handbook for the render-prop version.
  */
 export const KeepMounted: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Dialog.Root>
       <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
@@ -1371,7 +1393,7 @@ export const KeepMounted: Story = {
  * research/d-real-world-usage/dialog/ranked.json #4).
  */
 export const RecreationSidePanel: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <SidePanelExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1396,7 +1418,7 @@ export const RecreationSidePanel: Story = {
  * (MIT, code-ok, research/d-real-world-usage/dialog/ranked.json #1).
  */
 export const RecreationSettingsModal: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <SettingsModalExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

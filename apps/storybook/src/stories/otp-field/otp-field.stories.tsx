@@ -58,6 +58,7 @@ function HeroExample() {
 
 /** The docs hero demo: 6 numeric slots, a native label on slot 0, `aria-label` on the rest, and a description. Recreates `demos/hero`. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   // `length` is a required OTPField.Root prop with no default; `render` fully overrides
   // rendering below, but StoryObj's generated args type still needs a value to satisfy it.
   args: { length: OTP_LENGTH },
@@ -106,6 +107,7 @@ function TypeToCompleteExample() {
 
 /** Typing digits fills each slot and auto-advances focus; `onValueComplete` fires once the last slot is filled. */
 export const TypeToComplete: Story = {
+  tags: ['highlight'],
   args: { length: OTP_LENGTH },
   render: () => <TypeToCompleteExample />,
   play: async ({ canvas, userEvent }) => {
@@ -155,6 +157,7 @@ function PasteCompletesCodeExample() {
 
 /** Pasting a full code splits it across every slot in one operation, following the project's own tested paste technique (a manually-defined `clipboardData` on a real `paste` event). */
 export const PasteCompletesCode: Story = {
+  tags: ['highlight'],
   args: { length: OTP_LENGTH },
   render: () => <PasteCompletesCodeExample />,
   play: async ({ canvas }) => {
@@ -230,6 +233,7 @@ function BackspaceNavigationExample() {
 }
 
 export const BackspaceNavigation: Story = {
+  tags: ['highlight'],
   args: { length: OTP_LENGTH },
   render: () => <BackspaceNavigationExample />,
   play: async ({ canvas, userEvent }) => {
@@ -291,6 +295,7 @@ function FormExample() {
 
 /** The full code is carried by a hidden validation input (`name`/`form`/`pattern`), so a standard form submit reads the joined value under one key — the same hidden-input-carries-native-semantics pattern used by Number Field and Slider. */
 export const FormSubmit: Story = {
+  tags: ['api-ref'],
   args: { length: OTP_LENGTH },
   render: () => <FormExample />,
   play: async ({ canvas, userEvent }) => {
@@ -362,6 +367,7 @@ function MaskedVariantExample() {
 }
 
 export const MaskedVariant: Story = {
+  tags: ['api-ref', 'base'],
   args: { length: OTP_LENGTH },
   render: () => <MaskedVariantExample />,
   play: async ({ canvas, userEvent }) => {
@@ -422,6 +428,7 @@ function AutoSubmitExample() {
  * would (brief §8/§9's auto-submit-blocked-by-sibling-invalid-field contract).
  */
 export const FormSubmitWithAutoSubmit: Story = {
+  tags: ['api-ref'],
   args: { length: OTP_LENGTH },
   render: () => <AutoSubmitExample />,
   play: async ({ canvas, userEvent }) => {
@@ -485,6 +492,7 @@ function InvalidCharacterFeedbackExample() {
  * `useInvalidFeedback` pattern from `demos/custom-sanitize`.
  */
 export const InvalidCharacterFeedback: Story = {
+  tags: ['highlight'],
   args: { length: OTP_LENGTH },
   render: () => <InvalidCharacterFeedbackExample />,
   play: async ({ canvas, userEvent }) => {
@@ -509,6 +517,7 @@ export const InvalidCharacterFeedback: Story = {
  * `OTPField.Root` (which renders `role="group"`) and `Field.Error` renders from `validate`.
  */
 export const FieldValidation: Story = {
+  tags: ['highlight'],
   args: { length: OTP_LENGTH },
   render: () => (
     <Field.Root
@@ -594,6 +603,7 @@ function DisabledAndReadOnlyExample() {
 }
 
 export const DisabledAndReadOnly: Story = {
+  tags: ['api-ref'],
   args: { length: OTP_LENGTH },
   render: () => <DisabledAndReadOnlyExample />,
   play: async ({ canvas, userEvent }) => {
@@ -638,6 +648,7 @@ function GroupedWithSeparatorExample() {
 }
 
 export const GroupedWithSeparator: Story = {
+  tags: ['highlight', 'base'],
   args: { length: OTP_LENGTH },
   render: () => <GroupedWithSeparatorExample />,
   play: async ({ canvas, userEvent }) => {
@@ -672,6 +683,7 @@ function AlphanumericExample() {
 }
 
 export const Alphanumeric: Story = {
+  tags: ['highlight', 'base'],
   args: { length: OTP_LENGTH },
   render: () => <AlphanumericExample />,
   play: async ({ canvas, userEvent }) => {
@@ -687,6 +699,7 @@ export const Alphanumeric: Story = {
 
 /** `length` isn't hardcoded to 6 — any positive integer works, here a 4-character code. `onValueComplete` fires once the shorter code is filled. */
 export const CustomLength: Story = {
+  tags: ['highlight'],
   args: { length: 4 },
   render: () => {
     function FourDigitExample() {
@@ -718,5 +731,92 @@ export const CustomLength: Story = {
       await userEvent.keyboard(digit);
     }
     await expect(await canvas.findByText('complete=1234')).toBeVisible();
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* Focused placeholder (docs "focused-placeholder" demo)                */
+/* ------------------------------------------------------------------ */
+
+const PLACEHOLDER_LENGTH = 6;
+
+/**
+ * A `placeholder` on each `OTPField.Input` keeps a visible hint in every empty
+ * slot, so the expected code length reads at a glance before typing starts.
+ */
+export const FocusedPlaceholder: Story = {
+  tags: ['api-ref', 'base'],
+  args: { length: PLACEHOLDER_LENGTH },
+  render: () => (
+    <div className={styles.Field}>
+      <span className={styles.Label}>Verification code</span>
+      <OTPField.Root length={PLACEHOLDER_LENGTH} className={styles.Root}>
+        {Array.from({ length: PLACEHOLDER_LENGTH }, (_, index) => (
+          <OTPField.Input
+            key={index}
+            className={styles.Input}
+            placeholder="•"
+            aria-label={`Character ${index + 1} of ${PLACEHOLDER_LENGTH}`}
+          />
+        ))}
+      </OTPField.Root>
+      <p className={styles.Description}>
+        Placeholder hints stay visible until each slot receives a character.
+      </p>
+    </div>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole<HTMLInputElement>('textbox');
+    await expect(inputs[0]).toHaveAttribute('placeholder', '•');
+
+    inputs[0].focus();
+    await userEvent.keyboard('7');
+    await waitFor(() => expect(inputs[0].value).toBe('7'));
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* Custom sanitize (docs "custom-sanitize" demo)                        */
+/* ------------------------------------------------------------------ */
+
+const SANITIZE_LENGTH = 6;
+
+/**
+ * `normalizeValue` rewrites each accepted character before it lands in the
+ * field. Combined with `validationType="alphanumeric"`, a recovery code accepts
+ * letters and digits and stores the letters uppercased, whatever the user typed.
+ */
+export const CustomSanitize: Story = {
+  tags: ['api-ref', 'base'],
+  args: { length: SANITIZE_LENGTH },
+  render: () => (
+    <div className={styles.Field}>
+      <span className={styles.Label}>Recovery code</span>
+      <OTPField.Root
+        length={SANITIZE_LENGTH}
+        validationType="alphanumeric"
+        normalizeValue={(value: string) => value.toUpperCase()}
+        className={styles.Root}
+      >
+        {Array.from({ length: SANITIZE_LENGTH }, (_, index) => (
+          <OTPField.Input
+            key={index}
+            className={styles.Input}
+            aria-label={`Character ${index + 1} of ${SANITIZE_LENGTH}`}
+          />
+        ))}
+      </OTPField.Root>
+      <p className={styles.Description}>
+        Letters and digits only. Letters are converted to uppercase.
+      </p>
+    </div>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole<HTMLInputElement>('textbox');
+    inputs[0].focus();
+    await userEvent.keyboard('a');
+
+    // normalizeValue uppercases the typed letter.
+    await waitFor(() => expect(inputs[0].value).toBe('A'));
   },
 };

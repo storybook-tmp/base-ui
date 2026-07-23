@@ -39,6 +39,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a notifications panel built from the canonical part tree — Trigger, Portal, Positioner, Popup, Arrow, Title, Description. Use as the starting point for any anchored panel of essential content. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Popover.Root>
       <Popover.Trigger className={styles.Button}>Notifications</Popover.Trigger>
@@ -59,6 +60,7 @@ export const Hero: Story = {
 
 /** `openOnHover` on the Trigger (not the Root) makes the popover a hybrid: hover opens it after `delay` (default 300ms of rest), and click still works for touch and keyboard users. Hover-open never moves focus. */
 export const OpenOnHover: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <Popover.Root>
       <Popover.Trigger openOnHover className={styles.Button}>
@@ -83,6 +85,7 @@ const simpleHandle = Popover.createHandle();
 
 /** A trigger rendered outside `Popover.Root`, connected through `Popover.createHandle()` — the modern answer to "open a popover from anywhere" (#2336). */
 export const DetachedTriggersSimple: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <React.Fragment>
       <Popover.Trigger className={styles.Button} handle={simpleHandle}>
@@ -160,6 +163,7 @@ function DetachedTriggersControlledExample() {
 
 /** Controlled mode with multiple triggers: `open` + `triggerId` on the Root, with the active trigger delivered in `eventDetails.trigger`. Forgetting `triggerId` positions the popup at the viewport origin (#3577). */
 export const DetachedTriggersControlled: Story = {
+  tags: ['highlight', 'base'],
   render: () => <DetachedTriggersControlledExample />,
 };
 
@@ -205,6 +209,7 @@ function ProfilePanel() {
 
 /** The full detached-triggers demo: three triggers share one popup through a typed handle, passing a component as `payload`. The Positioner/Popup transition `top/left` and `--popup-width/height`, and `Popover.Viewport` slides content by `data-activation-direction`. */
 export const DetachedTriggersFull: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Container}>
       <Popover.Trigger className={styles.Button} handle={morphHandle} payload={NotificationsPanel}>
@@ -240,6 +245,7 @@ export const DetachedTriggersFull: Story = {
 
 /** The full interaction contract in one story: click opens a `role="dialog"` popup portalled to `document.body`, Escape closes and restores focus to the trigger, and pressing outside dismisses. */
 export const OpenCloseInteraction: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <Popover.Root>
@@ -289,6 +295,7 @@ export const OpenCloseInteraction: Story = {
 
 /** Non-modal focus contract: opening moves focus to the first tabbable element, and tabbing past the last element closes the popup and continues the document tab order after the trigger. */
 export const KeyboardTabThrough: Story = {
+  tags: ['tests'],
   render: () => (
     <div className={styles.Row}>
       <Popover.Root>
@@ -340,6 +347,7 @@ export const KeyboardTabThrough: Story = {
 
 /** `modal` locks scroll and disables outside pointer interaction via an internal backdrop. Focus trapping only activates because a `Popover.Close` is rendered — visually hidden here — so assistive tech always has an escape hatch (#4084). */
 export const ModalTrue: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <Popover.Root modal>
@@ -393,6 +401,7 @@ export const ModalTrue: Story = {
 
 /** The default is non-modal: the rest of the page stays interactive, so clicking an outside field closes the popover and the field receives the interaction in the same gesture. */
 export const NonModalDefault: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <Popover.Root>
@@ -434,6 +443,7 @@ export const NonModalDefault: Story = {
 
 /** `modal="trap-focus"` loops keyboard focus without locking scroll or outside pointers (#1571): there is no internal backdrop, and an outside press still dismisses. */
 export const TrapFocusMode: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <Popover.Root modal="trap-focus">
@@ -491,6 +501,7 @@ const imperativeHandle = Popover.createHandle();
 
 /** The handle's imperative methods: `handle.open(triggerId)` opens the popup anchored to the registered trigger from anywhere in the app, and `handle.close()` dismisses it. Calls are ignored while no Root is mounted. */
 export const DetachedHandleImperative: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Stack}>
       <Popover.Trigger className={styles.Button} handle={imperativeHandle} id="saved-searches">
@@ -554,6 +565,7 @@ const plans: PlanDetails[] = [
 
 /** Multiple triggers share one popup through a typed handle (`createHandle<PlanDetails>()`); each trigger carries a `payload` and the Root's function child renders it. Clicking another trigger moves the popup instead of closing it, reusing the same DOM node. */
 export const MultipleTriggersPayload: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Container}>
       {plans.map((plan) => (
@@ -643,6 +655,7 @@ function DismissalControlExample() {
 
 /** The dismissal-control recipe: there is no `disablePointerDismissal` on Popover — filter `eventDetails.reason` and call `eventDetails.cancel()` instead (#2314, #3716, #4466). An outside click arrives as `focus-out` then `outside-press`, so both are vetoed; the Close button (`close-press`) still works. */
 export const CancelCloseOnOutsidePress: Story = {
+  tags: ['highlight'],
   render: () => <DismissalControlExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -665,6 +678,7 @@ export const CancelCloseOnOutsidePress: Story = {
 
 /** The hover trigger is hybrid by design (#2623): clicking it also opens the popover and "sticks" it, so touch and keyboard users are never locked out. Clicking again closes it. */
 export const HoverStickOnClick: Story = {
+  tags: ['highlight'],
   render: () => (
     <Popover.Root>
       <Popover.Trigger openOnHover className={styles.Button}>
@@ -704,6 +718,7 @@ export const HoverStickOnClick: Story = {
 
 /** The infotip pattern — the documented alternative to a tooltip on an info icon (#3530): the content is essential, so it must be reachable by touch and screen readers. `openOnHover` keeps the hover convenience for mouse users. */
 export const Infotip: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <span className={styles.Label}>Estimated tax</span>
@@ -779,6 +794,7 @@ function FilterPanelExample() {
 
 /** Interactive content is what separates popovers from tooltips: a small filter form with checkboxes, applied by a `Popover.Close` that doubles as the submit button. */
 export const FilterPanelForm: Story = {
+  tags: ['highlight'],
   render: () => <FilterPanelExample />,
 };
 
@@ -813,6 +829,7 @@ const orders: OrderRow[] = orderCustomers.map((customer, index) => ({
 
 /** The #3577 archetype: ten table rows share a single `Popover.Root` through a typed handle, so the tree contains one popup instead of ten. Each row's trigger passes the row as `payload`. */
 export const TableRowSharedPopover: Story = {
+  tags: ['highlight'],
   render: () => (
     <React.Fragment>
       <table className={styles.Table}>
@@ -858,6 +875,7 @@ export const TableRowSharedPopover: Story = {
 
 /** An explicit `Popover.Backdrop` dims the page behind a modal popover. Recomposes the optional-backdrop idea from WordPress Gutenberg's `@wordpress/ui` popover (GPL, link-only — described, not copied). */
 export const WithBackdrop: Story = {
+  tags: ['highlight'],
   render: () => (
     <Popover.Root modal>
       <Popover.Trigger className={styles.Button}>Review changes</Popover.Trigger>
@@ -903,6 +921,7 @@ function CustomAnchorExample() {
 
 /** The Positioner `anchor` prop positions the popup against an element other than the trigger — the sanctioned answer to "attach to an arbitrary DOM node" (#2157, #3577; LyteNyte Grid anchors cell popovers this way). */
 export const CustomAnchor: Story = {
+  tags: ['highlight'],
   render: () => <CustomAnchorExample />,
 };
 
@@ -945,6 +964,7 @@ export const PositionerPlayground: StoryObj<typeof Popover.Positioner> = {
 
 /** Inside sticky or fixed-positioned ancestors, the default `absolute` positioning can lag while scrolling — `positionMethod="fixed"` on the Positioner is the documented fix (#3653). */
 export const PositionMethodFixedInSticky: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.ScrollArea}>
       <div className={styles.StickyHeader}>
@@ -974,6 +994,7 @@ export const PositionMethodFixedInSticky: Story = {
 
 /** The CSS animation contract: transition `[data-starting-style]`/`[data-ending-style]` and scale from `var(--transform-origin)` so the popup grows out of its anchor point. */
 export const TransitionStartingEndingStyle: Story = {
+  tags: ['animation'],
   render: () => (
     <Popover.Root>
       <Popover.Trigger className={styles.Button}>Toggle panel</Popover.Trigger>
@@ -1015,6 +1036,7 @@ function KeepMountedExample() {
 
 /** `keepMounted` on the Portal keeps the closed popup in the DOM (hidden), and `onOpenChangeComplete` fires once enter/exit transitions settle — pair with `actionsRef.unmount()` when driving exit animations from JavaScript. */
 export const KeepMountedExitAnimation: Story = {
+  tags: ['animation'],
   render: () => <KeepMountedExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1033,6 +1055,7 @@ export const KeepMountedExitAnimation: Story = {
 
 /** Nested popovers just work: a child Root joins the parent's floating tree, and its portal automatically nests inside the parent's. If you use a custom portal `container`, set it only on the root Portal (#1930). */
 export const NestedPopovers: Story = {
+  tags: ['highlight'],
   render: () => (
     <Popover.Root>
       <Popover.Trigger className={styles.Button}>Share</Popover.Trigger>
@@ -1103,6 +1126,7 @@ function InitialFinalFocusExample() {
 
 /** `initialFocus` routes opening focus to a specific element (here the second input) and `finalFocus` overrides where focus returns on close — the preferred way to restore focus when the trigger itself may disappear (#4084). */
 export const InitialFinalFocus: Story = {
+  tags: ['highlight'],
   render: () => <InitialFinalFocusExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1127,6 +1151,7 @@ const directionHandle = Popover.createHandle<string>();
 
 /** A minimal `Popover.Viewport` setup: two triggers swap string payloads, and the old/new content slide according to `data-activation-direction`. Freeze the Positioner to `--positioner-width/height` during transitions so the popup cannot thrash. */
 export const ViewportContentDirection: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Container}>
       <Popover.Trigger
@@ -1166,6 +1191,7 @@ const arrowSides = ['top', 'right', 'bottom', 'left'] as const;
 
 /** `Popover.Arrow` tracks the anchor on every side; its `data-side` attribute drives the rotation so one SVG-free CSS arrow serves all four placements. */
 export const ArrowSides: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.ArrowGrid}>
       {arrowSides.map((side) => (
@@ -1200,7 +1226,7 @@ export const ArrowSides: Story = {
  * code-ok, research/d-real-world-usage/popover/ranked.json #2).
  */
 export const RealWorldQueuePopover: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <QueuePopoverExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1230,7 +1256,7 @@ export const RealWorldQueuePopover: Story = {
  * research/d-real-world-usage/popover/ranked.json #3).
  */
 export const RealWorldLinkEditorToolbar: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <LinkEditorToolbarExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1263,7 +1289,7 @@ export const RealWorldLinkEditorToolbar: Story = {
  * research/d-real-world-usage/popover/ranked.json #5).
  */
 export const RealWorldMentionAutocomplete: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <MentionAutocompleteExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
