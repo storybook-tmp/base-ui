@@ -37,21 +37,14 @@ type Story = StoryObj<typeof meta>;
  * a separator, and a plain Toolbar.Group of format buttons.
  */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Toolbar.Root aria-label="Formatting" className={styles.Toolbar}>
       <ToggleGroup aria-label="Alignment" defaultValue={['align-left']} className={styles.Group}>
-        <Toolbar.Button
-          render={<Toggle />}
-          value="align-left"
-          className={styles.Button}
-        >
+        <Toolbar.Button render={<Toggle />} value="align-left" className={styles.Button}>
           Align Left
         </Toolbar.Button>
-        <Toolbar.Button
-          render={<Toggle />}
-          value="align-right"
-          className={styles.Button}
-        >
+        <Toolbar.Button render={<Toggle />} value="align-right" className={styles.Button}>
           Align Right
         </Toolbar.Button>
       </ToggleGroup>
@@ -119,6 +112,7 @@ function ToolbarWithMenuExample() {
  * portals to `document.body`, so it must be queried there.
  */
 export const ToolbarButtonAsMenuTrigger: Story = {
+  tags: ['highlight'],
   render: () => <ToolbarWithMenuExample />,
   play: async ({ canvas, userEvent, canvasElement }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -151,6 +145,7 @@ export const ToolbarButtonAsMenuTrigger: Story = {
  * Toggle Group (see the toggle-group stories).
  */
 export const CompositeKeyboardNavigation: Story = {
+  tags: ['tests'],
   render: () => (
     <Toolbar.Root aria-label="Mixed items" className={styles.Toolbar}>
       <Toolbar.Button className={styles.Button}>Bold</Toolbar.Button>
@@ -200,6 +195,7 @@ export const CompositeKeyboardNavigation: Story = {
  * `ToolbarRoot.test.tsx` "disables all toolbar items except links".
  */
 export const DisabledCascadeExceptLinks: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Toolbar.Root aria-label="Mixed items (disabled)" disabled className={styles.Toolbar}>
       <Toolbar.Button className={styles.Button}>Bold</Toolbar.Button>
@@ -265,6 +261,7 @@ function ToolbarWithNumberFieldExample() {
  * docs page (brief §4, §6, §7).
  */
 export const UsingWithNumberFieldInput: Story = {
+  tags: ['highlight'],
   render: () => <ToolbarWithNumberFieldExample />,
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole('textbox', { name: 'Font size' });

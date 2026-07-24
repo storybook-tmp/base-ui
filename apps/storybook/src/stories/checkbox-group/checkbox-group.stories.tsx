@@ -67,6 +67,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: three checkboxes coordinating one array-valued group. */
 export const Basic: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <CheckboxGroup
       aria-label="Apples"
@@ -163,6 +164,7 @@ function ParentTriStateExample() {
  * "preserves initial state if mixed when parent is clicked").
  */
 export const ParentCheckboxTriState: Story = {
+  tags: ['highlight', 'base'],
   render: () => <ParentTriStateExample />,
   play: async ({ canvas, userEvent }) => {
     const parent = canvas.getByRole('checkbox', { name: 'All apples' });
@@ -242,6 +244,7 @@ function FormExample() {
 
 /** Wrapped in a `Field.Root name`, the group's checked values submit as one array-valued field (#1948) — no per-checkbox `name` is needed. */
 export const FormSubmitArray: Story = {
+  tags: ['highlight'],
   render: () => <FormExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('checkbox', { name: 'HTTP' }));
@@ -286,6 +289,7 @@ function ControlledArrayExample() {
 
 /** The core array-coordination contract: checking a checkbox adds its `value` to the group's array; unchecking removes it by filtering, not by re-sorting the remaining entries. */
 export const GroupValueCoordination: Story = {
+  tags: ['highlight'],
   render: () => <ControlledArrayExample />,
   play: async ({ canvas, userEvent }) => {
     await expect(canvas.getByText('value=[]')).toBeVisible();
@@ -305,6 +309,7 @@ export const GroupValueCoordination: Story = {
 
 /** Checking exactly one child directly (not via the parent) automatically flips the parent to `aria-checked="mixed"` — the parent's tri-state is a computed value derived from the live child array, not something the app sets by hand. */
 export const ParentIndeterminateFromPartialSelection: Story = {
+  tags: ['highlight'],
   render: () => <ParentTriStateExample />,
   play: async ({ canvas, userEvent }) => {
     const parent = canvas.getByRole('checkbox', { name: 'All apples' });
@@ -369,6 +374,7 @@ function DisabledChildExample() {
 
 /** A `disabled` child that is already checked is excluded from the parent's bulk select-all/select-none: clicking "select all" leaves it untouched (already checked) while every enabled child becomes checked; clicking "select none" leaves it checked while every enabled child unchecks. */
 export const DisabledChildExcludedFromParentToggle: Story = {
+  tags: ['api-ref'],
   render: () => <DisabledChildExample />,
   play: async ({ canvas, userEvent }) => {
     const parent = canvas.getByRole('checkbox', { name: 'All apples' });
@@ -518,6 +524,7 @@ function NestedParentExample() {
  * `"manage-users"` to the outer group's value automatically.
  */
 export const NestedParentCheckbox: Story = {
+  tags: ['highlight', 'base'],
   render: () => <NestedParentExample />,
   play: async ({ canvas, userEvent }) => {
     const manageUsersParent = canvas.getByRole('checkbox', { name: 'Manage users' });
@@ -536,6 +543,7 @@ export const NestedParentCheckbox: Story = {
 
 /** The counter-intuitive `required` contract: `required` on *individual* checkboxes means **every** required one must be checked, not "at least one." Checking only one of the two required checkboxes and resubmitting still shows the error — it clears only once both are checked. */
 export const RequiredMeansAllMustBeChecked: Story = {
+  tags: ['api-ref'],
   render: () => <RequiredAllExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Save' }));

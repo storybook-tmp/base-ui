@@ -1,0 +1,134 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+# Brand principles
+
+<Meta title="Overview/Brand principles" tags={["general-brand"]}/>
+
+
+> **Purpose.** How Mealdrop looks, sounds, and behaves, so anyone designing a new screen, writing a new string, or building the Base UI-based design system expresses the same brand. This is the human-facing source of truth for the *brand*. Raw token values and code-level extraction quirks live in the companion [Mealdrop → Base UI: theming & migration notes](https://app.notion.com/p/Mealdrop-Base-UI-theming-migration-notes-3a36e8162034814482f8cd1092aeec04?pvs=21).
+>
+
+## What Mealdrop is
+
+Mealdrop is a food-delivery app: browse restaurants near you, pick a meal, check out, done. It's warm and unfussy: the kind of app that gets out of your way when you're hungry and makes you smile on the way through.
+
+The brand is carried by a friendly creature mascot, a calm mostly-grey interface, and a voice that's casual and a little playful. Nothing shouts, not even the primary button. The personality shows up in the small moments: the animated logo, the chomping "Looking for some food…" spinner, the illustrations on empty and error states, and copy that talks to you like a person.
+
+## Personality
+
+Four attributes, in priority order. When a design decision is ambiguous, the higher one wins.
+
+- **Calm**: quiet, uncluttered, low-contrast. Grey does almost all the work. Content gets room to breathe; controls stay compact. Restraint is the default.
+- **Friendly**: approachable and human, never corporate. Rounded forms, a cute mascot, sentence-case copy that sounds like a helpful friend.
+- **Playful**: small moments of delight and the occasional wink (yes, the Star Wars joke). Character is concentrated, not sprinkled everywhere.
+- **Appetizing**: food comes first. Photography and illustration do the tempting so the chrome doesn't have to.
+
+## Logo & mascot
+
+The mark is a friendly creature (a two-eared fox built from soft SVG shapes) paired with the **MealDrop** wordmark. The mascot is where the brand's true identity color (teal) lives.
+
+- **Wordmark:** "MealDrop", one word, camelCase, set in the display face (Montserrat) with normal tracking (the wordmark drops the tight heading tracking).
+- **The teal ramp is the mascot's, not the UI's.** The creature is filled with the brand teal (`#22ACA7` core, through `#36C1BF`, `#4CC8C0`, `#61D8DE`, with a pale-blue nose `#B1DCE3`). In dark mode the mascot shifts to a lime/green ramp. This color signals *Mealdrop talking about itself*. Keep it on the mascot and brand surfaces, not in general interface chrome.
+- **The shine.** The logo can play a staggered "shine": each shape briefly brightens toward `#9FF4F1` (lime `#EFFFBB` in dark), 400ms ease-in, rippling ear-to-ear. It's opt-in and celebratory; also fires on hover. This character animation belongs to the brand mark; don't imitate it on ordinary UI.
+- **Sizing:** compact by default (24px), large on hero/marketing surfaces (75–150px).
+
+**Don't:** recolor the mascot into interface greys; set the wordmark in the body face or in all-caps; add the shine to non-brand components; crowd the mark (give it clear space).
+
+## Color
+
+Mealdrop's palette is a large neutral system with a few small splashes of color. The governing idea: **grey does the work; color marks moments.**
+
+### The four roles
+
+**1. Neutrals: the workhorse (~80% of every screen)**
+
+The grey ramp carries every surface and almost all text, including the primary button.
+
+- Ink / primary text: `#2C2C2C` · Secondary text: `#636363`
+- Surfaces: white, `#F9F9F9` (cards), `#F5F6F7` · Dark surfaces / footer: `#2C2C2C`, `#202020`
+
+**2. Teal: the identity color (brand moments only)**
+
+`#22ACA7` core, plus `#36C1BF` / `#4CC8C0` / `#61D8DE` / nose `#B1DCE3`. Reserved for the mascot, the spinner, and places where the product expresses itself. **Not** for buttons, links, or interface chrome. (Dark mode: lime/green ramp.)
+
+**3. Soft green: the "good news" accent**
+
+`#E5F8BC`. Marks progress and positive moments: the new-restaurant tag, promo/top banners, checkout progress. In dark mode it also becomes the primary button. Used at only a handful of sites app-wide. If a screen has more than one green moment, one of them is probably wrong.
+
+**4. Pale blue: the "calm" accent**
+
+`#B1DDE4`. The hero banner background, review-star text, and the focus ring. A quiet, restful accent.
+
+**5. Red: errors only**
+
+`#B71C1C` (base `#D70808`). The single expressive-but-serious color; used for error text and nothing decorative.
+
+### Color principles
+
+- **Grey does the work; color marks moments.** Reach for the neutral ramp first. Color is the exception that means something.
+- **The accents are surfaces, not ink.** Soft green and pale blue are *backgrounds* that carry dark text; they're too light to draw a legible line, border, or icon. The exceptions are blue-only: the focus ring and review-star text, which use blue's dark end.
+- **The brand color belongs to the mascot.** Teal is identity, not interface. Keeping it off the chrome is what lets the brand moments feel special.
+- **Hierarchy is size and weight, not color.** Emphasize with a size step or a heavier weight, never by recoloring text. The one exception is error text.
+- **Dark mode re-decides roles; it doesn't invert.** Each role is reassigned (e.g. the primary button becomes green; the mascot goes lime). Design both themes on purpose rather than tone-mapping one into the other.
+
+## Typography
+
+Two faces, each with a clear job.
+
+- **Montserrat**: display. Headings and the wordmark. Weights 400/500/700/900.
+- **Hind**: text & UI. Body copy, labels, and buttons. Weights 400/500.
+
+**Type scale (rem):** h1 `2.74` · h2 `2.19` · h3 `1.75` · h4 `1.4` · body `1.125` · small `1` · xs `0.9` · xxs `0.72`. (Root drops to 14px on small screens.)
+
+**Rules:**
+
+- **Hierarchy is size, not color.** All heading levels share the same ink; h1/h2 add tight tracking (−2px), h3/h4 don't. Emphasis within text is weight (medium/500) or a size step.
+- **Buttons are body text with a background.** Button labels are set in Hind at regular weight: never the display face, never bold, never uppercase. A CTA earns attention through its fill, not its type.
+- **Sentence case, always** (see Voice).
+
+## Voice & tone
+
+Mealdrop talks like a friendly, slightly cheeky human, never like a corporation.
+
+- **Sentence case everywhere.** Capitalize the first word and proper nouns only. Never Title Case, never ALL CAPS.
+- **Short and direct.** "View all restaurants." "Complete order." "Your cart is empty." Say the thing.
+- **Warm, with room for a wink.** Empty and error states are where personality lives; a light joke is welcome when it doesn't get in the way. The house style even riffs on Star Wars.
+- **Punctuation with feeling.** A plain period for the everyday; an exclamation for genuine celebration or a real problem ("Order confirmed!", "Something went wrong!").
+
+| Moment | Say this | Not this |
+| :--- | :--- | :--- |
+| Primary CTA | "View all restaurants" | "VIEW ALL RESTAURANTS" / "Click here" |
+| Empty category | "This is not the food you're looking for." | "No results found." |
+| 500 error | "Our bad, something went wrong on our side." | "Error 500: Internal Server Error" |
+| 404 | "This page doesn't exist, keep looking." | "The requested resource was not found." |
+| Loading | "Looking for some food…" | "Loading…" |
+| Success | "Order confirmed!" | "Transaction complete." |
+
+## Imagery & illustration
+
+Illustration-first, with real food photography where it makes you hungry.
+
+- **Character illustrations**: flat, friendly SVG scenes (the "ladies" on the hero and success page; a plate of sushi on empty states). Warm, simple, human.
+- **Animated illustrations**: Lottie animations for error and 404 states. Motion here is part of the charm.
+- **Food photography**: used to tempt. It shows up in the slowly scrolling wall of restaurant photos in the "Award winning" section, app-store banners, and hero backgrounds. Appetite appeal is the job; keep it bright and real.
+- Keep illustration and photography in their lanes: illustration for personality and states, photography for appetite.
+
+## Motion
+
+Motion is **brief, functional, and calm**, with character reserved for the brand.
+
+- **Interactions** run short and ease-in (roughly 150–300ms). Buttons, hovers, transitions.
+- **Theme switch** cross-fades over 250ms, a small delight; keep it.
+- **Character animation belongs to the brand mark.** The staggered logo shine and the chomping spinner are Mealdrop being playful about itself. Don't replicate that energy on ordinary controls.
+- **Ambient motion is a marketing indulgence.** The 60-second food-wall pan is fine on a marketing surface; it doesn't belong inside the app's working screens.
+- **Elevation means floating, not importance.** Shadows are for things that hover above the page (modals, sidebars, the food-card hover lift). Resting cards stay flat, separated by a background shift, not a shadow.
+
+## Accessibility
+
+Accessibility is part of the brand's calm.
+
+- **One focus ring, everywhere.** A single blue two-layer ring (thin ring + soft halo) is the focus treatment for every control: buttons, inputs, selects. Don't invent per-component focus styles.
+- **Legible by construction.** Because the green and blue accents are *surfaces carrying dark text* (never colored text on white), they stay readable by design. Keep them that way.
+- **Never rely on color alone.** Hierarchy and meaning come through size, weight, and copy. Color is a supporting signal, not the only one.
+- **Sentence case aids scanning** and keeps the tone human. It's an accessibility choice as much as a style one.
+- Both light and dark themes are designed to meet contrast on their own terms.

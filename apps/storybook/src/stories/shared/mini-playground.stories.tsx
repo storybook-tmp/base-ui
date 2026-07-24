@@ -31,6 +31,7 @@ function TrivialExample() {
 
 /** A trivial inline example exercising every tab: Preview (live), JSX, HTML (live-captured), CSS. */
 export const Basic: Story = {
+  tags: ['infra'],
   render: () => (
     <MiniPlayground
       title="Trivial example"

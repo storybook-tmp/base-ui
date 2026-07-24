@@ -21,6 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a vertical separator dividing two clusters of nav links. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <div className={styles.Container}>
       <a href="#" className={styles.Link}>
@@ -50,6 +51,7 @@ export const Hero: Story = {
 
 /** Default `orientation="horizontal"` (full width, thin height) between stacked content — `role="separator"` with `aria-orientation="horizontal"` and the matching `data-orientation` styling hook (mandatory orientation story, story-plan #1). */
 export const Horizontal: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Stack}>
       <p className={styles.Text}>Section one</p>
@@ -66,6 +68,7 @@ export const Horizontal: Story = {
 
 /** `orientation="vertical"` between inline content, mirroring the hero demo's nav-link pattern — flips both `aria-orientation` and `data-orientation` (mandatory orientation story, story-plan #2). */
 export const Vertical: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <span className={styles.Text}>Left</span>
@@ -87,6 +90,7 @@ export const Vertical: Story = {
  * keeps the popup visible for the static demo instead of requiring a click.
  */
 export const InMenu: Story = {
+  tags: ['highlight'],
   render: () => (
     <Menu.Root defaultOpen modal={false}>
       <Menu.Trigger className={styles.Link}>Edit</Menu.Trigger>
@@ -153,6 +157,7 @@ function ToolbarSeparatorOrientationExample() {
  * a one-time default (brief §6/§10).
  */
 export const InToolbar: Story = {
+  tags: ['highlight'],
   render: () => <ToolbarSeparatorOrientationExample />,
   play: async ({ canvas, userEvent }) => {
     const separator = canvas.getByTestId('toolbar-separator');

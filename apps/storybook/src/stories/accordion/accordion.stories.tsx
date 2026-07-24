@@ -74,6 +74,7 @@ const faqItems = [
  * array rather than stacking).
  */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={['what-is']}>
       {faqItems.map((item) => (
@@ -113,6 +114,7 @@ export const Hero: Story = {
  * item 2 no longer replaces item 1's open state.
  */
 export const OpenMultiple: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <Accordion.Root className={styles.Accordion} multiple>
       {faqItems.map((item) => (
@@ -153,6 +155,7 @@ export const OpenMultiple: Story = {
  * unaffected.
  */
 export const DisabledItem: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={[]}>
       <Accordion.Item value="what-is" className={styles.Item}>
@@ -243,6 +246,7 @@ function ControlledAccordionDemo() {
  * through `onValueChange` so the external state stays in sync.
  */
 export const ControlledValue: Story = {
+  tags: ['highlight'],
   render: () => <ControlledAccordionDemo />,
   play: async ({ canvas, userEvent }) => {
     const openItem2Button = canvas.getByRole('button', {
@@ -272,6 +276,7 @@ export const ControlledValue: Story = {
  * asserting the CSS recipe is present in the stylesheet.
  */
 export const AnimatedPanelHeight: Story = {
+  tags: ['animation'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={[]}>
       <Accordion.Item value={faqItems[0].value} className={styles.Item}>
@@ -317,6 +322,7 @@ export const AnimatedPanelHeight: Story = {
  * `useCollapsiblePanel` directly).
  */
 export const HiddenUntilFound: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={[]} hiddenUntilFound>
       {faqItems.map((item) => (
@@ -356,6 +362,7 @@ export const HiddenUntilFound: Story = {
  * doesn't participate in either item's open/close.
  */
 export const MultipleWithDisabled: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Accordion.Root className={styles.Accordion} multiple defaultValue={[]}>
       <Accordion.Item value={faqItems[0].value} className={styles.Item}>
@@ -424,6 +431,7 @@ export const MultipleWithDisabled: Story = {
  * versa.
  */
 export const NestedAccordion: Story = {
+  tags: ['highlight'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={['what-is']}>
       <Accordion.Item value="what-is" className={styles.Item}>
@@ -494,6 +502,7 @@ export const NestedAccordion: Story = {
  * absence explicitly rather than leaving it untested.
  */
 export const KeyboardTabFlow: Story = {
+  tags: ['tests'],
   render: () => (
     <Accordion.Root className={styles.Accordion} defaultValue={[]}>
       {faqItems.map((item) => (

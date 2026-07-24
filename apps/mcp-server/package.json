@@ -1,0 +1,16 @@
+{
+  "name": "base-ui-mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.ts",
+    "build": "tsc -b && vite build",
+    "serve": "node dist/server.js"
+  },
+  "dependencies": {
+    "@storybook/mcp": "=0.8.0",
+    "srvx": "0.11.22",
+    "typescript": "6.0.3",
+    "vite": "8.0.11"
+  }
+}

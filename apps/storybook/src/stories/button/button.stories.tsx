@@ -20,6 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a plain Button with default styling. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => <Button className={styles.Button}>Submit</Button>,
 };
 
@@ -47,6 +48,7 @@ function FocusableWhenDisabledExample() {
  * keeps the button reachable via Tab while still suppressing activation.
  */
 export const FocusableWhenDisabled: Story = {
+  tags: ['api-ref'],
   render: () => <FocusableWhenDisabledExample />,
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole('button', { name: 'Submit' });
@@ -87,6 +89,7 @@ function RenderCompositionExample() {
  * click activation a real `<button>` gets from the browser for free.
  */
 export const RenderComposition: Story = {
+  tags: ['highlight'],
   render: () => <RenderCompositionExample />,
   play: async ({ canvas, userEvent }) => {
     const button = canvas.getByRole('button', { name: 'Custom tag' });
@@ -111,6 +114,7 @@ export const RenderComposition: Story = {
  * `FocusableWhenDisabled` above for the loading-state case.
  */
 export const Disabled: Story = {
+  tags: ['api-ref'],
   render: () => {
     function DisabledExample() {
       const [clicks, setClicks] = React.useState(0);
@@ -165,6 +169,7 @@ function NativeButtonMismatchExample() {
  * before the mount-time warning effect fires.
  */
 export const NativeButtonMismatchWarning: Story = {
+  tags: ['highlight'],
   render: () => <NativeButtonMismatchExample />,
   play: async ({ canvas, userEvent }) => {
     const errorSpy = spyOn(console, 'error').mockImplementation(() => {});
@@ -199,6 +204,7 @@ export const NativeButtonMismatchWarning: Story = {
  * visual contrast, not an interaction assertion.
  */
 export const NotALink: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <div>
@@ -225,4 +231,49 @@ export const NotALink: Story = {
       </div>
     </div>
   ),
+};
+
+/* ------------------------------------------------------------------ */
+/* Loading state (docs "loading" demo)                                  */
+/* ------------------------------------------------------------------ */
+
+function LoadingExample() {
+  const [loading, setLoading] = React.useState(false);
+
+  return (
+    <Button
+      className={styles.Button}
+      disabled={loading}
+      focusableWhenDisabled
+      onClick={() => {
+        setLoading(true);
+        setTimeout(() => setLoading(false), 4000);
+      }}
+    >
+      {loading ? 'Submitting' : 'Submit'}
+    </Button>
+  );
+}
+
+/**
+ * A pending action pairs `disabled` with `focusableWhenDisabled`, so the button
+ * stops responding to clicks while staying reachable by keyboard and announced
+ * by screen readers instead of vanishing from the tab order.
+ */
+export const Loading: Story = {
+  tags: ['api-ref', 'base'],
+  render: () => <LoadingExample />,
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole('button', { name: 'Submit' });
+    await userEvent.click(button);
+
+    const pending = await canvas.findByRole('button', { name: 'Submitting' });
+    // focusableWhenDisabled exposes aria-disabled rather than the native
+    // attribute, so the pending button stays in the tab order.
+    await expect(pending).toHaveAttribute('aria-disabled', 'true');
+    await expect(pending).toHaveAttribute('tabindex', '0');
+
+    pending.focus();
+    await expect(pending).toHaveFocus();
+  },
 };

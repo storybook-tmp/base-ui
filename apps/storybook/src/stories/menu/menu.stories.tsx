@@ -54,6 +54,7 @@ type Story = StoryObj<typeof meta>;
 
 /** The docs hero demo: a Song action menu — trigger, portal, positioner, popup, items, and separators. Use as the starting point for any list of commands behind a button. */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -79,6 +80,7 @@ export const Hero: Story = {
 
 /** Set `openOnHover` on the Trigger (with an optional `delay`, default 100ms) for hover menus. Hover-opened menus are never modal, and impatient clicks within 500ms of a hover-open won't toggle the menu shut. */
 export const OpenOnHover: Story = {
+  tags: ['api-ref', 'base'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger openOnHover delay={100} className={styles.Button}>
@@ -169,6 +171,7 @@ function CheckboxItemsExample() {
 
 /** Use `CheckboxItem` (`role="menuitemcheckbox"`) for toggleable settings. `closeOnClick` defaults to `false` on checkbox items, so several can be toggled without the menu closing each time. */
 export const CheckboxItems: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CheckboxItemsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -220,6 +223,7 @@ function RadioItemsExample() {
 
 /** Use `RadioGroup` + `RadioItem` (`role="menuitemradio"`) for an exclusive option set inside the menu — a setting, not a form value (use Select for form data). */
 export const RadioItems: Story = {
+  tags: ['highlight', 'base'],
   render: () => <RadioItemsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -305,6 +309,7 @@ function GroupLabelsExample() {
 
 /** Use `Group` + `GroupLabel` to label related items: the label is auto-wired via `aria-labelledby` and works inside `RadioGroup` too (#4826). */
 export const GroupLabels: Story = {
+  tags: ['highlight', 'base'],
   render: () => <GroupLabelsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -365,11 +370,13 @@ function getSubmenuOffset({ side }: { side: Menu.Positioner.Props['side'] }) {
 
 /** Nest menus with `SubmenuRoot` + `SubmenuTrigger` (never a nested `Root` — #2042). Submenus open on hover by default and position to the inline-end side. */
 export const Submenu: Story = {
+  tags: ['highlight', 'base'],
   render: () => <SubmenuExample />,
 };
 
 /** Keyboard contract for submenus: `ArrowRight` opens and focuses the first child item, `ArrowLeft` closes and refocuses the submenu trigger, and `Escape` closes only one level (`closeParentOnEsc` defaults to `false`, per ARIA/MDN — #2493). */
 export const SubmenuKeyboard: Story = {
+  tags: ['tests'],
   render: () => <SubmenuExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -419,6 +426,7 @@ export const SubmenuKeyboard: Story = {
 
 /** Add `Menu.Arrow` inside the Popup for a visual pointer to the trigger; style each side via `data-side`. */
 export const Arrow: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -445,6 +453,7 @@ export const Arrow: Story = {
 
 /** Use `LinkItem` for navigation entries inside an action menu — a real `<a href>` with `role="menuitem"` (v1.2.0, #3400). Like checkbox/radio items, `closeOnClick` defaults to `false`. */
 export const LinkItems: Story = {
+  tags: ['highlight'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -485,6 +494,7 @@ const detachedMenuHandle = Menu.createHandle();
 
 /** Connect a trigger and a root rendered in different parts of the tree with `Menu.createHandle()` — no shared React state needed (#3170). */
 export const DetachedTriggersSimple: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <React.Fragment>
       <Menu.Trigger
@@ -523,6 +533,7 @@ const documentMenuHandle = Menu.createHandle<{ name: string }>();
 
 /** Give each detached trigger a `payload`; the Root's function child renders content for whichever trigger opened the menu — one menu instance serving many launch points. */
 export const DetachedTriggersPayload: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Row}>
       <Menu.Trigger
@@ -653,6 +664,7 @@ function ControlledMultiTriggerExample() {
 
 /** Controlled mode with several triggers: pair `open` with `triggerId`, and read `eventDetails.trigger` in `onOpenChange` to track which trigger asked to open. */
 export const ControlledMultiTrigger: Story = {
+  tags: ['highlight', 'base'],
   render: () => <ControlledMultiTriggerExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -703,6 +715,7 @@ const viewportMenuHandle = Menu.createHandle<ViewportMenuKey>();
 
 /** The docs detached-triggers demo with `Menu.Viewport`: switching triggers morphs the popup — the Positioner freezes to `var(--positioner-*)`, the Popup transitions `width`/`height`, and the Viewport cross-fades old/new content via `data-previous`/`data-current`. */
 export const ViewportContentTransition: Story = {
+  tags: ['animation'],
   render: () => (
     <div className={styles.Row}>
       {(Object.keys(viewportMenus) as ViewportMenuKey[]).map((key) => (
@@ -756,6 +769,7 @@ export const ViewportContentTransition: Story = {
 
 /** The full open/close contract: click toggles the menu, the trigger reflects state via `aria-expanded` + `data-popup-open`, Escape closes and refocuses the trigger, and pressing outside dismisses. */
 export const OpenClose: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Stack}>
       <Menu.Root>
@@ -802,6 +816,7 @@ export const OpenClose: Story = {
 
 /** Arrow keys rove one tab stop through the items; `Home`/`End` jump, and navigation loops while `loopFocus` (default `true`). Keyboard open focuses the first item — pointer open deliberately does not (#4818). */
 export const KeyboardNavigation: Story = {
+  tags: ['tests'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -848,6 +863,7 @@ export const KeyboardNavigation: Story = {
 
 /** Typing highlights the next matching item (typeahead). Use the `label` prop to control matching for items whose content is an icon or complex markup — inference can otherwise pick up stray SVG text (#3256). */
 export const Typeahead: Story = {
+  tags: ['tests'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -903,6 +919,7 @@ export const Typeahead: Story = {
 
 /** `closeOnClick` defaults are deliberately asymmetric: plain `Item` closes the menu, checkbox/radio/link items don't. Override per item to keep an action menu open or make a toggle dismiss. */
 export const CloseOnClickConfig: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -991,6 +1008,7 @@ function DisabledItemsExample() {
 
 /** Disabled items stay focusable and highlightable by design (ARIA APG; VoiceOver does not skip disabled items — #1733, #4881) but cannot be activated. Style them via `data-disabled`. */
 export const DisabledItems: Story = {
+  tags: ['api-ref'],
   render: () => <DisabledItemsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1043,6 +1061,7 @@ function NonModalExample() {
 
 /** `modal` defaults to `true` (scroll locked, outside pointers blocked). Use `modal={false}` when the page must stay interactive while the menu is open — dense toolbars, row actions. */
 export const NonModal: Story = {
+  tags: ['api-ref'],
   render: () => <NonModalExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1101,6 +1120,7 @@ function EventDetailsExample() {
 
 /** Every `onOpenChange` call carries `eventDetails`: a typed `reason` (`trigger-press`, `outside-press`, `focus-out`, `escape-key`, `item-press`…) plus `.cancel()` to veto the change while staying uncontrolled-friendly. */
 export const EventDetailsReasons: Story = {
+  tags: ['highlight'],
   render: () => <EventDetailsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1166,6 +1186,7 @@ function OpenDialogExample() {
 
 /** The docs "Open a dialog" recipe: a controlled Dialog lives outside the menu, and a `Menu.Item` `onClick` opens it — the item press closes the menu, then the dialog takes focus. */
 export const OpenDialogFromMenu: Story = {
+  tags: ['highlight'],
   render: () => <OpenDialogExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1180,6 +1201,7 @@ export const OpenDialogFromMenu: Story = {
 
 /** CSS transitions via `[data-starting-style]`/`[data-ending-style]` with `transform-origin: var(--transform-origin)`; `[data-instant]` marks moments (keyboard close, menubar switching) where the transition should be skipped. */
 export const TransitionAnimation: Story = {
+  tags: ['animation'],
   render: () => (
     <Menu.Root>
       <Menu.Trigger className={styles.Button}>
@@ -1201,6 +1223,7 @@ export const TransitionAnimation: Story = {
 
 /** With `DirectionProvider direction="rtl"` the submenu keys mirror: `ArrowLeft` opens a submenu and `ArrowRight` closes it. */
 export const RTLSubmenu: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
@@ -1269,6 +1292,7 @@ export const RTLSubmenu: Story = {
 
 /** Set `highlightItemOnHover={false}` (Root) to decouple CSS `:hover` (dashed outline here) from the keyboard-driven `[data-highlighted]` state (solid fill) — the same split users asked for in Combobox (#2731, synced in #3377). */
 export const HighlightItemOnHoverDisabled: Story = {
+  tags: ['api-ref'],
   render: () => (
     <Menu.Root highlightItemOnHover={false}>
       <Menu.Trigger className={styles.Button}>
@@ -1338,6 +1362,7 @@ function ImperativeHandleExample() {
 
 /** Handles double as an imperative API: `handle.open(triggerId)` / `handle.close()` from any event handler. Calls are ignored unless a Root using the handle is mounted — no replay, no carry-over. */
 export const ImperativeHandle: Story = {
+  tags: ['highlight'],
   render: () => <ImperativeHandleExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1364,7 +1389,7 @@ export const ImperativeHandle: Story = {
  * research/d-real-world-usage/menu/ranked.json #4).
  */
 export const RealWorldRowActions: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <RowActionsExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1386,7 +1411,7 @@ export const RealWorldRowActions: Story = {
  * research/d-real-world-usage/menu/ranked.json #3).
  */
 export const RealWorldSettingsMenu: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <SettingsMenuExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1416,7 +1441,7 @@ export const RealWorldSettingsMenu: Story = {
  * (MIT, code-ok, research/d-real-world-usage/menu/ranked.json #2).
  */
 export const RealWorldShadowDomPortal: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <ShadowPortalExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);

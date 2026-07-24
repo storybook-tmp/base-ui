@@ -234,6 +234,7 @@ function comboboxInput(scope: { getAllByRole(role: string): HTMLElement[] }): HT
 }
 
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => <DemoCombobox label="Choose a fruit" placeholder="e.g. Apple" />,
 };
 
@@ -256,6 +257,7 @@ function OpenFilterSelectCloseExample() {
 
 /** The full interaction contract in one story: click the input to open, type to filter, ArrowDown to highlight (virtual focus — DOM focus never leaves the input; the item is referenced by `aria-activedescendant`), Enter to commit, popup closes and `onValueChange` receives `(value, eventDetails)`. */
 export const OpenFilterSelectClose: Story = {
+  tags: ['api-ref'],
   render: () => <OpenFilterSelectCloseExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -328,6 +330,7 @@ function ControlledValueAndInputExample() {
 
 /** The two text-bearing state axes are controlled separately: `value`/`onValueChange` (the committed selection) and `inputValue`/`onInputValueChange` (the text). Programmatic changes update the field without mounting or opening the popup; clear with `null`. */
 export const ControlledValueAndInput: Story = {
+  tags: ['highlight'],
   render: () => <ControlledValueAndInputExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -377,6 +380,7 @@ function ControlledOpenExample() {
 
 /** Use `open` + `onOpenChange` to control the popup. Every change request carries a typed `reason` — clicking the input reports `input-press`, distinct from `trigger-press` (#4015) — and `eventDetails.cancel()` vetoes the change, here keeping the popup open through outside presses. */
 export const ControlledOpenWithEventDetails: Story = {
+  tags: ['highlight'],
   render: () => <ControlledOpenExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -448,6 +452,7 @@ function UseFilterExample() {
 
 /** `Combobox.useFilter()` exposes the same `Intl.Collator`-based matching the component uses internally (`contains`/`startsWith`/`endsWith`; case-, diacritic- and punctuation-insensitive). Pass one of them to the `filter` prop when building external filtering with identical semantics. */
 export const ExternalFilterWithUseFilter: Story = {
+  tags: ['highlight'],
   render: () => <UseFilterExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -472,6 +477,7 @@ function FilteredCount() {
 
 /** `Combobox.useFilteredItems()` reads the internal filter's output from inside `<Combobox.Root>` — the hook virtualizers use to derive their row count (see the Virtualized story for the full pattern, #3732). */
 export const UseFilteredItemsForVirtualizer: Story = {
+  tags: ['highlight'],
   render: () => {
     return (
       <Combobox.Root items={fruits}>
@@ -517,6 +523,7 @@ export const UseFilteredItemsForVirtualizer: Story = {
 
 /** `Combobox.Empty` renders its children only when the filtered list is empty (it requires the `items` prop). It is a polite live region (`role="status"`) that must stay mounted — conditionally render its children, not the part itself. */
 export const EmptyState: Story = {
+  tags: ['api-ref'],
   render: () => <DemoCombobox label="Fruit" placeholder="e.g. Apple" />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -534,6 +541,7 @@ export const EmptyState: Story = {
 
 /** `autoHighlight` keeps the first match highlighted while filtering, so Enter selects it immediately; the default (`false`) follows the APG stance of never highlighting without an explicit arrow key. */
 export const AutoHighlightModes: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <DemoCombobox label="autoHighlight" placeholder="Type ba…" root={{ autoHighlight: true }} />
@@ -569,6 +577,7 @@ export const AutoHighlightModes: Story = {
 
 /** The kept docs "Multiple select" demo: `multiple` turns the value into an array and the `Chips`/`Chip`/`ChipRemove` anatomy renders tokenized selections around the input, mapped through the `Combobox.Value` render prop. */
 export const MultipleSelectionChips: Story = {
+  tags: ['api-ref', 'base'],
   render: () => <ChipsCombobox />,
 };
 
@@ -584,6 +593,7 @@ function ChipsKeyboardExample() {
 
 /** The chips keyboard contract: with the caret at the start of the input, ArrowLeft moves real DOM focus onto the chips (unlike list items, chips are DOM-focused), Backspace removes the focused chip, and the chips container takes `role="toolbar"` so NVDA passes arrow keys through (#3629/#3647). */
 export const ChipsKeyboardFlow: Story = {
+  tags: ['tests'],
   render: () => <ChipsKeyboardExample />,
   play: async ({ canvas, userEvent }) => {
     const input = comboboxInput(canvas);
@@ -669,6 +679,7 @@ function IsItemEqualToValueExample() {
 
 /** Object values that arrive from a server or form library are never referentially identical to the `items` — `isItemEqualToValue` (here comparing `id`) keeps the selection matched, and `itemToStringLabel` resolves the input text. Without it the selection silently drops (defaults to `Object.is`). */
 export const IsItemEqualToValueObjects: Story = {
+  tags: ['api-ref'],
   render: () => <IsItemEqualToValueExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -706,6 +717,7 @@ function FormSerializationExample() {
 
 /** A visually-hidden `<input>` inside Root carries the serialized value into native form submission: `itemToStringValue` controls the payload for object values (`{ value, label }` shapes serialize automatically), `itemToStringLabel` the visible text. */
 export const ObjectValuesStringification: Story = {
+  tags: ['highlight'],
   render: () => <FormSerializationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -724,6 +736,7 @@ export const ObjectValuesStringification: Story = {
 
 /** `Combobox.Clear` mounts only while a value is selected and is deliberately not tabbable ("one tab stop per field", #3630) — keyboard users clear with Escape while the popup is closed, or Delete. */
 export const ClearableSelection: Story = {
+  tags: ['highlight'],
   render: () => (
     <DemoCombobox label="Fruit" placeholder="e.g. Apple" root={{ defaultValue: fruits[0] }} />
   ),
@@ -784,6 +797,7 @@ const groupedProduce: ProduceGroup[] = [
 
 /** The kept docs "Grouped" demo: a grouped `items` array feeds `Group` (with its own `items`) + auto-associated `GroupLabel`, and `Collection` renders the filtered items because a wrapper sits between `List` and the items. */
 export const GroupedItems: Story = {
+  tags: ['highlight', 'base'],
   render: () => {
     return (
       <Combobox.Root items={groupedProduce}>
@@ -905,6 +919,7 @@ function GridExample() {
 
 /** The emoji-picker layout: `grid` on Root plus `Row` wrappers switch navigation to two dimensions (columns are inferred from the rendered rows, #2683) and emit grid/row ARIA roles. Arrow keys move the virtual highlight across and down. */
 export const GridLayout: Story = {
+  tags: ['api-ref'],
   render: () => <GridExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const doc = canvasElement.ownerDocument;
@@ -925,6 +940,7 @@ const countries = ['France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Ireland',
 
 /** The kept docs "Input inside popup" demo (searchable select): the trigger is the form control and takes `role="combobox"` (#2973), the popup becomes `role="dialog"` (#3213), and `Combobox.Label` labels the trigger since a native `<label>` cannot. */
 export const InputInsidePopup: Story = {
+  tags: ['highlight', 'base'],
   render: () => (
     <div className={styles.Field}>
       <Combobox.Root items={countries}>
@@ -1006,6 +1022,7 @@ function InlineAnatomy({ root }: { root?: Partial<Combobox.Root.Props<Fruit, fal
 
 /** `inline` renders the list in normal document flow with no Portal/Positioner/Popup — `open` must be passed unconditionally (`<Combobox.Root inline open>`, documented in #5069). Filtering updates the list in place. */
 export const InlineNoPopup: Story = {
+  tags: ['api-ref'],
   render: () => <InlineAnatomy />,
   play: async ({ canvas, userEvent }) => {
     // The listbox renders in-flow, inside the story canvas — not on document.body.
@@ -1042,6 +1059,7 @@ function InlineDialogExample() {
 
 /** The documented Dialog composition (#5069/#3966): an inline combobox inside `Dialog.Popup`, with the combobox `open` bound to the dialog's, so closing the dialog resets the query, highlight, and input value. */
 export const InlineInsideDialog: Story = {
+  tags: ['highlight'],
   render: () => <InlineDialogExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1207,6 +1225,7 @@ function AsyncSingleExample() {
 
 /** The kept docs "Async search (single)" pattern: `filter={null}` turns internal filtering off, search results replace `items`, the selected value is merged back into `items` so it survives result changes, and `Combobox.Status` (a polite live region that must stay mounted) narrates the request lifecycle. */
 export const AsyncSearchSingle: Story = {
+  tags: ['highlight', 'base'],
   render: () => <AsyncSingleExample />,
 };
 
@@ -1319,6 +1338,7 @@ function AsyncMultipleExample() {
 
 /** The kept docs "Async search (multiple)" pattern, using the `filteredItems` prop (#3068): `items` holds everything known (selected + fetched) so chips survive result changes (#3824), while `filteredItems` hands the component only the current results. */
 export const AsyncSearchMultiple: Story = {
+  tags: ['highlight', 'base'],
   render: () => <AsyncMultipleExample />,
 };
 
@@ -1443,6 +1463,7 @@ function CreatableExample() {
 
 /** The kept docs "Creatable" pattern: when the query has no exact match, a synthetic `Create "…"` item is appended; picking it opens a confirmation Dialog instead of committing, and confirming appends the new item to `items` and selects it. */
 export const CreatableEntries: Story = {
+  tags: ['highlight', 'base'],
   render: () => <CreatableExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1586,6 +1607,7 @@ function VirtualizedExample() {
 
 /** `virtualized` + `useFilteredItems` + per-item `index`/`aria-setsize`/`aria-posinset`: only the visible window of 1,000 items is mounted. The docs demo uses `@tanstack/react-virtual`; this Storybook hand-rolls fixed-height windowing to stay dependency-free. Virtualize beyond ~1,000 items because mount cost dominates opening (docs "Memoizing items"). */
 export const Virtualized: Story = {
+  tags: ['api-ref', 'base'],
   render: () => <VirtualizedExample />,
 };
 
@@ -1595,6 +1617,7 @@ export const Virtualized: Story = {
 
 /** `disabled` disables the whole control; `readOnly` keeps the value visible and submittable while blocking opening and editing (native `readonly` + `aria-readonly` on the input). */
 export const DisabledAndReadOnly: Story = {
+  tags: ['api-ref'],
   render: () => (
     <div className={styles.Row}>
       <DemoCombobox label="Disabled" root={{ disabled: true, defaultValue: fruits[0] }} />
@@ -1675,6 +1698,7 @@ function FieldValidationExample() {
 
 /** Inside `Field`/`Form`, the combobox participates in constraint validation through its hidden input: `required` blocks submission, `Field.Error` renders the message, and `data-invalid`/`data-touched`/`data-filled` land on the Input for styling. */
 export const InFieldWithValidation: Story = {
+  tags: ['highlight'],
   render: () => <FieldValidationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -1715,6 +1739,7 @@ function AnimatedExample() {
 
 /** Animate with CSS transitions on `[data-starting-style]`/`[data-ending-style]` and `transform-origin: var(--transform-origin)`; the popup stays mounted mid-transition and `onOpenChangeComplete` fires once it settles (pair with `actionsRef.unmount()` for JS animation libraries). */
 export const AnimatedPopup: Story = {
+  tags: ['animation'],
   render: () => <AnimatedExample />,
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(comboboxInput(canvas));
@@ -1779,6 +1804,7 @@ function MyCombobox<Value, Multiple extends boolean | undefined = false>(
 
 /** A `MyCombobox<Value, Multiple>` typed wrapper — the story compiling is the test: single mode takes a scalar `defaultValue`, multiple mode requires an array. */
 export const TypedWrapperComponent: Story = {
+  tags: ['highlight'],
   render: () => (
     <div className={styles.Row}>
       <MyCombobox
@@ -1894,7 +1920,7 @@ function GroupedSyncTargetPicker() {
  * recomposed here as a sync-target picker for a local-first-sync-style admin console.
  */
 export const RealWorldGroupedSyncTargetPicker: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => <GroupedSyncTargetPicker />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -2046,7 +2072,7 @@ function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<Ll
  * across providers render as removable chips that wrap across lines.
  */
 export const RealWorldMultiSelectModelPickerWithGroups: Story = {
-  tags: ['recreation'],
+  tags: ['recreation', 'examples'],
   render: () => (
     <ModelPickerWithGroups
       root={{

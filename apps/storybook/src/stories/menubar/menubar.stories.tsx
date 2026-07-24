@@ -103,6 +103,7 @@ function HeroExample() {
  * without leaving keyboard-driven submenu mode" pattern.
  */
 export const Hero: Story = {
+  tags: ['showcase', 'base'],
   render: () => <HeroExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -190,6 +191,7 @@ function DisabledCascadeExample() {
  * instead only takes out that one menu, leaving its siblings enabled.
  */
 export const DisabledCascade: Story = {
+  tags: ['api-ref'],
   render: () => <DisabledCascadeExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -252,6 +254,7 @@ function VerticalOrientationExample() {
  * awkwardly overlapping the bar's own next item.
  */
 export const VerticalOrientation: Story = {
+  tags: ['api-ref'],
   render: () => <VerticalOrientationExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -303,6 +306,7 @@ function LoopFocusToggleExample() {
  * no popup content — they only exercise the roving-focus wrap behavior.
  */
 export const LoopFocusToggle: Story = {
+  tags: ['api-ref'],
   render: () => <LoopFocusToggleExample />,
   play: async ({ canvas, userEvent }) => {
     const loopBar = canvas.getByTestId('loop-bar');
@@ -374,6 +378,7 @@ function SubmenuWithinMenubarExample() {
  * menubar parentage changes nothing about nested-menu composition.
  */
 export const SubmenuWithinMenubar: Story = {
+  tags: ['highlight'],
   render: () => <SubmenuWithinMenubarExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -446,6 +451,7 @@ function CheckboxAndRadioItemsInMenubarExample() {
  * not just plain `Item`.
  */
 export const CheckboxAndRadioItemsInMenubar: Story = {
+  tags: ['highlight'],
   render: () => <CheckboxAndRadioItemsInMenubarExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -533,6 +539,7 @@ function HoverSwitchAfterFirstClickExample() {
  * another submenu is already open`).
  */
 export const HoverSwitchAfterFirstClick: Story = {
+  tags: ['highlight'],
   render: () => <HoverSwitchAfterFirstClickExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -570,6 +577,7 @@ export const HoverSwitchAfterFirstClick: Story = {
  * in DOM order.
  */
 export const HomeAndEndNavigation: Story = {
+  tags: ['highlight'],
   render: () => <HeroExample />,
   play: async ({ canvas, userEvent }) => {
     const fileTrigger = canvas.getByRole('menuitem', { name: 'File' });
@@ -650,6 +658,7 @@ function ToolbarContrastSideBySideExample() {
  * mixed row of buttons/toggles/inputs.
  */
 export const ToolbarContrastSideBySide: Story = {
+  tags: ['highlight'],
   render: () => <ToolbarContrastSideBySideExample />,
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
@@ -668,14 +677,13 @@ export const ToolbarContrastSideBySide: Story = {
 /* RTL — honest gap, no play                                            */
 /* ------------------------------------------------------------------ */
 
-function RTLGapHonestyNoteExample() {
+function RTLGapExample() {
   return (
     <div className={styles.Stack}>
       <p className={styles.Output}>
-        Honest gap: `Menubar.test.tsx` (1,343 lines) has no `dir=&quot;rtl&quot;` coverage for
-        horizontal-orientation arrow-key direction. Treat RTL correctness here as an unverified
-        unknown, not a guarantee inherited automatically from `DirectionProvider`/Composite
-        internals.
+        Known gap: `Menubar.test.tsx` has no `dir=&quot;rtl&quot;` coverage for
+        horizontal-orientation arrow-key direction. Verify arrow-key direction manually in the
+        menubar below.
       </p>
       <DirectionProvider direction="rtl">
         <div dir="rtl">
@@ -692,8 +700,9 @@ function RTLGapHonestyNoteExample() {
  * so asserting behavior here would fabricate confidence the source doesn't
  * back up.
  */
-export const RTLGapHonestyNote: Story = {
-  render: () => <RTLGapHonestyNoteExample />,
+export const RTLGap: Story = {
+  tags: ['api-ref'],
+  render: () => <RTLGapExample />,
 };
 
 function CaretRightIcon(props: React.ComponentProps<'svg'>) {

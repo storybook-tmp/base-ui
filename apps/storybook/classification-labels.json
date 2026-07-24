@@ -1,0 +1,39 @@
+{
+  "component": {
+    "general": "General component information",
+    "jsdoc": "Component description (JSDoc)",
+    "props": "API description (JSDoc)",
+    "behavior": "Explanation of component behaviour (MDX)",
+    "examples": "Real-world usage examples (MDX)",
+    "do-dont": "Do's and don'ts (MDX)",
+    "when-to-use": "When to use and not to use, alternatives (MDX)",
+    "anatomy": "The component anatomy (MDX)",
+    "history": "Decision history on the component (MDX)",
+    "known-issues": "Known issues and open questions about the component (MDX)",
+    "a11y": "A11y rules to follow (MDX)",
+    "brand": "Rules specific to the Droppy brand (MDX)"
+  },
+  "general": {
+    "general-a11y": "General accessibility guidelines",
+    "general-tokens": "Design tokens ( 🤸 stretch goal )",
+    "general-setup": "Setup guide",
+    "general-brand": "Brand principles",
+    "general-do-dont": "General usage guidelines",
+    "general-when-to-use": "General component selection guidelines"
+  },
+  "delete": {
+    "styling": "Styling hooks and guidelines",
+    "testing": "Testing guidelines",
+    "infra": "Stories that act as infra for this SB instance (s"
+  },
+  "story": {
+    "api-ref": "stories for individual component props",
+    "showcase": "One primary example that shows the most relevant use case of the component with realistic input data",
+    "highlight": "Stories that clarify a specific point made in documentation (e.g. compares two components, shows a tricky combo of props to achieve a goal)",
+    "examples": "Real-world combinations of components extracted from products that use Base UI",
+    "playground": "One fully configurable story per component with handcrafted argTypes",
+    "tests": "Play-function stories for specific behaviors",
+    "infra": "Storybook-internal stories for the docs' own tooling, not for a Base UI component",
+    "animation": "Stories demonstrating the transition/animation contract (parked pending a decision on how to treat them)"
+  }
+}

@@ -8,28 +8,27 @@ import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Input
 
+{/* BEGIN: general */}
 A native input element that automatically works with [Field](?path=/docs/form-inputs-field--docs).
 
 - **Import:** `import { Input } from '@base-ui/react/input';`
-- **Parts:** 1 — single node, no compound namespace (`Input`, not `Input.Root`).
+- **Parts:** 1, a single node with no compound namespace (`Input`, not `Input.Root`).
 - **Status:** Stable, no version-tag. A rename of the pre-existing `TextInput` (`288bbdda`, [#932](https://github.com/mui/base-ui/issues/932)); before the Base UI repo existed, the lineage traces to `@mui/base`'s `Input`/`InputBase`.
-- **ARIA pattern:** none of its own — a native `<input>`, plus whatever `Field` supplies when nested inside it.
-- **Docs verified against:** `@base-ui/react` workspace source (v1.6.0 line).
+- **ARIA pattern:** none of its own; a native `<input>`, plus whatever `Field` supplies when nested inside it.
 
 <Canvas of={InputStories.Hero} />
 
-## The one fact that explains everything about Input
-
-**`Input.tsx` is 17 lines long.** It renders `<Field.Control ref={forwardedRef} {...props} />` and nothing else — no extra state, no extra props, no extra behavior. `InputState extends FieldControlState`, and the only two typing differences from `Field.Control` are cosmetic: `value`'s type narrows to the native `React.ComponentProps<'input'>['value']`, and `Input.ChangeEventReason`/`ChangeEventDetails` are direct aliases of `Field.Control`'s. Input **is** `Field.Control` under a shorter, more intention-revealing name — the same way `Checkbox`/`Select`/`NumberField` are all separately named controls plugging into the same Field machinery, rather than everyone importing `Field.Control` directly.
-
-Because of this, everything documented on the [Field page](?path=/docs/form-inputs-field--docs) — the interaction-state machine, validation lifecycle, controlled/uncontrolled triplet, disabled semantics — applies to Input verbatim. This page only covers what's specific to using `Input` itself.
+> **Input is [Field.Control](?path=/docs/form-inputs-field--docs) under a shorter name.** For complete documentation of Input (the interaction-state machine, validation lifecycle, controlled/uncontrolled contract, disabled semantics), read the [Field page](?path=/docs/form-inputs-field--docs); this page covers only what's specific to `Input` itself.
 
 ## Features
 
-- **A native `<input>`, wired automatically** — nested inside `Field.Root`, it registers with the shared `LabelableProvider` and interaction-state machine with zero wiring props (brief §5).
-- **Works standalone, too** — outside any `Field`/`Form` tree, `Input` degrades to a plain native `<input>` plus `onValueChange`; only `data-disabled` remains a meaningful attribute (brief §1, §6).
-- **Zero styling contract of its own** — no `InputCssVars.ts` exists; every data attribute (`InputDataAttributes.ts`) is annotated "(when wrapped in Field.Root)" because they're Field's, restated.
+- **A native `<input>`, wired automatically**: nested inside `Field.Root`, it registers with the shared `LabelableProvider` and interaction-state machine with zero wiring props.
+- **Works standalone, too**: outside any `Field`/`Form` tree, `Input` degrades to a plain native `<input>` plus `onValueChange`; only `data-disabled` remains a meaningful attribute.
+- **Zero styling contract of its own**: Input exposes no CSS variables, and every data attribute applies only when wrapped in `Field.Root` (they're Field's, restated).
 
+{/* END: general */}
+
+{/* BEGIN: when-to-use */}
 ## When to use
 
 - Any plain single-line text/native-input-type form field (`text`, `email`, `search`, `tel`, `url`, `password`), labeled either by a native `<label>` or by `Field.Label` when validation/description/error display is also needed.
@@ -37,10 +36,13 @@ Because of this, everything documented on the [Field page](?path=/docs/form-inpu
 
 ## When not to use
 
-- **Non-text values** — NumberField (numeric formatting/stepping), OTP Field (segmented codes), Combobox/Autocomplete/Select (predefined values), Checkbox/Radio/Switch (booleans/choices), Slider (ranges) all claim their own niches; Input specifically claims plain text.
-- **You need `Field.Control`'s full prop surface with no narrowing** (e.g. `render={<textarea />}`) — use `Field.Control` directly; nothing is gained by routing through `Input` first.
-- **A visible error/description/validation UI is required** — wrap in `Field.Root` (Input alone has no `Field.Error`/`Field.Description` counterpart, it's only the control slot).
+- **Non-text values**: NumberField (numeric formatting/stepping), OTP Field (segmented codes), Combobox/Autocomplete/Select (predefined values), Checkbox/Radio/Switch (booleans/choices), Slider (ranges) all claim their own niches; Input specifically claims plain text.
+- **You need `Field.Control`'s full prop surface with no narrowing** (e.g. `render={<textarea />}`): use `Field.Control` directly; nothing is gained by routing through `Input` first.
+- **A visible error/description/validation UI is required**: wrap in `Field.Root` (Input alone has no `Field.Error`/`Field.Description` counterpart, it's only the control slot).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: anatomy */}
 ## Anatomy
 
 ```tsx
@@ -49,51 +51,66 @@ import { Input } from '@base-ui/react/input';
 <Input />;
 ```
 
-A single node, no children slots — the simplest anatomy in the library, alongside Button/Toggle/Separator.
+A single node with no children slots: the simplest anatomy in the library, alongside Button/Toggle/Separator.
 
+{/* END: anatomy */}
+
+{/* BEGIN: a11y */}
 ## Accessibility contract — consumer owns the accessible name
 
-Input's own docs page states exactly one usage guideline, verbatim: **"Form controls must have an accessible name: It can be created using a `<label>` element or the `Field` component."** Input supplies zero labeling machinery of its own — a bare `<Input />` with no wrapping `<label>`, no `aria-label`, and no ambient `Field.Label` has **no accessible name**. This is the consumer half of the library's two-sided a11y contract: Base UI guarantees the ARIA/keyboard/focus wiring once you _do_ label it, but naming the control is squarely on you.
+Our one usage guideline for Input: **form controls must have an accessible name**, created with a `<label>` element or the `Field` component. Input supplies no labeling machinery of its own. A bare `<Input />` with no wrapping `<label>`, no `aria-label`, and no ambient `Field.Label` has **no accessible name**. This is the consumer half of the two-sided a11y contract: Base UI guarantees the ARIA/keyboard/focus wiring once you _do_ label it, but naming the control is on you.
 
-- **Standalone labeling** — wrap in a plain `<label>` (the docs hero pattern), no extra props. Outside any `Field`/`Form` tree, `data-disabled` is the only state attribute that still means anything — no `data-touched`/`data-valid`/`data-dirty`, since there is no Field validity state machine to drive them.
+- **Standalone labeling**: wrap in a plain `<label>` (the docs hero pattern), no extra props. Outside any `Field`/`Form` tree, `data-disabled` is the only state attribute that still means anything; there is no `data-touched`/`data-valid`/`data-dirty`, since there is no Field validity state machine to drive them.
 
   <Canvas of={InputStories.StandaloneNoField} />
 
-- **Field-integrated labeling** — `aria-labelledby`/`htmlFor` auto-wired from `Field.Label`'s id, inherited unmodified from `Field.Control`.
-- **Disabled cascade from an ancestor `Fieldset.Root`** — the native `disabled` attribute reaches an `Input` nested inside a `Field.Root` two levels down, without `Input` ever receiving `disabled` directly:
+- **Field-integrated labeling**: `aria-labelledby`/`htmlFor` auto-wired from `Field.Label`'s id, inherited unmodified from `Field.Control`.
+- **Disabled cascade from an ancestor `Fieldset.Root`**: the native `disabled` attribute reaches an `Input` nested inside a `Field.Root` two levels down, without `Input` ever receiving `disabled` directly:
 
   <Canvas of={InputStories.DisabledFromFieldset} />
 
-- **Known issue** — [#4643](https://github.com/mui/base-ui/issues/4643) ("How to clear the input value on a button click?") is open; the docs show no dedicated recipe. The standard controlled `value`/`onValueChange` triplet, reset externally, is the expected pattern, but the issue's own resolution was not read for this pass — a dedicated `ControlledWithClear` story is deliberately not added until that's verified.
+- **Known issue**: [#4643](https://github.com/mui/base-ui/issues/4643) ("How to clear the input value on a button click?") is open; we have no dedicated recipe in the docs yet. The standard controlled `value`/`onValueChange` triplet, reset externally, is the expected pattern.
 
+{/* END: a11y */}
+
+{/* BEGIN: styling */}
 ## Styling hooks
 
-Identical to `Field.Control`'s (brief §8) — no CSS variables of Input's own:
+Identical to `Field.Control`'s, with no CSS variables of Input's own:
 
 | Attribute                                                      | Present when (only inside `Field.Root`)                            |
-| -------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `data-disabled`                                                | disabled — the one attribute that still means something standalone |
+| :-------------------------------------------------------------- | :------------------------------------------------------------------ |
+| `data-disabled`                                                | disabled; the one attribute that still means something standalone  |
 | `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field's interaction-state machine                                  |
-| `data-valid` / `data-invalid`                                  | tri-state validity — neither present while pristine                |
+| `data-valid` / `data-invalid`                                  | tri-state validity; neither present while pristine                 |
 
 <Canvas of={InputStories.ValidationStates} />
 
+{/* END: styling */}
+
+{/* BEGIN: examples */}
 ## Form integration
 
 <Canvas of={InputStories.FormIntegration} />
 
+{/* END: examples */}
+
+{/* BEGIN: do-dont */}
 ## Do / Don't
 
 **Do**
 
-- Give every `Input` an accessible name — a `<label>`, `Field.Label`, or `aria-label`.
+- Give every `Input` an accessible name: a `<label>`, `Field.Label`, or `aria-label`.
 - Reach for `Input` first for plain text fields; use `Field.Control` directly only when you need its unnarrowed prop surface (e.g. a `render`-swapped `<textarea>`).
 
 **Don't**
 
-- Don't expect data attributes (`data-touched`/`data-dirty`/etc.) to appear on a standalone `<Input />` — they only populate inside `Field.Root`.
-- Don't reach for a `render`-based tag swap on `Input` — no precedent exists for it; use `Field.Control render={<textarea />}` instead, the maintainer-confirmed custom-control path.
+- Don't expect data attributes (`data-touched`/`data-dirty`/etc.) to appear on a standalone `<Input />`; they only populate inside `Field.Root`.
+- Don't reach for a `render`-based tag swap on `Input`; no precedent exists for it. Use `Field.Control render={<textarea />}` instead, the custom-control path we recommend.
 
+{/* END: do-dont */}
+
+{/* BEGIN: examples */}
 ## In the wild
 
 <WildCards component="input">
@@ -164,21 +181,28 @@ Identical to `Field.Control`'s (brief §8) — no CSS variables of Input's own:
   </WildCard>
 </WildCards>
 
+{/* END: examples */}
+
+{/* BEGIN: history */}
 ## Decision log
 
-- **Pre-2024** — `Input`/`InputBase` lineage inherited from `@mui/base`, predating Base UI's component-per-DOM-node rewrite.
-- **2024-12 (`288bbdda`, [#932](https://github.com/mui/base-ui/issues/932))** — `TextInput` renamed to `Input`.
-- **2025** — `Input` formally extends `Field.Control.State` in the type layer ([#1954](https://github.com/mui/base-ui/issues/1954)), and gains the `filled`/`focused` style hooks Field itself added ([#1341](https://github.com/mui/base-ui/issues/1341)).
+- **Pre-2024**: `Input`/`InputBase` lineage inherited from `@mui/base`, predating Base UI's component-per-DOM-node rewrite.
+- **2024-12 (`288bbdda`, [#932](https://github.com/mui/base-ui/issues/932))**: `TextInput` renamed to `Input`.
+- **2025**: `Input` formally extends `Field.Control.State` in the type layer ([#1954](https://github.com/mui/base-ui/issues/1954)), and gains the `filled`/`focused` style hooks Field itself added ([#1341](https://github.com/mui/base-ui/issues/1341)).
 
+{/* END: history */}
+
+{/* BEGIN: when-to-use */}
 ## Related
 
-- Input's entire contract belongs to [Field](?path=/docs/form-inputs-field--docs) — read that page first for validation modes, labeling strategies, and the state-attribute table.
+- Input's entire contract belongs to [Field](?path=/docs/form-inputs-field--docs); read that page first for validation modes, labeling strategies, and the state-attribute table.
 - To label a **group** of controls under one legend, use [Fieldset](?path=/docs/form-inputs-fieldset--docs).
 
+{/* END: when-to-use */}
+
+{/* BEGIN: props */}
 ## API reference
 
 <ArgTypes of={InputStories.Hero} />
 
----
-
-_Found a problem with this page? [Search or file an upstream issue](https://github.com/mui/base-ui/issues?q=is%3Aissue+input) · [Edit in the research repo](https://github.com/yannbf/base-ui/tree/research/apps/storybook/src/stories/input)._
+{/* END: props */}
