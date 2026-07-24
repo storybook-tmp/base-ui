@@ -36,6 +36,7 @@
   },
   // Story tags
   "story": {
+    "base": "1:1 mapping of base-ui.com doc content",
     "api-ref": "stories for individual component props",
     "showcase": "One primary example that shows the most relevant use case of the component with realistic input data",
     "highlight": "Stories that clarify a specific point made in documentation (e.g. compares two components, shows a tricky combo of props to achieve a goal)",

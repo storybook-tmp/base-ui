@@ -58,8 +58,10 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
 - **Story keep/strip** is keyed on `story.<tag>`, where the tag set is `meta.tags ∪
   story.tags` restricted to recognized `story` leaves. An export is stripped when its
   `story.<tag>` ∉ keep-set, or when it is tagged `story.infra` (always stripped).
-- **Descriptor tags** (`base`, `new`, `recreation`, `research`, `kitchen-sink`) are not
-  `story` leaves; they are ignored for keep/strip decisions.
+- **Descriptor tags** (`new`, `recreation`, `research`, `kitchen-sink`) are not `story` leaves;
+  they are ignored for keep/strip decisions. (`base` **is** a `story` leaf — `story.base` marks
+  the 1:1 base-ui.com doc stories — so it participates in keep/strip like any other facet;
+  include it in an experiment's facets to preserve those baseline stories.)
 - **Two disjoint MDX kinds.** A `*.mdx` file either (a) carries a `general-*` tag on its
   `<Meta>` — a repo-wide doc classified as a whole by `general.<tag>`, removed entirely if
   not kept — or (b) uses `{/* BEGIN … */}` section markers — a per-component doc stripped

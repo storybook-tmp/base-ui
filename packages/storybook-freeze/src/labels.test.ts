@@ -9,9 +9,10 @@ const LABELS = path.join(ROOT, 'apps/storybook/classification-labels.jsonc');
 describe('loadLabels', () => {
   const labels = loadLabels(LABELS);
 
-  it('offers mdx.props and story.showcase', () => {
+  it('offers mdx.props and story.showcase and story.base', () => {
     expect(labels.offerableFacets).toContain('mdx.props');
     expect(labels.offerableFacets).toContain('story.showcase');
+    expect(labels.offerableFacets).toContain('story.base');
   });
 
   it('never offers delete facets', () => {
@@ -27,7 +28,8 @@ describe('loadLabels', () => {
   it('exposes bare story tag leaves', () => {
     expect(labels.storyTags.has('showcase')).toBe(true);
     expect(labels.storyTags.has('infra')).toBe(true);
-    expect(labels.storyTags.has('base')).toBe(false);
+    expect(labels.storyTags.has('base')).toBe(true);
+    expect(labels.storyTags.has('recreation')).toBe(false);
   });
 
   it('isKept is false for delete facets even if present in the keep set', () => {
