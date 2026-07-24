@@ -25,7 +25,7 @@
     "styling": "Styling hooks and guidelines (MDX)",
     "testing": "Testing guidelines"
   },
-  // General / repo-wide MDX files
+  // General / repo-wide MDX files, matched by their <Meta tags={[...]} /> (whole-file)
   "general": {
     "general-a11y": "General accessibility guidelines",
     "general-tokens": "Design tokens ( 🤸 stretch goal )",

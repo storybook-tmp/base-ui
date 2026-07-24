@@ -34,7 +34,7 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
 | `source-jsdoc` | `packages/react/**/*.tsx` JSDoc | `component`, `props` |
 | `csf-jsdoc` | JSDoc inside `*.stories.tsx` | `meta` (above `meta`), `story` (above each story export) |
 | `mdx` | per-component `*.mdx` section markers | `general`, `behavior`, `examples`, `do-dont`, `when-to-use`, `anatomy`, `history`, `known-issues`, `a11y`, `brand`, `props`, `styling`, `testing` |
-| `general` | repo-wide `*.mdx` markers | `general-a11y`, `general-tokens`, `general-setup`, `general-brand`, `general-do-dont`, `general-when-to-use` |
+| `general` | whole repo-wide `*.mdx` files, matched by their `<Meta tags={[…]} />` | `general-a11y`, `general-tokens`, `general-setup`, `general-brand`, `general-do-dont`, `general-when-to-use` |
 | `story` | story tags in `*.stories.tsx` | `api-ref`, `showcase`, `highlight`, `examples`, `playground`, `tests`, `infra`, `animation`, `styling` |
 | `delete` | always-stripped, never offered | `mdx.styling`, `mdx.testing`, `story.infra` |
 
@@ -48,7 +48,7 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
 | JSDoc above a story export | `*.stories.tsx` | `csf-jsdoc.story` |
 | Whole story export (`export const X`) | `*.stories.tsx` | `story.<tag>` |
 | MDX section `{/* BEGIN: x */} … {/* END: x */}` (per-component file) | `apps/storybook/src/stories/**/*.mdx` | `mdx.x` |
-| MDX section marker `x` (repo-wide docs file) | repo-wide `*.mdx` | `general.x` (none exist today) |
+| Whole MDX file whose `<Meta>` carries a `general-*` tag | repo-wide `*.mdx` (patterns/, overview/, some utilities) | `general.<tag>` — classifies the **entire file** |
 
 ### Classification details
 
@@ -59,6 +59,11 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
   `story.<tag>` ∉ keep-set, or when it is tagged `story.infra` (always stripped).
 - **Descriptor tags** (`base`, `new`, `recreation`, `research`, `kitchen-sink`) are not
   `story` leaves; they are ignored for keep/strip decisions.
+- **Two disjoint MDX kinds.** A `*.mdx` file either (a) carries a `general-*` tag on its
+  `<Meta>` — a repo-wide doc classified as a whole by `general.<tag>`, removed entirely if
+  not kept — or (b) uses `{/* BEGIN … */}` section markers — a per-component doc stripped
+  section-by-section via `mdx.*`. In the corpus these sets never overlap (general-tagged
+  files contain zero markers), so no per-file precedence is needed.
 - **File pruning.** After story-export removal, any `*.stories.tsx` left with **no remaining
   story exports** (only `export default meta`) is deleted. This is what removes the internal
   harness files (`research`/`kitchen-sink` metas whose only exports were `story.infra`).
@@ -97,11 +102,13 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    with byte spans, decides which spans to remove (JSDoc blocks, story exports), and applies
    removals with `magic-string`. Formatting-preserving. Reports whether any named story
    exports remain, so `corpus` can prune emptied files.
-3. **`mdx-transform`** — given a `.mdx` file and a keep-set, removes the byte range of each
-   `{/* BEGIN: x */} … {/* END: x */}` section whose label is not kept. A small
-   marker-scanner keyed on the exact `BEGIN`/`END` contract — **not** oxc, since MDX is not
-   JavaScript. Nested/duplicate markers of the same label are each matched to their nearest
-   `END`.
+3. **`mdx-transform`** — given a `.mdx` file and a keep-set, returns either a "delete whole
+   file" signal or the edited source. It first extracts the `<Meta tags={[…]} />` array: if a
+   `general-*` tag is present and `general.<tag>` ∉ keep-set, the whole file is dropped.
+   Otherwise it removes the byte range of each `{/* BEGIN: x */} … {/* END: x */}` section
+   whose `mdx.x` is not kept. A small scanner keyed on the exact `<Meta>` and `BEGIN`/`END`
+   contracts — **not** oxc, since MDX is not JavaScript. Nested/duplicate markers of the same
+   label are each matched to their nearest `END`.
 4. **`corpus`** — enumerates target files: `apps/storybook/src/stories/**/*.{stories.tsx,mdx}`
    and `packages/react/**/*.tsx`. Routes each file to the right transform module, and prunes
    (unlinks) any `*.stories.tsx` reported as having no remaining story exports.
@@ -133,7 +140,8 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    `experiment/<name>` already exists.
 4. `git`: assert clean tree; capture base HEAD SHA; create + checkout `experiment/<name>`.
 5. `corpus` enumerates files; each is routed to `tsx-transform` or `mdx-transform` with the
-   keep-set. Edited files are written; `*.stories.tsx` left with no story exports are pruned.
+   keep-set. Edited files are written; files signalled for deletion — general MDX files whose
+   `general.*` facet is not kept, and `*.stories.tsx` left with no story exports — are pruned.
 6. Prettier runs on changed files.
 7. `manifest` writes `experiment.json` at repo root.
 8. `git` stages all changes and commits.
@@ -189,7 +197,8 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
   (component JSDoc, props JSDoc, meta JSDoc, per-story JSDoc, single story export), plus the
   "no remaining exports" signal that drives pruning.
 - **`mdx-transform`:** fixture `.mdx` with multiple/adjacent sections → expected outputs;
-  cover a kept vs stripped label and duplicate markers.
+  cover a kept vs stripped label and duplicate markers; plus a `general-*`-tagged file that
+  is kept vs dropped as a whole.
 - **`corpus`/`git`/`manifest`:** integration test in a temp git repo — clean-tree assertion,
   branch creation, manifest contents, single commit.
 - Follow repo conventions: Vitest APIs only, `name.test.ts(x)` beside source, jsdom where
@@ -200,6 +209,6 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 - No `--config` non-interactive mode (manifest-out only, per decision).
 - No dead-code cleanup of helper functions left behind after removing a story export (only
   the export declaration and its JSDoc are removed).
-- No handling of `general-*` labels as MDX markers (none exist in the corpus today); the
-  marker-scanner keys on whatever markers are present, so they need no special case.
+- `general-*` facets classify whole MDX files via their `<Meta>` tag (not `BEGIN/END`
+  sections); `general-a11y` and `general-tokens` are defined but unused in the corpus today.
 - No cross-branch orchestration or experiment registry beyond the per-branch manifest.
