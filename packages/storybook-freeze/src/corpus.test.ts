@@ -163,3 +163,52 @@ describe('runCorpus dangling MDX imports', () => {
     }
   });
 });
+
+describe('runCorpus purges Canvas for removed exports', () => {
+  it('removes Canvas invocations of removed exports and empties their headings in the sibling MDX', async () => {
+    const d = await mkdtemp(path.join(tmpdir(), 'freeze-corpus-canvas-'));
+    try {
+      const buttonDir = path.join(d, 'apps/storybook/src/stories/button');
+      await mkdir(buttonDir, { recursive: true });
+
+      await writeFile(
+        path.join(buttonDir, 'button.stories.tsx'),
+        [
+          'const meta = { tags: [] } satisfies Meta;',
+          'export default meta;',
+          'type Story = StoryObj<typeof meta>;',
+          "export const Hero: Story = { tags: ['showcase'], render: () => null };",
+          "export const Extra: Story = { tags: ['highlight'], render: () => null };",
+          '',
+        ].join('\n'),
+      );
+      await writeFile(
+        path.join(buttonDir, 'button.mdx'),
+        [
+          "import * as ButtonStories from './button.stories';",
+          '',
+          '<Meta of={ButtonStories} />',
+          '',
+          '## Showcase',
+          '',
+          '<Canvas of={ButtonStories.Hero} />',
+          '',
+          '### Extra',
+          '',
+          '<Canvas of={ButtonStories.Extra} />',
+          '',
+        ].join('\n'),
+      );
+
+      await runCorpus(d, new Set(['story.showcase']), labels);
+
+      const mdx = await readFile(path.join(buttonDir, 'button.mdx'), 'utf8');
+      expect(mdx).toContain('ButtonStories.Hero');
+      expect(mdx).not.toContain('ButtonStories.Extra');
+      expect(mdx).not.toContain('### Extra');
+      expect(mdx).toContain('## Showcase');
+    } finally {
+      await rm(d, { recursive: true, force: true });
+    }
+  });
+});

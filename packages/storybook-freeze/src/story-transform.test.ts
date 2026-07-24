@@ -36,6 +36,11 @@ describe('transformStory', () => {
     expect(r.remainingStoryExports).toBe(1);
   });
 
+  it('reports the names of the removed story exports', () => {
+    const r = transformStory('checkbox.stories.tsx', STORY, new Set(['story.showcase']), labels);
+    expect(r.removedStoryNames).toEqual(['Details']);
+  });
+
   it('strips the meta JSDoc when csf-jsdoc.meta is not kept', () => {
     const r = transformStory(
       'checkbox.stories.tsx',

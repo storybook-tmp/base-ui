@@ -3,7 +3,8 @@ import { readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { transformSource } from './source-transform';
 import { transformStory } from './story-transform';
-import { transformMdx, starImportSpecifiers } from './mdx-transform';
+import { transformMdx, starImports } from './mdx-transform';
+import { purgeCanvasReferences } from './canvas-purge';
 import type { Labels } from './labels';
 
 export interface CorpusSummary {
@@ -16,6 +17,13 @@ interface FileOutcome {
   written?: string | undefined;
   removed?: string | undefined;
   storiesRemoved?: number | undefined;
+  csfKey?: string | undefined;
+  removedNames?: string[] | undefined;
+  pruned?: boolean | undefined;
+}
+
+function withoutTsx(absolutePath: string): string {
+  return absolutePath.replace(/\.tsx$/, '');
 }
 
 async function processStoryFile(
@@ -25,56 +33,20 @@ async function processStoryFile(
 ): Promise<FileOutcome> {
   const code = await readFile(file, 'utf8');
   const result = transformStory(file, code, keep, labels);
+  const base: FileOutcome = {
+    csfKey: withoutTsx(file),
+    removedNames: result.removedStoryNames,
+    storiesRemoved: result.removedStoryExports,
+  };
   if (result.remainingStoryExports === 0 && result.removedStoryExports > 0) {
     await rm(file);
-    return { removed: file, storiesRemoved: result.removedStoryExports };
+    return { ...base, removed: file, pruned: true };
   }
   if (result.changed) {
     await writeFile(file, result.code);
-    return { written: file, storiesRemoved: result.removedStoryExports };
+    return { ...base, written: file };
   }
-  return { storiesRemoved: result.removedStoryExports };
-}
-
-/**
- * True when the MDX namespace-imports (`import * as X from`) a CSF module that was pruned.
- * Such a doc would fail to build, so it is removed alongside the story file it documents.
- */
-function importsRemovedCsf(
-  mdxFile: string,
-  code: string,
-  removedCsfWithoutExtension: ReadonlySet<string>,
-): boolean {
-  const dir = path.dirname(mdxFile);
-  for (const specifier of starImportSpecifiers(code)) {
-    const target = path.resolve(dir, specifier).replace(/\.tsx$/, '');
-    if (removedCsfWithoutExtension.has(target)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-async function processMdxFile(
-  file: string,
-  keep: ReadonlySet<string>,
-  removedCsfWithoutExtension: ReadonlySet<string>,
-): Promise<FileOutcome> {
-  const code = await readFile(file, 'utf8');
-  if (importsRemovedCsf(file, code, removedCsfWithoutExtension)) {
-    await rm(file);
-    return { removed: file };
-  }
-  const result = transformMdx(file, code, keep);
-  if (result.deleteFile) {
-    await rm(file);
-    return { removed: file };
-  }
-  if (result.changed) {
-    await writeFile(file, result.code);
-    return { written: file };
-  }
-  return {};
+  return base;
 }
 
 async function processSourceFile(file: string, keep: ReadonlySet<string>): Promise<FileOutcome> {
@@ -82,6 +54,47 @@ async function processSourceFile(file: string, keep: ReadonlySet<string>): Promi
   const result = transformSource(file, code, keep);
   if (result.changed) {
     await writeFile(file, result.code);
+    return { written: file };
+  }
+  return {};
+}
+
+async function processMdxFile(
+  file: string,
+  keep: ReadonlySet<string>,
+  prunedCsf: ReadonlySet<string>,
+  removedExportsByCsf: ReadonlyMap<string, ReadonlySet<string>>,
+): Promise<FileOutcome> {
+  const code = await readFile(file, 'utf8');
+  const dir = path.dirname(file);
+  const imports = starImports(code);
+
+  // Whole-file removal: the doc namespace-imports a CSF that was pruned entirely.
+  if (imports.some((entry) => prunedCsf.has(withoutTsx(path.resolve(dir, entry.specifier))))) {
+    await rm(file);
+    return { removed: file };
+  }
+
+  const transformed = transformMdx(file, code, keep);
+  if (transformed.deleteFile) {
+    await rm(file);
+    return { removed: file };
+  }
+
+  // Purge Canvas invocations of exports removed from a surviving sibling CSF.
+  const removedRefs = new Set<string>();
+  for (const entry of imports) {
+    const removedNames = removedExportsByCsf.get(withoutTsx(path.resolve(dir, entry.specifier)));
+    if (removedNames) {
+      for (const name of removedNames) {
+        removedRefs.add(`${entry.alias}.${name}`);
+      }
+    }
+  }
+  const purged = purgeCanvasReferences(transformed.code, removedRefs);
+
+  if (transformed.changed || purged.changed) {
+    await writeFile(file, purged.code);
     return { written: file };
   }
   return {};
@@ -116,22 +129,29 @@ export async function runCorpus(
   ]);
 
   // Source files are independent; let them run while stories are processed. MDX processing
-  // must wait for story results so it can drop docs that import a pruned CSF file.
+  // must wait for story results so it can drop docs that import a pruned CSF file and purge
+  // Canvas invocations of exports removed from a surviving CSF.
   const sourcesPromise = Promise.all(sourceFiles.map((file) => processSourceFile(file, keep)));
 
   const storyOutcomes = await Promise.all(
     storyFiles.map((file) => processStoryFile(file, keep, labels)),
   );
 
-  const removedCsfWithoutExtension = new Set<string>();
+  const prunedCsf = new Set<string>();
+  const removedExportsByCsf = new Map<string, ReadonlySet<string>>();
   for (const outcome of storyOutcomes) {
-    if (outcome.removed) {
-      removedCsfWithoutExtension.add(outcome.removed.replace(/\.tsx$/, ''));
+    if (!outcome.csfKey) {
+      continue;
+    }
+    if (outcome.pruned) {
+      prunedCsf.add(outcome.csfKey);
+    } else if (outcome.removedNames && outcome.removedNames.length > 0) {
+      removedExportsByCsf.set(outcome.csfKey, new Set(outcome.removedNames));
     }
   }
 
   const mdxOutcomes = await Promise.all(
-    mdxFiles.map((file) => processMdxFile(file, keep, removedCsfWithoutExtension)),
+    mdxFiles.map((file) => processMdxFile(file, keep, prunedCsf, removedExportsByCsf)),
   );
   const sourceOutcomes = await sourcesPromise;
 

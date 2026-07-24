@@ -22,6 +22,7 @@
     "simple-git": "^3.36.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.5",
     "@types/node": "22.18.13",
     "tsx": "4.21.0",
     "typescript": "6.0.3",
