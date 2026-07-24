@@ -61,7 +61,10 @@ export function transformStory(
   }
 
   for (const node of program.body) {
-    if (node.type !== 'ExportNamedDeclaration' || node.declaration?.type !== 'VariableDeclaration') {
+    if (
+      node.type !== 'ExportNamedDeclaration' ||
+      node.declaration?.type !== 'VariableDeclaration'
+    ) {
       continue;
     }
     const declarator = node.declaration.declarations[0];

@@ -46,7 +46,16 @@ beforeEach(async () => {
   );
   await writeFile(
     path.join(stories, 'checkbox.mdx'),
-    ['{/* BEGIN: general */}', 'keep me', '{/* END: general */}', '', '{/* BEGIN: styling */}', 'drop me', '{/* END: styling */}', ''].join('\n'),
+    [
+      '{/* BEGIN: general */}',
+      'keep me',
+      '{/* END: general */}',
+      '',
+      '{/* BEGIN: styling */}',
+      'drop me',
+      '{/* END: styling */}',
+      '',
+    ].join('\n'),
   );
   await writeFile(
     path.join(src, 'CheckboxRoot.tsx'),
@@ -66,14 +75,24 @@ describe('runCorpus', () => {
   it('drops unkept stories, prunes emptied files, strips mdx sections, and strips source jsdoc', async () => {
     const summary = await runCorpus(dir, new Set(['mdx.general']), labels);
 
-    await expect(access(path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.stories.tsx'))).rejects.toThrow();
-    await expect(access(path.join(dir, 'apps/storybook/src/stories/overview/gallery.stories.tsx'))).rejects.toThrow();
+    await expect(
+      access(path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.stories.tsx')),
+    ).rejects.toThrow();
+    await expect(
+      access(path.join(dir, 'apps/storybook/src/stories/overview/gallery.stories.tsx')),
+    ).rejects.toThrow();
 
-    const mdx = await readFile(path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.mdx'), 'utf8');
+    const mdx = await readFile(
+      path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.mdx'),
+      'utf8',
+    );
     expect(mdx).toContain('keep me');
     expect(mdx).not.toContain('drop me');
 
-    const source = await readFile(path.join(dir, 'packages/react/src/checkbox/CheckboxRoot.tsx'), 'utf8');
+    const source = await readFile(
+      path.join(dir, 'packages/react/src/checkbox/CheckboxRoot.tsx'),
+      'utf8',
+    );
     expect(source).not.toContain('desc');
 
     expect(summary.storiesRemoved).toBe(3);
