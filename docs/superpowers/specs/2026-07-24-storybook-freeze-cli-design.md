@@ -72,6 +72,15 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
   `<Canvas of={XStories.…} />`. When that CSF file is pruned, the doc would fail to build, so
   any `*.mdx` whose `import * as …` resolves to a removed CSF file is deleted as well. This
   makes MDX processing depend on story results, so stories are processed first.
+- **Dangling Canvas references.** When a CSF file *survives* but loses individual story
+  exports, each sibling `*.mdx` has its `<Canvas of={Alias.RemovedExport} />` invocations
+  removed (matched via the doc's own namespace-import alias). If removing a Canvas leaves a
+  subsection heading with no remaining content, the heading is dropped too — cascading up so a
+  parent heading is removed when all its subsections empty out.
+- **Dead code.** Stripping story exports leaves helper functions and imports orphaned. After
+  the corpus pass, each changed `*.stories.tsx` has its unreferenced top-level functions and
+  variables removed (oxc reachability, to a fixpoint) and its now-unused imports removed
+  (Biome `noUnusedImports`, `--write --unsafe` scoped to that one rule).
 - **Aspirational facets.** `story.styling` and `story.playground` have no content in the
   corpus today; they remain offerable no-ops. `mdx.brand` and the `general.*` leaves also
   have no markers today — the marker-scanner simply finds nothing for them.
@@ -114,16 +123,27 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    whose `mdx.x` is not kept. A small scanner keyed on the exact `<Meta>` and `BEGIN`/`END`
    contracts — **not** oxc, since MDX is not JavaScript. Nested/duplicate markers of the same
    label are each matched to their nearest `END`.
-4. **`corpus`** — enumerates target files: `apps/storybook/src/stories/**/*.{stories.tsx,mdx}`
+4. **`canvas-purge`** — given MDX source and a set of `Alias.Export` refs, removes the
+   matching single-line `<Canvas of={…} />` invocations and then drops any heading left with a
+   whitespace-only body (cascading to parents). Pure text/heading scanner.
+5. **`deadcode`** — given `.tsx` source, removes non-exported top-level functions/variables
+   whose bindings are unreferenced elsewhere, iterating to a fixpoint. Uses `oxc-parser` +
+   `magic-string`; reference counting is liberal so it never removes a still-used declaration.
+6. **`biome`** — thin wrapper that runs Biome's `noUnusedImports` (`--write --unsafe --only`)
+   over a list of files to delete imports freed by `deadcode`. Resolves the Biome binary via
+   `createRequire`.
+7. **`corpus`** — enumerates target files: `apps/storybook/src/stories/**/*.{stories.tsx,mdx}`
    and `packages/react/**/*.tsx`. Routes each file to the right transform module, prunes
-   (unlinks) any `*.stories.tsx` reported as having no remaining story exports, and — because
-   MDX docs namespace-import their CSF file — processes stories before MDX so it can also
-   delete any `*.mdx` whose `import * as …` resolves to a pruned CSF file. Source files are
-   independent and run concurrently.
-5. **`git`** — wraps `simple-git`: assert clean working tree, read current HEAD SHA, create
+   (unlinks) any `*.stories.tsx` with no remaining story exports, and — because MDX docs
+   namespace-import their CSF file — processes stories before MDX so it can delete any `*.mdx`
+   whose `import * as …` resolves to a pruned CSF file and purge Canvas references to exports
+   removed from a surviving CSF (via `canvas-purge`). Source files run concurrently.
+8. **`git`** — wraps `simple-git`: assert clean working tree, read current HEAD SHA, create
    and check out `experiment/<name>` (fail if it exists), stage, and commit.
-6. **`manifest`** — builds and writes `experiment.json` (see below).
-7. **`cli`** — the `@clack/prompts` flow that orchestrates the above.
+9. **`manifest`** — builds and writes `experiment.json` (see below).
+10. **`freeze`** — orchestrator: after `corpus`, runs `deadcode` + `biome` over changed
+    `*.stories.tsx`, then Prettier, then writes the manifest and commits.
+11. **`cli`** — the `@clack/prompts` flow that orchestrates the above.
 
 ### Edit engine
 
@@ -152,11 +172,13 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    signalled for deletion — general MDX files whose `general.*` facet is not kept,
    `*.stories.tsx` left with no story exports, and `*.mdx` that namespace-import a pruned CSF
    file — are pruned.
-6. Prettier runs on changed files.
-7. `manifest` writes `experiment.json` at repo root.
-8. `git` stages all changes and commits.
-9. `cli` prints an outro summary (branch, kept facets, files changed, files removed, stories
-   removed).
+6. Dead-code purge: each changed `*.stories.tsx` has unreferenced top-level declarations
+   removed (`deadcode`) and then unused imports removed (`biome`).
+7. Prettier runs on changed files.
+8. `manifest` writes `experiment.json` at repo root.
+9. `git` stages all changes and commits.
+10. `cli` prints an outro summary (branch, kept facets, files changed, files removed, stories
+    removed).
 
 ### `experiment.json` shape
 
@@ -208,10 +230,17 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
   "no remaining exports" signal that drives pruning.
 - **`mdx-transform`:** fixture `.mdx` with multiple/adjacent sections → expected outputs;
   cover a kept vs stripped label and duplicate markers; plus a `general-*`-tagged file that
-  is kept vs dropped as a whole; plus `starImportSpecifiers` extraction.
+  is kept vs dropped as a whole; plus `starImports`/`starImportSpecifiers` extraction.
+- **`canvas-purge`:** Canvas removal, empty-heading drop, parent-cascade, and no-op cases.
+- **`deadcode`:** unused function/const removal, cascade, and keep-when-referenced (incl. JSX
+  and type positions).
+- **`biome`:** temp-dir case proving unused imports are deleted and used ones kept.
 - **`corpus`/`git`/`manifest`:** integration test in a temp git repo — clean-tree assertion,
-  branch creation, manifest contents, single commit; plus a temp-dir case proving an MDX doc
-  that imports a pruned CSF is deleted while one importing a surviving CSF is kept.
+  branch creation, manifest contents, single commit; plus temp-dir cases proving an MDX doc
+  that imports a pruned CSF is deleted (while one importing a surviving CSF is kept) and that a
+  surviving doc's Canvas for a removed export is purged with its heading.
+- **`freeze`:** end-to-end temp git repo — strips content, purges a dead helper + its import,
+  writes the manifest, and commits.
 - Follow repo conventions: Vitest APIs only, `name.test.ts(x)` beside source, jsdom where
   possible.
 
@@ -223,8 +252,7 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 - `general-*` facets classify whole MDX files via their `<Meta>` tag (not `BEGIN/END`
   sections); `general-a11y` and `general-tokens` are defined but unused in the corpus today.
 - No cross-branch orchestration or experiment registry beyond the per-branch manifest.
-- **Known limitation:** only whole-file dangling references are handled. If a `*.mdx` survives
-  but references an individual story export that was stripped (e.g. `<Canvas
-  of={XStories.SomeRemovedStory} />` while other exports of `XStories` remain), that reference
-  is left dangling. Detecting per-export references would require cross-checking each `of=`
-  target against the surviving exports; deferred until a real experiment needs it.
+- Dead-code purge is scoped to changed `*.stories.tsx` (the only files where stripping creates
+  orphans); `packages/react` source only loses JSDoc comments, so it needs no purge.
+- Biome's `noUnusedVariables` only underscore-renames rather than deletes, so unused
+  functions/consts are removed by the `deadcode` module instead; Biome handles only imports.
