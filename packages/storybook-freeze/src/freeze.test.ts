@@ -59,7 +59,10 @@ describe('runFreeze', () => {
     expect(status.current).toBe('experiment/exp-1');
     expect(status.isClean()).toBe(true);
 
-    const stories = await readFile(path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.stories.tsx'), 'utf8');
+    const stories = await readFile(
+      path.join(dir, 'apps/storybook/src/stories/checkbox/checkbox.stories.tsx'),
+      'utf8',
+    );
     expect(stories).toContain('export const Hero');
     expect(stories).not.toContain('export const Grid');
 
@@ -74,7 +77,14 @@ describe('runFreeze', () => {
   it('refuses to run on a dirty tree', async () => {
     await writeFile(path.join(dir, 'dirty.txt'), 'x\n');
     await expect(
-      runFreeze({ cwd: dir, name: 'exp-2', keptFacets: [], labels, now: '2026-07-24T00:00:00.000Z', version: '0.1.0' }),
+      runFreeze({
+        cwd: dir,
+        name: 'exp-2',
+        keptFacets: [],
+        labels,
+        now: '2026-07-24T00:00:00.000Z',
+        version: '0.1.0',
+      }),
     ).rejects.toThrow(/clean working tree/);
   });
 });

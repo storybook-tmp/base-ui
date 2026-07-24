@@ -30,7 +30,11 @@ describe('transformMdx', () => {
   });
 
   it('keeps a general-tagged file when its facet is kept', () => {
-    const r = transformMdx('choosing-an-overlay.mdx', GENERAL, new Set(['general.general-when-to-use']));
+    const r = transformMdx(
+      'choosing-an-overlay.mdx',
+      GENERAL,
+      new Set(['general.general-when-to-use']),
+    );
     expect(r.deleteFile).toBe(false);
     expect(r.changed).toBe(false);
   });

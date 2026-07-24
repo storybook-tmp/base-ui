@@ -37,12 +37,22 @@ describe('transformStory', () => {
   });
 
   it('strips the meta JSDoc when csf-jsdoc.meta is not kept', () => {
-    const r = transformStory('checkbox.stories.tsx', STORY, new Set(['story.showcase', 'story.api-ref']), labels);
+    const r = transformStory(
+      'checkbox.stories.tsx',
+      STORY,
+      new Set(['story.showcase', 'story.api-ref']),
+      labels,
+    );
     expect(r.code).not.toContain('File-level component description.');
   });
 
   it('strips per-story JSDoc when csf-jsdoc.story is not kept', () => {
-    const r = transformStory('checkbox.stories.tsx', STORY, new Set(['story.showcase', 'story.api-ref']), labels);
+    const r = transformStory(
+      'checkbox.stories.tsx',
+      STORY,
+      new Set(['story.showcase', 'story.api-ref']),
+      labels,
+    );
     expect(r.code).not.toContain('Hero demo.');
     expect(r.code).not.toContain('An api-ref story.');
   });
