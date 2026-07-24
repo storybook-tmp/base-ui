@@ -2,8 +2,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export interface Manifest {
-  name: string;
-  branch: string;
+  branchName: string;
   baseCommit: string;
   keptFacets: string[];
   createdAt: string;
@@ -11,15 +10,14 @@ export interface Manifest {
 }
 
 export function buildManifest(args: {
-  name: string;
+  branchName: string;
   baseCommit: string;
   keptFacets: string[];
   createdAt: string;
   version: string;
 }): Manifest {
   return {
-    name: args.name,
-    branch: `experiment/${args.name}`,
+    branchName: args.branchName,
     baseCommit: args.baseCommit,
     keptFacets: [...args.keptFacets].sort(),
     createdAt: args.createdAt,

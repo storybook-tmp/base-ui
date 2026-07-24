@@ -2,7 +2,16 @@ import { expect, it, describe, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { createGit, assertClean, headSha, createExperimentBranch, commitAll } from './git';
+import {
+  createGit,
+  assertClean,
+  headSha,
+  commitAll,
+  localBranches,
+  currentRef,
+  checkoutRef,
+  resetBranchToHead,
+} from './git';
 
 let dir: string;
 beforeEach(async () => {
@@ -27,14 +36,21 @@ describe('git module', () => {
     await expect(assertClean(git)).rejects.toThrow(/^Base UI:/);
   });
 
-  it('creates an experiment branch and rejects duplicates', async () => {
+  it('creates or resets a branch to HEAD and returns to the base ref', async () => {
     const git = createGit(dir);
-    const branch = await createExperimentBranch(git, 'exp-1');
-    expect(branch).toBe('experiment/exp-1');
-    const status = await git.status();
-    expect(status.current).toBe('experiment/exp-1');
-    await git.checkout('-');
-    await expect(createExperimentBranch(git, 'exp-1')).rejects.toThrow(/already exists/);
+    const base = await currentRef(git);
+
+    await resetBranchToHead(git, 'experiment/exp-1');
+    expect((await git.status()).current).toBe('experiment/exp-1');
+    expect(await localBranches(git)).toContain('experiment/exp-1');
+
+    // Resetting again is not an error (regeneration overwrites).
+    await checkoutRef(git, base);
+    await resetBranchToHead(git, 'experiment/exp-1');
+    expect((await git.status()).current).toBe('experiment/exp-1');
+
+    await checkoutRef(git, base);
+    expect((await git.status()).current).toBe(base);
   });
 
   it('headSha returns a 40-char sha and commitAll records changes', async () => {

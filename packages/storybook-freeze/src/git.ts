@@ -19,18 +19,26 @@ export async function headSha(git: SimpleGit): Promise<string> {
   return (await git.revparse(['HEAD'])).trim();
 }
 
-export async function createExperimentBranch(git: SimpleGit, name: string): Promise<string> {
-  const branch = `experiment/${name}`;
-  const branches = await git.branchLocal();
-  if (branches.all.includes(branch)) {
-    throw new Error(
-      `Base UI: storybook-freeze cannot create branch "${branch}" because it already exists. ` +
-        'Each experiment needs its own branch so earlier results are not overwritten. ' +
-        'Choose a different experiment name or delete the existing branch first.',
-    );
+export async function localBranches(git: SimpleGit): Promise<string[]> {
+  return (await git.branchLocal()).all;
+}
+
+/** The ref to return to after regenerating: the current branch name, or the SHA if detached. */
+export async function currentRef(git: SimpleGit): Promise<string> {
+  const name = (await git.revparse(['--abbrev-ref', 'HEAD'])).trim();
+  if (name === 'HEAD') {
+    return (await git.revparse(['HEAD'])).trim();
   }
-  await git.checkoutLocalBranch(branch);
-  return branch;
+  return name;
+}
+
+export async function checkoutRef(git: SimpleGit, ref: string): Promise<void> {
+  await git.checkout(ref);
+}
+
+/** Create or reset `branch` to point at the current HEAD (like `git checkout -B`). */
+export async function resetBranchToHead(git: SimpleGit, branch: string): Promise<void> {
+  await git.checkout(['-B', branch]);
 }
 
 export async function commitAll(git: SimpleGit, message: string): Promise<void> {
