@@ -13,54 +13,73 @@ reproducible.
 
 ## Core model — one rule
 
-Every removable piece of content carries a **label**. The user selects the facets to
+Every removable piece of content maps to a **qualified facet** written `category.leaf`
+(e.g. `mdx.examples`, `story.showcase`, `source-jsdoc.props`). The user selects the facets to
 **keep**; the CLI strips everything else.
 
-> **Strip content whose label ∉ keep-set.** Labels in the `delete` category are never
-> offered and are always stripped.
+> **Strip content whose qualified facet ∉ keep-set.** The `delete` array lists qualified
+> facets that are never offered and are always stripped.
 
-### Label → content sources
+Qualification (by `category.leaf` rather than a bare leaf) is what removes the old
+leaf-collision problem: `mdx.examples` and `story.examples` are now distinct, independently
+keepable facets, as are `source-jsdoc.props` and `mdx.props`.
 
-| Content unit | File location | Label source |
+### The taxonomy
+
+The taxonomy lives in `apps/storybook/classification-labels.jsonc` (JSONC — comments must be
+tolerated by the loader). Its categories are content **sources**, plus a `delete` array:
+
+| Category | Content source | Leaves |
 |---|---|---|
-| Whole story file | `apps/storybook/src/stories/**/*.stories.tsx` | a `delete`-category tag on `meta.tags` (`infra` / `research` / `kitchen-sink`) → **remove entire file** |
-| Story export (`export const X`) | `*.stories.tsx` | its recognized `story`-group tag (`highlight`, `api-ref`, `showcase`, `examples`, `playground`, `tests`, `animation`, `infra`) |
-| Component-description JSDoc above `meta` | `*.stories.tsx` | new leaf `story.component` |
-| Per-story JSDoc above each export | `*.stories.tsx` | new leaf `story.story` |
-| Component JSDoc | `packages/react/**/*.tsx` | `component.jsdoc` |
-| Props / API JSDoc | `packages/react/**/*.tsx` | `component.props` |
-| MDX section `{/* BEGIN: x */} … {/* END: x */}` | `apps/storybook/src/stories/**/*.mdx` | the marker name `x` |
+| `source-jsdoc` | `packages/react/**/*.tsx` JSDoc | `component`, `props` |
+| `csf-jsdoc` | JSDoc inside `*.stories.tsx` | `meta` (above `meta`), `story` (above each story export) |
+| `mdx` | per-component `*.mdx` section markers | `general`, `behavior`, `examples`, `do-dont`, `when-to-use`, `anatomy`, `history`, `known-issues`, `a11y`, `brand`, `props`, `styling`, `testing` |
+| `general` | repo-wide `*.mdx` markers | `general-a11y`, `general-tokens`, `general-setup`, `general-brand`, `general-do-dont`, `general-when-to-use` |
+| `story` | story tags in `*.stories.tsx` | `api-ref`, `showcase`, `highlight`, `examples`, `playground`, `tests`, `infra`, `animation`, `styling` |
+| `delete` | always-stripped, never offered | `mdx.styling`, `mdx.testing`, `story.infra` |
+
+### Content → facet mapping (deterministic by location)
+
+| Content unit | File location | Qualified facet |
+|---|---|---|
+| Component JSDoc (block before the exported component) | `packages/react/**/*.tsx` | `source-jsdoc.component` |
+| Props/API JSDoc (on `X.Props` interface / members) | `packages/react/**/*.tsx` | `source-jsdoc.props` |
+| JSDoc above `meta` | `*.stories.tsx` | `csf-jsdoc.meta` |
+| JSDoc above a story export | `*.stories.tsx` | `csf-jsdoc.story` |
+| Whole story export (`export const X`) | `*.stories.tsx` | `story.<tag>` |
+| MDX section `{/* BEGIN: x */} … {/* END: x */}` (per-component file) | `apps/storybook/src/stories/**/*.mdx` | `mdx.x` |
+| MDX section marker `x` (repo-wide docs file) | repo-wide `*.mdx` | `general.x` (none exist today) |
 
 ### Classification details
 
-- A story's effective label set is `meta.tags ∪ story.tags`, restricted to **recognized**
-  classification leaves.
-- **Descriptor tags** (`base`, `new`, `recreation`) are not classification facets. They are
-  ignored: they never trigger a strip, and their presence never keeps content on their own.
-- **Dedup by leaf, delete wins.** Some leaf names appear in more than one category
-  (`infra` in both `delete` and `story`; `examples` in both `component` and `story`;
-  `props` is a `component` leaf and also an MDX marker). The offerable facet list is
-  *all leaves minus the `delete`-category leaves*. A leaf that appears in `delete` is never
-  offered and is always stripped, even when it also appears elsewhere.
-- **Keep-set is keyed by leaf label**, applied uniformly across every content type. Keeping
-  `examples` keeps both the MDX `examples` section and `examples`-tagged stories.
-- **Strict-strip fallback.** A story export with no recognized story-group tag after merging
-  is stripped. In the current corpus this never fires, because every real story carries a
-  recognized tag — it is a safety default, not an expected path.
+- **Offerable facets** = every `category.leaf` across the five content categories, **minus**
+  the `delete` array entries. The keep-set is a subset of the offerable facets.
+- **Story keep/strip** is keyed on `story.<tag>`, where the tag set is `meta.tags ∪
+  story.tags` restricted to recognized `story` leaves. An export is stripped when its
+  `story.<tag>` ∉ keep-set, or when it is tagged `story.infra` (always stripped).
+- **Descriptor tags** (`base`, `new`, `recreation`, `research`, `kitchen-sink`) are not
+  `story` leaves; they are ignored for keep/strip decisions.
+- **File pruning.** After story-export removal, any `*.stories.tsx` left with **no remaining
+  story exports** (only `export default meta`) is deleted. This is what removes the internal
+  harness files (`research`/`kitchen-sink` metas whose only exports were `story.infra`).
+- **Aspirational facets.** `story.styling` and `story.playground` have no content in the
+  corpus today; they remain offerable no-ops. `mdx.brand` and the `general.*` leaves also
+  have no markers today — the marker-scanner simply finds nothing for them.
+- **Strict-strip fallback.** A story export with no recognized `story` leaf after merging is
+  stripped. In the current corpus this never fires — every real story carries a recognized
+  tag — so it is a safety default, not an expected path.
 
-### `classification-labels.json` changes
+### `classification-labels.jsonc` changes (applied)
 
-Leaf keys are the tag/marker contract and **must not be renamed**. Category keys and all
-descriptions may be reworked for clarity. Changes:
+Leaf keys are the tag/marker contract and **must not be renamed**; category keys and
+descriptions may be reworked. Applied in this design:
 
-- **Add** to `story`:
-  - `component`: "Component description JSDoc in the CSF meta"
-  - `story`: "Per-story description JSDoc in CSF"
-- **Add** to `delete`:
-  - `kitchen-sink`: "Whole-file Chromatic snapshot infra"
-  - `research`: "Whole-file internal harness / research tooling, kept out of the sidebar"
-- **Fix** the truncated `delete.infra` description and disambiguate the `infra` / `examples`
-  / `props` overlaps in description text.
+- **Added** `mdx.props` ("API reference / props section (MDX)") so the 37× `{/* BEGIN: props
+  */}` sections are an independent, keepable facet distinct from `source-jsdoc.props`.
+- **Added** `mdx.styling` ("Styling hooks and guidelines (MDX)") to match the 34× styling
+  markers, and changed the `delete` array from `story.styling` → `mdx.styling` so the entry
+  points at real content. `story.styling` stays as an aspirational (unused) tag.
+- **Fixed** the `source-jsdoc.component` description typo.
 
 ## Architecture
 
@@ -69,20 +88,23 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 
 ### Modules (each independently testable)
 
-1. **`labels`** — loads `classification-labels.json`, computes the offerable facet list
-   (leaves minus `delete` leaves), and exposes `isKept(label)` / `isDeleteLabel(label)`
-   given a keep-set. Pure; no I/O beyond reading the JSON.
+1. **`labels`** — loads `classification-labels.jsonc` (JSONC; comments tolerated), computes
+   the offerable facet list (every `category.leaf` minus the `delete` array), and exposes
+   `isKept(facet, keepSet)` / `isDeleteFacet(facet)` over qualified `category.leaf` refs.
+   Pure; no I/O beyond reading the file.
 2. **`tsx-transform`** — given a `.tsx` file and a keep-set, returns the edited source (or a
    "delete whole file" signal). Uses `oxc-parser` to obtain the AST and the comment table
-   with byte spans, decides which spans to remove (JSDoc blocks, story exports, whole-file
-   marker), and applies removals with `magic-string`. Formatting-preserving.
+   with byte spans, decides which spans to remove (JSDoc blocks, story exports), and applies
+   removals with `magic-string`. Formatting-preserving. Reports whether any named story
+   exports remain, so `corpus` can prune emptied files.
 3. **`mdx-transform`** — given a `.mdx` file and a keep-set, removes the byte range of each
    `{/* BEGIN: x */} … {/* END: x */}` section whose label is not kept. A small
    marker-scanner keyed on the exact `BEGIN`/`END` contract — **not** oxc, since MDX is not
    JavaScript. Nested/duplicate markers of the same label are each matched to their nearest
    `END`.
 4. **`corpus`** — enumerates target files: `apps/storybook/src/stories/**/*.{stories.tsx,mdx}`
-   and `packages/react/**/*.tsx`. Routes each file to the right transform module.
+   and `packages/react/**/*.tsx`. Routes each file to the right transform module, and prunes
+   (unlinks) any `*.stories.tsx` reported as having no remaining story exports.
 5. **`git`** — wraps `simple-git`: assert clean working tree, read current HEAD SHA, create
    and check out `experiment/<name>` (fail if it exists), stage, and commit.
 6. **`manifest`** — builds and writes `experiment.json` (see below).
@@ -96,21 +118,22 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 - **`.mdx`:** marker-scanner over the `BEGIN`/`END` contract.
 - After edits, run **Prettier** over the changed files so diffs stay clean.
 
-### Identifying `component.jsdoc` vs `component.props` (approved heuristic)
+### Identifying `source-jsdoc.component` vs `source-jsdoc.props` (approved heuristic)
 
-- `component.jsdoc` = the block comment immediately preceding the exported component.
-- `component.props` = JSDoc comments on the `X.Props` interface / type and its members.
+- `source-jsdoc.component` = the block comment immediately preceding the exported component.
+- `source-jsdoc.props` = JSDoc comments on the `X.Props` interface / type and its members.
 
 ## Data flow
 
 1. `cli` prints intro, loads `labels`.
-2. Multiselect of offerable facets (grouped for display by `component` / `story`; `delete`
-   hidden). Result = keep-set.
+2. Multiselect of offerable facets (grouped for display by category — `source-jsdoc`,
+   `csf-jsdoc`, `mdx`, `general`, `story`; `delete` entries hidden). Result = keep-set of
+   qualified facets.
 3. Prompt for experiment **name**; validate to a branch-safe slug; abort if
    `experiment/<name>` already exists.
 4. `git`: assert clean tree; capture base HEAD SHA; create + checkout `experiment/<name>`.
 5. `corpus` enumerates files; each is routed to `tsx-transform` or `mdx-transform` with the
-   keep-set. Whole-file deletions are unlinked; edited files are written.
+   keep-set. Edited files are written; `*.stories.tsx` left with no story exports are pruned.
 6. Prettier runs on changed files.
 7. `manifest` writes `experiment.json` at repo root.
 8. `git` stages all changes and commits.
@@ -124,7 +147,7 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
   "name": "<experiment name>",
   "branch": "experiment/<name>",
   "baseCommit": "<HEAD SHA at fork time>",
-  "keptFacets": ["showcase", "props", "..."],
+  "keptFacets": ["story.showcase", "mdx.props", "source-jsdoc.component", "..."],
   "createdAt": "<ISO 8601 timestamp>",
   "tool": "storybook-freeze@<version>"
 }
@@ -160,9 +183,11 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 
 ## Testing
 
-- **`labels`:** unit tests for offerable-list computation and dedup/delete-wins.
+- **`labels`:** unit tests for JSONC parsing, offerable-list computation (all facets minus
+  `delete`), and `isKept`/`isDeleteFacet` on qualified `category.leaf` refs.
 - **`tsx-transform`:** fixture `.tsx` inputs → expected outputs for each removal kind
-  (component JSDoc, props JSDoc, story JSDoc, single story export, whole-file meta-delete).
+  (component JSDoc, props JSDoc, meta JSDoc, per-story JSDoc, single story export), plus the
+  "no remaining exports" signal that drives pruning.
 - **`mdx-transform`:** fixture `.mdx` with multiple/adjacent sections → expected outputs;
   cover a kept vs stripped label and duplicate markers.
 - **`corpus`/`git`/`manifest`:** integration test in a temp git repo — clean-tree assertion,
