@@ -67,6 +67,11 @@ tolerated by the loader). Its categories are content **sources**, plus a `delete
 - **File pruning.** After story-export removal, any `*.stories.tsx` left with **no remaining
   story exports** (only `export default meta`) is deleted. This is what removes the internal
   harness files (`research`/`kitchen-sink` metas whose only exports were `story.infra`).
+- **Dangling MDX docs.** A per-component `*.mdx` namespace-imports its CSF file
+  (`import * as XStories from './x.stories'`) and renders it via `<Meta of={XStories} />` /
+  `<Canvas of={XStories.…} />`. When that CSF file is pruned, the doc would fail to build, so
+  any `*.mdx` whose `import * as …` resolves to a removed CSF file is deleted as well. This
+  makes MDX processing depend on story results, so stories are processed first.
 - **Aspirational facets.** `story.styling` and `story.playground` have no content in the
   corpus today; they remain offerable no-ops. `mdx.brand` and the `general.*` leaves also
   have no markers today — the marker-scanner simply finds nothing for them.
@@ -110,8 +115,11 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    contracts — **not** oxc, since MDX is not JavaScript. Nested/duplicate markers of the same
    label are each matched to their nearest `END`.
 4. **`corpus`** — enumerates target files: `apps/storybook/src/stories/**/*.{stories.tsx,mdx}`
-   and `packages/react/**/*.tsx`. Routes each file to the right transform module, and prunes
-   (unlinks) any `*.stories.tsx` reported as having no remaining story exports.
+   and `packages/react/**/*.tsx`. Routes each file to the right transform module, prunes
+   (unlinks) any `*.stories.tsx` reported as having no remaining story exports, and — because
+   MDX docs namespace-import their CSF file — processes stories before MDX so it can also
+   delete any `*.mdx` whose `import * as …` resolves to a pruned CSF file. Source files are
+   independent and run concurrently.
 5. **`git`** — wraps `simple-git`: assert clean working tree, read current HEAD SHA, create
    and check out `experiment/<name>` (fail if it exists), stage, and commit.
 6. **`manifest`** — builds and writes `experiment.json` (see below).
@@ -139,9 +147,11 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 3. Prompt for experiment **name**; validate to a branch-safe slug; abort if
    `experiment/<name>` already exists.
 4. `git`: assert clean tree; capture base HEAD SHA; create + checkout `experiment/<name>`.
-5. `corpus` enumerates files; each is routed to `tsx-transform` or `mdx-transform` with the
-   keep-set. Edited files are written; files signalled for deletion — general MDX files whose
-   `general.*` facet is not kept, and `*.stories.tsx` left with no story exports — are pruned.
+5. `corpus` enumerates files; stories are processed first (so pruned CSF paths are known),
+   then MDX, with source files running concurrently. Edited files are written; files
+   signalled for deletion — general MDX files whose `general.*` facet is not kept,
+   `*.stories.tsx` left with no story exports, and `*.mdx` that namespace-import a pruned CSF
+   file — are pruned.
 6. Prettier runs on changed files.
 7. `manifest` writes `experiment.json` at repo root.
 8. `git` stages all changes and commits.
@@ -198,9 +208,10 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
   "no remaining exports" signal that drives pruning.
 - **`mdx-transform`:** fixture `.mdx` with multiple/adjacent sections → expected outputs;
   cover a kept vs stripped label and duplicate markers; plus a `general-*`-tagged file that
-  is kept vs dropped as a whole.
+  is kept vs dropped as a whole; plus `starImportSpecifiers` extraction.
 - **`corpus`/`git`/`manifest`:** integration test in a temp git repo — clean-tree assertion,
-  branch creation, manifest contents, single commit.
+  branch creation, manifest contents, single commit; plus a temp-dir case proving an MDX doc
+  that imports a pruned CSF is deleted while one importing a surviving CSF is kept.
 - Follow repo conventions: Vitest APIs only, `name.test.ts(x)` beside source, jsdom where
   possible.
 
@@ -212,3 +223,8 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 - `general-*` facets classify whole MDX files via their `<Meta>` tag (not `BEGIN/END`
   sections); `general-a11y` and `general-tokens` are defined but unused in the corpus today.
 - No cross-branch orchestration or experiment registry beyond the per-branch manifest.
+- **Known limitation:** only whole-file dangling references are handled. If a `*.mdx` survives
+  but references an individual story export that was stripped (e.g. `<Canvas
+  of={XStories.SomeRemovedStory} />` while other exports of `XStories` remain), that reference
+  is left dangling. Detecting per-export references would require cross-checking each `of=`
+  target against the surviving exports; deferred until a real experiment needs it.

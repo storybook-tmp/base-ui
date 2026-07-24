@@ -99,3 +99,67 @@ describe('runCorpus', () => {
     expect(summary.removed.length).toBe(2);
   });
 });
+
+describe('runCorpus dangling MDX imports', () => {
+  it('deletes MDX that star-imports a pruned CSF but keeps MDX importing a surviving CSF', async () => {
+    const d = await mkdtemp(path.join(tmpdir(), 'freeze-corpus-mdx-'));
+    try {
+      const buttonDir = path.join(d, 'apps/storybook/src/stories/button');
+      const radioDir = path.join(d, 'apps/storybook/src/stories/radio');
+      await mkdir(buttonDir, { recursive: true });
+      await mkdir(radioDir, { recursive: true });
+
+      await writeFile(
+        path.join(buttonDir, 'button.stories.tsx'),
+        [
+          'const meta = { tags: [] } satisfies Meta;',
+          'export default meta;',
+          'type Story = StoryObj<typeof meta>;',
+          "export const Hero: Story = { tags: ['showcase'], render: () => null };",
+          '',
+        ].join('\n'),
+      );
+      await writeFile(
+        path.join(buttonDir, 'button.mdx'),
+        [
+          "import * as ButtonStories from './button.stories';",
+          '',
+          '<Meta of={ButtonStories} />',
+          '',
+        ].join('\n'),
+      );
+
+      await writeFile(
+        path.join(radioDir, 'radio.stories.tsx'),
+        [
+          'const meta = { tags: [] } satisfies Meta;',
+          'export default meta;',
+          'type Story = StoryObj<typeof meta>;',
+          "export const Only: Story = { tags: ['infra'], render: () => null };",
+          '',
+        ].join('\n'),
+      );
+      await writeFile(
+        path.join(radioDir, 'radio.mdx'),
+        [
+          "import * as RadioStories from './radio.stories';",
+          '',
+          '<Meta of={RadioStories} />',
+          '',
+        ].join('\n'),
+      );
+
+      await runCorpus(d, new Set(['story.showcase']), labels);
+
+      // button.stories keeps its showcase Hero, so its doc must survive.
+      await expect(access(path.join(buttonDir, 'button.stories.tsx'))).resolves.toBeUndefined();
+      await expect(access(path.join(buttonDir, 'button.mdx'))).resolves.toBeUndefined();
+
+      // radio.stories is pruned (only infra), so its now-dangling doc is deleted too.
+      await expect(access(path.join(radioDir, 'radio.stories.tsx'))).rejects.toThrow();
+      await expect(access(path.join(radioDir, 'radio.mdx'))).rejects.toThrow();
+    } finally {
+      await rm(d, { recursive: true, force: true });
+    }
+  });
+});
