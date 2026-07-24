@@ -22,11 +22,13 @@ beforeEach(async () => {
   await writeFile(
     path.join(stories, 'checkbox.stories.tsx'),
     [
+      "import * as React from 'react';",
       'const meta = { tags: [] } satisfies Meta;',
       'export default meta;',
       'type Story = StoryObj<typeof meta>;',
+      "function GridHelper() { return React.createElement('div'); }",
       "export const Hero: Story = { tags: ['showcase'], render: () => null };",
-      "export const Grid: Story = { tags: ['infra'], render: () => null };",
+      "export const Grid: Story = { tags: ['infra'], render: () => GridHelper() };",
       '',
     ].join('\n'),
   );
@@ -65,6 +67,9 @@ describe('runFreeze', () => {
     );
     expect(stories).toContain('export const Hero');
     expect(stories).not.toContain('export const Grid');
+    // Dead-code purge: helper and import used only by the removed story are gone.
+    expect(stories).not.toContain('GridHelper');
+    expect(stories).not.toContain('import * as React');
 
     const manifest = JSON.parse(await readFile(path.join(dir, 'experiment.json'), 'utf8'));
     expect(manifest.keptFacets).toEqual(['story.showcase']);

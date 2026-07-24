@@ -7,6 +7,7 @@ export interface StoryTransformResult {
   changed: boolean;
   removedStoryExports: number;
   remainingStoryExports: number;
+  removedStoryNames: string[];
 }
 
 function stringArray(node: any): string[] {
@@ -39,6 +40,7 @@ export function transformStory(
   let changed = false;
   let removedStoryExports = 0;
   let remainingStoryExports = 0;
+  const removedStoryNames: string[] = [];
 
   let metaNode: any = null;
   let metaTags: string[] = [];
@@ -88,6 +90,9 @@ export function transformStory(
       ms.remove(lead ? lead.start : node.start, end);
       changed = true;
       removedStoryExports += 1;
+      if (declarator.id?.name) {
+        removedStoryNames.push(declarator.id.name);
+      }
     } else {
       remainingStoryExports += 1;
       if (!keepStoryJsdoc) {
@@ -105,5 +110,6 @@ export function transformStory(
     changed,
     removedStoryExports,
     remainingStoryExports,
+    removedStoryNames,
   };
 }

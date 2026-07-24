@@ -6,15 +6,28 @@ export interface MdxTransformResult {
 
 const META_TAGS_RE = /<Meta\b[^>]*\btags=\{\[([^\]]*)\]\}/;
 const STRING_RE = /['"]([^'"]+)['"]/g;
-const STAR_IMPORT_RE = /import\s+\*\s+as\s+[A-Za-z0-9_$]+\s+from\s+['"]([^'"]+)['"]/g;
+const STAR_IMPORT_RE = /import\s+\*\s+as\s+([A-Za-z0-9_$]+)\s+from\s+['"]([^'"]+)['"]/g;
+
+export interface StarImport {
+  alias: string;
+  specifier: string;
+}
 
 /**
- * Module specifiers of every `import * as X from '...'` in the MDX source. Used to detect
- * MDX docs that namespace-import a CSF file which was pruned, so the now-dangling doc can be
- * removed too.
+ * Every `import * as Alias from 'specifier'` in the MDX source. Used to detect docs that
+ * namespace-import a CSF file which was pruned (delete the doc) or lost specific exports
+ * (purge the matching `<Canvas of={Alias.Export} />`).
  */
+export function starImports(code: string): StarImport[] {
+  return [...code.matchAll(STAR_IMPORT_RE)].map((match) => ({
+    alias: match[1],
+    specifier: match[2],
+  }));
+}
+
+/** Module specifiers of every `import * as X from '...'` in the MDX source. */
 export function starImportSpecifiers(code: string): string[] {
-  return [...code.matchAll(STAR_IMPORT_RE)].map((match) => match[1]);
+  return starImports(code).map((entry) => entry.specifier);
 }
 
 export function transformMdx(
