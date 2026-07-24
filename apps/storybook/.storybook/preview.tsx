@@ -1,18 +1,6 @@
-import * as React from 'react';
 import type { Preview } from '@storybook/react-vite';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import '../src/styles/theme.css';
-
-// TEMP DIAGNOSTIC
-function focusGetterName(): string {
-  const d = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'focus');
-  return d?.get ? `accessor:${d.get.name}` : `data:${typeof d?.value}`;
-}
-function logFocus(where: string): void {
-  const w = window as unknown as { __focusLog?: string[] };
-  w.__focusLog ??= [];
-  w.__focusLog.push(`${where}: ${focusGetterName()}`);
-}
 
 /**
  * Workaround for Storybook 10.5.x crashing Docs (MDX) pages with an uncaught
@@ -33,28 +21,29 @@ function logFocus(where: string): void {
  * accessor brand-check throws `Illegal invocation`, so the Docs page fails to mount until a
  * manual refresh (after which the read happens to succeed).
  *
- * Storybook installs that accessor lazily — after `beforeAll`, around first render — so a
- * one-shot patch from preview setup always runs too early to catch it (the property is still
- * a plain native method then). Instead we guard `Object.defineProperty`: whenever an accessor
- * for `focus` is (re)installed on `HTMLElement.prototype`, we immediately re-wrap it so reads
- * *off the prototype* (or any non-element receiver) return a plain callable that never touches
- * `ownerDocument`, while reads off a real element still delegate to Storybook's
- * instrumentation — matching the upstream fix and preserving the vitest addon's focus tracking.
+ * Storybook installs that accessor lazily — it is still the plain native method at
+ * `beforeAll`, and is only present by the first `beforeEach`. `beforeEach` runs (and is
+ * awaited) before every story/Canvas render, i.e. before react-aria reads `focus`, so we
+ * harden the accessor here: reads *off the prototype* (or any non-element receiver) return a
+ * plain callable that never touches `ownerDocument`, while reads off a real element still
+ * delegate to Storybook's instrumentation — matching the upstream fix and preserving the
+ * vitest addon's focus tracking.
  */
 type FocusMethod = (this: HTMLElement, ...args: unknown[]) => unknown;
 
 const hardenedFocusGetters = new WeakSet<() => unknown>();
 
-// Captured up front so re-hardening always uses the real API and never re-enters our guard.
-const nativeDefineProperty = Object.defineProperty;
+function hardenInstrumentedFocus(): void {
+  if (typeof window === 'undefined' || typeof window.HTMLElement === 'undefined') {
+    return;
+  }
 
-let focusGuardInstalled = false;
-
-function hardenFocusAccessor(proto: HTMLElement): void {
+  const proto = window.HTMLElement.prototype;
   const descriptor = Object.getOwnPropertyDescriptor(proto, 'focus');
   const originalGet = descriptor?.get;
 
-  // Only an accessor with a getter is at risk; a plain native method is safe as-is.
+  // Only an instrumented accessor is at risk; a plain native method is safe, and our own
+  // hardened getter must not be re-wrapped (keeps this idempotent across `beforeEach` calls).
   if (typeof originalGet !== 'function' || hardenedFocusGetters.has(originalGet)) {
     return;
   }
@@ -89,7 +78,7 @@ function hardenFocusAccessor(proto: HTMLElement): void {
   };
   hardenedFocusGetters.add(hardenedGet);
 
-  nativeDefineProperty(proto, 'focus', {
+  Object.defineProperty(proto, 'focus', {
     configurable: true,
     enumerable: descriptor!.enumerable,
     get: hardenedGet,
@@ -101,68 +90,12 @@ function hardenFocusAccessor(proto: HTMLElement): void {
   });
 }
 
-function installFocusInstrumentationGuard(): void {
-  if (typeof window === 'undefined' || typeof window.HTMLElement === 'undefined') {
-    return;
-  }
-  const proto = window.HTMLElement.prototype;
-
-  // If the instrumentation already installed its accessor, harden it right away.
-  hardenFocusAccessor(proto);
-
-  if (focusGuardInstalled) {
-    return;
-  }
-  focusGuardInstalled = true;
-
-  const guardedDefineProperty = ((
-    target: object,
-    property: PropertyKey,
-    attributes: PropertyDescriptor,
-  ): object => {
-    const result = nativeDefineProperty(target, property, attributes);
-    if (
-      target === proto &&
-      property === 'focus' &&
-      typeof attributes.get === 'function' &&
-      !hardenedFocusGetters.has(attributes.get)
-    ) {
-      // Storybook just (re)installed its instrumented accessor — wrap it before react-aria
-      // reads `focus` off the prototype on the first Docs render.
-      hardenFocusAccessor(proto);
-    }
-    return result;
-  }) as typeof Object.defineProperty;
-
-  Object.defineProperty = guardedDefineProperty;
-}
-
-// Guard as early as possible (module eval) and again once all preview annotations — including
-// Storybook's focus instrumentation — have been applied.
-logFocus('module-eval:before');
-installFocusInstrumentationGuard();
-logFocus('module-eval:after');
-
-const withHardenedFocus = (Story: React.ComponentType) => {
-  logFocus('decorator-render:before');
-  installFocusInstrumentationGuard();
-  logFocus('decorator-render:after');
-  return <Story />;
-};
-
 const preview: Preview = {
-  // Re-assert the guard after preview annotations are applied, in case a later realm/reset
-  // restored the native `Object.defineProperty`.
-  beforeAll() {
-    logFocus('beforeAll:before');
-    installFocusInstrumentationGuard();
-    logFocus('beforeAll:after');
-  },
-
+  // Runs (and is awaited) before every story/Canvas render — the first point at which
+  // Storybook's focus instrumentation has installed its throwing accessor — so we harden it
+  // before react-aria reads `focus` off the prototype on the first Docs render.
   beforeEach() {
-    logFocus('beforeEach:before');
-    installFocusInstrumentationGuard();
-    logFocus('beforeEach:after');
+    hardenInstrumentedFocus();
   },
 
   // Declares the `theme` global (same key the addon-themes preset registers) with
@@ -173,7 +106,6 @@ const preview: Preview = {
   },
 
   decorators: [
-    withHardenedFocus,
     // Toolbar theme picker + `theme` global. Stamps data-theme on <html>, which
     // src/styles/theme.css keys the semantic --ds-color-* vars on.
     withThemeByDataAttribute({
