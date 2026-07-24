@@ -1726,3 +1726,31 @@ build, so it must be deleted too.
 - **Known limitation:** whole-file references only. An MDX that survives but references an
   individual removed export (`<Canvas of={XStories.SomeRemovedStory} />` while other exports
   remain) is left dangling. Deferred.
+
+---
+
+## Addendum: dead-code purge and Canvas cleanup (implemented after the dangling-MDX fix)
+
+Two further cleanups so a frozen branch has no orphaned code or docs.
+
+**Dead code (`deadcode.ts` + `biome.ts`, wired in `freeze.ts`).** Stripping story exports
+leaves helper functions and imports unused.
+- `removeUnusedTopLevel(filename, code)` parses with oxc and removes non-exported top-level
+  functions/variables whose bindings are unreferenced elsewhere, iterating to a fixpoint.
+  Reference counting is liberal (every identifier occurrence counts as a use) so it never
+  deletes a still-referenced declaration.
+- `removeUnusedImports(files, cwd)` runs `biome lint --write --unsafe
+  --only=correctness/noUnusedImports`. Biome's `noUnusedVariables` only underscore-renames, so
+  function/const deletion is handled by `deadcode`, not Biome.
+- `freeze.ts` runs both over the changed `*.stories.tsx` (oxc first, then Biome) before
+  Prettier. `@biomejs/biome` is a dev dependency; the binary is resolved via `createRequire`.
+
+**Dangling Canvas references (`canvas-purge.ts`, wired in `corpus.ts`).** `transformStory` now
+reports `removedStoryNames`; `mdx-transform` exposes `starImports` (alias + specifier).
+`corpus` builds a map of surviving-CSF → removed export names, and for each sibling MDX purges
+`<Canvas of={Alias.RemovedExport} />` and drops any subsection heading left empty (cascading to
+parents). This closes the earlier "known limitation" about per-export references.
+
+**Verified on the real corpus:** a dry run keeping `story.showcase` + `mdx.general` +
+`source-jsdoc.component` produced 0 dangling Canvas references, 0 unused imports, and 0 unused
+variables across all surviving story files.
