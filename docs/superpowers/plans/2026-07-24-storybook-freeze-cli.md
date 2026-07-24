@@ -1706,3 +1706,23 @@ No spec requirement is left without a task.
 **2. Placeholder scan:** No TBD/TODO/"handle edge cases" placeholders; every code step contains complete code and every run step states the exact command and expected result.
 
 **3. Type consistency:** `Labels`, `Facet`, `CorpusSummary`, `StoryTransformResult`, `TransformResult`, `MdxTransformResult`, `Manifest`, `FreezeResult` are each defined once and consumed with matching field names (`written`/`removed`/`storiesRemoved`, `remainingStoryExports`/`removedStoryExports`, `deleteFile`, `changed`, `keptFacets`, `baseCommit`). `loadLabels`, `parse`, `leadingBlockComment`, `transformSource`, `transformStory`, `transformMdx`, `runCorpus`, `runFreeze`, `buildManifest`/`writeManifest`, and the git functions keep consistent names across tasks.
+
+---
+
+## Addendum: dangling MDX imports (implemented after Task 12)
+
+Per-component `*.mdx` docs namespace-import their CSF file
+(`import * as XStories from './x.stories'`) and render it via `<Meta of={XStories} />` /
+`<Canvas of={XStories.…} />`. When the freeze prunes that CSF file, the doc would fail to
+build, so it must be deleted too.
+
+- `mdx-transform.ts` gains `starImportSpecifiers(code: string): string[]` — the specifiers of
+  every `import * as X from '...'`. Unit-tested in `mdx-transform.test.ts`.
+- `corpus.ts` now processes stories first, collects the extensionless absolute paths of pruned
+  CSF files, then processes MDX: a `*.mdx` whose `import * as …` resolves (dir + specifier,
+  `.tsx` normalized) to a pruned CSF is unlinked before any section transform runs. Source
+  files run concurrently with stories. Covered by a temp-dir case in `corpus.test.ts`
+  (imports-pruned-CSF ⇒ deleted; imports-surviving-CSF ⇒ kept).
+- **Known limitation:** whole-file references only. An MDX that survives but references an
+  individual removed export (`<Canvas of={XStories.SomeRemovedStory} />` while other exports
+  remain) is left dangling. Deferred.

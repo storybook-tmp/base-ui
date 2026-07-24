@@ -6,6 +6,16 @@ export interface MdxTransformResult {
 
 const META_TAGS_RE = /<Meta\b[^>]*\btags=\{\[([^\]]*)\]\}/;
 const STRING_RE = /['"]([^'"]+)['"]/g;
+const STAR_IMPORT_RE = /import\s+\*\s+as\s+[A-Za-z0-9_$]+\s+from\s+['"]([^'"]+)['"]/g;
+
+/**
+ * Module specifiers of every `import * as X from '...'` in the MDX source. Used to detect
+ * MDX docs that namespace-import a CSF file which was pruned, so the now-dangling doc can be
+ * removed too.
+ */
+export function starImportSpecifiers(code: string): string[] {
+  return [...code.matchAll(STAR_IMPORT_RE)].map((match) => match[1]);
+}
 
 export function transformMdx(
   filename: string,

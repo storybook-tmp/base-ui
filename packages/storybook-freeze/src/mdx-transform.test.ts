@@ -1,5 +1,5 @@
 import { expect, it, describe } from 'vitest';
-import { transformMdx } from './mdx-transform';
+import { transformMdx, starImportSpecifiers } from './mdx-transform';
 
 const GENERAL = [
   "import { Meta } from '@storybook/addon-docs/blocks';",
@@ -51,5 +51,24 @@ describe('transformMdx', () => {
   it('keys purely on the keep set (a section stays if its facet is present)', () => {
     const r = transformMdx('slider.mdx', COMPONENT, new Set(['mdx.general', 'mdx.styling']));
     expect(r.code).toContain('## Styling hooks');
+  });
+});
+
+describe('starImportSpecifiers', () => {
+  it('extracts the specifier of every `import * as X from` statement', () => {
+    const code = [
+      "import { Meta, Canvas } from '@storybook/addon-docs/blocks';",
+      "import * as CheckboxStories from './checkbox.stories';",
+      "import * as Shared from '../shared/helpers';",
+      "import Default from './default';",
+      '',
+    ].join('\n');
+    expect(starImportSpecifiers(code)).toEqual(['./checkbox.stories', '../shared/helpers']);
+  });
+
+  it('returns an empty array when there are no star imports', () => {
+    expect(starImportSpecifiers("import { Meta } from '@storybook/addon-docs/blocks';")).toEqual(
+      [],
+    );
   });
 });
