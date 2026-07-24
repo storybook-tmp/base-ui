@@ -5,6 +5,9 @@
  * stripped from the Storybook corpus. Facets are qualified `category.leaf` labels from
  * `apps/storybook/classification-labels.jsonc` (excluding the always-stripped delete facets).
  * Every `branchName` must start with `experiment/`.
+ *
+ * `story.base` marks the 1:1 base-ui.com doc stories; include it in every experiment to keep
+ * that baseline across all branches.
  */
 interface Experiment {
   branchName: string;
@@ -14,11 +17,11 @@ interface Experiment {
 const experiments: Experiment[] = [
   {
     branchName: 'experiment/showcase-only',
-    facets: ['story.showcase', 'mdx.general', 'source-jsdoc.component'],
+    facets: ['story.base', 'story.showcase', 'mdx.general', 'source-jsdoc.component'],
   },
   {
     branchName: 'experiment/api-reference',
-    facets: ['story.api-ref', 'source-jsdoc.props', 'mdx.props'],
+    facets: ['story.base', 'story.api-ref', 'source-jsdoc.props', 'mdx.props'],
   },
 ];
 
