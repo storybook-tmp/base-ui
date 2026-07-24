@@ -1754,3 +1754,32 @@ parents). This closes the earlier "known limitation" about per-export references
 **Verified on the real corpus:** a dry run keeping `story.showcase` + `mdx.general` +
 `source-jsdoc.component` produced 0 dangling Canvas references, 0 unused imports, and 0 unused
 variables across all surviving story files.
+
+---
+
+## Addendum: config-driven batch regeneration (replaces the interactive CLI)
+
+The CLI no longer prompts for facets/name per run. It reads a root `experiments.config.ts`
+that default-exports `Array<{ branchName: string; facets: string[] }>` and regenerates one
+branch per entry.
+
+- **`config.ts`** — `loadExperiments(cwd)` dynamic-imports the default export;
+  `validateExperiments(raw, labels)` enforces: array shape, `branchName` starts with
+  `experiment/` (used verbatim), unique names, and every facet is an offerable qualified label.
+- **`git.ts`** — `createExperimentBranch` (fail-if-exists) is replaced by `localBranches`,
+  `currentRef` (branch name, or SHA if detached), `checkoutRef`, and `resetBranchToHead`
+  (`checkout -B`, i.e. create-or-overwrite).
+- **`manifest.ts`** — keyed by `branchName` (dropped the derived `name`/`branch` split).
+- **`freeze.ts`** — split into `buildExperimentBranch` (reset to base → strip → dead-code →
+  Prettier → manifest → commit) and `regenerateExperiments` (assert clean, capture base, build
+  each entry sequentially — `no-await-in-loop` disabled because the branches share one working
+  tree — then return to base).
+- **`cli.ts`** — load + validate config, assert clean, list all local branches, and if any
+  target `branchName` already exists, one `confirm` to override (decline ⇒ abort, no changes).
+  No collisions ⇒ no prompt.
+- **`experiments.config.ts`** — a sample lives at the repo root.
+
+**Verified end-to-end on the real repo:** first run (no collisions) built
+`experiment/showcase-only` and `experiment/api-reference` from the same base commit with
+correct manifests; a second run listed the collisions, aborted on decline, and overwrote both
+branches on accept; the base branch was restored and clean after every run.

@@ -7,9 +7,10 @@
 
 Provide an interactive CLI that produces a **frozen git branch** for a machine-learning
 experiment by stripping selected classes of documentation content out of the Storybook
-corpus. An experiment is defined by a **keep-set** of content facets; everything outside the
-keep-set is removed. The exact selection is recorded on the branch so the experiment is
-reproducible.
+corpus. Experiments are declared in a root `experiments.config.ts`; each is defined by a
+**keep-set** of content facets, and everything outside the keep-set is removed. The CLI
+(re)builds one branch per entry from the current HEAD, and records the selection in an
+`experiment.json` manifest on each branch so the experiment is reproducible.
 
 ## Core model — one rule
 
@@ -138,12 +139,17 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
    namespace-import their CSF file — processes stories before MDX so it can delete any `*.mdx`
    whose `import * as …` resolves to a pruned CSF file and purge Canvas references to exports
    removed from a surviving CSF (via `canvas-purge`). Source files run concurrently.
-8. **`git`** — wraps `simple-git`: assert clean working tree, read current HEAD SHA, create
-   and check out `experiment/<name>` (fail if it exists), stage, and commit.
-9. **`manifest`** — builds and writes `experiment.json` (see below).
-10. **`freeze`** — orchestrator: after `corpus`, runs `deadcode` + `biome` over changed
-    `*.stories.tsx`, then Prettier, then writes the manifest and commits.
-11. **`cli`** — the `@clack/prompts` flow that orchestrates the above.
+8. **`git`** — wraps `simple-git`: assert clean tree, read HEAD SHA, list local branches, read
+   the current ref, checkout a ref, reset a branch to HEAD (`checkout -B`), stage, and commit.
+9. **`manifest`** — builds and writes `experiment.json` (keyed by `branchName`).
+10. **`config`** — loads `experiments.config.ts` (dynamic import of its default export) and
+    validates the entries against the taxonomy (`branchName` prefix, known facets, no dupes).
+11. **`freeze`** — `buildExperimentBranch` (reset branch to base → `corpus` → `deadcode` +
+    `biome` over changed `*.stories.tsx` → Prettier → manifest → commit) and
+    `regenerateExperiments` (assert clean, capture base, build each entry sequentially, return
+    to base).
+12. **`cli`** — the `@clack/prompts` flow: load/validate config, list branches, confirm
+    override once, then call `regenerateExperiments`.
 
 ### Edit engine
 
@@ -160,13 +166,14 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 
 ## Data flow
 
-1. `cli` prints intro, loads `labels`.
-2. Multiselect of offerable facets (grouped for display by category — `source-jsdoc`,
-   `csf-jsdoc`, `mdx`, `general`, `story`; `delete` entries hidden). Result = keep-set of
-   qualified facets.
-3. Prompt for experiment **name**; validate to a branch-safe slug; abort if
-   `experiment/<name>` already exists.
-4. `git`: assert clean tree; capture base HEAD SHA; create + checkout `experiment/<name>`.
+1. `cli` prints intro, loads `labels`, loads + validates `experiments.config.ts`.
+2. `git`: assert clean tree; list all local branches; if any config `branchName` already
+   exists, ask **once** to override (decline ⇒ abort). Capture the base ref + base commit SHA.
+3. For each experiment entry (sequentially): `git checkout <base>` then `git checkout -B
+   <branchName>` to reset the branch to base.
+4. `corpus`, dead-code purge, Prettier, manifest, and commit run for that branch's `facets`
+   (steps 5–8 below), then the loop continues to the next entry; the base ref is checked out
+   again at the end.
 5. `corpus` enumerates files; stories are processed first (so pruned CSF paths are known),
    then MDX, with source files running concurrently. Edited files are written; files
    signalled for deletion — general MDX files whose `general.*` facet is not kept,
@@ -184,8 +191,7 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 
 ```json
 {
-  "name": "<experiment name>",
-  "branch": "experiment/<name>",
+  "branchName": "experiment/<name>",
   "baseCommit": "<HEAD SHA at fork time>",
   "keptFacets": ["story.showcase", "mdx.props", "source-jsdoc.component", "..."],
   "createdAt": "<ISO 8601 timestamp>",
@@ -193,33 +199,55 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
 }
 ```
 
+## Config (`experiments.config.ts`)
+
+The CLI is **config-driven**, not interactive per-run. A TypeScript file at the repo root
+default-exports the experiments to (re)build:
+
+```ts
+export default [
+  { branchName: 'experiment/showcase-only', facets: ['story.showcase', 'mdx.general'] },
+  { branchName: 'experiment/api-reference', facets: ['story.api-ref', 'source-jsdoc.props'] },
+];
+```
+
+- `branchName` is used **verbatim** as the git branch and **must start with `experiment/`**.
+- `facets` are qualified `category.leaf` labels; unknown or delete-category facets are
+  rejected at validation.
+- Duplicate `branchName`s are rejected. This gives config-in reproducibility on top of the
+  per-branch manifest-out.
+
 ## Git flow
 
 - Library: **`simple-git`** (thin wrapper over the git binary, which is present) over
   `isomorphic-git` (pure-JS, unnecessary here).
 - **Require a clean working tree**; refuse otherwise.
-- Branch from **current HEAD** (not `master`).
-- One commit on `experiment/<name>` containing all strips plus `experiment.json`.
-  Commit message: `[storybook-freeze] Freeze experiment <name>`.
+- Capture the current ref (branch name, or SHA if detached) as the **base**; every experiment
+  branch is (re)built from it via `git checkout -B <branchName>`, then the base is checked out
+  again at the end.
+- One commit per branch containing all strips plus `experiment.json`. Commit message:
+  `[storybook-freeze] Freeze <branchName>`.
+- Because the branches share one working tree, they are built **sequentially**.
 
 ## CLI UX (`@clack/prompts`)
 
-- `intro` → `multiselect` (facets, grouped) → `text` (name, validated) → `confirm`
-  (summary of what will be removed) → `spinner` (work) → `outro`.
-- Cancellation at any prompt aborts cleanly with no git side effects (branch is only created
-  after confirmation).
+- `intro` → load + validate `experiments.config.ts` → assert clean tree → **list all existing
+  local branches** → if any config `branchName` already exists, **one** `confirm` to override
+  them (decline ⇒ abort, no branches changed) → `spinner` regenerates every branch → `outro`
+  summarizes each (`edited · removed · stories dropped`).
+- No collisions ⇒ no prompt. Non-collision branches are always (re)built.
 
 ## Error handling
 
-- **Dirty tree:** abort before any change, instruct the user to commit/stash. Follows the
-  repo error style (`Base UI:` prefix, what/why/how) where errors are surfaced to users.
-- **Branch exists:** abort before checkout; suggest a different name.
+- **Missing/invalid config:** abort before any git action with a `Base UI:` error naming the
+  problem (missing file, non-array export, bad `branchName`, unknown facet, duplicate name).
+- **Dirty tree:** abort before any change, instruct the user to commit/stash. Follows the repo
+  error style (`Base UI:` prefix, what/why/how).
+- **Override declined:** exit cleanly with no branches created or changed.
 - **Parse failure on a file:** report the file path and fail the run (do not silently skip),
-  so the frozen branch is never partially transformed.
-- **Empty keep-set:** allowed (a maximal-strip experiment) but `confirm` must make the scope
-  explicit.
-- On any failure after branch creation, leave the branch in place for inspection and report
-  what completed; do not attempt automatic rollback of a partially built branch.
+  so a frozen branch is never partially transformed.
+- On any failure mid-run, leave already-built branches in place for inspection and report what
+  completed; do not attempt automatic rollback.
 
 ## Testing
 
@@ -239,19 +267,25 @@ root `package.json` script (e.g. `pnpm experiment:freeze`).
   branch creation, manifest contents, single commit; plus temp-dir cases proving an MDX doc
   that imports a pruned CSF is deleted (while one importing a surviving CSF is kept) and that a
   surviving doc's Canvas for a removed export is purged with its heading.
-- **`freeze`:** end-to-end temp git repo — strips content, purges a dead helper + its import,
-  writes the manifest, and commits.
+- **`config`:** `validateExperiments` accepts a well-formed config and rejects non-array
+  exports, missing `experiment/` prefix, duplicate names, unknown facets, and non-string
+  facets; `loadExperiments` errors when the file is missing.
+- **`freeze` (`regenerateExperiments`):** end-to-end temp git repo — builds one branch per
+  entry from the same base, restores the base ref, writes per-branch manifests, overwrites on a
+  second run, and refuses a dirty tree.
 - Follow repo conventions: Vitest APIs only, `name.test.ts(x)` beside source, jsdom where
   possible.
 
 ## Non-goals (YAGNI)
 
-- No `--config` non-interactive mode (manifest-out only, per decision).
-- No dead-code cleanup of helper functions left behind after removing a story export (only
-  the export declaration and its JSDoc are removed).
 - `general-*` facets classify whole MDX files via their `<Meta>` tag (not `BEGIN/END`
   sections); `general-a11y` and `general-tokens` are defined but unused in the corpus today.
-- No cross-branch orchestration or experiment registry beyond the per-branch manifest.
+- Experiments are declared in `experiments.config.ts`; there is no separate registry, dashboard,
+  or cross-branch diffing beyond the per-branch manifest.
+- Dead-code purge is scoped to changed `*.stories.tsx` (the only files where stripping creates
+  orphans); `packages/react` source only loses JSDoc comments, so it needs no purge.
+- Biome's `noUnusedVariables` only underscore-renames rather than deletes, so unused
+  functions/consts are removed by the `deadcode` module instead; Biome handles only imports.
 - Dead-code purge is scoped to changed `*.stories.tsx` (the only files where stripping creates
   orphans); `packages/react` source only loses JSDoc comments, so it needs no purge.
 - Biome's `noUnusedVariables` only underscore-renames rather than deletes, so unused
