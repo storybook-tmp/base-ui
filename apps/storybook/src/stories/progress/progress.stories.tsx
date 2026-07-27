@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor } from 'storybook/test';
 import { Progress } from '@base-ui/react/progress';
-import styles from './progress.module.css';
+import theme from '@droppy/theme';
 
 /**
  * Stories follow research/c-components/progress (Tier 3): the kept hero demo,
@@ -36,11 +36,11 @@ function HeroExample() {
   }, []);
 
   return (
-    <Progress.Root className={styles.Progress} value={value}>
-      <Progress.Label className={styles.Label}>Export data</Progress.Label>
-      <Progress.Value className={styles.Value} />
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+    <Progress.Root className={theme.ProgressRoot} value={value}>
+      <Progress.Label className={theme.ProgressLabel}>Export data</Progress.Label>
+      <Progress.Value className={theme.ProgressValue} />
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   );
@@ -56,11 +56,11 @@ export const Hero: Story = {
 export const Determinate: Story = {
   tags: ['highlight'],
   render: () => (
-    <Progress.Root className={styles.Progress} value={40} locale="en-US">
-      <Progress.Label className={styles.Label}>Uploading files</Progress.Label>
-      <Progress.Value className={styles.Value} />
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+    <Progress.Root className={theme.ProgressRoot} value={40} locale="en-US">
+      <Progress.Label className={theme.ProgressLabel}>Uploading files</Progress.Label>
+      <Progress.Value className={theme.ProgressValue} />
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   ),
@@ -77,10 +77,10 @@ export const Determinate: Story = {
 export const Indeterminate: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Progress.Root className={styles.Progress} value={null}>
-      <Progress.Label className={styles.Label}>Preparing download</Progress.Label>
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+    <Progress.Root className={theme.ProgressRoot} value={null}>
+      <Progress.Label className={theme.ProgressLabel}>Preparing download</Progress.Label>
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   ),
@@ -97,15 +97,15 @@ export const CustomFormat: Story = {
   tags: ['highlight'],
   render: () => (
     <Progress.Root
-      className={styles.Progress}
+      className={theme.ProgressRoot}
       value={30}
       format={{ style: 'currency', currency: 'USD' }}
       locale="en-US"
     >
-      <Progress.Label className={styles.Label}>Budget used</Progress.Label>
-      <Progress.Value className={styles.Value} />
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+      <Progress.Label className={theme.ProgressLabel}>Budget used</Progress.Label>
+      <Progress.Value className={theme.ProgressValue} />
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   ),
@@ -119,12 +119,12 @@ export const CustomFormat: Story = {
 function LiveValueUpdatesExample() {
   const [value, setValue] = React.useState(0);
   return (
-    <div className={styles.Progress}>
-      <Progress.Root className={styles.Progress} value={value}>
-        <Progress.Label className={styles.Label}>Uploading files</Progress.Label>
-        <Progress.Value className={styles.Value} />
-        <Progress.Track className={styles.Track}>
-          <Progress.Indicator className={styles.Indicator} />
+    <div className={theme.ProgressRoot}>
+      <Progress.Root className={theme.ProgressRoot} value={value}>
+        <Progress.Label className={theme.ProgressLabel}>Uploading files</Progress.Label>
+        <Progress.Value className={theme.ProgressValue} />
+        <Progress.Track className={theme.ProgressTrack}>
+          <Progress.Indicator className={theme.ProgressIndicator} />
         </Progress.Track>
       </Progress.Root>
       <button
@@ -178,15 +178,15 @@ export const WithLabelAndCustomAriaValueText: Story = {
   tags: ['highlight'],
   render: () => (
     <Progress.Root
-      className={styles.Progress}
+      className={theme.ProgressRoot}
       value={40}
       locale="en-US"
       getAriaValueText={(formattedValue) => `${formattedValue} of the export complete`}
     >
-      <Progress.Label className={styles.Label}>Exporting data</Progress.Label>
-      <Progress.Value className={styles.Value} />
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+      <Progress.Label className={theme.ProgressLabel}>Exporting data</Progress.Label>
+      <Progress.Value className={theme.ProgressValue} />
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   ),
@@ -201,11 +201,11 @@ export const WithLabelAndCustomAriaValueText: Story = {
 export const CustomRange: Story = {
   tags: ['highlight'],
   render: () => (
-    <Progress.Root className={styles.Progress} value={50} min={0} max={40} locale="en-US">
-      <Progress.Label className={styles.Label}>Processed items</Progress.Label>
-      <Progress.Value className={styles.Value} />
-      <Progress.Track className={styles.Track}>
-        <Progress.Indicator className={styles.Indicator} />
+    <Progress.Root className={theme.ProgressRoot} value={50} min={0} max={40} locale="en-US">
+      <Progress.Label className={theme.ProgressLabel}>Processed items</Progress.Label>
+      <Progress.Value className={theme.ProgressValue} />
+      <Progress.Track className={theme.ProgressTrack}>
+        <Progress.Indicator className={theme.ProgressIndicator} />
       </Progress.Track>
     </Progress.Root>
   ),

@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Autocomplete } from '@base-ui/react/autocomplete';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
-import styles from '../autocomplete.module.css';
-import rw from '../autocomplete-real-world.module.css';
+import theme from '@droppy/theme';
+import '../autocomplete.demo.css';
+import '../autocomplete-real-world.demo.css';
 
 /**
  * Recreation of cloudflare/kumo's Autocomplete wrapper: label/required/description/error
@@ -31,17 +32,19 @@ function LabeledAutocomplete({
   items: readonly string[];
 }) {
   return (
-    <Field.Root name={name} className={rw.Field}>
-      <Field.Label className={styles.Label}>{label}</Field.Label>
+    <Field.Root name={name} className={theme.FieldRoot}>
+      <Field.Label className={theme.FieldLabel}>{label}</Field.Label>
       <Autocomplete.Root items={items} required={required}>
-        <Autocomplete.Input placeholder={placeholder} className={styles.Input} />
+        <Autocomplete.Input placeholder={placeholder} className={theme.AutocompleteInput} />
         <Autocomplete.Portal>
-          <Autocomplete.Positioner className={styles.Positioner} sideOffset={4}>
-            <Autocomplete.Popup className={styles.Popup}>
-              <Autocomplete.Empty className={styles.Empty}>No matches.</Autocomplete.Empty>
-              <Autocomplete.List className={styles.List}>
+          <Autocomplete.Positioner className={theme.AutocompletePositioner} sideOffset={4}>
+            <Autocomplete.Popup className={theme.AutocompletePopup}>
+              <Autocomplete.Empty className={theme.AutocompleteEmpty}>
+                No matches.
+              </Autocomplete.Empty>
+              <Autocomplete.List className={theme.AutocompleteList}>
                 {(item: string) => (
-                  <Autocomplete.Item key={item} value={item} className={styles.Item}>
+                  <Autocomplete.Item key={item} value={item} className={theme.AutocompleteItem}>
                     {item}
                   </Autocomplete.Item>
                 )}
@@ -51,9 +54,9 @@ function LabeledAutocomplete({
         </Autocomplete.Portal>
       </Autocomplete.Root>
       {description ? (
-        <Field.Description className={styles.Description}>{description}</Field.Description>
+        <Field.Description className={theme.FieldDescription}>{description}</Field.Description>
       ) : null}
-      <Field.Error className={styles.Error} match="valueMissing">
+      <Field.Error className={theme.FieldError} match="valueMissing">
         {errorMessage ?? 'This field is required.'}
       </Field.Error>
     </Field.Root>
@@ -66,7 +69,7 @@ export function FieldIntegratedAutocompleteExample() {
   const [status, setStatus] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         setStatus('Submitted');
@@ -81,10 +84,10 @@ export function FieldIntegratedAutocompleteExample() {
         placeholder="e.g. Lisbon"
         items={destinations}
       />
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Book trip
       </button>
-      {status ? <output className={styles.Output}>{status}</output> : null}
+      {status ? <output className="AutocompleteDemoOutput">{status}</output> : null}
     </Form>
   );
 }

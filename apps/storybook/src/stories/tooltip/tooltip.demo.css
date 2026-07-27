@@ -1,0 +1,70 @@
+/* Story-only demo glue for the Tooltip stories — layout scaffolding and the
+ * icon-only trigger button that has no equivalent Droppy theme part.
+ * Themed parts (Popup, Arrow, the text trigger button) bind classes straight
+ * from @droppy/theme instead of living here. */
+
+.TooltipPanel {
+  display: flex;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-card);
+}
+
+.TooltipRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Icon-only trigger button (B/I/U glyphs) — distinct from theme.Button, which
+ * is a filled action button, not an icon button. */
+.TooltipIconButton {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--ds-radius-control);
+  border: 0;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.TooltipIconButton[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+@media (hover: hover) {
+  .TooltipIconButton:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.TooltipIconButton:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.TooltipIconButton:focus-visible {
+  background-color: transparent;
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  position: relative;
+  z-index: 1;
+}
+
+.TooltipOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.TooltipGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.5rem;
+  justify-items: center;
+  padding: 2rem;
+}

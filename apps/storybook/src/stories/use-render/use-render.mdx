@@ -30,7 +30,7 @@ function Text(props: TextProps) {
   const element = useRender({
     defaultTagName: 'p',
     render,
-    props: mergeProps<'p'>({ className: styles.Text }, otherProps),
+    props: mergeProps<'p'>({ className: 'UseRenderText' }, otherProps),
   });
 
   return element;

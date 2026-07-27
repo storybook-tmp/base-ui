@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Popover } from '@base-ui/react/popover';
-import styles from '../popover.module.css';
+import theme from '@droppy/theme';
+import '../popover.demo.css';
 
 /**
  * Recreation of the play-queue popover in the museeks music player's title bar:
@@ -17,19 +18,19 @@ function ButtonIcon(props: React.ComponentProps<'button'>) {
 export function QueuePopoverExample() {
   const headerRef = React.useRef<HTMLDivElement>(null);
   return (
-    <div className={styles.QueueHeader} ref={headerRef}>
-      <span className={styles.Label}>Nightfall — Aurora Fields</span>
+    <div className="PopoverQueueHeader" ref={headerRef}>
+      <span className="PopoverLabel">Nightfall — Aurora Fields</span>
       <Popover.Root>
         <Popover.Trigger
-          render={<ButtonIcon aria-label="Open the queue" className={styles.IconButton} />}
+          render={<ButtonIcon aria-label="Open the queue" className={theme.PopoverIconTrigger} />}
         >
           ≡
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner anchor={headerRef} side="bottom" align="end" sideOffset={4}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Up next</Popover.Title>
-              <ol className={styles.QueueList}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Up next</Popover.Title>
+              <ol className="PopoverQueueList">
                 <li>Aurora Fields — Nightfall</li>
                 <li>Glass Harbor — Undertow</li>
                 <li>Marble Sky — Second Sun</li>

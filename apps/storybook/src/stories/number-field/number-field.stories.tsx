@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, waitFor } from 'storybook/test';
 import { NumberField } from '@base-ui/react/number-field';
 import { Field } from '@base-ui/react/field';
-import styles from './number-field.module.css';
+import theme from '@droppy/theme';
+import './number-field.demo.css';
 
 /**
  * Floor coverage following research/c-components/number-field (Tier 2): the docs hero
@@ -68,16 +69,16 @@ export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => {
     return (
-      <NumberField.Root id="number-field-hero" defaultValue={100} className={styles.Field}>
-        <label htmlFor="number-field-hero" className={styles.Label}>
+      <NumberField.Root id="number-field-hero" defaultValue={100} className={theme.NumberFieldRoot}>
+        <label htmlFor="number-field-hero" className={theme.FieldLabel}>
           Amount
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
@@ -102,17 +103,17 @@ export const KeyboardStepping: Story = {
       defaultValue={5}
       min={0}
       max={10}
-      className={styles.Field}
+      className={theme.NumberFieldRoot}
     >
-      <label htmlFor="number-field-keyboard-stepping" className={styles.Label}>
+      <label htmlFor="number-field-keyboard-stepping" className={theme.FieldLabel}>
         Quantity
       </label>
-      <NumberField.Group className={styles.Group}>
-        <NumberField.Decrement className={styles.Decrement}>
+      <NumberField.Group className={theme.NumberFieldGroup}>
+        <NumberField.Decrement className={theme.NumberFieldDecrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} />
-        <NumberField.Increment className={styles.Increment}>
+        <NumberField.Input className={theme.NumberFieldInput} />
+        <NumberField.Increment className={theme.NumberFieldIncrement}>
           <PlusIcon />
         </NumberField.Increment>
       </NumberField.Group>
@@ -152,19 +153,23 @@ export const KeyboardStepping: Story = {
 export const ScrubArea: Story = {
   tags: ['highlight'],
   render: () => (
-    <NumberField.Root id="number-field-scrub-area" defaultValue={100} className={styles.Field}>
-      <NumberField.ScrubArea className={styles.ScrubArea}>
-        <label htmlFor="number-field-scrub-area" className={styles.Label}>
+    <NumberField.Root
+      id="number-field-scrub-area"
+      defaultValue={100}
+      className={theme.NumberFieldRoot}
+    >
+      <NumberField.ScrubArea className={theme.NumberFieldScrubArea}>
+        <label htmlFor="number-field-scrub-area" className={theme.FieldLabel}>
           Amount (drag to scrub)
         </label>
-        <NumberField.ScrubAreaCursor className={styles.ScrubAreaCursor} />
+        <NumberField.ScrubAreaCursor className={theme.NumberFieldScrubAreaCursor} />
       </NumberField.ScrubArea>
-      <NumberField.Group className={styles.Group}>
-        <NumberField.Decrement className={styles.Decrement}>
+      <NumberField.Group className={theme.NumberFieldGroup}>
+        <NumberField.Decrement className={theme.NumberFieldDecrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} />
-        <NumberField.Increment className={styles.Increment}>
+        <NumberField.Input className={theme.NumberFieldInput} />
+        <NumberField.Increment className={theme.NumberFieldIncrement}>
           <PlusIcon />
         </NumberField.Increment>
       </NumberField.Group>
@@ -204,17 +209,17 @@ export const MinMaxStep: Story = {
       min={0}
       max={100}
       step={5}
-      className={styles.Field}
+      className={theme.NumberFieldRoot}
     >
-      <label htmlFor="number-field-min-max-step" className={styles.Label}>
+      <label htmlFor="number-field-min-max-step" className={theme.FieldLabel}>
         Percent
       </label>
-      <NumberField.Group className={styles.Group}>
-        <NumberField.Decrement className={styles.Decrement}>
+      <NumberField.Group className={theme.NumberFieldGroup}>
+        <NumberField.Decrement className={theme.NumberFieldDecrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} />
-        <NumberField.Increment className={styles.Increment}>
+        <NumberField.Input className={theme.NumberFieldInput} />
+        <NumberField.Increment className={theme.NumberFieldIncrement}>
           <PlusIcon />
         </NumberField.Increment>
       </NumberField.Group>
@@ -235,7 +240,7 @@ function FormExample() {
   return (
     <form
       noValidate
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -247,25 +252,27 @@ function FormExample() {
         name="quantity"
         defaultValue={1}
         min={1}
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-form-integration" className={styles.Label}>
+        <label htmlFor="number-field-form-integration" className={theme.FieldLabel}>
           Quantity
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Add to cart
       </button>
-      {submitted !== null ? <output className={styles.Output}>quantity={submitted}</output> : null}
+      {submitted !== null ? (
+        <output className="NumberFieldDemoOutput">quantity={submitted}</output>
+      ) : null}
     </form>
   );
 }
@@ -291,29 +298,29 @@ export const FormIntegration: Story = {
 function PressAndHoldExample() {
   const [committedCount, setCommittedCount] = React.useState(0);
   return (
-    <div className={styles.Stack}>
+    <div className="NumberFieldDemoStack">
       <NumberField.Root
         id="number-field-press-and-hold"
         defaultValue={97}
         min={0}
         max={100}
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
         onValueCommitted={() => setCommittedCount((count) => count + 1)}
       >
-        <label htmlFor="number-field-press-and-hold" className={styles.Label}>
+        <label htmlFor="number-field-press-and-hold" className={theme.FieldLabel}>
           Percent (holds to 100 quickly)
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
-      <output className={styles.Output}>onValueCommitted calls: {committedCount}</output>
+      <output className="NumberFieldDemoOutput">onValueCommitted calls: {committedCount}</output>
     </div>
   );
 }
@@ -354,22 +361,22 @@ export const PressAndHoldStepping: Story = {
 export const SnapOnStep: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="NumberFieldDemoRow">
       <NumberField.Root
         id="number-field-snap-on-step-with"
         defaultValue={1.3}
         snapOnStep
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-snap-on-step-with" className={styles.Label}>
+        <label htmlFor="number-field-snap-on-step-with" className={theme.FieldLabel}>
           With snapOnStep
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
@@ -377,17 +384,17 @@ export const SnapOnStep: Story = {
       <NumberField.Root
         id="number-field-snap-on-step-without"
         defaultValue={1.3}
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-snap-on-step-without" className={styles.Label}>
+        <label htmlFor="number-field-snap-on-step-without" className={theme.FieldLabel}>
           Without (exact step)
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
@@ -418,13 +425,18 @@ export const SnapOnStep: Story = {
 export const AllowOutOfRange: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
-      <NumberField.Root id="number-field-clamped" name="clamped" max={100} className={styles.Field}>
-        <label htmlFor="number-field-clamped" className={styles.Label}>
+    <div className="NumberFieldDemoRow">
+      <NumberField.Root
+        id="number-field-clamped"
+        name="clamped"
+        max={100}
+        className={theme.NumberFieldRoot}
+      >
+        <label htmlFor="number-field-clamped" className={theme.FieldLabel}>
           Clamps by default
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Input className={styles.Input} />
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Input className={theme.NumberFieldInput} />
         </NumberField.Group>
       </NumberField.Root>
       <NumberField.Root
@@ -432,13 +444,13 @@ export const AllowOutOfRange: Story = {
         name="outOfRange"
         max={100}
         allowOutOfRange
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-out-of-range" className={styles.Label}>
+        <label htmlFor="number-field-out-of-range" className={theme.FieldLabel}>
           allowOutOfRange
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Input className={styles.Input} />
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Input className={theme.NumberFieldInput} />
         </NumberField.Group>
       </NumberField.Root>
     </div>
@@ -482,19 +494,19 @@ const eurDeFormat: Intl.NumberFormatOptions = { style: 'currency', currency: 'EU
 export const LocaleAndCurrencyFormat: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="NumberFieldDemoRow">
       <NumberField.Root
         id="number-field-usd"
         defaultValue={1234.5}
         format={usdFormat}
         locale="en-US"
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-usd" className={styles.Label}>
+        <label htmlFor="number-field-usd" className={theme.FieldLabel}>
           USD (en-US)
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Input className={styles.Input} />
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Input className={theme.NumberFieldInput} />
         </NumberField.Group>
       </NumberField.Root>
       <NumberField.Root
@@ -502,13 +514,13 @@ export const LocaleAndCurrencyFormat: Story = {
         defaultValue={1234.5}
         format={eurDeFormat}
         locale="de-DE"
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-eur" className={styles.Label}>
+        <label htmlFor="number-field-eur" className={theme.FieldLabel}>
           EUR (de-DE)
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Input className={styles.Input} />
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Input className={theme.NumberFieldInput} />
         </NumberField.Group>
       </NumberField.Root>
     </div>
@@ -533,17 +545,17 @@ export const WheelScrub: Story = {
       id="number-field-wheel-scrub"
       defaultValue={10}
       allowWheelScrub
-      className={styles.Field}
+      className={theme.NumberFieldRoot}
     >
-      <label htmlFor="number-field-wheel-scrub" className={styles.Label}>
+      <label htmlFor="number-field-wheel-scrub" className={theme.FieldLabel}>
         Scroll while focused
       </label>
-      <NumberField.Group className={styles.Group}>
-        <NumberField.Decrement className={styles.Decrement}>
+      <NumberField.Group className={theme.NumberFieldGroup}>
+        <NumberField.Decrement className={theme.NumberFieldDecrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} />
-        <NumberField.Increment className={styles.Increment}>
+        <NumberField.Input className={theme.NumberFieldInput} />
+        <NumberField.Increment className={theme.NumberFieldIncrement}>
           <PlusIcon />
         </NumberField.Increment>
       </NumberField.Group>
@@ -570,28 +582,28 @@ function ValueChangeVsCommittedExample() {
   const [changeCount, setChangeCount] = React.useState(0);
   const [committedCount, setCommittedCount] = React.useState(0);
   return (
-    <div className={styles.Stack}>
+    <div className="NumberFieldDemoStack">
       <NumberField.Root
         id="number-field-value-change-vs-committed"
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
         onValueChange={() => setChangeCount((count) => count + 1)}
         onValueCommitted={() => setCommittedCount((count) => count + 1)}
       >
-        <label htmlFor="number-field-value-change-vs-committed" className={styles.Label}>
+        <label htmlFor="number-field-value-change-vs-committed" className={theme.FieldLabel}>
           Type digits, then blur or click the buttons
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
-      <output className={styles.Output}>onValueChange calls: {changeCount}</output>
-      <output className={styles.Output}>onValueCommitted calls: {committedCount}</output>
+      <output className="NumberFieldDemoOutput">onValueChange calls: {changeCount}</output>
+      <output className="NumberFieldDemoOutput">onValueCommitted calls: {committedCount}</output>
     </div>
   );
 }
@@ -636,21 +648,21 @@ export const FieldValidation: Story = {
       name="price"
       validationMode="onChange"
       validate={(value) => (typeof value === 'number' && value >= 1 ? null : 'Must be at least 1.')}
-      className={styles.Field}
+      className={theme.FieldRoot}
     >
-      <Field.Label className={styles.Label}>Price</Field.Label>
+      <Field.Label className={theme.FieldLabel}>Price</Field.Label>
       <NumberField.Root>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
-      <Field.Error className={styles.Error} />
+      <Field.Error className={theme.FieldError} />
     </Field.Root>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -684,22 +696,22 @@ export const FieldValidation: Story = {
 export const DisabledAndReadOnly: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="NumberFieldDemoRow">
       <NumberField.Root
         id="number-field-disabled"
         defaultValue={42}
         disabled
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-disabled" className={styles.Label}>
+        <label htmlFor="number-field-disabled" className={theme.FieldLabel}>
           Disabled
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>
@@ -708,17 +720,17 @@ export const DisabledAndReadOnly: Story = {
         id="number-field-readonly"
         defaultValue={42}
         readOnly
-        className={styles.Field}
+        className={theme.NumberFieldRoot}
       >
-        <label htmlFor="number-field-readonly" className={styles.Label}>
+        <label htmlFor="number-field-readonly" className={theme.FieldLabel}>
           Read-only
         </label>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Decrement}>
+        <NumberField.Group className={theme.NumberFieldGroup}>
+          <NumberField.Decrement className={theme.NumberFieldDecrement}>
             <MinusIcon />
           </NumberField.Decrement>
-          <NumberField.Input className={styles.Input} />
-          <NumberField.Increment className={styles.Increment}>
+          <NumberField.Input className={theme.NumberFieldInput} />
+          <NumberField.Increment className={theme.NumberFieldIncrement}>
             <PlusIcon />
           </NumberField.Increment>
         </NumberField.Group>

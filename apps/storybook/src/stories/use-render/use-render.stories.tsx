@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor } from 'storybook/test';
 import { useRender } from '@base-ui/react/use-render';
 import { mergeProps } from '@base-ui/react/merge-props';
-import styles from './use-render.module.css';
+import './use-render.demo.css';
 
 /**
  * Stories follow research/c-components/use-render (Tier 3 utils floor):
@@ -32,7 +32,7 @@ function Text(props: TextProps) {
   const element = useRender({
     defaultTagName: 'p',
     render,
-    props: mergeProps<'p'>({ className: styles.Text }, otherProps),
+    props: mergeProps<'p'>({ className: 'UseRenderText' }, otherProps),
   });
 
   return element;
@@ -42,7 +42,7 @@ function Text(props: TextProps) {
 export const CustomComponent: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Stack}>
+    <div className="UseRenderStack">
       <Text>Text component rendered as a paragraph tag</Text>
       <Text
         render={<a href="https://base-ui.com/react/utils/use-render">Read the useRender docs</a>}
@@ -77,11 +77,11 @@ function Counter(props: CounterProps) {
   const state = React.useMemo(() => ({ odd }), [odd]);
 
   const defaultProps: useRender.ElementProps<'button'> = {
-    className: styles.Button,
+    className: 'UseRenderButton',
     type: 'button',
     children: (
       <React.Fragment>
-        Counter: <span className={styles.count}>{count}</span>
+        Counter: <span className="UseRenderCount">{count}</span>
       </React.Fragment>
     ),
     onClick() {

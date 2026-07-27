@@ -2,7 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, spyOn, waitFor } from 'storybook/test';
 import { Button } from '@base-ui/react/button';
-import styles from './button.module.css';
+import theme from '@droppy/theme';
+import './button.demo.css';
 
 /**
  * Stories follow research/c-components/button (Tier 3): the kept docs hero demo,
@@ -21,22 +22,22 @@ type Story = StoryObj<typeof meta>;
 /** The docs hero demo: a plain Button with default styling. */
 export const Hero: Story = {
   tags: ['showcase', 'base'],
-  render: () => <Button className={styles.Button}>Submit</Button>,
+  render: () => <Button className={theme.Button}>Submit</Button>,
 };
 
 function FocusableWhenDisabledExample() {
   const [clicks, setClicks] = React.useState(0);
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <Button
         disabled
         focusableWhenDisabled
-        className={styles.Button}
+        className={theme.Button}
         onClick={() => setClicks((count) => count + 1)}
       >
         Submit
       </Button>
-      <span className={styles.Output}>Clicks: {clicks}</span>
+      <span className="Output">Clicks: {clicks}</span>
     </div>
   );
 }
@@ -69,16 +70,16 @@ export const FocusableWhenDisabled: Story = {
 function RenderCompositionExample() {
   const [activations, setActivations] = React.useState(0);
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <Button
         render={<div />}
         nativeButton={false}
-        className={styles.Button}
+        className={theme.Button}
         onClick={() => setActivations((count) => count + 1)}
       >
         Custom tag
       </Button>
-      <span className={styles.Output}>Activations: {activations}</span>
+      <span className="Output">Activations: {activations}</span>
     </div>
   );
 }
@@ -119,11 +120,11 @@ export const Disabled: Story = {
     function DisabledExample() {
       const [clicks, setClicks] = React.useState(0);
       return (
-        <div className={styles.Row}>
-          <Button disabled className={styles.Button} onClick={() => setClicks((c) => c + 1)}>
+        <div className="Row">
+          <Button disabled className={theme.Button} onClick={() => setClicks((c) => c + 1)}>
             Submit
           </Button>
-          <span className={styles.Output}>Clicks: {clicks}</span>
+          <span className="Output">Clicks: {clicks}</span>
         </div>
       );
     }
@@ -146,12 +147,12 @@ export const Disabled: Story = {
 function NativeButtonMismatchExample() {
   const [mounted, setMounted] = React.useState(false);
   return (
-    <div className={styles.Row}>
-      <button type="button" className={styles.Button} onClick={() => setMounted(true)}>
+    <div className="Row">
+      <button type="button" className={theme.Button} onClick={() => setMounted(true)}>
         Mount mismatched button
       </button>
       {mounted ? (
-        <Button render={<span />} className={styles.Button}>
+        <Button render={<span />} className={theme.Button}>
           Custom span
         </Button>
       ) : null}
@@ -206,12 +207,12 @@ export const NativeButtonMismatchWarning: Story = {
 export const NotALink: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="Row">
       <div>
-        <a href="https://base-ui.com" className={styles.Button}>
+        <a href="https://base-ui.com" className={theme.Button}>
           Correct: styled &lt;a&gt;
         </a>
-        <p className={styles.Output}>
+        <p className="Output">
           A real link, styled with CSS. Right-click / open-in-new-tab / middle-click all work as
           expected.
         </p>
@@ -220,10 +221,10 @@ export const NotALink: Story = {
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label -- the
         `render` element's accessible name comes from Button's own children, merged
         in at render time; the linter can't see past the static `<a />` prop value. */}
-        <Button render={<a href="https://base-ui.com" />} className={styles.Button}>
+        <Button render={<a href="https://base-ui.com" />} className={theme.Button}>
           Anti-pattern: Button render=&lt;a&gt;
         </Button>
-        <p className={styles.Output}>
+        <p className="Output">
           Looks identical, but Button overrides the element with{' '}
           <code>role=&quot;button&quot;</code> and button keyboard handling — native link
           affordances are lost.
@@ -242,7 +243,7 @@ function LoadingExample() {
 
   return (
     <Button
-      className={styles.Button}
+      className={theme.Button}
       disabled={loading}
       focusableWhenDisabled
       onClick={() => {

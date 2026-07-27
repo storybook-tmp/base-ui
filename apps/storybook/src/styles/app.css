@@ -1,0 +1,40 @@
+/*
+ * App-level styling for this Storybook. All design tokens, fonts, and component
+ * chrome now live in the @droppy/theme package (packages/droppy/src/styles.css)
+ * — this file only carries what's specific to hosting the theme inside
+ * Storybook: the global box-sizing reset, the app's own light/dark
+ * cross-fade, base body layout, and the small-screen root font-size drop.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Site-wide 250ms theme cross-fade (matches the token package's --ds-motion-base).
+ * Scoped to color-ish properties only so layout/transform animations are unaffected. */
+* {
+  transition:
+    background-color var(--ds-motion-base) var(--ds-motion-ease),
+    color var(--ds-motion-base) var(--ds-motion-ease),
+    border-color var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+body {
+  margin: 0;
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-md);
+  line-height: 1.5;
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Root font drops 16 -> 14px below the sm breakpoint (640px) */
+@media only screen and (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import styles from '../select.module.css';
-import rw from '../select-real-world.module.css';
+import theme from '@droppy/theme';
+import '../select.demo.css';
+import '../select-real-world.demo.css';
 import { DemoSelect } from '../DemoSelect';
 
 /**
@@ -42,8 +43,8 @@ export function DashboardFilterExample() {
       (status === '' || prediction.status === status),
   );
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="SelectDemoStack">
+      <div className="SelectDemoRow">
         <DemoSelect
           label="Model"
           options={modelFilterItems}
@@ -58,7 +59,7 @@ export function DashboardFilterExample() {
         />
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => {
             setModel('');
             setStatus('');
@@ -67,7 +68,7 @@ export function DashboardFilterExample() {
           Reset
         </button>
       </div>
-      <table className={rw.FilterTable}>
+      <table className="SelectDemoFilterTable">
         <thead>
           <tr>
             <th>Concept</th>
@@ -85,7 +86,7 @@ export function DashboardFilterExample() {
           ))}
         </tbody>
       </table>
-      <output className={styles.Output}>
+      <output className="SelectDemoOutput">
         {rows.length} of {predictions.length} predictions
       </output>
     </div>

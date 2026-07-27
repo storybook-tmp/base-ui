@@ -4,7 +4,8 @@ import { expect, fireEvent, waitFor } from 'storybook/test';
 import { Slider } from '@base-ui/react/slider';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
 import { Field } from '@base-ui/react/field';
-import styles from './slider.module.css';
+import theme from '@droppy/theme';
+import './slider.demo.css';
 
 /**
  * Floor coverage following research/c-components/slider (Tier 2 lean-plus): the docs hero
@@ -31,13 +32,13 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <Slider.Root defaultValue={25} className={styles.Root}>
-      <Slider.Label className={styles.Label}>Volume</Slider.Label>
-      <Slider.Value className={styles.Value} />
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb className={styles.Thumb} />
+    <Slider.Root defaultValue={25} className={theme.SliderRoot}>
+      <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+      <Slider.Value className={theme.SliderValue} />
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -58,14 +59,14 @@ export const Hero: Story = {
 export const RangeTwoThumb: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <Slider.Root defaultValue={[25, 45]} className={styles.Root}>
-      <Slider.Label className={styles.Label}>Price range</Slider.Label>
-      <Slider.Value className={styles.Value} />
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb index={0} aria-label="Minimum price" className={styles.Thumb} />
-          <Slider.Thumb index={1} aria-label="Maximum price" className={styles.Thumb} />
+    <Slider.Root defaultValue={[25, 45]} className={theme.SliderRoot}>
+      <Slider.Label className={theme.SliderLabel}>Price range</Slider.Label>
+      <Slider.Value className={theme.SliderValue} />
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb index={0} aria-label="Minimum price" className={theme.SliderThumb} />
+          <Slider.Thumb index={1} aria-label="Maximum price" className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -87,12 +88,12 @@ export const RangeTwoThumb: Story = {
 export const Vertical: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
-    <Slider.Root orientation="vertical" defaultValue={35} className={styles.Root}>
-      <Slider.Label className={styles.Label}>Volume</Slider.Label>
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb className={styles.Thumb} />
+    <Slider.Root orientation="vertical" defaultValue={35} className={theme.SliderRoot}>
+      <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -113,27 +114,27 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(String(data.get('volume')));
       }}
     >
-      <Slider.Root name="volume" defaultValue={20} className={styles.Root}>
-        <Slider.Label className={styles.Label}>Volume</Slider.Label>
-        <Slider.Value className={styles.Value} />
-        <Slider.Control className={styles.Control}>
-          <Slider.Track className={styles.Track}>
-            <Slider.Indicator className={styles.Indicator} />
-            <Slider.Thumb className={styles.Thumb} />
+      <Slider.Root name="volume" defaultValue={20} className={theme.SliderRoot}>
+        <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+        <Slider.Value className={theme.SliderValue} />
+        <Slider.Control className={theme.SliderControl}>
+          <Slider.Track className={theme.SliderTrack}>
+            <Slider.Indicator className={theme.SliderIndicator} />
+            <Slider.Thumb className={theme.SliderThumb} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
-      {submitted !== null ? <output className={styles.Output}>volume={submitted}</output> : null}
+      {submitted !== null ? <output className="SliderDemoOutput">volume={submitted}</output> : null}
     </form>
   );
 }
@@ -169,14 +170,14 @@ export const KeyboardStepping: Story = {
       max={100}
       step={1}
       largeStep={10}
-      className={styles.Root}
+      className={theme.SliderRoot}
     >
-      <Slider.Label className={styles.Label}>Brightness</Slider.Label>
-      <Slider.Value className={styles.Value} />
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb className={styles.Thumb} />
+      <Slider.Label className={theme.SliderLabel}>Brightness</Slider.Label>
+      <Slider.Value className={theme.SliderValue} />
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -224,15 +225,15 @@ export const MinStepsBetweenValues: Story = {
       max={100}
       step={5}
       minStepsBetweenValues={1}
-      className={styles.Root}
+      className={theme.SliderRoot}
     >
-      <Slider.Label className={styles.Label}>Price range</Slider.Label>
-      <Slider.Value className={styles.Value} />
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb index={0} aria-label="Minimum price" className={styles.Thumb} />
-          <Slider.Thumb index={1} aria-label="Maximum price" className={styles.Thumb} />
+      <Slider.Label className={theme.SliderLabel}>Price range</Slider.Label>
+      <Slider.Value className={theme.SliderValue} />
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb index={0} aria-label="Minimum price" className={theme.SliderThumb} />
+          <Slider.Thumb index={1} aria-label="Maximum price" className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -263,13 +264,13 @@ export const RTL: Story = {
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
-        <Slider.Root defaultValue={50} className={styles.Root}>
-          <Slider.Label className={styles.Label}>Volume</Slider.Label>
-          <Slider.Value className={styles.Value} />
-          <Slider.Control className={styles.Control}>
-            <Slider.Track className={styles.Track}>
-              <Slider.Indicator className={styles.Indicator} />
-              <Slider.Thumb className={styles.Thumb} />
+        <Slider.Root defaultValue={50} className={theme.SliderRoot}>
+          <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+          <Slider.Value className={theme.SliderValue} />
+          <Slider.Control className={theme.SliderControl}>
+            <Slider.Track className={theme.SliderTrack}>
+              <Slider.Indicator className={theme.SliderIndicator} />
+              <Slider.Thumb className={theme.SliderThumb} />
             </Slider.Track>
           </Slider.Control>
         </Slider.Root>
@@ -294,7 +295,7 @@ function ControlledExample() {
   const [changeCount, setChangeCount] = React.useState(0);
   const [committedCount, setCommittedCount] = React.useState(0);
   return (
-    <div className={styles.Stack}>
+    <div className="SliderDemoStack">
       <Slider.Root
         value={value}
         onValueChange={(newValue) => {
@@ -302,19 +303,19 @@ function ControlledExample() {
           setChangeCount((count) => count + 1);
         }}
         onValueCommitted={() => setCommittedCount((count) => count + 1)}
-        className={styles.Root}
+        className={theme.SliderRoot}
       >
-        <Slider.Label className={styles.Label}>Controlled volume</Slider.Label>
-        <Slider.Value className={styles.Value} />
-        <Slider.Control className={styles.Control}>
-          <Slider.Track className={styles.Track}>
-            <Slider.Indicator className={styles.Indicator} />
-            <Slider.Thumb className={styles.Thumb} />
+        <Slider.Label className={theme.SliderLabel}>Controlled volume</Slider.Label>
+        <Slider.Value className={theme.SliderValue} />
+        <Slider.Control className={theme.SliderControl}>
+          <Slider.Track className={theme.SliderTrack}>
+            <Slider.Indicator className={theme.SliderIndicator} />
+            <Slider.Thumb className={theme.SliderThumb} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
-      <output className={styles.Output}>onValueChange calls: {changeCount}</output>
-      <output className={styles.Output}>onValueCommitted calls: {committedCount}</output>
+      <output className="SliderDemoOutput">onValueChange calls: {changeCount}</output>
+      <output className="SliderDemoOutput">onValueCommitted calls: {committedCount}</output>
     </div>
   );
 }
@@ -353,19 +354,19 @@ export const FieldIntegration: Story = {
       validate={(value) =>
         typeof value === 'number' && value >= 10 ? null : 'Must be at least 10.'
       }
-      className={styles.Stack}
+      className="SliderDemoStack"
     >
-      <Field.Label className={styles.Label}>Minimum spend</Field.Label>
+      <Field.Label className={theme.SliderLabel}>Minimum spend</Field.Label>
       <Slider.Root defaultValue={5} min={0} max={20}>
-        <Slider.Value className={styles.Value} />
-        <Slider.Control data-testid="field-control" className={styles.Control}>
-          <Slider.Track className={styles.Track}>
-            <Slider.Indicator className={styles.Indicator} />
-            <Slider.Thumb className={styles.Thumb} />
+        <Slider.Value className={theme.SliderValue} />
+        <Slider.Control data-testid="field-control" className={theme.SliderControl}>
+          <Slider.Track className={theme.SliderTrack}>
+            <Slider.Indicator className={theme.SliderIndicator} />
+            <Slider.Thumb className={theme.SliderThumb} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
-      <Field.Error className={styles.Error} />
+      <Field.Error className={theme.FieldError} />
     </Field.Root>
   ),
   play: async ({ canvas }) => {
@@ -392,17 +393,17 @@ export const FieldIntegration: Story = {
 export const CustomMarks: Story = {
   tags: ['highlight'],
   render: () => (
-    <Slider.Root defaultValue={2} min={0} max={5} step={1} className={styles.Root}>
-      <Slider.Label className={styles.Label}>Delay until repeat</Slider.Label>
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.MarksTrack}>
-          <span className={styles.Mark} />
-          <span className={styles.Mark} />
-          <span className={styles.Mark} />
-          <span className={styles.Mark} />
-          <span className={styles.Mark} />
-          <span className={styles.Mark} />
-          <Slider.Thumb className={styles.Thumb} />
+    <Slider.Root defaultValue={2} min={0} max={5} step={1} className={theme.SliderRoot}>
+      <Slider.Label className={theme.SliderLabel}>Delay until repeat</Slider.Label>
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderMarksTrack}>
+          <span className={theme.SliderMark} />
+          <span className={theme.SliderMark} />
+          <span className={theme.SliderMark} />
+          <span className={theme.SliderMark} />
+          <span className={theme.SliderMark} />
+          <span className={theme.SliderMark} />
+          <Slider.Thumb className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
@@ -420,16 +421,16 @@ export const FormattedValueWithGetAriaValueText: Story = {
     <Slider.Root
       defaultValue={40}
       format={{ style: 'unit', unit: 'percent' }}
-      className={styles.Root}
+      className={theme.SliderRoot}
     >
-      <Slider.Label className={styles.Label}>Volume</Slider.Label>
-      <Slider.Value className={styles.Value} />
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
+      <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+      <Slider.Value className={theme.SliderValue} />
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
           <Slider.Thumb
             getAriaValueText={(formattedValue) => `${formattedValue} volume`}
-            className={styles.Thumb}
+            className={theme.SliderThumb}
           />
         </Slider.Track>
       </Slider.Control>
@@ -452,22 +453,22 @@ export const FormattedValueWithGetAriaValueText: Story = {
 export const DisabledState: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
-      <Slider.Root defaultValue={50} disabled className={styles.Root}>
-        <Slider.Label className={styles.Label}>Disabled</Slider.Label>
-        <Slider.Control data-testid="disabled-control" className={styles.Control}>
-          <Slider.Track className={styles.Track}>
-            <Slider.Indicator className={styles.Indicator} />
-            <Slider.Thumb className={styles.Thumb} />
+    <div className="SliderDemoRow">
+      <Slider.Root defaultValue={50} disabled className={theme.SliderRoot}>
+        <Slider.Label className={theme.SliderLabel}>Disabled</Slider.Label>
+        <Slider.Control data-testid="disabled-control" className={theme.SliderControl}>
+          <Slider.Track className={theme.SliderTrack}>
+            <Slider.Indicator className={theme.SliderIndicator} />
+            <Slider.Thumb className={theme.SliderThumb} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
-      <Slider.Root defaultValue={50} className={styles.Root}>
-        <Slider.Label className={styles.Label}>Enabled</Slider.Label>
-        <Slider.Control className={styles.Control}>
-          <Slider.Track className={styles.Track}>
-            <Slider.Indicator className={styles.Indicator} />
-            <Slider.Thumb className={styles.Thumb} />
+      <Slider.Root defaultValue={50} className={theme.SliderRoot}>
+        <Slider.Label className={theme.SliderLabel}>Enabled</Slider.Label>
+        <Slider.Control className={theme.SliderControl}>
+          <Slider.Track className={theme.SliderTrack}>
+            <Slider.Indicator className={theme.SliderIndicator} />
+            <Slider.Thumb className={theme.SliderThumb} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
@@ -497,12 +498,12 @@ export const DisabledState: Story = {
 export const EdgeAlignment: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
-    <Slider.Root thumbAlignment="edge" defaultValue={25} className={styles.Root}>
-      <Slider.Label className={styles.Label}>Volume</Slider.Label>
-      <Slider.Control className={styles.Control}>
-        <Slider.Track className={styles.Track}>
-          <Slider.Indicator className={styles.Indicator} />
-          <Slider.Thumb className={styles.Thumb} />
+    <Slider.Root thumbAlignment="edge" defaultValue={25} className={theme.SliderRoot}>
+      <Slider.Label className={theme.SliderLabel}>Volume</Slider.Label>
+      <Slider.Control className={theme.SliderControl}>
+        <Slider.Track className={theme.SliderTrack}>
+          <Slider.Indicator className={theme.SliderIndicator} />
+          <Slider.Thumb className={theme.SliderThumb} />
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>

@@ -4,7 +4,8 @@ import { expect, waitFor, within } from 'storybook/test';
 import { AlertDialog } from '@base-ui/react/alert-dialog';
 import { Dialog } from '@base-ui/react/dialog';
 import { Menu } from '@base-ui/react/menu';
-import styles from './alert-dialog.module.css';
+import theme from '@droppy/theme';
+import './alert-dialog.demo.css';
 
 /**
  * Stories follow research/c-components/alert-dialog (Tier 2): AlertDialog is
@@ -43,23 +44,23 @@ type Story = StoryObj<typeof meta>;
 function HeroExample() {
   const [status, setStatus] = React.useState('idle');
   return (
-    <div className={styles.Stack}>
+    <div className="AlertDialogStack">
       <AlertDialog.Root>
-        <AlertDialog.Trigger className={styles.Button}>Discard draft</AlertDialog.Trigger>
+        <AlertDialog.Trigger className={theme.Button}>Discard draft</AlertDialog.Trigger>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Discard draft?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Discard draft?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 You can&apos;t undo this action.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
               <AlertDialog.Close
                 data-color="red"
-                className={styles.Button}
+                className={theme.Button}
                 onClick={() => setStatus('discarded')}
               >
                 Discard
@@ -68,7 +69,7 @@ function HeroExample() {
           </AlertDialog.Popup>
         </AlertDialog.Portal>
       </AlertDialog.Root>
-      <output className={styles.Output}>status: {status}</output>
+      <output className="AlertDialogOutput">status: {status}</output>
     </div>
   );
 }
@@ -107,7 +108,7 @@ export const Hero: Story = {
 function NoOutsidePressExample() {
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="AlertDialogStack">
       <AlertDialog.Root
         onOpenChange={(open, eventDetails) => {
           if (!open) {
@@ -115,26 +116,26 @@ function NoOutsidePressExample() {
           }
         }}
       >
-        <AlertDialog.Trigger className={styles.Button}>Delete project</AlertDialog.Trigger>
+        <AlertDialog.Trigger className={theme.Button}>Delete project</AlertDialog.Trigger>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} data-testid="backdrop" />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Delete project?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} data-testid="backdrop" />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Delete project?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Clicking outside does not close this dialog — only an explicit choice or Esc does.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-              <AlertDialog.Close data-color="red" className={styles.Button}>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+              <AlertDialog.Close data-color="red" className={theme.Button}>
                 Delete
               </AlertDialog.Close>
             </div>
           </AlertDialog.Popup>
         </AlertDialog.Portal>
       </AlertDialog.Root>
-      <output className={styles.Output}>
+      <output className="AlertDialogOutput">
         {log.length > 0 ? log.join(', ') : 'no dismissal attempt yet'}
       </output>
     </div>
@@ -186,34 +187,34 @@ function FormWithConfirmationExample() {
 
   return (
     <AlertDialog.Root>
-      <AlertDialog.Trigger className={styles.Button}>Delete account</AlertDialog.Trigger>
+      <AlertDialog.Trigger className={theme.Button}>Delete account</AlertDialog.Trigger>
       <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={styles.Backdrop} />
-        <AlertDialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <AlertDialog.Title className={styles.Title}>Delete account?</AlertDialog.Title>
-            <AlertDialog.Description className={styles.Description}>
+        <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+        <AlertDialog.Popup className={theme.DialogPopup}>
+          <div className="AlertDialogIntro">
+            <AlertDialog.Title className={theme.DialogTitle}>Delete account?</AlertDialog.Title>
+            <AlertDialog.Description className={theme.DialogDescription}>
               Type &quot;{CONFIRM_PHRASE}&quot; to confirm. This cannot be undone.
             </AlertDialog.Description>
           </div>
-          <div className={styles.Form}>
-            <div className={styles.Field}>
-              <label className={styles.Label} htmlFor="confirm-phrase">
+          <div className={theme.FormRoot}>
+            <div className={theme.FieldRoot}>
+              <label className={theme.FieldLabel} htmlFor="confirm-phrase">
                 Confirmation phrase
               </label>
               <input
                 id="confirm-phrase"
-                className={styles.Input}
+                className={theme.Input}
                 value={phrase}
                 onChange={(event) => setPhrase(event.target.value)}
               />
             </div>
           </div>
-          <div className={styles.Actions}>
-            <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
+          <div className={theme.DialogActions}>
+            <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
             <AlertDialog.Close
               data-color="red"
-              className={styles.Button}
+              className={theme.Button}
               disabled={!confirmed}
               onClick={() => setDeleted(true)}
             >
@@ -222,7 +223,7 @@ function FormWithConfirmationExample() {
           </div>
         </AlertDialog.Popup>
       </AlertDialog.Portal>
-      {deleted ? <output className={styles.Output}>account deleted</output> : null}
+      {deleted ? <output className="AlertDialogOutput">account deleted</output> : null}
     </AlertDialog.Root>
   );
 }
@@ -277,26 +278,26 @@ function NestedCloseConfirmationExample() {
         }
       }}
     >
-      <Dialog.Trigger className={styles.Button}>Edit profile</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Edit profile</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Edit profile</Dialog.Title>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <div className="AlertDialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Edit profile</Dialog.Title>
           </div>
-          <div className={styles.Field}>
-            <label className={styles.Label} htmlFor="profile-name">
+          <div className={theme.FieldRoot}>
+            <label className={theme.FieldLabel} htmlFor="profile-name">
               Name
             </label>
             <input
               id="profile-name"
-              className={styles.Input}
+              className={theme.Input}
               value={name}
               onChange={(event) => setName(event.target.value)}
             />
           </div>
-          <div className={styles.Actions}>
-            <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -304,19 +305,19 @@ function NestedCloseConfirmationExample() {
       {/* Nested AlertDialog: a controlled confirmation for the parent Dialog's close request. */}
       <AlertDialog.Root open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Discard changes?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Discard changes?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Your edits to &quot;{name}&quot; have not been saved.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Keep editing</AlertDialog.Close>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Keep editing</AlertDialog.Close>
               <AlertDialog.Close
                 data-color="red"
-                className={styles.Button}
+                className={theme.Button}
                 onClick={() => {
                   setName('');
                   setDialogOpen(false);
@@ -373,26 +374,26 @@ export const NestedCloseConfirmation: Story = {
 function ControlledModeExample() {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
-        <button type="button" className={styles.Button} onClick={() => setOpen(true)}>
+    <div className="AlertDialogStack">
+      <div className="AlertDialogRow">
+        <button type="button" className={theme.Button} onClick={() => setOpen(true)}>
           Log out externally
         </button>
-        <output className={styles.Output}>open: {String(open)}</output>
+        <output className="AlertDialogOutput">open: {String(open)}</output>
       </div>
       <AlertDialog.Root open={open} onOpenChange={setOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Log out?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Log out?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Controlled entirely by external state — no `AlertDialog.Trigger` renders here.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Stay signed in</AlertDialog.Close>
-              <AlertDialog.Close data-color="red" className={styles.Button}>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Stay signed in</AlertDialog.Close>
+              <AlertDialog.Close data-color="red" className={theme.Button}>
                 Log out
               </AlertDialog.Close>
             </div>
@@ -436,11 +437,11 @@ function TriggerFromMenuExample() {
   return (
     <React.Fragment>
       <Menu.Root>
-        <Menu.Trigger className={styles.Button}>Actions</Menu.Trigger>
+        <Menu.Trigger className={theme.Button}>Actions</Menu.Trigger>
         <Menu.Portal>
-          <Menu.Positioner className={styles.MenuPositioner} sideOffset={4}>
-            <Menu.Popup className={styles.MenuPopup}>
-              <Menu.Item className={styles.MenuItem} onClick={() => setOpen(true)}>
+          <Menu.Positioner className={theme.MenuPositioner} sideOffset={4}>
+            <Menu.Popup className={theme.MenuPopup}>
+              <Menu.Item className={theme.MenuItem} onClick={() => setOpen(true)}>
                 Delete project…
               </Menu.Item>
             </Menu.Popup>
@@ -450,18 +451,18 @@ function TriggerFromMenuExample() {
 
       <AlertDialog.Root open={open} onOpenChange={setOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Delete project?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Delete project?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Opened from a Menu.Item&apos;s onClick, not an AlertDialog.Trigger — the same
                 composition Dialog documents for itself.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-              <AlertDialog.Close data-color="red" className={styles.Button}>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+              <AlertDialog.Close data-color="red" className={theme.Button}>
                 Delete
               </AlertDialog.Close>
             </div>
@@ -504,26 +505,26 @@ export const TriggerFromMenu: Story = {
 function ExitAnimationExample() {
   const [settled, setSettled] = React.useState('none yet');
   return (
-    <div className={styles.Stack}>
+    <div className="AlertDialogStack">
       <AlertDialog.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <AlertDialog.Trigger className={styles.Button}>Open animated</AlertDialog.Trigger>
+        <AlertDialog.Trigger className={theme.Button}>Open animated</AlertDialog.Trigger>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Animated alert</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="AlertDialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Animated alert</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 CSS transitions drive both entry and exit via `data-starting-style`/
                 `data-ending-style`.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Close</AlertDialog.Close>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Close</AlertDialog.Close>
             </div>
           </AlertDialog.Popup>
         </AlertDialog.Portal>
       </AlertDialog.Root>
-      <output className={styles.Output}>animation settled: {settled}</output>
+      <output className="AlertDialogOutput">animation settled: {settled}</output>
     </div>
   );
 }
@@ -559,7 +560,7 @@ function CustomTriggerButton({ className, ...props }: React.ComponentProps<'butt
     <button
       type="button"
       data-testid="custom-trigger"
-      className={className ?? styles.Button}
+      className={className ?? theme.Button}
       {...props}
     >
       <TrashIcon /> Delete item
@@ -570,11 +571,11 @@ function CustomTriggerButton({ className, ...props }: React.ComponentProps<'butt
 function CustomRenderCompositionExample() {
   return (
     <AlertDialog.Root>
-      <AlertDialog.Trigger render={<CustomTriggerButton className={styles.Button} />} />
+      <AlertDialog.Trigger render={<CustomTriggerButton className={theme.Button} />} />
       <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={styles.Backdrop} />
+        <AlertDialog.Backdrop className={theme.DialogBackdrop} />
         <AlertDialog.Popup
-          className={styles.Popup}
+          className={theme.DialogPopup}
           render={(props, state) => (
             <section
               {...props}
@@ -583,16 +584,16 @@ function CustomRenderCompositionExample() {
             />
           )}
         >
-          <div className={styles.Intro}>
-            <AlertDialog.Title className={styles.Title}>Delete item?</AlertDialog.Title>
-            <AlertDialog.Description className={styles.Description}>
+          <div className="AlertDialogIntro">
+            <AlertDialog.Title className={theme.DialogTitle}>Delete item?</AlertDialog.Title>
+            <AlertDialog.Description className={theme.DialogDescription}>
               The Trigger renders through a custom button component, and the Popup renders as a
               native &lt;section&gt; instead of a &lt;div&gt; — both via the `render` prop.
             </AlertDialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-            <AlertDialog.Close data-color="red" className={styles.Button}>
+          <div className={theme.DialogActions}>
+            <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+            <AlertDialog.Close data-color="red" className={theme.Button}>
               Delete
             </AlertDialog.Close>
           </div>
@@ -634,19 +635,19 @@ export const CustomRenderComposition: Story = {
 function EscFocusReturnExample() {
   return (
     <AlertDialog.Root>
-      <AlertDialog.Trigger className={styles.Button}>Sign out</AlertDialog.Trigger>
+      <AlertDialog.Trigger className={theme.Button}>Sign out</AlertDialog.Trigger>
       <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={styles.Backdrop} />
-        <AlertDialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <AlertDialog.Title className={styles.Title}>Sign out?</AlertDialog.Title>
-            <AlertDialog.Description className={styles.Description}>
+        <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+        <AlertDialog.Popup className={theme.DialogPopup}>
+          <div className="AlertDialogIntro">
+            <AlertDialog.Title className={theme.DialogTitle}>Sign out?</AlertDialog.Title>
+            <AlertDialog.Description className={theme.DialogDescription}>
               Press Escape to close — focus returns to the trigger that opened this dialog.
             </AlertDialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-            <AlertDialog.Close data-color="red" className={styles.Button}>
+          <div className={theme.DialogActions}>
+            <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+            <AlertDialog.Close data-color="red" className={theme.Button}>
               Sign out
             </AlertDialog.Close>
           </div>
@@ -687,12 +688,12 @@ const deleteRowDialog = AlertDialog.createHandle<string>();
 function HandleWithPayloadExample() {
   const [rows, setRows] = React.useState(['Marketing plan', 'Budget draft', 'Team roster']);
   return (
-    <div className={styles.Stack}>
-      <ul className={styles.List}>
+    <div className="AlertDialogStack">
+      <ul className="AlertDialogList">
         {rows.map((row) => (
-          <li key={row} className={styles.Row}>
+          <li key={row} className="AlertDialogRow">
             <span>{row}</span>
-            <AlertDialog.Trigger className={styles.Button} handle={deleteRowDialog} payload={row}>
+            <AlertDialog.Trigger className={theme.Button} handle={deleteRowDialog} payload={row}>
               Delete
             </AlertDialog.Trigger>
           </li>
@@ -701,19 +702,19 @@ function HandleWithPayloadExample() {
       <AlertDialog.Root handle={deleteRowDialog}>
         {({ payload }) => (
           <AlertDialog.Portal>
-            <AlertDialog.Backdrop className={styles.Backdrop} />
-            <AlertDialog.Popup className={styles.Popup}>
-              <div className={styles.Intro}>
-                <AlertDialog.Title className={styles.Title}>Delete row?</AlertDialog.Title>
-                <AlertDialog.Description className={styles.Description}>
+            <AlertDialog.Backdrop className={theme.DialogBackdrop} />
+            <AlertDialog.Popup className={theme.DialogPopup}>
+              <div className="AlertDialogIntro">
+                <AlertDialog.Title className={theme.DialogTitle}>Delete row?</AlertDialog.Title>
+                <AlertDialog.Description className={theme.DialogDescription}>
                   Delete &quot;{payload}&quot;?
                 </AlertDialog.Description>
               </div>
-              <div className={styles.Actions}>
-                <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
+              <div className={theme.DialogActions}>
+                <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
                 <AlertDialog.Close
                   data-color="red"
-                  className={styles.Button}
+                  className={theme.Button}
                   onClick={() => {
                     if (payload !== undefined) {
                       setRows((current) => current.filter((entry) => entry !== payload));
@@ -790,23 +791,23 @@ const simpleAlertHandle = AlertDialog.createHandle();
 export const DetachedTriggersSimple: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Stack}>
-      <AlertDialog.Trigger className={styles.Button} handle={simpleAlertHandle}>
+    <div className="AlertDialogStack">
+      <AlertDialog.Trigger className={theme.Button} handle={simpleAlertHandle}>
         Discard draft
       </AlertDialog.Trigger>
 
       <AlertDialog.Root handle={simpleAlertHandle}>
         <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={styles.Backdrop} />
+          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
           <AlertDialog.Viewport>
-            <AlertDialog.Popup className={styles.Popup}>
-              <AlertDialog.Title className={styles.Title}>Discard draft?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+            <AlertDialog.Popup className={theme.DialogPopup}>
+              <AlertDialog.Title className={theme.DialogTitle}>Discard draft?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Your changes will be lost.
               </AlertDialog.Description>
-              <div className={styles.Actions}>
-                <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-                <AlertDialog.Close className={styles.Button}>Discard</AlertDialog.Close>
+              <div className={theme.DialogActions}>
+                <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+                <AlertDialog.Close className={theme.Button}>Discard</AlertDialog.Close>
               </div>
             </AlertDialog.Popup>
           </AlertDialog.Viewport>
@@ -847,13 +848,13 @@ function DetachedTriggersControlledExample() {
   const [triggerId, setTriggerId] = React.useState<string | null>(null);
 
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="AlertDialogStack">
+      <div className="AlertDialogRow">
         {ALERT_TRIGGERS.map(([id, label, message]) => (
           <AlertDialog.Trigger
             key={id}
             id={id}
-            className={styles.Button}
+            className={theme.Button}
             handle={controlledAlertHandle}
             payload={{ message }}
           >
@@ -873,18 +874,18 @@ function DetachedTriggersControlledExample() {
       >
         {({ payload }) => (
           <AlertDialog.Portal>
-            <AlertDialog.Backdrop className={styles.Backdrop} />
+            <AlertDialog.Backdrop className={theme.DialogBackdrop} />
             <AlertDialog.Viewport>
-              <AlertDialog.Popup className={styles.Popup}>
-                <AlertDialog.Title className={styles.Title}>
+              <AlertDialog.Popup className={theme.DialogPopup}>
+                <AlertDialog.Title className={theme.DialogTitle}>
                   {payload?.message ?? 'Are you sure?'}
                 </AlertDialog.Title>
-                <AlertDialog.Description className={styles.Description}>
+                <AlertDialog.Description className={theme.DialogDescription}>
                   This action cannot be undone.
                 </AlertDialog.Description>
-                <div className={styles.Actions}>
-                  <AlertDialog.Close className={styles.Button}>Cancel</AlertDialog.Close>
-                  <AlertDialog.Close className={styles.Button}>Confirm</AlertDialog.Close>
+                <div className={theme.DialogActions}>
+                  <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
+                  <AlertDialog.Close className={theme.Button}>Confirm</AlertDialog.Close>
                 </div>
               </AlertDialog.Popup>
             </AlertDialog.Viewport>

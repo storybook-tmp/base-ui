@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Menu } from '@base-ui/react/menu';
-import styles from '../menu.module.css';
+import theme from '@droppy/theme';
+import '../menu.demo.css';
 import { CaretDownIcon } from '../icons';
 
 /**
@@ -31,27 +32,27 @@ export function ShadowPortalExample() {
   }, []);
 
   return (
-    <div className={styles.Stack}>
+    <div className="MenuDemoStack">
       <Menu.Root modal={false}>
-        <Menu.Trigger className={styles.Button}>
+        <Menu.Trigger className={theme.Button}>
           Route segment <CaretDownIcon />
         </Menu.Trigger>
         <Menu.Portal container={shadowRoot}>
-          <Menu.Positioner className={styles.Positioner} sideOffset={8}>
-            <Menu.Popup className={styles.Popup}>
+          <Menu.Positioner className={theme.MenuPositioner} sideOffset={8}>
+            <Menu.Popup className={theme.MenuPopup}>
               <Menu.Group>
-                <Menu.GroupLabel className={styles.PlainGroupLabel}>
+                <Menu.GroupLabel className={theme.MenuPlainGroupLabel}>
                   Toggle overrides
                 </Menu.GroupLabel>
-                <Menu.Item className={styles.Item}>Trigger loading boundary</Menu.Item>
-                <Menu.Item className={styles.Item}>Trigger error boundary</Menu.Item>
-                <Menu.Item className={styles.Item}>Trigger not-found</Menu.Item>
+                <Menu.Item className={theme.MenuItem}>Trigger loading boundary</Menu.Item>
+                <Menu.Item className={theme.MenuItem}>Trigger error boundary</Menu.Item>
+                <Menu.Item className={theme.MenuItem}>Trigger not-found</Menu.Item>
               </Menu.Group>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
       </Menu.Root>
-      <div ref={hostRef} data-testid="shadow-host" className={styles.ShadowPanel}>
+      <div ref={hostRef} data-testid="shadow-host" className="MenuDemoShadowPanel">
         shadow root host (popup portals in here)
       </div>
     </div>

@@ -1,0 +1,90 @@
+/* Demo-only glue for the select real-world recreation stories (theme picker,
+   dashboard filter bar, registry-style wrapper) — not part of the Droppy theme.
+   Popup/item chrome comes from the Droppy theme via select.demo.css's siblings. */
+
+/* graphql.org-style icon-only theme switcher */
+.SelectDemoIconTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SelectDemoIconTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.SelectDemoIconTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.SelectDemoSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Base/"light" and "system" previews use the theme-reactive page surface (no
+   always-light token exists in the palette); only data-theme='dark' can stay
+   forced-dark, via the theme-invariant inverse surface. See clash log. */
+.SelectDemoThemeCard {
+  box-sizing: border-box;
+  width: 14rem;
+  padding: 0.75rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background-color: var(--ds-color-surface-page);
+  color: var(--ds-color-text-primary);
+}
+
+.SelectDemoThemeCard[data-theme='dark'] {
+  background-color: var(--ds-color-surface-inverse);
+  color: var(--ds-color-text-on-inverse);
+}
+
+/* Filter-bar table (climatepolicyradar-style prediction QA list) */
+.SelectDemoFilterTable {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+}
+
+.SelectDemoFilterTable th {
+  text-align: left;
+  font-weight: var(--ds-type-weight-medium);
+}
+
+.SelectDemoFilterTable th,
+.SelectDemoFilterTable td {
+  border: 1px solid var(--ds-color-border-subtle);
+  padding: 0.25rem 0.625rem;
+}
+
+/* Kumo-style wrapper: secondary line explaining why an option is disabled */
+.SelectDemoDisabledReason {
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}

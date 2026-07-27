@@ -6,7 +6,8 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 import { Field } from '@base-ui/react/field';
 import { Fieldset } from '@base-ui/react/fieldset';
 import { Form } from '@base-ui/react/form';
-import styles from './radio.module.css';
+import theme from '@droppy/theme';
+import './radio.demo.css';
 
 /**
  * Stories follow research/c-components/radio (Tier 2, one research unit with Radio Group —
@@ -30,22 +31,22 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={theme.RadioGroupRoot}>
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="granny-smith-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="granny-smith-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Granny Smith
       </label>
@@ -68,22 +69,22 @@ export const Basic: Story = {
 export const ArrowDownSelectsOnNavigation: Story = {
   tags: ['highlight'],
   render: () => (
-    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={theme.RadioGroupRoot}>
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="granny-smith-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="granny-smith-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Granny Smith
       </label>
@@ -110,22 +111,22 @@ export const ArrowDownSelectsOnNavigation: Story = {
 export const DisabledItem: Story = {
   tags: ['api-ref'],
   render: () => (
-    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={styles.RadioGroup}>
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={theme.RadioGroupRoot}>
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" disabled className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" disabled className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala (out of stock)
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="granny-smith-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="granny-smith-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Granny Smith
       </label>
@@ -144,32 +145,32 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null | undefined>(undefined);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(data.get('storageType') as string | null);
       }}
     >
-      <RadioGroup name="storageType" aria-label="Storage type" className={styles.RadioGroup}>
-        <label className={styles.Item}>
-          <Radio.Root value="ssd" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+      <RadioGroup name="storageType" aria-label="Storage type" className={theme.RadioGroupRoot}>
+        <label className={theme.RadioGroupItem}>
+          <Radio.Root value="ssd" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           SSD
         </label>
-        <label className={styles.Item}>
-          <Radio.Root value="hdd" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+        <label className={theme.RadioGroupItem}>
+          <Radio.Root value="hdd" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           HDD
         </label>
       </RadioGroup>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
       {submitted !== undefined ? (
-        <output className={styles.Output}>storageType={String(submitted)}</output>
+        <output className="RadioDemoOutput">storageType={String(submitted)}</output>
       ) : null}
     </form>
   );
@@ -198,16 +199,16 @@ export const FormIntegration: Story = {
 export const SpaceSelectsOnKeyUp: Story = {
   tags: ['highlight'],
   render: () => (
-    <RadioGroup aria-label="Best apple" className={styles.RadioGroup}>
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+    <RadioGroup aria-label="Best apple" className={theme.RadioGroupRoot}>
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala
       </label>
@@ -229,22 +230,22 @@ export const SpaceSelectsOnKeyUp: Story = {
 export const HomeEndHaveNoEffect: Story = {
   tags: ['highlight'],
   render: () => (
-    <RadioGroup defaultValue="gala-apple" aria-label="Best apple" className={styles.RadioGroup}>
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+    <RadioGroup defaultValue="gala-apple" aria-label="Best apple" className={theme.RadioGroupRoot}>
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="granny-smith-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="granny-smith-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Granny Smith
       </label>
@@ -269,35 +270,35 @@ export const HomeEndHaveNoEffect: Story = {
 function ControlledValueExample() {
   const [value, setValue] = React.useState<string | null>('gala-apple');
   return (
-    <div className={styles.Form}>
+    <div className={theme.FormRoot}>
       <RadioGroup
         value={value}
         onValueChange={setValue}
         aria-label="Best apple"
-        className={styles.RadioGroup}
+        className={theme.RadioGroupRoot}
       >
-        <label className={styles.Item}>
-          <Radio.Root value="fuji-apple" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+        <label className={theme.RadioGroupItem}>
+          <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           Fuji
         </label>
-        <label className={styles.Item}>
-          <Radio.Root value="gala-apple" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+        <label className={theme.RadioGroupItem}>
+          <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           Gala
         </label>
       </RadioGroup>
-      <div className={styles.Form} style={{ flexDirection: 'row' }}>
-        <button type="button" className={styles.Button} onClick={() => setValue('fuji-apple')}>
+      <div className={theme.FormRoot} style={{ flexDirection: 'row' }}>
+        <button type="button" className={theme.Button} onClick={() => setValue('fuji-apple')}>
           Select Fuji externally
         </button>
-        <button type="button" className={styles.Button} onClick={() => setValue(null)}>
+        <button type="button" className={theme.Button} onClick={() => setValue(null)}>
           Clear externally
         </button>
       </div>
-      <output className={styles.Output}>value={String(value)}</output>
+      <output className="RadioDemoOutput">value={String(value)}</output>
     </div>
   );
 }
@@ -332,18 +333,18 @@ export const ControlledValue: Story = {
 export const WithFieldAndFieldset: Story = {
   tags: ['highlight'],
   render: () => (
-    <Field.Root name="shippingSpeed" className={styles.RadioGroup}>
-      <Fieldset.Root className={styles.RadioGroup} render={<RadioGroup />}>
+    <Field.Root name="shippingSpeed" className={theme.RadioGroupRoot}>
+      <Fieldset.Root className={theme.RadioGroupRoot} render={<RadioGroup />}>
         <Fieldset.Legend>Shipping speed</Fieldset.Legend>
-        <Field.Item className={styles.Item}>
-          <Radio.Root value="standard" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+        <Field.Item className={theme.RadioGroupItem}>
+          <Radio.Root value="standard" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           <Field.Label>Standard (5-7 days)</Field.Label>
         </Field.Item>
-        <Field.Item className={styles.Item}>
-          <Radio.Root value="express" className={styles.Radio}>
-            <Radio.Indicator className={styles.Indicator} />
+        <Field.Item className={theme.RadioGroupItem}>
+          <Radio.Root value="express" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
           <Field.Label>Express (1-2 days)</Field.Label>
         </Field.Item>
@@ -362,28 +363,28 @@ export const WithFieldAndFieldset: Story = {
 
 function RequiredInvalidExample() {
   return (
-    <Form className={styles.Form}>
-      <Field.Root name="plan" className={styles.RadioGroup}>
-        <Fieldset.Root className={styles.RadioGroup} render={<RadioGroup required />}>
+    <Form className={theme.FormRoot}>
+      <Field.Root name="plan" className={theme.RadioGroupRoot}>
+        <Fieldset.Root className={theme.RadioGroupRoot} render={<RadioGroup required />}>
           <Fieldset.Legend>Plan</Fieldset.Legend>
-          <Field.Item className={styles.Item}>
-            <Radio.Root value="monthly" className={styles.Radio}>
-              <Radio.Indicator className={styles.Indicator} />
+          <Field.Item className={theme.RadioGroupItem}>
+            <Radio.Root value="monthly" className={theme.RadioRoot}>
+              <Radio.Indicator className={theme.RadioIndicator} />
             </Radio.Root>
             <Field.Label>Monthly</Field.Label>
           </Field.Item>
-          <Field.Item className={styles.Item}>
-            <Radio.Root value="yearly" className={styles.Radio}>
-              <Radio.Indicator className={styles.Indicator} />
+          <Field.Item className={theme.RadioGroupItem}>
+            <Radio.Root value="yearly" className={theme.RadioRoot}>
+              <Radio.Indicator className={theme.RadioIndicator} />
             </Radio.Root>
             <Field.Label>Yearly</Field.Label>
           </Field.Item>
         </Fieldset.Root>
-        <Field.Error className={styles.Output} match="valueMissing">
+        <Field.Error className="RadioDemoOutput" match="valueMissing">
           Please choose a plan.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
     </Form>
@@ -413,17 +414,17 @@ export const ReadOnlyGroup: Story = {
       defaultValue="fuji-apple"
       readOnly
       aria-label="Best apple (read-only)"
-      className={styles.RadioGroup}
+      className={theme.RadioGroupRoot}
     >
-      <label className={styles.Item}>
-        <Radio.Root value="fuji-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Radio.Root value="gala-apple" className={styles.Radio}>
-          <Radio.Indicator className={styles.Indicator} />
+      <label className={theme.RadioGroupItem}>
+        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
+          <Radio.Indicator className={theme.RadioIndicator} />
         </Radio.Root>
         Gala
       </label>

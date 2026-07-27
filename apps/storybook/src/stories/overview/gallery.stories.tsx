@@ -5,7 +5,7 @@ import { GalleryGrid } from './GalleryGrid';
  * CSF twin of the Overview/Gallery docs page: Chromatic cannot snapshot docs pages,
  * so this story renders the same GalleryGrid as a regular story. It is deliberately
  * NOT excluded via `parameters: { chromatic: { disableSnapshot: true } }` — one
- * snapshot covering every component family under the Mealdrop theme.
+ * snapshot covering every component family under the Droppy theme.
  */
 const meta = {
   title: 'Overview/All components',

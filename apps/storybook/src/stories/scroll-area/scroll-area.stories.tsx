@@ -4,7 +4,8 @@ import { expect, waitFor, within } from 'storybook/test';
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Menu } from '@base-ui/react/menu';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
-import styles from './scroll-area.module.css';
+import theme from '@droppy/theme';
+import './scroll-area.demo.css';
 
 /**
  * Stories follow research/c-components/scroll-area (Tier 2, floor coverage):
@@ -51,20 +52,20 @@ const paragraphs = [
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <ScrollArea.Root className={styles.ScrollArea}>
-      <ScrollArea.Viewport className={styles.Viewport}>
-        <ScrollArea.Content className={styles.Content}>
+    <ScrollArea.Root className={theme.ScrollAreaRoot}>
+      <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+        <ScrollArea.Content className={theme.ScrollAreaContent}>
           {paragraphs.map((text, index) => (
-            <p key={index} className={styles.Paragraph}>
+            <p key={index} className="Paragraph">
               {text}
             </p>
           ))}
         </ScrollArea.Content>
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={styles.Scrollbar}>
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
-      <ScrollArea.Corner className={styles.Corner} />
+      <ScrollArea.Corner className={theme.ScrollAreaCorner} />
     </ScrollArea.Root>
   ),
   play: async ({ canvasElement }) => {
@@ -80,20 +81,20 @@ export const Hero: Story = {
 export const HorizontalOnly: Story = {
   tags: ['api-ref'],
   render: () => (
-    <ScrollArea.Root className={styles.ScrollArea}>
-      <ScrollArea.Viewport className={styles.Viewport}>
-        <ScrollArea.Content className={styles.ContentPadded}>
-          <div className={styles.Row}>
+    <ScrollArea.Root className={theme.ScrollAreaRoot}>
+      <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+        <ScrollArea.Content className="ContentPadded">
+          <div className="Row">
             {Array.from({ length: 12 }, (_, index) => (
-              <div key={index} className={styles.Card}>
+              <div key={index} className="Card">
                 Card {index + 1}
               </div>
             ))}
           </div>
         </ScrollArea.Content>
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={styles.Scrollbar} orientation="horizontal">
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} orientation="horizontal">
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   ),
@@ -108,25 +109,25 @@ export const HorizontalOnly: Story = {
 export const BothAxesWithCorner: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <ScrollArea.Root className={styles.ScrollAreaSquare}>
-      <ScrollArea.Viewport className={styles.Viewport}>
-        <ScrollArea.Content className={styles.ContentPadded}>
-          <ul className={styles.Grid}>
+    <ScrollArea.Root className="ScrollAreaSquare">
+      <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+        <ScrollArea.Content className="ContentPadded">
+          <ul className="Grid">
             {Array.from({ length: 100 }, (_, index) => (
-              <li key={index} className={styles.Item}>
+              <li key={index} className="Item">
                 {index + 1}
               </li>
             ))}
           </ul>
         </ScrollArea.Content>
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={styles.Scrollbar}>
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
-      <ScrollArea.Scrollbar className={styles.Scrollbar} orientation="horizontal">
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} orientation="horizontal">
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
-      <ScrollArea.Corner className={styles.Corner} />
+      <ScrollArea.Corner className={theme.ScrollAreaCorner} />
     </ScrollArea.Root>
   ),
   play: async ({ canvasElement }) => {
@@ -155,30 +156,30 @@ function OverflowDataAttributeExample() {
 
   return (
     <div>
-      <ScrollArea.Root className={styles.ScrollArea}>
+      <ScrollArea.Root className={theme.ScrollAreaRoot}>
         <ScrollArea.Viewport
           ref={viewportRef}
-          className={styles.Viewport}
+          className={theme.ScrollAreaViewport}
           data-testid="edge-viewport"
           onScroll={readEdges}
         >
-          <ScrollArea.Content className={styles.Content}>
+          <ScrollArea.Content className={theme.ScrollAreaContent}>
             {paragraphs.map((text, index) => (
-              <p key={index} className={styles.Paragraph}>
+              <p key={index} className="Paragraph">
                 {text}
               </p>
             ))}
           </ScrollArea.Content>
         </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar className={styles.Scrollbar}>
-          <ScrollArea.Thumb className={styles.Thumb} />
+        <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+          <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
         </ScrollArea.Scrollbar>
       </ScrollArea.Root>
-      <div className={styles.Legend}>
-        <span className={styles.Badge} data-active={String(atStart)}>
+      <div className="Legend">
+        <span className="Badge" data-active={String(atStart)}>
           at start edge
         </span>
-        <span className={styles.Badge} data-active={String(atEnd)}>
+        <span className="Badge" data-active={String(atEnd)}>
           at end edge
         </span>
       </div>
@@ -221,43 +222,43 @@ export const OverflowEdgeStyling: Story = {
 export const AlwaysVisibleScrollbars: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Legend2Up}>
+    <div className="Legend2Up">
       <div>
-        <ScrollArea.Root className={styles.ScrollArea}>
-          <ScrollArea.Viewport className={styles.Viewport}>
-            <ScrollArea.Content className={styles.Content}>
+        <ScrollArea.Root className={theme.ScrollAreaRoot}>
+          <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+            <ScrollArea.Content className={theme.ScrollAreaContent}>
               {paragraphs.map((text, index) => (
-                <p key={index} className={styles.Paragraph}>
+                <p key={index} className="Paragraph">
                   {text}
                 </p>
               ))}
             </ScrollArea.Content>
           </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar className={styles.Scrollbar} data-testid="gated-scrollbar">
-            <ScrollArea.Thumb className={styles.Thumb} />
+          <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} data-testid="gated-scrollbar">
+            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
           </ScrollArea.Scrollbar>
         </ScrollArea.Root>
-        <div className={styles.LegendLabel}>Default: hover/scroll-gated opacity</div>
+        <div className="LegendLabel">Default: hover/scroll-gated opacity</div>
       </div>
       <div>
-        <ScrollArea.Root className={styles.ScrollArea}>
-          <ScrollArea.Viewport className={styles.Viewport}>
-            <ScrollArea.Content className={styles.Content}>
+        <ScrollArea.Root className={theme.ScrollAreaRoot}>
+          <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+            <ScrollArea.Content className={theme.ScrollAreaContent}>
               {paragraphs.map((text, index) => (
-                <p key={index} className={styles.Paragraph}>
+                <p key={index} className="Paragraph">
                   {text}
                 </p>
               ))}
             </ScrollArea.Content>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
-            className={styles.ScrollbarAlwaysVisible}
+            className="ScrollbarAlwaysVisible"
             data-testid="always-visible-scrollbar"
           >
-            <ScrollArea.Thumb className={styles.Thumb} />
+            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
           </ScrollArea.Scrollbar>
         </ScrollArea.Root>
-        <div className={styles.LegendLabel}>Always-visible (custom CSS)</div>
+        <div className="LegendLabel">Always-visible (custom CSS)</div>
       </div>
     </div>
   ),
@@ -284,30 +285,27 @@ export const AlwaysVisibleScrollbars: Story = {
 export const OnScrollVisibility: Story = {
   tags: ['highlight'],
   render: () => (
-    <ScrollArea.Root className={styles.ScrollAreaSquare}>
-      <ScrollArea.Viewport className={styles.Viewport} data-testid="onscroll-viewport">
-        <ScrollArea.Content className={styles.ContentPadded}>
-          <ul className={styles.Grid}>
+    <ScrollArea.Root className="ScrollAreaSquare">
+      <ScrollArea.Viewport className={theme.ScrollAreaViewport} data-testid="onscroll-viewport">
+        <ScrollArea.Content className="ContentPadded">
+          <ul className="Grid">
             {Array.from({ length: 100 }, (_, index) => (
-              <li key={index} className={styles.Item}>
+              <li key={index} className="Item">
                 {index + 1}
               </li>
             ))}
           </ul>
         </ScrollArea.Content>
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar
-        className={styles.ScrollbarOnScrollOnly}
-        data-testid="vertical-onscroll"
-      >
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className="ScrollbarOnScrollOnly" data-testid="vertical-onscroll">
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
       <ScrollArea.Scrollbar
-        className={styles.ScrollbarOnScrollOnly}
+        className="ScrollbarOnScrollOnly"
         orientation="horizontal"
         data-testid="horizontal-onscroll"
       >
-        <ScrollArea.Thumb className={styles.Thumb} />
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   ),
@@ -346,18 +344,18 @@ export const OnScrollVisibility: Story = {
 export const GradientScrollFade: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <ScrollArea.Root className={styles.ScrollArea}>
-      <ScrollArea.Viewport className={styles.ViewportFade} data-testid="fade-viewport">
-        <ScrollArea.Content className={styles.Content}>
+    <ScrollArea.Root className={theme.ScrollAreaRoot}>
+      <ScrollArea.Viewport className={theme.ScrollAreaViewportFade} data-testid="fade-viewport">
+        <ScrollArea.Content className={theme.ScrollAreaContent}>
           {paragraphs.map((text, index) => (
-            <p key={index} className={styles.Paragraph}>
+            <p key={index} className="Paragraph">
               {text}
             </p>
           ))}
         </ScrollArea.Content>
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={styles.Scrollbar}>
-        <ScrollArea.Thumb className={styles.Thumb} />
+      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   ),
@@ -392,22 +390,22 @@ export const InsideAPopup: Story = {
   tags: ['highlight'],
   render: () => (
     <Menu.Root>
-      <Menu.Trigger className={styles.MenuButton}>Choose an item</Menu.Trigger>
+      <Menu.Trigger className={theme.MenuTrigger}>Choose an item</Menu.Trigger>
       <Menu.Portal>
-        <Menu.Positioner className={styles.MenuPositioner} sideOffset={8}>
-          <Menu.Popup className={styles.MenuPopup}>
-            <ScrollArea.Root className={styles.MenuScrollArea}>
-              <ScrollArea.Viewport className={styles.MenuViewport} tabIndex={-1}>
+        <Menu.Positioner className={theme.MenuPositioner} sideOffset={8}>
+          <Menu.Popup className={theme.MenuPopup}>
+            <ScrollArea.Root className="MenuScrollArea">
+              <ScrollArea.Viewport className="MenuViewport" tabIndex={-1}>
                 <ScrollArea.Content>
                   {Array.from({ length: 100 }, (_, index) => (
-                    <Menu.Item className={styles.MenuItem} key={index}>
+                    <Menu.Item className={theme.MenuItem} key={index}>
                       Item {index + 1}
                     </Menu.Item>
                   ))}
                 </ScrollArea.Content>
               </ScrollArea.Viewport>
-              <ScrollArea.Scrollbar className={styles.Scrollbar}>
-                <ScrollArea.Thumb className={styles.Thumb} />
+              <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+                <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
               </ScrollArea.Scrollbar>
             </ScrollArea.Root>
           </Menu.Popup>
@@ -443,25 +441,25 @@ export const RTL: Story = {
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
-        <ScrollArea.Root className={styles.ScrollAreaSquare}>
-          <ScrollArea.Viewport className={styles.Viewport}>
-            <ScrollArea.Content className={styles.ContentPadded}>
-              <ul className={styles.Grid}>
+        <ScrollArea.Root className="ScrollAreaSquare">
+          <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
+            <ScrollArea.Content className="ContentPadded">
+              <ul className="Grid">
                 {Array.from({ length: 100 }, (_, index) => (
-                  <li key={index} className={styles.Item}>
+                  <li key={index} className="Item">
                     {index + 1}
                   </li>
                 ))}
               </ul>
             </ScrollArea.Content>
           </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar className={styles.Scrollbar}>
-            <ScrollArea.Thumb className={styles.Thumb} />
+          <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
+            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
           </ScrollArea.Scrollbar>
-          <ScrollArea.Scrollbar className={styles.Scrollbar} orientation="horizontal">
-            <ScrollArea.Thumb className={styles.Thumb} />
+          <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} orientation="horizontal">
+            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
           </ScrollArea.Scrollbar>
-          <ScrollArea.Corner className={styles.Corner} />
+          <ScrollArea.Corner className={theme.ScrollAreaCorner} />
         </ScrollArea.Root>
       </DirectionProvider>
     </div>

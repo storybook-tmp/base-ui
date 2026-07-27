@@ -1,0 +1,237 @@
+{/* Overview page. MDX-only — no stories.tsx, no portable-stories imports (keeping composeStories out of the docs bundle; see the react-singleton note in .storybook/main.ts). The Rules index at the bottom assigns the stable IDs (BR-nn / DS-nn) referenced throughout this Storybook — DS-01..DS-04 in particular are the general usage rules that apply to every component page. */}
+
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview/Brand guidelines" />
+
+# Droppy brand guidelines
+
+Purpose: How Droppy looks, sounds, and behaves — so anyone designing a new screen, writing
+a new string, or building on the Base UI-based design system expresses the same brand,
+whichever product they're working in.
+
+## What Droppy is
+
+Droppy is a food-delivery company, and the name of the design language every Droppy
+product is built with (shipped as `@droppy/theme`). The company runs two products today:
+
+- **MealDrop** — the consumer app. Browse restaurants near you, pick a meal, check out, done.
+- **DropBoard** — the back office. Where restaurant partners manage menus, orders, and payouts.
+
+This page defines the company-level brand: the personality, color system, typography,
+voice, motion, and accessibility rules shared by everything Droppy ships. What's specific
+to each product — MealDrop's mascot and wordmark, DropBoard's data-dense register — lives
+in the [Product brands](#product-brands) section at the end. Everything above that section
+applies to both.
+
+Droppy is warm and unfussy: the kind of company whose software gets out of your way and
+makes you smile on the way through. Nothing shouts — not even the primary button. A calm
+mostly-grey interface, a voice that's casual and a little playful, and personality
+concentrated in small moments rather than sprinkled everywhere.
+
+## Personality
+
+Four attributes, in priority order. When a design decision is ambiguous, the higher one wins.
+
+- **Calm** — quiet, uncluttered, low-contrast. Grey does almost all the work. Content gets
+  room to breathe; controls stay compact. Restraint is the default.
+- **Friendly** — approachable and human, never corporate. Rounded forms, sentence-case copy
+  that sounds like a helpful friend.
+- **Playful** — small moments of delight and the occasional wink (yes, the Star Wars joke).
+  Character is concentrated, not sprinkled everywhere.
+- **Content-first** — the user's content is the star; the chrome recedes. In MealDrop that
+  means the food does the tempting. In DropBoard it means the numbers stay legible.
+
+## Color
+
+Droppy's palette is a large neutral system with a few small, deliberate splashes of color.
+The governing idea: grey does the work; color marks moments.
+
+### The roles
+
+1. **Neutrals — the workhorse** (~80% of every screen). The grey ramp carries every surface
+   and almost all text, including the primary button. Ink/primary text: `#2C2C2C` ·
+   Secondary text: `#636363` · Surfaces: white, `#F9F9F9` (cards), `#F5F6F7` · Dark
+   surfaces/footer: `#2C2C2C`, `#202020`
+2. **Teal — the identity color** (brand moments only). `#22ACA7` core, plus `#36C1BF` /
+   `#4CC8C0` / `#61D8DE` / `#B1DCE3`. Teal is Droppy talking about itself — reserved for
+   brand surfaces: the logo, the loading spinner, the places where the company expresses
+   its identity. NOT for buttons, links, or interface chrome. (Dark mode: lime/green ramp.)
+   In MealDrop the teal ramp lives in the mascot; in DropBoard, the wordmark and spinner.
+3. **Soft green — the "good news" accent.** `#E5F8BC`. Marks progress and positive moments:
+   promo/top banners, progress steps, "new" tags. In dark mode it also becomes the primary
+   button. Used at only a handful of sites app-wide — if a screen has more than one green
+   moment, one of them is probably wrong.
+4. **Pale blue — the "calm" accent.** `#B1DDE4`. Hero/banner backgrounds, review-star
+   text, and the focus ring. A quiet, restful accent.
+5. **Red — errors only.** `#B71C1C` (base `#D70808`). The single expressive-but-serious
+   color; used for error text and nothing decorative.
+
+### Color principles
+
+- **Grey does the work; color marks moments.** Reach for the neutral ramp first. Color is the
+  exception that means something.
+- **The accents are surfaces, not ink.** Soft green and pale blue are backgrounds that carry
+  dark text — they're too light to draw a legible line, border, or icon. The deliberate
+  exceptions are blue-only: the focus ring and review-star text, which use blue's dark end.
+- **The brand color belongs to brand surfaces.** Teal is identity, not interface. Keeping it
+  off the chrome is what lets the brand moments feel special.
+- **Hierarchy is size and weight, not color.** Emphasize with a size step or a heavier
+  weight — never by recoloring text. The one exception is error text.
+- **Dark mode re-decides roles; it doesn't invert.** Roles are reassigned deliberately (e.g.
+  the primary button becomes green; brand teal goes lime). Design both themes on purpose
+  rather than tone-mapping one into the other.
+
+## Typography
+
+Two faces, each with a clear job — shared by every Droppy product.
+
+- **Montserrat — display.** Headings and wordmarks. Weights 400/500/700/900.
+- **Hind — text & UI.** Body copy, labels, and buttons. Weights 400/500.
+
+Type scale (rem): h1 2.74 · h2 2.19 · h3 1.75 · h4 1.4 · body 1.125 · small 1 · xs 0.9 ·
+xxs 0.72. (Root drops to 14px on small screens.)
+
+Rules:
+
+- **Hierarchy is size, not color.** All heading levels share the same ink; h1/h2 add tight
+  tracking (−2px), h3/h4 don't. Emphasis within text is weight (medium/500) or a size step.
+- **Buttons are body text with a background.** Button labels are set in Hind, regular
+  weight — never the display face, never bold, never uppercase. A CTA earns attention through
+  its fill, not its type.
+- **Sentence case, always** (see Voice).
+
+## Voice & tone
+
+Droppy talks like a friendly, slightly cheeky human — never like a corporation. The
+principles are company-wide; how much cheek is appropriate is a product decision (a 404 can
+joke; a payout report shouldn't).
+
+- **Sentence case everywhere.** Capitalize the first word and proper nouns only. Never Title
+  Case, never ALL CAPS.
+- **Short and direct.** "View all restaurants." "Complete order." "Your cart is empty." Say
+  the thing.
+- **Warm, with room for a wink.** Empty and error states are where personality lives — a
+  light joke is welcome when it doesn't get in the way.
+- **Punctuation with feeling.** A plain period for the everyday; an exclamation for genuine
+  celebration or a real problem ("Order confirmed!", "Something went wrong!").
+
+Product-specific voice examples live under [Product brands](#product-brands).
+
+## Imagery & illustration
+
+Illustration-first, across all products.
+
+- **Character illustrations** — flat, friendly SVG scenes. Warm, simple, human.
+- **Animated illustrations** — Lottie animations for error and 404 states. Motion here is
+  part of the charm, not decoration.
+- Keep illustration and photography in their lanes: illustration for personality and
+  states, photography for content appeal.
+
+## Motion
+
+Motion is brief, functional, and calm — with character reserved for the brand.
+
+- **Interactions run short and ease-in** (roughly 150–300ms). Buttons, hovers, transitions.
+- **Theme switch cross-fades over 250ms** — a small, deliberate delight; keep it.
+- **Character animation belongs to the brand marks.** Logo animations and branded spinners
+  are Droppy being playful about itself — don't replicate that energy on ordinary controls.
+- **Ambient motion is a marketing indulgence.** A slow hero pan is fine on a marketing
+  surface; it doesn't belong inside a product's working screens.
+- **Elevation means floating, not importance.** Shadows are for things that hover above the
+  page (modals, sidebars, hover lifts). Resting cards stay flat, separated by a background
+  shift, not a shadow.
+
+## Accessibility
+
+Accessibility is part of the brand's calm, not an afterthought.
+
+- **One focus ring, everywhere.** A single blue two-layer ring (thin ring + soft halo) is the
+  focus treatment for every control, in every product. Don't invent per-component focus styles.
+- **Legible by construction.** Because the green and blue accents are surfaces carrying dark
+  text (never colored text on white), they stay readable by design. Keep them that way.
+- **Never rely on color alone.** Hierarchy and meaning come through size, weight, and copy —
+  color is a supporting signal, not the only one.
+- **Sentence case aids scanning** and keeps the tone human. It's an accessibility choice as
+  much as a style one.
+- **Both light and dark themes are designed to meet contrast** on their own terms.
+
+## Product brands
+
+How each product expresses Droppy. Everything above applies to both; this is where the
+product-specific identity lives. A product brand may add character on top of the design
+language — it may not contradict it.
+
+### MealDrop
+
+The consumer food-delivery app — and the product where Droppy's playfulness runs warmest.
+
+- **Mascot.** MealDrop's mark is a friendly creature — a two-eared fox built from soft SVG
+  shapes. The mascot is where Droppy's teal identity ramp lives (`#22ACA7` core through
+  `#36C1BF`, `#4CC8C0`, `#61D8DE`, with a pale-blue nose `#B1DCE3`; lime/green in dark
+  mode). Don't recolor it into interface greys; don't put the ramp anywhere else.
+- **Wordmark.** "MealDrop", one word, camelCase, set in the display face (Montserrat) with
+  normal tracking (the wordmark deliberately drops the tight heading tracking). Never the
+  body face, never all-caps.
+- **The shine.** The logo can play a staggered "shine" — each shape briefly brightens toward
+  `#9FF4F1` (lime `#EFFFBB` in dark), 400ms ease-in, rippling ear-to-ear. Opt-in and
+  celebratory; also fires on hover. It belongs to the brand mark — don't imitate it on
+  ordinary UI. Sizing: compact by default (24px), large on hero/marketing surfaces (75–150px).
+- **Appetite appeal.** The food is the star: real, bright food photography does the
+  tempting so the chrome doesn't have to. Character moments — the chomping "Looking for
+  some food…" spinner, illustrated empty and error states — carry the personality.
+- **Voice.** Full warmth, wink included:
+
+| Moment         | Say this                                   | Not this                              |
+| -------------- | ------------------------------------------ | ------------------------------------- |
+| Primary CTA    | View all restaurants                       | VIEW ALL RESTAURANTS / Click here     |
+| Empty category | This is not the food you're looking for.   | No results found.                     |
+| 500 error      | Our bad, something went wrong on our side. | Error 500: Internal Server Error      |
+| 404            | This page doesn't exist, keep looking.     | The requested resource was not found. |
+| Loading        | Looking for some food…                     | Loading…                              |
+| Success        | Order confirmed!                           | Transaction complete.                 |
+
+### DropBoard
+
+The back office for restaurant partners — menus, live orders, payouts. Same design
+language, quieter register: partners are working, not browsing.
+
+- **Wordmark only.** "DropBoard", one word, camelCase, set in the display face with normal
+  tracking. There is no DropBoard mascot; teal appears only in the wordmark and the
+  loading spinner.
+- **Denser, still calm.** Tables, filters, and numbers are the content here. Chrome stays
+  tight and grey per BR-10; density comes from the type scale's small end, never from
+  shrinking spacing below the system.
+- **Playfulness dialed down, not off.** Empty states may keep a light touch ("No orders
+  yet — enjoy the quiet."), but anything near money or order state is plain and exact
+  ("Payout of €1,240.50 scheduled for Friday."). No jokes in error states that block work.
+- **Same bones.** Focus ring, soft-green "good news" moments (e.g. a completed payout),
+  red for errors only, sentence case throughout — all identical to MealDrop. A partner
+  moving between the products should feel one company built both.
+
+## Rules index
+
+Stable IDs for automated and manual review. `BR` rules are the twelve brand principles above;
+`DS` rules are design-system hygiene. `DS-01`–`DS-04` are the general usage rules that apply
+to every component in this Storybook — use semantic `--ds-*` tokens, reach for an existing
+component before building new, never introduce colors outside the palette, and pick the
+semantically right component for the job.
+
+| ID    | Rule                                                                                                       |
+| ----- | ---------------------------------------------------------------------------------------------------------- |
+| BR-01 | Grey does the work; color marks moments.                                                                   |
+| BR-02 | The accents are surfaces, not ink.                                                                         |
+| BR-03 | The brand color belongs to brand surfaces (in MealDrop, the mascot), not the interface.                    |
+| BR-04 | Buttons are body text with a background.                                                                   |
+| BR-05 | Dark mode re-decides roles; it doesn't invert.                                                             |
+| BR-06 | Elevation means floating, never important.                                                                 |
+| BR-07 | Hierarchy is size, not color.                                                                              |
+| BR-08 | Sentence case, enforced by CSS.                                                                            |
+| BR-09 | One focus ring, everywhere.                                                                                |
+| BR-10 | Chrome is tight, content is airy.                                                                          |
+| BR-11 | Radius follows floatiness, not size.                                                                       |
+| BR-12 | Motion is brief, functional, and ease-in.                                                                  |
+| DS-01 | Use semantic `--ds-*` tokens, never raw values or palette vars.                                            |
+| DS-02 | Reach for an existing component before building new.                                                       |
+| DS-03 | Never introduce colors outside the palette.                                                                |
+| DS-04 | Pick the semantically right component for the job (e.g. radio group for exclusive choice, not checkboxes). |

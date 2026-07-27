@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Select } from '@base-ui/react/select';
-import styles from '../select.module.css';
-import rw from '../select-real-world.module.css';
+import droppyTheme from '@droppy/theme';
+import '../select.demo.css';
+import '../select-real-world.demo.css';
 import { CheckIcon, SunIcon, MoonIcon, MonitorIcon } from '../DemoSelect';
 
 /**
@@ -30,7 +31,7 @@ function ThemeIcon({ theme }: { theme: string }) {
 export function ThemePickerExample() {
   const [theme, setTheme] = React.useState('system');
   return (
-    <div className={styles.Stack}>
+    <div className="SelectDemoStack">
       <Select.Root
         items={pickerThemes}
         value={theme}
@@ -38,25 +39,27 @@ export function ThemePickerExample() {
         // no null item here, so guard like graphql.org's type-guarded handler.
         onValueChange={(value) => setTheme(value ?? 'system')}
       >
-        <Select.Trigger className={rw.IconTrigger} aria-label="Theme">
-          <Select.Value className={rw.SrOnly} />
+        <Select.Trigger className="SelectDemoIconTrigger" aria-label="Theme">
+          <Select.Value className="SelectDemoSrOnly" />
           <ThemeIcon theme={theme} />
         </Select.Trigger>
         <Select.Portal>
           <Select.Positioner
-            className={styles.Positioner}
+            className={droppyTheme.SelectPositioner}
             align="end"
             sideOffset={8}
             alignItemWithTrigger={false}
           >
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+            <Select.Popup className={droppyTheme.SelectPopup}>
+              <Select.List className={droppyTheme.SelectList}>
                 {pickerThemes.map(({ value, label }) => (
-                  <Select.Item key={value} value={value} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={value} value={value} className={droppyTheme.SelectItem}>
+                    <Select.ItemIndicator className={droppyTheme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                    <Select.ItemText className={droppyTheme.SelectItemText}>
+                      {label}
+                    </Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
@@ -64,7 +67,7 @@ export function ThemePickerExample() {
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
-      <div className={rw.ThemeCard} data-theme={theme}>
+      <div className="SelectDemoThemeCard" data-theme={theme}>
         Resolved theme: {theme}
       </div>
     </div>

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { mergeProps } from '@base-ui/react/merge-props';
 import { Toggle } from '@base-ui/react/toggle';
-import styles from './merge-props.module.css';
+import './merge-props.demo.css';
 
 /**
  * Stories follow research/c-components/merge-props (Tier 3 utils floor): the
@@ -27,8 +27,8 @@ function HandlerOrderExample() {
   const pushLog = (line: string) => setLog((prev) => [...prev, line]);
 
   return (
-    <div className={styles.Container}>
-      <div className={styles.ToggleRow}>
+    <div className="MergePropsContainer">
+      <div className="MergePropsToggleRow">
         <Toggle
           aria-label="Favorite"
           pressed={pressed}
@@ -36,7 +36,7 @@ function HandlerOrderExample() {
             pushLog('Base UI internal: onPressedChange');
             setPressed(next);
           }}
-          className={styles.Toggle}
+          className="MergePropsToggle"
           render={(props) => (
             <button
               type="button"
@@ -53,10 +53,10 @@ function HandlerOrderExample() {
             </button>
           )}
         />
-        <span className={styles.Label}>{locked ? '(locked)' : '(unlocked)'}</span>
+        <span className="MergePropsLabel">{locked ? '(locked)' : '(unlocked)'}</span>
       </div>
 
-      <label className={styles.Label}>
+      <label className="MergePropsLabel">
         <input
           type="checkbox"
           checked={locked}
@@ -65,7 +65,7 @@ function HandlerOrderExample() {
         Lock (calls preventBaseUIHandler)
       </label>
 
-      <ol className={styles.Log} aria-label="Handler call order">
+      <ol className="MergePropsLog" aria-label="Handler call order">
         {log.map((line, index) => (
           <li key={index}>{line}</li>
         ))}
@@ -96,4 +96,3 @@ export const HandlerOrderAndCancellation: Story = {
     await expect(toggle).toHaveAttribute('data-pressed');
   },
 };
-

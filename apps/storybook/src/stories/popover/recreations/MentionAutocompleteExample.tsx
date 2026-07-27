@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Popover } from '@base-ui/react/popover';
-import styles from '../popover.module.css';
+import theme from '@droppy/theme';
+import '../popover.demo.css';
 
 /**
  * Recreation of the @-mention file autocomplete in takopi (a personal AI
@@ -25,10 +26,10 @@ export function MentionAutocompleteExample() {
   }
 
   return (
-    <div className={styles.Stack}>
+    <div className="PopoverStack">
       <textarea
         ref={textareaRef}
-        className={styles.Textarea}
+        className="PopoverTextarea"
         aria-label="Message"
         placeholder="Type @ to mention a file"
         rows={3}
@@ -41,14 +42,14 @@ export function MentionAutocompleteExample() {
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Portal>
           <Popover.Positioner anchor={textareaRef} side="top" align="start" sideOffset={4}>
-            <Popover.Popup className={styles.Popup} initialFocus={false} finalFocus={false}>
-              <ul className={styles.QueueList}>
+            <Popover.Popup className={theme.PopoverPopup} initialFocus={false} finalFocus={false}>
+              <ul className="PopoverQueueList">
                 {mentionFiles.map((file) => (
                   <li key={file}>
                     <button
                       type="button"
                       tabIndex={-1}
-                      className={styles.MentionItem}
+                      className="PopoverMentionItem"
                       onMouseDown={(event) => event.preventDefault()}
                       onClick={() => insertMention(file)}
                     >

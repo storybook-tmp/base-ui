@@ -1,0 +1,11 @@
+/* Demo-only glue for avatar.stories.tsx — not part of the Droppy theme. */
+
+.Row {
+  display: flex;
+  gap: 1rem;
+}
+
+.Output {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

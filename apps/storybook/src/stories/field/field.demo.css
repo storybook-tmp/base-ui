@@ -1,0 +1,100 @@
+/* Demo-only glue for field stories (incl. the real-world recreations) —
+   not part of the Droppy theme. */
+
+.FieldDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.FieldDemoStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.FieldDemoRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* State-machine story: every interaction state gets a visible hook. The
+   badges below light up purely via the data attributes on the field bound
+   to .FieldDemoStateField (composed alongside theme.FieldRoot/theme.Input). */
+
+.FieldDemoStateInput[data-filled] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.FieldDemoStateInput[data-touched] {
+  border-style: dashed;
+}
+
+.FieldDemoStateInput[data-valid] {
+  border-color: var(--ds-color-text-primary);
+}
+
+.FieldDemoBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.FieldDemoBadge {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0 0.375rem;
+  border: 1px dashed var(--ds-color-border-subtle);
+  color: var(--ds-color-text-hint);
+}
+
+.FieldDemoStateField[data-focused] .FieldDemoBadgeFocused,
+.FieldDemoStateField[data-dirty] .FieldDemoBadgeDirty,
+.FieldDemoStateField[data-filled] .FieldDemoBadgeFilled,
+.FieldDemoStateField[data-touched] .FieldDemoBadgeTouched {
+  border-style: solid;
+  border-color: var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-primary);
+}
+
+.FieldDemoStateField[data-valid] .FieldDemoBadgeValid {
+  border-style: solid;
+  border-color: var(--ds-color-text-primary);
+  color: var(--ds-color-text-primary);
+}
+
+.FieldDemoStateField[data-invalid] .FieldDemoBadgeInvalid {
+  border-style: solid;
+  border-color: var(--ds-color-text-error);
+  color: var(--ds-color-text-error);
+}
+
+/* Real-world recreation: grid-cols-[auto_1fr] field layout (nauvalazhar/selia). */
+
+.FieldDemoGridField {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  column-gap: 0.5rem;
+  row-gap: 0.25rem;
+  width: 100%;
+  max-width: 16rem;
+}
+
+.FieldDemoGridLabelSpan {
+  grid-column: 1 / -1;
+}
+
+.FieldDemoGridIcon {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-text-hint);
+}
+
+.FieldDemoGridCell {
+  grid-column: 2;
+}

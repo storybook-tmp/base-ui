@@ -1,0 +1,65 @@
+/* Overview/Gallery — every component family at a glance, on the Droppy design tokens.
+   Demo-only glue — not part of the Droppy theme itself. */
+
+.GalleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--ds-space-xs);
+  margin-top: var(--ds-space-sm);
+}
+
+.GalleryCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs);
+  /* xs, not sm: wide demos (OTP, autocomplete) were clipping at the card edge
+     under Chromatic's Linux font metrics — keep horizontal chrome lean */
+  padding: var(--ds-space-xs);
+  background-color: var(--ds-color-surface-card);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+}
+
+/* Yann 21 Jul: cards read white in light mode; dark keeps the card/page contrast */
+:root[data-theme='light'] .GalleryCard {
+  background-color: var(--ds-color-surface-page);
+}
+
+/* system fallback when no data-theme is set — keep in sync with the rule above */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='light'], [data-theme='dark']) .GalleryCard {
+    background-color: var(--ds-color-surface-page);
+  }
+}
+
+/* Doubled selector: outranks addon-docs' element-level text color inside .sbdocs */
+.GalleryCardName.GalleryCardName {
+  margin: 0;
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-xs);
+  font-weight: var(--ds-type-weight-regular);
+  color: var(--ds-color-text-secondary);
+}
+
+.GalleryCardPreview {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  overflow-x: auto;
+  min-height: 4rem;
+  /* The focus/hover ring extends 4px beyond controls; without padding the
+     scroll container clips it (visible on Field/Input). 2xs so it clears the
+     ring even at the 14px small-screen root. */
+  padding: var(--ds-space-2xs);
+}
+
+/* The Story doc-block nests its own wrappers; let them shrink inside the card. */
+.GalleryCardPreview > * {
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Let flex/grid demo content shrink instead of clipping at the card edge */
+.GalleryCardPreview * {
+  min-width: 0;
+}

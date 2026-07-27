@@ -6,7 +6,8 @@ import { Dialog } from '@base-ui/react/dialog';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
-import styles from './select.module.css';
+import theme from '@droppy/theme';
+import './select.demo.css';
 import { DemoSelect, CaretUpDownIcon, CaretUpIcon, CaretDownIcon, CheckIcon } from './DemoSelect';
 import { DashboardFilterExample } from './recreations/DashboardFilterExample';
 import { ThemePickerExample } from './recreations/ThemePickerExample';
@@ -89,32 +90,32 @@ const languages = {
 export const Basic: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root items={apples}>
-        <Select.Label className={styles.Label}>Apple</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder="Select apple" />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>Apple</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder="Select apple" />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.ScrollUpArrow className={styles.ScrollArrow}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.ScrollUpArrow className={theme.SelectScrollArrow}>
                 <CaretUpIcon />
               </Select.ScrollUpArrow>
-              <Select.List className={styles.List}>
+              <Select.List className={theme.SelectList}>
                 {apples.map(({ label, value }) => (
-                  <Select.Item key={value} value={value} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={value} value={value} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                    <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
-              <Select.ScrollDownArrow className={styles.ScrollArrow}>
+              <Select.ScrollDownArrow className={theme.SelectScrollArrow}>
                 <CaretDownIcon />
               </Select.ScrollDownArrow>
             </Select.Popup>
@@ -128,7 +129,7 @@ export const Basic: Story = {
 function OpenSelectCloseExample() {
   const [lastChange, setLastChange] = React.useState('none yet');
   return (
-    <div className={styles.Stack}>
+    <div className="SelectDemoStack">
       <DemoSelect
         label="Apple"
         placeholder="Select apple"
@@ -139,7 +140,7 @@ function OpenSelectCloseExample() {
             setLastChange(`${value} (reason: ${eventDetails.reason})`),
         }}
       />
-      <output className={styles.Output}>onValueChange: {lastChange}</output>
+      <output className="SelectDemoOutput">onValueChange: {lastChange}</output>
     </div>
   );
 }
@@ -170,22 +171,22 @@ export const OpenSelectClose: Story = {
 function ControlledValueExample() {
   const [value, setValue] = React.useState<string | null>(null);
   return (
-    <div className={styles.Stack}>
+    <div className="SelectDemoStack">
       <DemoSelect
         label="Apple"
         placeholder="Select apple"
         options={apples}
         root={{ value, onValueChange: setValue }}
       />
-      <div className={styles.Row}>
-        <button type="button" className={styles.Button} onClick={() => setValue('fuji')}>
+      <div className="SelectDemoRow">
+        <button type="button" className={theme.Button} onClick={() => setValue('fuji')}>
           Set Fuji
         </button>
-        <button type="button" className={styles.Button} onClick={() => setValue(null)}>
+        <button type="button" className={theme.Button} onClick={() => setValue(null)}>
           Clear (null)
         </button>
       </div>
-      <output className={styles.Output}>value: {value ?? 'null'}</output>
+      <output className="SelectDemoOutput">value: {value ?? 'null'}</output>
     </div>
   );
 }
@@ -212,7 +213,7 @@ function ControlledOpenExample() {
   const [open, setOpen] = React.useState(false);
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="SelectDemoStack">
       <DemoSelect
         label="Apple"
         placeholder="Select apple"
@@ -233,10 +234,12 @@ function ControlledOpenExample() {
         }}
         positioner={{ alignItemWithTrigger: false }}
       />
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.Button}>
         Outside area
       </button>
-      <output className={styles.Output}>reasons: {log.length > 0 ? log.join(', ') : 'none'}</output>
+      <output className="SelectDemoOutput">
+        reasons: {log.length > 0 ? log.join(', ') : 'none'}
+      </output>
     </div>
   );
 }
@@ -314,27 +317,27 @@ const fontFamilies: Record<string, string> = {
 export const FormattedValue: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root defaultValue="monospace">
-        <Select.Label className={styles.Label}>Font family</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value}>
+        <Select.Label className={theme.FieldLabel}>Font family</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue}>
             {(value: string) => <span style={{ fontFamily: value }}>{fontFamilies[value]}</span>}
           </Select.Value>
-          <Select.Icon className={styles.Icon}>
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {Object.entries(fontFamilies).map(([value, label]) => (
-                  <Select.Item key={value} value={value} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={value} value={value} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>
+                    <Select.ItemText className={theme.SelectItemText}>
                       <span style={{ fontFamily: value }}>{label}</span>
                     </Select.ItemText>
                   </Select.Item>
@@ -356,29 +359,29 @@ export const FormattedValue: Story = {
 export const MultipleSelection: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root multiple defaultValue={['javascript', 'typescript']} items={languages}>
-        <Select.Label className={styles.Label}>Languages</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>Languages</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
           <Select.Positioner
-            className={styles.Positioner}
+            className={theme.SelectPositioner}
             sideOffset={4}
             alignItemWithTrigger={false}
           >
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {Object.entries(languages).map(([value, label]) => (
-                  <Select.Item key={value} value={value} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={value} value={value} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                    <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
@@ -410,14 +413,14 @@ export const MultipleSelection: Story = {
 function MultipleClearAllExample() {
   const [value, setValue] = React.useState<string[]>(['javascript', 'typescript']);
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="SelectDemoStack">
+      <div className="SelectDemoRow">
         <DemoSelectMultiple value={value} onValueChange={setValue} />
-        <button type="button" className={styles.Button} onClick={() => setValue([])}>
+        <button type="button" className={theme.Button} onClick={() => setValue([])}>
           Clear all
         </button>
       </div>
-      <output className={styles.Output}>{value.length} selected</output>
+      <output className="SelectDemoOutput">{value.length} selected</output>
     </div>
   );
 }
@@ -430,29 +433,29 @@ function DemoSelectMultiple({
   onValueChange: (value: string[]) => void;
 }) {
   return (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root multiple value={value} onValueChange={onValueChange} items={languages}>
-        <Select.Label className={styles.Label}>Languages</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder="Select languages" />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>Languages</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder="Select languages" />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
           <Select.Positioner
-            className={styles.Positioner}
+            className={theme.SelectPositioner}
             sideOffset={4}
             alignItemWithTrigger={false}
           >
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {Object.entries(languages).map(([itemValue, label]) => (
-                  <Select.Item key={itemValue} value={itemValue} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={itemValue} value={itemValue} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                    <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
@@ -499,41 +502,41 @@ const shippingMethods: ShippingMethod[] = [
 export const ObjectValues: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root
         defaultValue={shippingMethods[0]}
         isItemEqualToValue={(itemValue, value) => itemValue.id === value.id}
         itemToStringLabel={(method) => method.name}
         itemToStringValue={(method) => method.id}
       >
-        <Select.Label className={styles.Label}>Shipping method</Select.Label>
-        <Select.Trigger className={styles.Select}>
+        <Select.Label className={theme.FieldLabel}>Shipping method</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
           <Select.Value>
             {(method: ShippingMethod) => (
-              <span className={styles.ValueText}>
-                <span className={styles.ValuePrimary}>{method.name}</span>
-                <span className={styles.ValueSecondary}>
+              <span className={theme.SelectValueText}>
+                <span className={theme.SelectValuePrimary}>{method.name}</span>
+                <span className={theme.SelectValueSecondary}>
                   {method.duration} ({method.price})
                 </span>
               </span>
             )}
           </Select.Value>
-          <Select.Icon className={styles.Icon}>
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {shippingMethods.map((method) => (
-                  <Select.Item key={method.id} value={method} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={method.id} value={method} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>
-                      <span className={styles.ItemLabel}>{method.name}</span>
-                      <span className={styles.ItemDescription}>
+                    <Select.ItemText className={theme.SelectItemText}>
+                      <span className={theme.SelectItemLabel}>{method.name}</span>
+                      <span className={theme.SelectItemDescription}>
                         {method.duration} ({method.price})
                       </span>
                     </Select.ItemText>
@@ -573,46 +576,50 @@ const groupedProduce = [
 export const GroupedItems: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root items={groupedProduce}>
-        <Select.Label className={styles.Label}>Produce</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder="Select produce" />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>Produce</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder="Select produce" />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.ScrollUpArrow className={styles.ScrollArrow}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.ScrollUpArrow className={theme.SelectScrollArrow}>
                 <CaretUpIcon />
               </Select.ScrollUpArrow>
-              <Select.List className={styles.List}>
+              <Select.List className={theme.SelectList}>
                 {groupedProduce.map((group, index) => (
                   <React.Fragment key={group.value}>
-                    <Select.Group className={styles.Group}>
-                      <Select.GroupLabel className={styles.GroupLabel}>
+                    <Select.Group className={theme.SelectGroup}>
+                      <Select.GroupLabel className={theme.SelectGroupLabel}>
                         {group.value}
                       </Select.GroupLabel>
                       {group.items.map((item) => (
-                        <Select.Item key={item.value} value={item.value} className={styles.Item}>
-                          <Select.ItemIndicator className={styles.ItemIndicator}>
+                        <Select.Item
+                          key={item.value}
+                          value={item.value}
+                          className={theme.SelectItem}
+                        >
+                          <Select.ItemIndicator className={theme.SelectItemIndicator}>
                             <CheckIcon />
                           </Select.ItemIndicator>
-                          <Select.ItemText className={styles.ItemText}>
+                          <Select.ItemText className={theme.SelectItemText}>
                             {item.label}
                           </Select.ItemText>
                         </Select.Item>
                       ))}
                     </Select.Group>
                     {index < groupedProduce.length - 1 ? (
-                      <Select.Separator className={styles.Separator} />
+                      <Select.Separator className={theme.SelectSeparator} />
                     ) : null}
                   </React.Fragment>
                 ))}
               </Select.List>
-              <Select.ScrollDownArrow className={styles.ScrollArrow}>
+              <Select.ScrollDownArrow className={theme.SelectScrollArrow}>
                 <CaretDownIcon />
               </Select.ScrollDownArrow>
             </Select.Popup>
@@ -674,25 +681,25 @@ export const ConventionalDropdownPositioning: Story = {
 export const AlignItemWithTriggerDefault: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root items={apples} defaultValue="honeycrisp">
-        <Select.Label className={styles.Label}>Apple</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>Apple</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner}>
+          <Select.Positioner className={theme.SelectPositioner}>
             {/* Without Select.List, the Popup itself is the listbox and carries data-side. */}
-            <Select.Popup className={styles.Popup}>
+            <Select.Popup className={theme.SelectPopup}>
               {apples.map(({ label, value }) => (
-                <Select.Item key={value} value={value} className={styles.Item}>
-                  <Select.ItemIndicator className={styles.ItemIndicator}>
+                <Select.Item key={value} value={value} className={theme.SelectItem}>
+                  <Select.ItemIndicator className={theme.SelectItemIndicator}>
                     <CheckIcon />
                   </Select.ItemIndicator>
-                  <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                  <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
                 </Select.Item>
               ))}
             </Select.Popup>
@@ -717,7 +724,7 @@ export const AlignItemWithTriggerDefault: Story = {
 export const RTLItemAlignment: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div dir="rtl" className={styles.Rtl}>
+    <div dir="rtl" className="SelectDemoRtl">
       <DirectionProvider direction="rtl">
         <DemoSelect
           label="اللهجة"
@@ -764,7 +771,7 @@ export const TypeaheadKeyboard: Story = {
 export const DisabledOptions: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="SelectDemoRow">
       <DemoSelect
         label="Fruit"
         options={[
@@ -841,33 +848,33 @@ function FieldValidationExample() {
   const [status, setStatus] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         setStatus('Submitted');
       }}
     >
-      <Field.Root name="tier" className={styles.Field}>
-        <Field.Label className={styles.Label} nativeLabel={false} render={<div />}>
+      <Field.Root name="tier" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel} nativeLabel={false} render={<div />}>
           Plan tier
         </Field.Label>
         <Select.Root items={tierItems} required>
-          <Select.Trigger className={styles.Select}>
-            <Select.Value className={styles.Value} placeholder="Select tier" />
-            <Select.Icon className={styles.Icon}>
+          <Select.Trigger className={theme.SelectTrigger}>
+            <Select.Value className={theme.SelectValue} placeholder="Select tier" />
+            <Select.Icon className={theme.SelectIcon}>
               <CaretUpDownIcon />
             </Select.Icon>
           </Select.Trigger>
           <Select.Portal>
-            <Select.Positioner className={styles.Positioner} sideOffset={4}>
-              <Select.Popup className={styles.Popup}>
-                <Select.List className={styles.List}>
+            <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+              <Select.Popup className={theme.SelectPopup}>
+                <Select.List className={theme.SelectList}>
                   {tierItems.map(({ value, label }) => (
-                    <Select.Item key={value} value={value} className={styles.Item}>
-                      <Select.ItemIndicator className={styles.ItemIndicator}>
+                    <Select.Item key={value} value={value} className={theme.SelectItem}>
+                      <Select.ItemIndicator className={theme.SelectItemIndicator}>
                         <CheckIcon />
                       </Select.ItemIndicator>
-                      <Select.ItemText className={styles.ItemText}>{label}</Select.ItemText>
+                      <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
                     </Select.Item>
                   ))}
                 </Select.List>
@@ -875,17 +882,17 @@ function FieldValidationExample() {
             </Select.Positioner>
           </Select.Portal>
         </Select.Root>
-        <Field.Description className={styles.Description}>
+        <Field.Description className={theme.FieldDescription}>
           Billed monthly. You can change this later.
         </Field.Description>
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please choose a tier.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save plan
       </button>
-      {status ? <output className={styles.Output}>{status}</output> : null}
+      {status ? <output className="SelectDemoOutput">{status}</output> : null}
     </Form>
   );
 }
@@ -914,14 +921,14 @@ function NativeFormExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setPayload(`shipping=${String(data.get('shipping'))}`);
       }}
     >
-      <div className={styles.Field}>
+      <div className={theme.FieldRoot}>
         <Select.Root
           name="shipping"
           defaultValue={shippingMethods[0]}
@@ -929,23 +936,25 @@ function NativeFormExample() {
           itemToStringValue={(method) => method.id}
           isItemEqualToValue={(itemValue, value) => itemValue.id === value.id}
         >
-          <Select.Label className={styles.Label}>Shipping method</Select.Label>
-          <Select.Trigger className={styles.Select}>
-            <Select.Value className={styles.Value} />
-            <Select.Icon className={styles.Icon}>
+          <Select.Label className={theme.FieldLabel}>Shipping method</Select.Label>
+          <Select.Trigger className={theme.SelectTrigger}>
+            <Select.Value className={theme.SelectValue} />
+            <Select.Icon className={theme.SelectIcon}>
               <CaretUpDownIcon />
             </Select.Icon>
           </Select.Trigger>
           <Select.Portal>
-            <Select.Positioner className={styles.Positioner} sideOffset={4}>
-              <Select.Popup className={styles.Popup}>
-                <Select.List className={styles.List}>
+            <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+              <Select.Popup className={theme.SelectPopup}>
+                <Select.List className={theme.SelectList}>
                   {shippingMethods.map((method) => (
-                    <Select.Item key={method.id} value={method} className={styles.Item}>
-                      <Select.ItemIndicator className={styles.ItemIndicator}>
+                    <Select.Item key={method.id} value={method} className={theme.SelectItem}>
+                      <Select.ItemIndicator className={theme.SelectItemIndicator}>
                         <CheckIcon />
                       </Select.ItemIndicator>
-                      <Select.ItemText className={styles.ItemText}>{method.name}</Select.ItemText>
+                      <Select.ItemText className={theme.SelectItemText}>
+                        {method.name}
+                      </Select.ItemText>
                     </Select.Item>
                   ))}
                 </Select.List>
@@ -954,10 +963,10 @@ function NativeFormExample() {
           </Select.Portal>
         </Select.Root>
       </div>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Place order
       </button>
-      {payload ? <output className={styles.Output}>{payload}</output> : null}
+      {payload ? <output className="SelectDemoOutput">{payload}</output> : null}
     </form>
   );
 }
@@ -981,14 +990,14 @@ export const NativeFormSubmission: Story = {
 export const BrowserAutofillHint: Story = {
   tags: ['highlight'],
   render: () => (
-    <form className={styles.Form}>
+    <form className={theme.FormRoot}>
       <DemoSelect
         label="Country"
         placeholder="Select country"
         options={countries}
         root={{ name: 'country', autoComplete: 'country' }}
       />
-      <p className={styles.Description}>
+      <p className={theme.FieldDescription}>
         The browser can fill this select from saved addresses via the hidden input.
       </p>
     </form>
@@ -1003,7 +1012,7 @@ export const BrowserAutofillHint: Story = {
 export const NonModal: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="SelectDemoRow">
       <DemoSelect
         label="Apple"
         placeholder="Select apple"
@@ -1013,7 +1022,7 @@ export const NonModal: Story = {
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- the WCAG-documented
           fix for a scrollable-but-otherwise-static region (axe `scrollable-region-focusable`,
           technique SCR29) is exactly `tabindex="0"` + `role="region"` on the region itself. */}
-      <div tabIndex={0} role="region" aria-label="Page content" className={styles.ScrollArea}>
+      <div tabIndex={0} role="region" aria-label="Page content" className="SelectDemoScrollArea">
         <p>This page content stays scrollable while the non-modal select is open.</p>
         <p>Scroll me.</p>
         <p>Keep scrolling.</p>
@@ -1032,7 +1041,7 @@ export const HoverVersusHighlight: Story = {
       label="Apple"
       placeholder="Select apple"
       options={apples}
-      itemClassName={styles.ItemHoverDemo}
+      itemClassName={`${theme.SelectItem} SelectDemoItemHoverDemo`}
       root={{ defaultValue: 'gala', highlightItemOnHover: false }}
     />
   ),
@@ -1041,16 +1050,16 @@ export const HoverVersusHighlight: Story = {
 function AnimatedPopupExample() {
   const [phase, setPhase] = React.useState('idle');
   return (
-    <div className={styles.Stack}>
+    <div className="SelectDemoStack">
       <DemoSelect
         label="Apple"
         placeholder="Select apple"
         options={apples}
-        popupClassName={styles.PopupAnimated}
+        popupClassName={`${theme.SelectPopup} SelectDemoPopupAnimated`}
         root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
         positioner={{ alignItemWithTrigger: false }}
       />
-      <output className={styles.Output}>animation settled: {phase}</output>
+      <output className="SelectDemoOutput">animation settled: {phase}</output>
     </div>
   );
 }
@@ -1073,17 +1082,17 @@ export const InsideDialog: Story = {
   tags: ['highlight'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Edit preferences</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Edit preferences</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.DialogPopup}>
-          <Dialog.Title className={styles.DialogTitle}>Preferences</Dialog.Title>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <Dialog.Title className={theme.DialogTitle}>Preferences</Dialog.Title>
           <DemoSelect
             label="Interface theme"
             placeholder="Select theme"
             options={themeItems.filter((item) => item.value !== null)}
           />
-          <Dialog.Close className={styles.Button}>Done</Dialog.Close>
+          <Dialog.Close className={theme.Button}>Done</Dialog.Close>
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
@@ -1126,25 +1135,25 @@ function MySelect<Value, Multiple extends boolean | undefined = false>(
 ): React.JSX.Element {
   const { label, items } = props;
   return (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root {...props}>
-        <Select.Label className={styles.Label}>{label}</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder="Select…" />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>{label}</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder="Select…" />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {items.map((item) => (
-                  <Select.Item key={item.label} value={item.value} className={styles.Item}>
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                  <Select.Item key={item.label} value={item.value} className={theme.SelectItem}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{item.label}</Select.ItemText>
+                    <Select.ItemText className={theme.SelectItemText}>{item.label}</Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
@@ -1160,7 +1169,7 @@ function MySelect<Value, Multiple extends boolean | undefined = false>(
 export const TypedWrapper: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="SelectDemoRow">
       <MySelect label="Font" items={fontOptions} defaultValue="serif" />
       <MySelect
         label="Fallback fonts"

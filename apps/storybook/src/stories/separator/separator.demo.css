@@ -1,0 +1,58 @@
+/* Demo-only glue for separator.stories.tsx — not part of the Droppy theme.
+   The Separator itself binds entirely to theme.SeparatorRoot (single
+   [data-orientation]-keyed class); everything below is surrounding demo
+   chrome (nav links, stacked/inline layout wrappers) with no themed part. */
+
+.Container {
+  display: flex;
+  gap: 1rem;
+  text-wrap: nowrap;
+}
+
+.Link {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+  text-decoration-color: var(--ds-color-border-subtle);
+  text-decoration-thickness: 1px;
+  text-decoration-line: none;
+  text-underline-offset: 2px;
+
+  @media (hover: hover) {
+    &:hover {
+      text-decoration-line: underline;
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+    text-decoration-line: none;
+  }
+}
+
+.Stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 12rem;
+}
+
+.Row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.Text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+}
+
+/* InToolbar story: the toolbar's own vertical-orientation layout variant —
+   theme.ToolbarRoot has no orientation branch, so this layers on top of it. */
+.ToolbarVertical {
+  flex-direction: column;
+  align-items: flex-start;
+}

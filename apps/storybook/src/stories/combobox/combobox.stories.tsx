@@ -6,7 +6,8 @@ import { Dialog } from '@base-ui/react/dialog';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
 import { useTimeout } from '@base-ui/utils/useTimeout';
-import styles from './combobox.module.css';
+import theme from '@droppy/theme';
+import './combobox.demo.css';
 
 /**
  * Stories follow research/c-components/combobox (Tier 1): the kept docs demos
@@ -113,7 +114,7 @@ function DemoCombobox({
   placeholder,
   items = fruits,
   root,
-  popupClassName = styles.Popup,
+  popupClassName = theme.ComboboxPopup,
 }: {
   label: string;
   placeholder?: string;
@@ -124,15 +125,15 @@ function DemoCombobox({
   const id = React.useId();
   return (
     <Combobox.Root items={items} {...root}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>{label}</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder={placeholder} id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Clear className={styles.Clear} aria-label="Clear selection">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder={placeholder} id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Clear className={theme.ComboboxClear} aria-label="Clear selection">
               <XIcon />
             </Combobox.Clear>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
@@ -140,18 +141,18 @@ function DemoCombobox({
       </div>
 
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
           <Combobox.Popup className={popupClassName}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No fruits found.</div>
+              <div className={theme.ComboboxEmpty}>No fruits found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(item: Fruit) => (
-                <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                  <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                <Combobox.Item key={item.value} value={item} className={theme.ComboboxItem}>
+                  <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className={styles.ItemText}>{item.label}</span>
+                  <span className={theme.ComboboxItemText}>{item.label}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -167,18 +168,22 @@ function ChipsCombobox({ root }: { root?: Partial<Combobox.Root.Props<Lang, true
   const id = React.useId();
   return (
     <Combobox.Root items={langs} multiple {...root}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Languages</label>
-        <Combobox.InputGroup className={styles.ChipsInputGroup}>
-          <Combobox.Chips className={styles.Chips}>
+        <Combobox.InputGroup className={theme.ComboboxChipsInputGroup}>
+          <Combobox.Chips className={theme.ComboboxChips}>
             <Combobox.Value>
               {(value: Lang[]) => (
                 <React.Fragment>
                   {value.map((lang) => (
-                    <Combobox.Chip key={lang.value} className={styles.Chip} aria-label={lang.label}>
+                    <Combobox.Chip
+                      key={lang.value}
+                      className={theme.ComboboxChip}
+                      aria-label={lang.label}
+                    >
                       {lang.label}
                       <Combobox.ChipRemove
-                        className={styles.ChipRemove}
+                        className={theme.ComboboxChipRemove}
                         aria-label={`Remove ${lang.label}`}
                       >
                         <XIcon />
@@ -188,7 +193,7 @@ function ChipsCombobox({ root }: { root?: Partial<Combobox.Root.Props<Lang, true
                   <Combobox.Input
                     id={id}
                     placeholder={value.length > 0 ? '' : 'e.g. TypeScript'}
-                    className={styles.ChipsInput}
+                    className={theme.ComboboxChipsInput}
                   />
                 </React.Fragment>
               )}
@@ -198,18 +203,18 @@ function ChipsCombobox({ root }: { root?: Partial<Combobox.Root.Props<Lang, true
       </div>
 
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No languages found.</div>
+              <div className={theme.ComboboxEmpty}>No languages found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(lang: Lang) => (
-                <Combobox.Item key={lang.value} value={lang} className={styles.Item}>
-                  <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                <Combobox.Item key={lang.value} value={lang} className={theme.ComboboxItem}>
+                  <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className={styles.ItemText}>{lang.label}</span>
+                  <span className={theme.ComboboxItemText}>{lang.label}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -241,7 +246,7 @@ export const Hero: Story = {
 function OpenFilterSelectCloseExample() {
   const [lastChange, setLastChange] = React.useState('none yet');
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <DemoCombobox
         label="Choose a fruit"
         placeholder="e.g. Apple"
@@ -250,7 +255,7 @@ function OpenFilterSelectCloseExample() {
             setLastChange(`${value ? value.value : 'null'} (reason: ${eventDetails.reason})`),
         }}
       />
-      <output className={styles.Output}>onValueChange: {lastChange}</output>
+      <output className="ComboboxDemoOutput">onValueChange: {lastChange}</output>
     </div>
   );
 }
@@ -295,16 +300,16 @@ function ControlledValueAndInputExample() {
   const [value, setValue] = React.useState<Fruit | null>(null);
   const [inputValue, setInputValue] = React.useState('');
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <DemoCombobox
         label="Fruit"
         placeholder="e.g. Apple"
         root={{ value, onValueChange: setValue, inputValue, onInputValueChange: setInputValue }}
       />
-      <div className={styles.Row}>
+      <div className="ComboboxDemoRow">
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => {
             setValue(kiwi);
             setInputValue(kiwi.label);
@@ -314,7 +319,7 @@ function ControlledValueAndInputExample() {
         </button>
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => {
             setValue(null);
             setInputValue('');
@@ -323,7 +328,7 @@ function ControlledValueAndInputExample() {
           Clear (null)
         </button>
       </div>
-      <output className={styles.Output}>value: {value ? value.value : 'null'}</output>
+      <output className="ComboboxDemoOutput">value: {value ? value.value : 'null'}</output>
     </div>
   );
 }
@@ -352,7 +357,7 @@ function ControlledOpenExample() {
   const [open, setOpen] = React.useState(false);
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <DemoCombobox
         label="Fruit"
         placeholder="e.g. Apple"
@@ -370,10 +375,12 @@ function ControlledOpenExample() {
           },
         }}
       />
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.Button}>
         Outside area
       </button>
-      <output className={styles.Output}>reasons: {log.length > 0 ? log.join(', ') : 'none'}</output>
+      <output className="ComboboxDemoOutput">
+        reasons: {log.length > 0 ? log.join(', ') : 'none'}
+      </output>
     </div>
   );
 }
@@ -416,30 +423,30 @@ function UseFilterExample() {
   const id = React.useId();
   return (
     <Combobox.Root items={cities} filter={contains}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>City</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Zurich" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Zurich" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No cities found.</div>
+              <div className={theme.ComboboxEmpty}>No cities found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(city: string) => (
-                <Combobox.Item key={city} value={city} className={styles.Item}>
-                  <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                <Combobox.Item key={city} value={city} className={theme.ComboboxItem}>
+                  <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className={styles.ItemText}>{city}</span>
+                  <span className={theme.ComboboxItemText}>{city}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -469,7 +476,7 @@ export const ExternalFilterWithUseFilter: Story = {
 function FilteredCount() {
   const filteredItems = Combobox.useFilteredItems<Fruit>();
   return (
-    <div className={styles.Status}>
+    <div className={theme.ComboboxStatus}>
       {filteredItems.length} of {fruits.length} rows would render
     </div>
   );
@@ -481,34 +488,34 @@ export const UseFilteredItemsForVirtualizer: Story = {
   render: () => {
     return (
       <Combobox.Root items={fruits}>
-        <div className={styles.Label}>
+        <div className={theme.FieldLabel}>
           <label htmlFor="use-filtered-items-input">Fruit</label>
-          <Combobox.InputGroup className={styles.InputGroup}>
+          <Combobox.InputGroup className={theme.ComboboxInputGroup}>
             <Combobox.Input
               placeholder="e.g. Apple"
               id="use-filtered-items-input"
-              className={styles.Input}
+              className={theme.ComboboxInput}
             />
-            <div className={styles.ActionButtons}>
-              <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+            <div className={theme.ComboboxActionButtons}>
+              <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
                 <CaretDownIcon />
               </Combobox.Trigger>
             </div>
           </Combobox.InputGroup>
         </div>
         <Combobox.Portal>
-          <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-            <Combobox.Popup className={styles.Popup}>
+          <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+            <Combobox.Popup className={theme.ComboboxPopup}>
               <Combobox.Empty>
-                <div className={styles.Empty}>No fruits found.</div>
+                <div className={theme.ComboboxEmpty}>No fruits found.</div>
               </Combobox.Empty>
-              <Combobox.List className={styles.List}>
+              <Combobox.List className={theme.ComboboxList}>
                 {(item: Fruit) => (
-                  <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                    <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                  <Combobox.Item key={item.value} value={item} className={theme.ComboboxItem}>
+                    <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                       <CheckIcon />
                     </Combobox.ItemIndicator>
-                    <span className={styles.ItemText}>{item.label}</span>
+                    <span className={theme.ComboboxItemText}>{item.label}</span>
                   </Combobox.Item>
                 )}
               </Combobox.List>
@@ -543,7 +550,7 @@ export const EmptyState: Story = {
 export const AutoHighlightModes: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="ComboboxDemoRow">
       <DemoCombobox label="autoHighlight" placeholder="Type ba…" root={{ autoHighlight: true }} />
       <DemoCombobox label="Default" placeholder="Type ba…" />
     </div>
@@ -584,9 +591,9 @@ export const MultipleSelectionChips: Story = {
 function ChipsKeyboardExample() {
   const [value, setValue] = React.useState<Lang[]>([langs[0], langs[1], langs[2]]);
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <ChipsCombobox root={{ value, onValueChange: setValue }} />
-      <output className={styles.Output}>{value.length} selected</output>
+      <output className="ComboboxDemoOutput">{value.length} selected</output>
     </div>
   );
 }
@@ -625,30 +632,30 @@ function PersonAnatomy({ root }: { root?: Partial<Combobox.Root.Props<Person, fa
       isItemEqualToValue={(itemValue, value) => itemValue.id === value.id}
       {...root}
     >
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Scientist</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Ada" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Ada" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No scientists found.</div>
+              <div className={theme.ComboboxEmpty}>No scientists found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(person: Person) => (
-                <Combobox.Item key={person.id} value={person} className={styles.Item}>
-                  <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                <Combobox.Item key={person.id} value={person} className={theme.ComboboxItem}>
+                  <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className={styles.ItemText}>{person.name}</span>
+                  <span className={theme.ComboboxItemText}>{person.name}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -663,16 +670,12 @@ function IsItemEqualToValueExample() {
   // A fresh clone: referential equality with the items array never holds.
   const [value, setValue] = React.useState<Person | null>({ ...scientists[1] });
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <PersonAnatomy root={{ value, onValueChange: setValue }} />
-      <button
-        type="button"
-        className={styles.Button}
-        onClick={() => setValue({ ...scientists[1] })}
-      >
+      <button type="button" className={theme.Button} onClick={() => setValue({ ...scientists[1] })}>
         Rehydrate from server copy
       </button>
-      <output className={styles.Output}>value id: {value ? value.id : 'null'}</output>
+      <output className="ComboboxDemoOutput">value id: {value ? value.id : 'null'}</output>
     </div>
   );
 }
@@ -699,7 +702,7 @@ function FormSerializationExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -707,10 +710,10 @@ function FormSerializationExample() {
       }}
     >
       <PersonAnatomy root={{ name: 'scientist', itemToStringValue: (person) => person.id }} />
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Submit
       </button>
-      {payload ? <output className={styles.Output}>{payload}</output> : null}
+      {payload ? <output className="ComboboxDemoOutput">{payload}</output> : null}
     </form>
   );
 }
@@ -801,40 +804,44 @@ export const GroupedItems: Story = {
   render: () => {
     return (
       <Combobox.Root items={groupedProduce}>
-        <div className={styles.Label}>
+        <div className={theme.FieldLabel}>
           <label htmlFor="grouped-produce-input">Select produce</label>
-          <Combobox.InputGroup className={styles.InputGroup}>
+          <Combobox.InputGroup className={theme.ComboboxInputGroup}>
             <Combobox.Input
               placeholder="e.g. Mango"
               id="grouped-produce-input"
-              className={styles.Input}
+              className={theme.ComboboxInput}
             />
-            <div className={styles.ActionButtons}>
-              <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+            <div className={theme.ComboboxActionButtons}>
+              <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
                 <CaretDownIcon />
               </Combobox.Trigger>
             </div>
           </Combobox.InputGroup>
         </div>
         <Combobox.Portal>
-          <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-            <Combobox.Popup className={styles.Popup}>
+          <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+            <Combobox.Popup className={theme.ComboboxPopup}>
               <Combobox.Empty>
-                <div className={styles.Empty}>No produce found.</div>
+                <div className={theme.ComboboxEmpty}>No produce found.</div>
               </Combobox.Empty>
-              <Combobox.List className={styles.List}>
+              <Combobox.List className={theme.ComboboxList}>
                 {(group: ProduceGroup) => (
-                  <Combobox.Group key={group.value} items={group.items} className={styles.Group}>
-                    <Combobox.GroupLabel className={styles.GroupLabel}>
+                  <Combobox.Group
+                    key={group.value}
+                    items={group.items}
+                    className={theme.ComboboxGroup}
+                  >
+                    <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
                       {group.value}
                     </Combobox.GroupLabel>
                     <Combobox.Collection>
                       {(item: Produce) => (
-                        <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                          <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                        <Combobox.Item key={item.value} value={item} className={theme.ComboboxItem}>
+                          <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                             <CheckIcon />
                           </Combobox.ItemIndicator>
-                          <span className={styles.ItemText}>{item.label}</span>
+                          <span className={theme.ComboboxItemText}>{item.label}</span>
                         </Combobox.Item>
                       )}
                     </Combobox.Collection>
@@ -877,9 +884,9 @@ function EmojiRows() {
   return (
     <React.Fragment>
       {rows.map((row) => (
-        <Combobox.Row key={row.join('')} className={styles.GridRow}>
+        <Combobox.Row key={row.join('')} className="ComboboxDemoGridRow">
           {row.map((emoji) => (
-            <Combobox.Item key={emoji} value={emoji} className={styles.GridItem}>
+            <Combobox.Item key={emoji} value={emoji} className="ComboboxDemoGridItem">
               {emoji}
             </Combobox.Item>
           ))}
@@ -893,21 +900,21 @@ function GridExample() {
   const id = React.useId();
   return (
     <Combobox.Root grid items={emojis}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Emoji</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="Pick an emoji" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="Pick an emoji" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
-            <Combobox.List className={styles.List}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
+            <Combobox.List className={theme.ComboboxList}>
               <EmojiRows />
             </Combobox.List>
           </Combobox.Popup>
@@ -942,29 +949,32 @@ const countries = ['France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Ireland',
 export const InputInsidePopup: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Combobox.Root items={countries}>
-        <Combobox.Label className={styles.Label}>Country</Combobox.Label>
-        <Combobox.Trigger className={styles.SelectTrigger}>
+        <Combobox.Label className={theme.FieldLabel}>Country</Combobox.Label>
+        <Combobox.Trigger className={theme.SelectTrigger}>
           <Combobox.Value placeholder="Select country" />
-          <Combobox.Icon className={styles.TriggerIcon}>
+          <Combobox.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Combobox.Icon>
         </Combobox.Trigger>
         <Combobox.Portal>
-          <Combobox.Positioner className={styles.Positioner} align="start" sideOffset={4}>
-            <Combobox.Popup className={styles.PopupWithInput} aria-label="Select country">
-              <Combobox.Input placeholder="e.g. Germany" className={styles.PopupInput} />
+          <Combobox.Positioner className={theme.ComboboxPositioner} align="start" sideOffset={4}>
+            <Combobox.Popup
+              className={`${theme.ComboboxPopup} ComboboxDemoPopupWithInput`}
+              aria-label="Select country"
+            >
+              <Combobox.Input placeholder="e.g. Germany" className={theme.ComboboxPopupInput} />
               <Combobox.Empty>
-                <div className={styles.Empty}>No countries found.</div>
+                <div className={theme.ComboboxEmpty}>No countries found.</div>
               </Combobox.Empty>
-              <Combobox.List className={styles.List}>
+              <Combobox.List className={theme.ComboboxList}>
                 {(country: string) => (
-                  <Combobox.Item key={country} value={country} className={styles.Item}>
-                    <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                  <Combobox.Item key={country} value={country} className={theme.ComboboxItem}>
+                    <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                       <CheckIcon />
                     </Combobox.ItemIndicator>
-                    <span className={styles.ItemText}>{country}</span>
+                    <span className={theme.ComboboxItemText}>{country}</span>
                   </Combobox.Item>
                 )}
               </Combobox.List>
@@ -995,23 +1005,23 @@ function InlineAnatomy({ root }: { root?: Partial<Combobox.Root.Props<Fruit, fal
   const id = React.useId();
   return (
     <Combobox.Root items={fruits} inline open {...root}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Fruit</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Apple" id={id} className={styles.Input} />
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Apple" id={id} className={theme.ComboboxInput} />
         </Combobox.InputGroup>
       </div>
-      <div className={styles.InlineListBox}>
+      <div className={theme.ComboboxInlineListBox}>
         <Combobox.Empty>
-          <div className={styles.Empty}>No fruits found.</div>
+          <div className={theme.ComboboxEmpty}>No fruits found.</div>
         </Combobox.Empty>
-        <Combobox.List className={styles.InlineList}>
+        <Combobox.List className={theme.ComboboxInlineList}>
           {(item: Fruit) => (
-            <Combobox.Item key={item.value} value={item} className={styles.Item}>
-              <Combobox.ItemIndicator className={styles.ItemIndicator}>
+            <Combobox.Item key={item.value} value={item} className={theme.ComboboxItem}>
+              <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                 <CheckIcon />
               </Combobox.ItemIndicator>
-              <span className={styles.ItemText}>{item.label}</span>
+              <span className={theme.ComboboxItemText}>{item.label}</span>
             </Combobox.Item>
           )}
         </Combobox.List>
@@ -1042,15 +1052,15 @@ function InlineDialogExample() {
   const [open, setOpen] = React.useState(false);
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className={styles.Button}>Pick a fruit</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Pick a fruit</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.DialogPopup}>
-          <Dialog.Title className={styles.DialogTitle}>Pick a fruit</Dialog.Title>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <Dialog.Title className={theme.DialogTitle}>Pick a fruit</Dialog.Title>
           {/* Bind the combobox's open state to the dialog's so transient state
               (query, highlight, input value) resets when the dialog closes. */}
           <InlineAnatomy root={{ open, onOpenChange: setOpen }} />
-          <Dialog.Close className={styles.Button}>Cancel</Dialog.Close>
+          <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
@@ -1082,9 +1092,16 @@ export const InlineInsideDialog: Story = {
     await userEvent.click(canvas.getByRole('button', { name: 'Pick a fruit' }));
     const reopenedDialog = await body.findByRole('dialog');
     await expect(within(reopenedDialog).getByRole('combobox')).toHaveValue('');
-    await expect(
-      await within(reopenedDialog).findByRole('option', { name: 'Apple' }),
-    ).toBeVisible();
+    // The reopened Dialog.Popup mounts with the theme's enter transition
+    // (data-starting-style opacity 0 -> 1); findByRole resolves on the very
+    // next DOM mutation, often before that transition has advanced at all,
+    // so wait for the popup (and its descendants) to actually be visible
+    // rather than asserting immediately.
+    await waitFor(async () => {
+      expect(
+        await within(reopenedDialog).findByRole('option', { name: 'Apple' }),
+      ).toBeVisible();
+    });
   },
 };
 
@@ -1110,13 +1127,13 @@ const contributors: Contributor[] = [
 
 function ContributorItem({ contributor }: { contributor: Contributor }) {
   return (
-    <Combobox.Item key={contributor.id} value={contributor} className={styles.Item}>
-      <Combobox.ItemIndicator className={styles.ItemIndicator}>
+    <Combobox.Item key={contributor.id} value={contributor} className={theme.ComboboxItem}>
+      <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
         <CheckIcon />
       </Combobox.ItemIndicator>
-      <span className={styles.ItemText}>
-        <span className={styles.ItemLabel}>{contributor.name}</span>
-        <span className={styles.ItemDescription}>{contributor.role}</span>
+      <span className={theme.ComboboxItemText}>
+        <span className={theme.ComboboxItemLabel}>{contributor.name}</span>
+        <span className={theme.ComboboxItemDescription}>{contributor.role}</span>
       </span>
     </Combobox.Item>
   );
@@ -1144,7 +1161,7 @@ function AsyncSingleExample() {
   if (pending) {
     status = (
       <React.Fragment>
-        <span className={styles.Spinner} aria-hidden />
+        <span className={theme.ComboboxSpinner} aria-hidden />
         Searching…
       </React.Fragment>
     );
@@ -1186,32 +1203,32 @@ function AsyncSingleExample() {
         });
       }}
     >
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Assign reviewer</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Michael" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Clear className={styles.Clear} aria-label="Clear selection">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Michael" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Clear className={theme.ComboboxClear} aria-label="Clear selection">
               <XIcon />
             </Combobox.Clear>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup} aria-busy={pending || undefined}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup} aria-busy={pending || undefined}>
             <Combobox.Status>
-              {status ? <div className={styles.Status}>{status}</div> : null}
+              {status ? <div className={theme.ComboboxStatus}>{status}</div> : null}
             </Combobox.Status>
             <Combobox.Empty>
               {trimmed !== '' && !pending && results.length === 0 ? (
-                <div className={styles.Empty}>No matches for “{trimmed}”.</div>
+                <div className={theme.ComboboxEmpty}>No matches for “{trimmed}”.</div>
               ) : null}
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(contributor: Contributor) => (
                 <ContributorItem key={contributor.id} contributor={contributor} />
               )}
@@ -1275,22 +1292,22 @@ function AsyncMultipleExample() {
         });
       }}
     >
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Reviewers</label>
-        <Combobox.InputGroup className={styles.ChipsInputGroup}>
-          <Combobox.Chips className={styles.Chips}>
+        <Combobox.InputGroup className={theme.ComboboxChipsInputGroup}>
+          <Combobox.Chips className={theme.ComboboxChips}>
             <Combobox.Value>
               {(value: Contributor[]) => (
                 <React.Fragment>
                   {value.map((contributor) => (
                     <Combobox.Chip
                       key={contributor.id}
-                      className={styles.Chip}
+                      className={theme.ComboboxChip}
                       aria-label={contributor.name}
                     >
                       {contributor.name}
                       <Combobox.ChipRemove
-                        className={styles.ChipRemove}
+                        className={theme.ComboboxChipRemove}
                         aria-label={`Remove ${contributor.name}`}
                       >
                         <XIcon />
@@ -1300,7 +1317,7 @@ function AsyncMultipleExample() {
                   <Combobox.Input
                     id={id}
                     placeholder={value.length > 0 ? '' : 'Search people…'}
-                    className={styles.ChipsInput}
+                    className={theme.ComboboxChipsInput}
                   />
                 </React.Fragment>
               )}
@@ -1309,22 +1326,22 @@ function AsyncMultipleExample() {
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup} aria-busy={pending || undefined}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup} aria-busy={pending || undefined}>
             <Combobox.Status>
               {pending ? (
-                <div className={styles.Status}>
-                  <span className={styles.Spinner} aria-hidden />
+                <div className={theme.ComboboxStatus}>
+                  <span className={theme.ComboboxSpinner} aria-hidden />
                   Searching…
                 </div>
               ) : null}
             </Combobox.Status>
             <Combobox.Empty>
               {query.trim() !== '' && !pending && results.length === 0 ? (
-                <div className={styles.Empty}>No matches.</div>
+                <div className={theme.ComboboxEmpty}>No matches.</div>
               ) : null}
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(contributor: Contributor) => (
                 <ContributorItem key={contributor.id} contributor={contributor} />
               )}
@@ -1413,27 +1430,27 @@ function CreatableExample() {
           setQuery(next ? next.label : '');
         }}
       >
-        <div className={styles.Label}>
+        <div className={theme.FieldLabel}>
           <label htmlFor={id}>Flavor</label>
-          <Combobox.InputGroup className={styles.InputGroup}>
-            <Combobox.Input placeholder="e.g. Vanilla" id={id} className={styles.Input} />
-            <div className={styles.ActionButtons}>
-              <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+          <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+            <Combobox.Input placeholder="e.g. Vanilla" id={id} className={theme.ComboboxInput} />
+            <div className={theme.ComboboxActionButtons}>
+              <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
                 <CaretDownIcon />
               </Combobox.Trigger>
             </div>
           </Combobox.InputGroup>
         </div>
         <Combobox.Portal>
-          <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-            <Combobox.Popup className={styles.Popup}>
-              <Combobox.List className={styles.List}>
+          <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+            <Combobox.Popup className={theme.ComboboxPopup}>
+              <Combobox.List className={theme.ComboboxList}>
                 {(flavor: Flavor) => (
-                  <Combobox.Item key={flavor.id} value={flavor} className={styles.Item}>
-                    <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                  <Combobox.Item key={flavor.id} value={flavor} className={theme.ComboboxItem}>
+                    <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                       <CheckIcon />
                     </Combobox.ItemIndicator>
-                    <span className={styles.ItemText}>{flavor.label}</span>
+                    <span className={theme.ComboboxItemText}>{flavor.label}</span>
                   </Combobox.Item>
                 )}
               </Combobox.List>
@@ -1444,15 +1461,15 @@ function CreatableExample() {
 
       <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.DialogPopup}>
-            <Dialog.Title className={styles.DialogTitle}>Create flavor</Dialog.Title>
-            <p className={styles.Description}>Add “{pendingLabel}” to the list?</p>
-            <div className={styles.Row}>
-              <button type="button" className={styles.Button} onClick={handleCreate}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <Dialog.Title className={theme.DialogTitle}>Create flavor</Dialog.Title>
+            <p className={theme.FieldDescription}>Add “{pendingLabel}” to the list?</p>
+            <div className="ComboboxDemoRow">
+              <button type="button" className={theme.Button} onClick={handleCreate}>
                 Create
               </button>
-              <Dialog.Close className={styles.Button}>Cancel</Dialog.Close>
+              <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
@@ -1518,7 +1535,7 @@ function WindowedList({ scrollerRef }: { scrollerRef: React.RefObject<HTMLDivEle
     <div
       role="presentation"
       ref={scrollerRef}
-      className={styles.Scroller}
+      className="ComboboxDemoScroller"
       onScroll={(event) => setScrollTop(event.currentTarget.scrollTop)}
     >
       <div
@@ -1532,7 +1549,7 @@ function WindowedList({ scrollerRef }: { scrollerRef: React.RefObject<HTMLDivEle
               key={item.id}
               index={index}
               value={item}
-              className={styles.VirtualItem}
+              className={`${theme.ComboboxItem} ComboboxDemoVirtualItem`}
               aria-setsize={filteredItems.length}
               aria-posinset={index + 1}
               style={{
@@ -1544,10 +1561,10 @@ function WindowedList({ scrollerRef }: { scrollerRef: React.RefObject<HTMLDivEle
                 transform: `translateY(${index * ROW_HEIGHT}px)`,
               }}
             >
-              <Combobox.ItemIndicator className={styles.ItemIndicator}>
+              <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                 <CheckIcon />
               </Combobox.ItemIndicator>
-              <span className={styles.ItemText}>{item.name}</span>
+              <span className={theme.ComboboxItemText}>{item.name}</span>
             </Combobox.Item>
           );
         })}
@@ -1578,22 +1595,22 @@ function VirtualizedExample() {
         }
       }}
     >
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Search 1,000 items</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Item 0042" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Item 0042" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No items found.</div>
+              <div className={theme.ComboboxEmpty}>No items found.</div>
             </Combobox.Empty>
             <Combobox.List>
               <WindowedList scrollerRef={scrollerRef} />
@@ -1619,7 +1636,7 @@ export const Virtualized: Story = {
 export const DisabledAndReadOnly: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="ComboboxDemoRow">
       <DemoCombobox label="Disabled" root={{ disabled: true, defaultValue: fruits[0] }} />
       <DemoCombobox label="Read-only" root={{ readOnly: true, defaultValue: fruits[1] }} />
     </div>
@@ -1642,38 +1659,38 @@ function FieldValidationExample() {
   const [status, setStatus] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         setStatus('Submitted');
       }}
     >
-      <Field.Root name="fruit" className={styles.Field}>
+      <Field.Root name="fruit" className={theme.FieldRoot}>
         <Combobox.Root items={fruits} required>
-          <div className={styles.Label}>
+          <div className={theme.FieldLabel}>
             <Field.Label>Favorite fruit</Field.Label>
-            <Combobox.InputGroup className={styles.InputGroup}>
-              <Combobox.Input placeholder="e.g. Apple" className={styles.Input} />
-              <div className={styles.ActionButtons}>
-                <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+            <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+              <Combobox.Input placeholder="e.g. Apple" className={theme.ComboboxInput} />
+              <div className={theme.ComboboxActionButtons}>
+                <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
                   <CaretDownIcon />
                 </Combobox.Trigger>
               </div>
             </Combobox.InputGroup>
           </div>
           <Combobox.Portal>
-            <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-              <Combobox.Popup className={styles.Popup}>
+            <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+              <Combobox.Popup className={theme.ComboboxPopup}>
                 <Combobox.Empty>
-                  <div className={styles.Empty}>No fruits found.</div>
+                  <div className={theme.ComboboxEmpty}>No fruits found.</div>
                 </Combobox.Empty>
-                <Combobox.List className={styles.List}>
+                <Combobox.List className={theme.ComboboxList}>
                   {(item: Fruit) => (
-                    <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                      <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                    <Combobox.Item key={item.value} value={item} className={theme.ComboboxItem}>
+                      <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                         <CheckIcon />
                       </Combobox.ItemIndicator>
-                      <span className={styles.ItemText}>{item.label}</span>
+                      <span className={theme.ComboboxItemText}>{item.label}</span>
                     </Combobox.Item>
                   )}
                 </Combobox.List>
@@ -1681,17 +1698,17 @@ function FieldValidationExample() {
             </Combobox.Positioner>
           </Combobox.Portal>
         </Combobox.Root>
-        <Field.Description className={styles.Description}>
+        <Field.Description className={theme.FieldDescription}>
           Only list entries are valid values.
         </Field.Description>
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please choose a fruit.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
-      {status ? <output className={styles.Output}>{status}</output> : null}
+      {status ? <output className="ComboboxDemoOutput">{status}</output> : null}
     </Form>
   );
 }
@@ -1725,14 +1742,14 @@ export const InFieldWithValidation: Story = {
 function AnimatedExample() {
   const [phase, setPhase] = React.useState('idle');
   return (
-    <div className={styles.Stack}>
+    <div className="ComboboxDemoStack">
       <DemoCombobox
         label="Fruit"
         placeholder="e.g. Apple"
-        popupClassName={styles.PopupAnimated}
+        popupClassName={`${theme.ComboboxPopup} ComboboxDemoPopupAnimated`}
         root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
       />
-      <output className={styles.Output}>animation settled: {phase}</output>
+      <output className="ComboboxDemoOutput">animation settled: {phase}</output>
     </div>
   );
 }
@@ -1771,27 +1788,27 @@ function MyCombobox<Value, Multiple extends boolean | undefined = false>(
   const id = React.useId();
   return (
     <Combobox.Root {...rootProps}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>{label}</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder={placeholder} id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder={placeholder} id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
-            <Combobox.List className={styles.List}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
+            <Combobox.List className={theme.ComboboxList}>
               {(item: Value) => (
-                <Combobox.Item key={itemToLabel(item)} value={item} className={styles.Item}>
-                  <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                <Combobox.Item key={itemToLabel(item)} value={item} className={theme.ComboboxItem}>
+                  <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                     <CheckIcon />
                   </Combobox.ItemIndicator>
-                  <span className={styles.ItemText}>{itemToLabel(item)}</span>
+                  <span className={theme.ComboboxItemText}>{itemToLabel(item)}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -1806,7 +1823,7 @@ function MyCombobox<Value, Multiple extends boolean | undefined = false>(
 export const TypedWrapperComponent: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="ComboboxDemoRow">
       <MyCombobox
         label="Fruit"
         placeholder="One fruit"
@@ -1862,46 +1879,50 @@ function GroupedSyncTargetPicker() {
   const id = React.useId();
   return (
     <Combobox.Root items={syncTargetGroups}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Sync target</label>
-        <Combobox.InputGroup className={styles.InputGroup}>
-          <Combobox.Input placeholder="e.g. Snowflake" id={id} className={styles.Input} />
-          <div className={styles.ActionButtons}>
-            <Combobox.Trigger className={styles.Trigger} aria-label="Open popup">
+        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
+          <Combobox.Input placeholder="e.g. Snowflake" id={id} className={theme.ComboboxInput} />
+          <div className={theme.ComboboxActionButtons}>
+            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
               <CaretDownIcon />
             </Combobox.Trigger>
           </div>
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No sync targets found.</div>
+              <div className={theme.ComboboxEmpty}>No sync targets found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(group: SyncTargetGroup) => {
                 const isLast =
                   syncTargetGroups.findIndex((candidate) => candidate.value === group.value) ===
                   syncTargetGroups.length - 1;
                 return (
                   <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={styles.Group}>
-                      <Combobox.GroupLabel className={styles.GroupLabel}>
+                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
+                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
                         {group.value}
                       </Combobox.GroupLabel>
                       <Combobox.Collection>
                         {(item: SyncTarget) => (
-                          <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                            <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                          <Combobox.Item
+                            key={item.value}
+                            value={item}
+                            className={theme.ComboboxItem}
+                          >
+                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                               <CheckIcon />
                             </Combobox.ItemIndicator>
-                            <span className={styles.ItemText}>{item.label}</span>
+                            <span className={theme.ComboboxItemText}>{item.label}</span>
                           </Combobox.Item>
                         )}
                       </Combobox.Collection>
                     </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={styles.Separator} /> : null}
+                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
                   </React.Fragment>
                 );
               }}
@@ -1990,22 +2011,22 @@ function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<Ll
   const id = React.useId();
   return (
     <Combobox.Root items={llmModelGroups} multiple {...root}>
-      <div className={styles.Label}>
+      <div className={theme.FieldLabel}>
         <label htmlFor={id}>Models</label>
-        <Combobox.InputGroup className={styles.ChipsInputGroup}>
-          <Combobox.Chips className={styles.Chips}>
+        <Combobox.InputGroup className={theme.ComboboxChipsInputGroup}>
+          <Combobox.Chips className={theme.ComboboxChips}>
             <Combobox.Value>
               {(value: LlmModel[]) => (
                 <React.Fragment>
                   {value.map((model) => (
                     <Combobox.Chip
                       key={model.value}
-                      className={styles.Chip}
+                      className={theme.ComboboxChip}
                       aria-label={model.label}
                     >
                       {model.label}
                       <Combobox.ChipRemove
-                        className={styles.ChipRemove}
+                        className={theme.ComboboxChipRemove}
                         aria-label={`Remove ${model.label}`}
                       >
                         <XIcon />
@@ -2015,7 +2036,7 @@ function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<Ll
                   <Combobox.Input
                     id={id}
                     placeholder={value.length > 0 ? '' : 'e.g. Claude Sonnet'}
-                    className={styles.ChipsInput}
+                    className={theme.ComboboxChipsInput}
                   />
                 </React.Fragment>
               )}
@@ -2024,34 +2045,38 @@ function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<Ll
         </Combobox.InputGroup>
       </div>
       <Combobox.Portal>
-        <Combobox.Positioner className={styles.Positioner} sideOffset={4}>
-          <Combobox.Popup className={styles.Popup}>
+        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
+          <Combobox.Popup className={theme.ComboboxPopup}>
             <Combobox.Empty>
-              <div className={styles.Empty}>No models found.</div>
+              <div className={theme.ComboboxEmpty}>No models found.</div>
             </Combobox.Empty>
-            <Combobox.List className={styles.List}>
+            <Combobox.List className={theme.ComboboxList}>
               {(group: LlmModelGroup) => {
                 const isLast =
                   llmModelGroups.findIndex((candidate) => candidate.value === group.value) ===
                   llmModelGroups.length - 1;
                 return (
                   <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={styles.Group}>
-                      <Combobox.GroupLabel className={styles.GroupLabel}>
+                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
+                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
                         {group.value}
                       </Combobox.GroupLabel>
                       <Combobox.Collection>
                         {(item: LlmModel) => (
-                          <Combobox.Item key={item.value} value={item} className={styles.Item}>
-                            <Combobox.ItemIndicator className={styles.ItemIndicator}>
+                          <Combobox.Item
+                            key={item.value}
+                            value={item}
+                            className={theme.ComboboxItem}
+                          >
+                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
                               <CheckIcon />
                             </Combobox.ItemIndicator>
-                            <span className={styles.ItemText}>{item.label}</span>
+                            <span className={theme.ComboboxItemText}>{item.label}</span>
                           </Combobox.Item>
                         )}
                       </Combobox.Collection>
                     </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={styles.Separator} /> : null}
+                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
                   </React.Fragment>
                 );
               }}

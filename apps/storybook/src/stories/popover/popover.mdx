@@ -9,7 +9,7 @@ import { MentionAutocompleteExample } from './recreations/MentionAutocompleteExa
 import queuePopoverSource from './recreations/QueuePopoverExample.tsx?raw';
 import linkEditorToolbarSource from './recreations/LinkEditorToolbarExample.tsx?raw';
 import mentionAutocompleteSource from './recreations/MentionAutocompleteExample.tsx?raw';
-import popoverCss from './popover.module.css?raw';
+import popoverCss from './popover.demo.css?raw';
 import wordpressOrgGutenbergOpenShot from '../../../../../research/d-real-world-usage/_captures/wordpress-org-gutenberg-open.png';
 import difyAiShot from '../../../../../research/d-real-world-usage/_captures/dify-ai.png';
 
@@ -327,6 +327,14 @@ If the popup is hidden under other stacked UI, set `z-index` on the **Positioner
 - Don't be surprised when outside elements gain `data-base-ui-inert` while a modal popover is open: rich-text editors (ProseMirror/tiptap) may resync; we moved the marking to top-level nodes to reduce breakage ([#3950](https://github.com/mui/base-ui/issues/3950), [#3955](https://github.com/mui/base-ui/pull/3955)).
 
 {/* END: do-dont */}
+
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+{/* END: brand */}
 
 {/* BEGIN: examples */}
 ## In the wild

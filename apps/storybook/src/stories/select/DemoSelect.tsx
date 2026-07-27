@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Select } from '@base-ui/react/select';
-import styles from './select.module.css';
+import theme from '@droppy/theme';
+import './select.demo.css';
 
 /**
  * Shared anatomy + icon helpers used across the behavior stories and the real-world
@@ -21,8 +22,8 @@ export function DemoSelect({
   label,
   placeholder,
   options,
-  itemClassName = styles.Item,
-  popupClassName = styles.Popup,
+  itemClassName = theme.SelectItem,
+  popupClassName = theme.SelectPopup,
   root,
   positioner,
 }: {
@@ -35,22 +36,22 @@ export function DemoSelect({
   positioner?: Partial<React.ComponentProps<typeof Select.Positioner>>;
 }) {
   return (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root items={options as Array<{ value: string | null; label: string }>} {...root}>
-        {label ? <Select.Label className={styles.Label}>{label}</Select.Label> : null}
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder={placeholder} />
-          <Select.Icon className={styles.Icon}>
+        {label ? <Select.Label className={theme.FieldLabel}>{label}</Select.Label> : null}
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder={placeholder} />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4} {...positioner}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4} {...positioner}>
             <Select.Popup className={popupClassName}>
-              <Select.ScrollUpArrow className={styles.ScrollArrow}>
+              <Select.ScrollUpArrow className={theme.SelectScrollArrow}>
                 <CaretUpIcon />
               </Select.ScrollUpArrow>
-              <Select.List className={styles.List}>
+              <Select.List className={theme.SelectList}>
                 {options.map((option) => (
                   <Select.Item
                     key={String(option.value)}
@@ -58,14 +59,16 @@ export function DemoSelect({
                     disabled={option.disabled}
                     className={itemClassName}
                   >
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>{option.label}</Select.ItemText>
+                    <Select.ItemText className={theme.SelectItemText}>
+                      {option.label}
+                    </Select.ItemText>
                   </Select.Item>
                 ))}
               </Select.List>
-              <Select.ScrollDownArrow className={styles.ScrollArrow}>
+              <Select.ScrollDownArrow className={theme.SelectScrollArrow}>
                 <CaretDownIcon />
               </Select.ScrollDownArrow>
             </Select.Popup>

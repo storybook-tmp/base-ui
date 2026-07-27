@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Autocomplete } from '@base-ui/react/autocomplete';
-import styles from '../autocomplete.module.css';
-import rw from '../autocomplete-real-world.module.css';
+import theme from '@droppy/theme';
+import '../autocomplete.demo.css';
+import '../autocomplete-real-world.demo.css';
 
 /**
  * Recreation of keenthemes/reui's full-anatomy, multi-skin Autocomplete: `Backdrop` +
@@ -21,13 +22,13 @@ export function MultiSkinAutocompleteExample() {
   const [skin, setSkin] = React.useState<Skin>('vega');
 
   return (
-    <div className={rw.SkinRoot}>
-      <div className={rw.SkinSwitcher}>
+    <div className="AutocompleteDemoSkinRoot">
+      <div className="AutocompleteDemoSkinSwitcher">
         {skins.map((candidate) => (
           <button
             key={candidate}
             type="button"
-            className={rw.SkinButton}
+            className="AutocompleteDemoSkinButton"
             aria-pressed={skin === candidate}
             onClick={() => setSkin(candidate)}
           >
@@ -35,24 +36,30 @@ export function MultiSkinAutocompleteExample() {
           </button>
         ))}
       </div>
-      <label className={styles.Label}>
+      <label className={theme.FieldLabel}>
         Search components
         <Autocomplete.Root items={componentNames}>
-          <Autocomplete.Input placeholder="e.g. button" className={styles.Input} />
+          <Autocomplete.Input placeholder="e.g. button" className={theme.AutocompleteInput} />
           <Autocomplete.Portal>
-            <Autocomplete.Backdrop className={rw.SkinBackdrop} />
-            <Autocomplete.Positioner className={styles.Positioner} sideOffset={8}>
-              <Autocomplete.Popup className={rw.SkinPopup} data-skin={skin}>
-                <Autocomplete.Arrow className={rw.SkinArrow} data-skin={skin} />
-                <Autocomplete.Empty className={styles.Empty} data-skin={skin}>
+            <Autocomplete.Backdrop className="AutocompleteDemoSkinBackdrop" />
+            <Autocomplete.Positioner className={theme.AutocompletePositioner} sideOffset={8}>
+              <Autocomplete.Popup
+                className={`${theme.AutocompletePopup} AutocompleteDemoSkinPopup`}
+                data-skin={skin}
+              >
+                <Autocomplete.Arrow className="AutocompleteDemoSkinArrow" data-skin={skin} />
+                <Autocomplete.Empty
+                  className={`${theme.AutocompleteEmpty} AutocompleteDemoSkinEmpty`}
+                  data-skin={skin}
+                >
                   No matches.
                 </Autocomplete.Empty>
-                <Autocomplete.List className={styles.List}>
+                <Autocomplete.List className={theme.AutocompleteList}>
                   {(item: string) => (
                     <Autocomplete.Item
                       key={item}
                       value={item}
-                      className={rw.SkinItem}
+                      className={`${theme.AutocompleteItem} AutocompleteDemoSkinItem`}
                       data-skin={skin}
                     >
                       {item}

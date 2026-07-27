@@ -1,0 +1,55 @@
+/* Demo-only glue for collapsible.stories.tsx — not part of the Droppy theme. */
+
+/* Controlled story: an external button, outside the Collapsible tree,
+   toggling `open` directly. */
+.ExternalControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ExternalButton {
+  box-sizing: border-box;
+  padding: 0.25rem 0.625rem;
+  border: none;
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+
+  &:hover {
+    background-color: var(--ds-color-action-primary-hover);
+  }
+}
+
+.Log {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Nested story: an inner Collapsible.Root embedded in an outer panel. */
+.NestedCollapsible {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+/* WithinCard story: a settings-card composition around a single Collapsible. */
+.Card {
+  box-sizing: border-box;
+  width: 16rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  color: var(--ds-color-text-primary);
+}
+
+.CardHeader {
+  box-sizing: border-box;
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-medium);
+}
+
+.CardBody {
+  padding: 0.75rem 0.875rem;
+}

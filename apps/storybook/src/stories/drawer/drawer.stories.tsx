@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Drawer } from '@base-ui/react/drawer';
 import { Dialog } from '@base-ui/react/dialog';
-import styles from './drawer.module.css';
+import theme from '@droppy/theme';
+import './drawer.demo.css';
 
 /**
  * Stories follow research/c-components/drawer (Tier 1): the kept docs demos (hero,
@@ -59,18 +60,18 @@ export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
     <Drawer.Root swipeDirection="right">
-      <Drawer.Trigger className={styles.Button}>Open drawer</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open drawer</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.HeroViewport}>
-          <Drawer.Popup className={styles.HeroPopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.Title}>Drawer</Drawer.Title>
-              <Drawer.Description className={styles.Description}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerHeroViewport">
+          <Drawer.Popup className="DrawerHeroPopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className={theme.DrawerTitle}>Drawer</Drawer.Title>
+              <Drawer.Description className={theme.DrawerDescription}>
                 This is a drawer that slides in from the side. You can swipe to dismiss it.
               </Drawer.Description>
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className={theme.DrawerActions}>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -102,7 +103,7 @@ export const Hero: Story = {
 function OpenCloseReasonsExample() {
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="DrawerStack">
       <Drawer.Root
         onOpenChange={(nextOpen, eventDetails) => {
           if (!nextOpen) {
@@ -110,26 +111,26 @@ function OpenCloseReasonsExample() {
           }
         }}
       >
-        <Drawer.Trigger className={styles.Button}>Open sheet</Drawer.Trigger>
+        <Drawer.Trigger className={theme.Button}>Open sheet</Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} data-testid="reason-backdrop" />
-          <Drawer.Viewport className={styles.SheetViewport}>
-            <Drawer.Popup className={styles.SheetPopup}>
-              <div className={styles.Grabber} />
-              <Drawer.Content className={styles.Content}>
-                <Drawer.Title className={styles.SheetTitle}>Reason inspector</Drawer.Title>
-                <Drawer.Description className={styles.SheetDescription}>
+          <Drawer.Backdrop className={theme.DrawerBackdrop} data-testid="reason-backdrop" />
+          <Drawer.Viewport className="DrawerSheetViewport">
+            <Drawer.Popup className="DrawerSheetPopup">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Content className="DrawerContent">
+                <Drawer.Title className="DrawerSheetTitle">Reason inspector</Drawer.Title>
+                <Drawer.Description className="DrawerSheetDescription">
                   Close me with Esc, the backdrop, or the button — each reports its reason.
                 </Drawer.Description>
-                <div className={styles.SheetActions}>
-                  <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <div className="DrawerSheetActions">
+                  <Drawer.Close className={theme.Button}>Close</Drawer.Close>
                 </div>
               </Drawer.Content>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>
       </Drawer.Root>
-      <output className={styles.Output}>
+      <output className="DrawerOutput">
         close reasons: {log.length > 0 ? log.join(', ') : 'none yet'}
       </output>
     </div>
@@ -185,10 +186,10 @@ const SIDE_COPY: Record<SwipeSide, { trigger: string; title: string; hint: strin
 };
 
 const SIDE_VIEWPORT_CLASS: Record<SwipeSide, string> = {
-  up: styles.EdgeViewportUp,
-  down: styles.EdgeViewportDown,
-  left: styles.EdgeViewportLeft,
-  right: styles.EdgeViewportRight,
+  up: 'DrawerEdgeViewportUp',
+  down: 'DrawerEdgeViewportDown',
+  left: 'DrawerEdgeViewportLeft',
+  right: 'DrawerEdgeViewportRight',
 };
 
 /**
@@ -201,18 +202,18 @@ function EdgeDrawerExample({ side }: { side: SwipeSide }) {
   const copy = SIDE_COPY[side];
   return (
     <Drawer.Root swipeDirection={side}>
-      <Drawer.Trigger className={styles.Button}>{copy.trigger}</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>{copy.trigger}</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={`${styles.EdgeViewport} ${SIDE_VIEWPORT_CLASS[side]}`}>
-          <Drawer.Popup className={styles.EdgePopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.Title}>{copy.title}</Drawer.Title>
-              <Drawer.Description className={styles.Description}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className={`${'DrawerEdgeViewport'} ${SIDE_VIEWPORT_CLASS[side]}`}>
+          <Drawer.Popup className="DrawerEdgePopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className={theme.DrawerTitle}>{copy.title}</Drawer.Title>
+              <Drawer.Description className={theme.DrawerDescription}>
                 {copy.hint} Positioning is plain CSS — only the gesture axis is configured.
               </Drawer.Description>
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className={theme.DrawerActions}>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -271,36 +272,36 @@ function SnapPointsExample() {
   const [snapPoint, setSnapPoint] = React.useState<Drawer.Root.SnapPoint | null>(SNAP_POINTS[0]);
   return (
     <Drawer.Root snapPoints={SNAP_POINTS} snapPoint={snapPoint} onSnapPointChange={setSnapPoint}>
-      <Drawer.Trigger className={styles.Button}>Open snap drawer</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open snap drawer</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.SnapPopup} data-testid="snap-popup">
-            <div className={styles.DragArea}>
-              <div className={styles.Grabber} />
-              <Drawer.Title className={styles.SheetTitle}>Snap points</Drawer.Title>
-              <div className={styles.SheetActions}>
-                <button type="button" className={styles.Button} onClick={() => setSnapPoint(1)}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerSnapPopup" data-testid="snap-popup">
+            <div className="DrawerDragArea">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Title className="DrawerSheetTitle">Snap points</Drawer.Title>
+              <div className="DrawerSheetActions">
+                <button type="button" className={theme.Button} onClick={() => setSnapPoint(1)}>
                   Expand
                 </button>
                 <button
                   type="button"
-                  className={styles.Button}
+                  className={theme.Button}
                   onClick={() => setSnapPoint(SNAP_POINTS[0])}
                 >
                   Peek
                 </button>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </div>
-            <Drawer.Content className={styles.SnapScroll}>
-              <Drawer.Description className={styles.SheetDescription}>
+            <Drawer.Content className="DrawerSnapScroll">
+              <Drawer.Description className="DrawerSheetDescription">
                 Drag the sheet between the compact peek and the full-height detent — or drive the
                 controlled `snapPoint` with the buttons above.
               </Drawer.Description>
-              <div className={styles.Cards} aria-hidden>
+              <div className="DrawerCards" aria-hidden>
                 {Array.from({ length: 12 }, (_, index) => (
-                  <div className={styles.Card} key={index} />
+                  <div className="DrawerCard" key={index} />
                 ))}
               </div>
             </Drawer.Content>
@@ -359,20 +360,20 @@ export const SwipeProgressStyling: Story = {
   tags: ['api-ref'],
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger className={styles.Button}>Open styled sheet</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open styled sheet</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.ProgressBackdrop} data-testid="progress-backdrop" />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.SheetPopup}>
-            <div className={styles.Grabber} />
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.SheetTitle}>Swipe styling</Drawer.Title>
-              <Drawer.Description className={styles.SheetDescription}>
+        <Drawer.Backdrop className="DrawerProgressBackdrop" data-testid="progress-backdrop" />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerSheetPopup">
+            <div className={theme.DrawerGrabber} />
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className="DrawerSheetTitle">Swipe styling</Drawer.Title>
+              <Drawer.Description className="DrawerSheetDescription">
                 Drag me down slowly: the backdrop fades in proportion to the drag distance because
                 its opacity is bound to the swipe progress variable.
               </Drawer.Description>
-              <div className={styles.SheetActions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className="DrawerSheetActions">
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -409,22 +410,22 @@ export const SwipeAreaOpen: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Drawer.Root swipeDirection="right">
-      <Drawer.SwipeArea className={styles.SwipeAreaStrip} data-testid="swipe-area">
-        <span className={styles.SwipeAreaLabel}>Swipe here</span>
+      <Drawer.SwipeArea className="DrawerSwipeAreaStrip" data-testid="swipe-area">
+        <span className="DrawerSwipeAreaLabel">Swipe here</span>
       </Drawer.SwipeArea>
-      <Drawer.Trigger className={styles.Button}>Open library</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open library</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.HeroViewport}>
-          <Drawer.Popup className={styles.HeroPopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.Title}>Library</Drawer.Title>
-              <Drawer.Description className={styles.Description}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerHeroViewport">
+          <Drawer.Popup className="DrawerHeroPopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className={theme.DrawerTitle}>Library</Drawer.Title>
+              <Drawer.Description className={theme.DrawerDescription}>
                 Swipe from the tinted right-edge strip whenever you want to jump back into your
                 playlists — or use the button.
               </Drawer.Description>
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className={theme.DrawerActions}>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -457,24 +458,24 @@ function IndentProviderExample() {
   const [portalContainer, setPortalContainer] = React.useState<HTMLDivElement | null>(null);
   return (
     <Drawer.Provider>
-      <div className={styles.IndentRoot} ref={setPortalContainer}>
-        <Drawer.IndentBackground className={styles.IndentBackground} />
-        <Drawer.Indent className={styles.Indent} data-testid="indent">
-          <div className={styles.IndentCenter}>
+      <div className="DrawerIndentRoot" ref={setPortalContainer}>
+        <Drawer.IndentBackground className="DrawerIndentBackground" />
+        <Drawer.Indent className="DrawerIndent" data-testid="indent">
+          <div className="DrawerIndentCenter">
             <Drawer.Root modal={false}>
-              <Drawer.Trigger className={styles.Button}>Open drawer</Drawer.Trigger>
+              <Drawer.Trigger className={theme.Button}>Open drawer</Drawer.Trigger>
               <Drawer.Portal container={portalContainer}>
-                <Drawer.Backdrop className={styles.ContainedBackdrop} />
-                <Drawer.Viewport className={styles.ContainedViewport}>
-                  <Drawer.Popup className={styles.SheetPopup}>
-                    <div className={styles.Grabber} />
-                    <Drawer.Content className={styles.Content}>
-                      <Drawer.Title className={styles.SheetTitle}>Notifications</Drawer.Title>
-                      <Drawer.Description className={styles.SheetDescription}>
+                <Drawer.Backdrop className="DrawerContainedBackdrop" />
+                <Drawer.Viewport className="DrawerContainedViewport">
+                  <Drawer.Popup className="DrawerSheetPopup">
+                    <div className={theme.DrawerGrabber} />
+                    <Drawer.Content className="DrawerContent">
+                      <Drawer.Title className="DrawerSheetTitle">Notifications</Drawer.Title>
+                      <Drawer.Description className="DrawerSheetDescription">
                         You are all caught up. Good job!
                       </Drawer.Description>
-                      <div className={styles.SheetActions}>
-                        <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                      <div className="DrawerSheetActions">
+                        <Drawer.Close className={theme.Button}>Close</Drawer.Close>
                       </div>
                     </Drawer.Content>
                   </Drawer.Popup>
@@ -530,39 +531,39 @@ export const NestedDrawers: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger className={styles.Button}>Open drawer stack</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open drawer stack</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.StackPopup}>
-            <div className={styles.Grabber} />
-            <Drawer.Content className={styles.StackContent}>
-              <Drawer.Title className={styles.SheetTitle}>Account</Drawer.Title>
-              <Drawer.Description className={styles.SheetDescription}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerStackPopup">
+            <div className={theme.DrawerGrabber} />
+            <Drawer.Content className="DrawerStackContent">
+              <Drawer.Title className="DrawerSheetTitle">Account</Drawer.Title>
+              <Drawer.Description className="DrawerSheetDescription">
                 Nested drawers can be styled to stack, while each drawer remains independently focus
                 managed.
               </Drawer.Description>
-              <div className={styles.SheetActions}>
+              <div className="DrawerSheetActions">
                 <Drawer.Root>
-                  <Drawer.Trigger className={styles.Button}>Security settings</Drawer.Trigger>
+                  <Drawer.Trigger className={theme.Button}>Security settings</Drawer.Trigger>
                   <Drawer.Portal>
-                    <Drawer.Viewport className={styles.SheetViewport}>
-                      <Drawer.Popup className={styles.StackPopup}>
-                        <div className={styles.Grabber} />
-                        <Drawer.Content className={styles.StackContent}>
-                          <Drawer.Title className={styles.SheetTitle}>Security</Drawer.Title>
-                          <Drawer.Description className={styles.SheetDescription}>
+                    <Drawer.Viewport className="DrawerSheetViewport">
+                      <Drawer.Popup className="DrawerStackPopup">
+                        <div className={theme.DrawerGrabber} />
+                        <Drawer.Content className="DrawerStackContent">
+                          <Drawer.Title className="DrawerSheetTitle">Security</Drawer.Title>
+                          <Drawer.Description className="DrawerSheetDescription">
                             Review sign-in activity and update your security preferences.
                           </Drawer.Description>
-                          <div className={styles.SheetActions}>
-                            <Drawer.Close className={styles.Button}>Done</Drawer.Close>
+                          <div className="DrawerSheetActions">
+                            <Drawer.Close className={theme.Button}>Done</Drawer.Close>
                           </div>
                         </Drawer.Content>
                       </Drawer.Popup>
                     </Drawer.Viewport>
                   </Drawer.Portal>
                 </Drawer.Root>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -598,34 +599,34 @@ export const DialogInsideDrawer: Story = {
   tags: ['highlight'],
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger className={styles.Button}>Open cart</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open cart</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.SheetPopup}>
-            <div className={styles.Grabber} />
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.SheetTitle}>Cart</Drawer.Title>
-              <Drawer.Description className={styles.SheetDescription}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerSheetPopup">
+            <div className={theme.DrawerGrabber} />
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className="DrawerSheetTitle">Cart</Drawer.Title>
+              <Drawer.Description className="DrawerSheetDescription">
                 2 items · Removing an item asks for confirmation in a dialog.
               </Drawer.Description>
-              <div className={styles.SheetActions}>
+              <div className="DrawerSheetActions">
                 <Dialog.Root>
-                  <Dialog.Trigger className={styles.Button}>Remove item…</Dialog.Trigger>
+                  <Dialog.Trigger className={theme.Button}>Remove item…</Dialog.Trigger>
                   <Dialog.Portal>
-                    <Dialog.Backdrop className={styles.DialogBackdrop} />
-                    <Dialog.Popup className={styles.DialogPopup}>
-                      <Dialog.Title className={styles.Title}>Remove item?</Dialog.Title>
-                      <Dialog.Description className={styles.Description}>
+                    <Dialog.Backdrop className={theme.DialogBackdrop} />
+                    <Dialog.Popup className={theme.DialogPopup}>
+                      <Dialog.Title className={theme.DialogTitle}>Remove item?</Dialog.Title>
+                      <Dialog.Description className={theme.DialogDescription}>
                         This only removes it from your cart.
                       </Dialog.Description>
-                      <div className={styles.Actions}>
-                        <Dialog.Close className={styles.Button}>Cancel</Dialog.Close>
+                      <div className={theme.DialogActions}>
+                        <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
                       </div>
                     </Dialog.Popup>
                   </Dialog.Portal>
                 </Dialog.Root>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -665,22 +666,22 @@ function DrawerWithFormExample() {
   const nameId = React.useId();
   const noteId = React.useId();
   return (
-    <div className={styles.Stack}>
+    <div className="DrawerStack">
       <Drawer.Root open={open} onOpenChange={setOpen}>
-        <Drawer.Trigger className={styles.Button}>Edit delivery details</Drawer.Trigger>
+        <Drawer.Trigger className={theme.Button}>Edit delivery details</Drawer.Trigger>
         <Drawer.VirtualKeyboardProvider>
           <Drawer.Portal>
-            <Drawer.Backdrop className={styles.Backdrop} />
-            <Drawer.Viewport className={styles.KeyboardViewport}>
-              <Drawer.Popup className={styles.SheetPopup}>
-                <div className={styles.Grabber} />
-                <Drawer.Content className={styles.Content}>
-                  <Drawer.Title className={styles.SheetTitle}>Delivery details</Drawer.Title>
-                  <Drawer.Description className={styles.SheetDescription}>
+            <Drawer.Backdrop className={theme.DrawerBackdrop} />
+            <Drawer.Viewport className="DrawerKeyboardViewport">
+              <Drawer.Popup className="DrawerSheetPopup">
+                <div className={theme.DrawerGrabber} />
+                <Drawer.Content className="DrawerContent">
+                  <Drawer.Title className="DrawerSheetTitle">Delivery details</Drawer.Title>
+                  <Drawer.Description className="DrawerSheetDescription">
                     The sheet closes only when the form submits successfully.
                   </Drawer.Description>
                   <form
-                    className={styles.Form}
+                    className={theme.FormRoot}
                     onSubmit={(event) => {
                       event.preventDefault();
                       const data = new FormData(event.currentTarget);
@@ -688,26 +689,26 @@ function DrawerWithFormExample() {
                       setOpen(false);
                     }}
                   >
-                    <div className={styles.Field}>
-                      <label className={styles.Label} htmlFor={nameId}>
+                    <div className={theme.FieldRoot}>
+                      <label className={theme.FieldLabel} htmlFor={nameId}>
                         Name
                       </label>
-                      <input id={nameId} name="name" required className={styles.Input} />
+                      <input id={nameId} name="name" required className={theme.Input} />
                     </div>
-                    <div className={styles.Field}>
-                      <label className={styles.Label} htmlFor={noteId}>
+                    <div className={theme.FieldRoot}>
+                      <label className={theme.FieldLabel} htmlFor={noteId}>
                         Delivery note
                       </label>
                       <input
                         id={noteId}
                         name="note"
                         placeholder="Gate code, drop-off spot…"
-                        className={styles.Input}
+                        className={theme.Input}
                       />
                     </div>
-                    <div className={styles.SheetActions}>
-                      <Drawer.Close className={styles.Button}>Cancel</Drawer.Close>
-                      <button type="submit" className={styles.Button}>
+                    <div className="DrawerSheetActions">
+                      <Drawer.Close className={theme.Button}>Cancel</Drawer.Close>
+                      <button type="submit" className={theme.Button}>
                         Save
                       </button>
                     </div>
@@ -718,7 +719,7 @@ function DrawerWithFormExample() {
           </Drawer.Portal>
         </Drawer.VirtualKeyboardProvider>
       </Drawer.Root>
-      {saved !== null ? <output className={styles.Output}>Saved: {saved}</output> : null}
+      {saved !== null ? <output className="DrawerOutput">Saved: {saved}</output> : null}
     </div>
   );
 }
@@ -754,7 +755,7 @@ function CloseConfirmationExample() {
   const [draft, setDraft] = React.useState('');
   const titleId = React.useId();
   return (
-    <div className={styles.Stack}>
+    <div className="DrawerStack">
       <Drawer.Root
         onOpenChange={(nextOpen, eventDetails) => {
           // Any light dismissal (swipe, Esc, outside press) with unsaved input is
@@ -765,35 +766,35 @@ function CloseConfirmationExample() {
           }
         }}
       >
-        <Drawer.Trigger className={styles.Button}>Write feedback</Drawer.Trigger>
+        <Drawer.Trigger className={theme.Button}>Write feedback</Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} data-testid="confirm-backdrop" />
-          <Drawer.Viewport className={styles.SheetViewport}>
-            <Drawer.Popup className={styles.SheetPopup}>
-              <div className={styles.Grabber} />
-              <Drawer.Content className={styles.Content}>
-                <Drawer.Title id={titleId} className={styles.SheetTitle}>
+          <Drawer.Backdrop className={theme.DrawerBackdrop} data-testid="confirm-backdrop" />
+          <Drawer.Viewport className="DrawerSheetViewport">
+            <Drawer.Popup className="DrawerSheetPopup">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Content className="DrawerContent">
+                <Drawer.Title id={titleId} className="DrawerSheetTitle">
                   Feedback
                 </Drawer.Title>
-                <Drawer.Description className={styles.SheetDescription}>
+                <Drawer.Description className="DrawerSheetDescription">
                   With text in the box, swiping, Esc, and outside presses are all vetoed.
                 </Drawer.Description>
                 <textarea
                   aria-labelledby={titleId}
-                  className={styles.Textarea}
+                  className={theme.FieldTextarea}
                   placeholder="What’s on your mind?"
                   value={draft}
                   onChange={(event) => setDraft(event.target.value)}
                 />
-                <div className={styles.SheetActions}>
-                  <Drawer.Close className={styles.Button}>Discard</Drawer.Close>
+                <div className="DrawerSheetActions">
+                  <Drawer.Close className={theme.Button}>Discard</Drawer.Close>
                 </div>
               </Drawer.Content>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>
       </Drawer.Root>
-      <output className={styles.Output}>blocked closes: {blocked}</output>
+      <output className="DrawerOutput">blocked closes: {blocked}</output>
     </div>
   );
 }
@@ -836,28 +837,28 @@ export const CloseConfirmation: Story = {
 function ExitAnimationExample() {
   const [settled, setSettled] = React.useState('none yet');
   return (
-    <div className={styles.Stack}>
+    <div className="DrawerStack">
       <Drawer.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Drawer.Trigger className={styles.Button}>Open sheet</Drawer.Trigger>
+        <Drawer.Trigger className={theme.Button}>Open sheet</Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} />
-          <Drawer.Viewport className={styles.SheetViewport}>
-            <Drawer.Popup className={styles.SheetPopup}>
-              <div className={styles.Grabber} />
-              <Drawer.Content className={styles.Content}>
-                <Drawer.Title className={styles.SheetTitle}>Animated sheet</Drawer.Title>
-                <Drawer.Description className={styles.SheetDescription}>
+          <Drawer.Backdrop className={theme.DrawerBackdrop} />
+          <Drawer.Viewport className="DrawerSheetViewport">
+            <Drawer.Popup className="DrawerSheetPopup">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Content className="DrawerContent">
+                <Drawer.Title className="DrawerSheetTitle">Animated sheet</Drawer.Title>
+                <Drawer.Description className="DrawerSheetDescription">
                   CSS transitions drive both entry and exit via data attributes.
                 </Drawer.Description>
-                <div className={styles.SheetActions}>
-                  <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <div className="DrawerSheetActions">
+                  <Drawer.Close className={theme.Button}>Close</Drawer.Close>
                 </div>
               </Drawer.Content>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>
       </Drawer.Root>
-      <output className={styles.Output}>animation settled: {settled}</output>
+      <output className="DrawerOutput">animation settled: {settled}</output>
     </div>
   );
 }
@@ -903,25 +904,25 @@ export const KeyboardAndFocus: Story = {
   tags: ['tests'],
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger className={styles.Button}>Open filters</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open filters</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.SheetPopup}>
-            <div className={styles.Grabber} />
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.SheetTitle}>Filters</Drawer.Title>
-              <Drawer.Description className={styles.SheetDescription}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerSheetPopup">
+            <div className={theme.DrawerGrabber} />
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className="DrawerSheetTitle">Filters</Drawer.Title>
+              <Drawer.Description className="DrawerSheetDescription">
                 Two buttons and a close — three tab stops that loop while modal.
               </Drawer.Description>
-              <div className={styles.SheetActions}>
-                <button type="button" className={styles.Button}>
+              <div className="DrawerSheetActions">
+                <button type="button" className={theme.Button}>
                   Reset
                 </button>
-                <button type="button" className={styles.Button}>
+                <button type="button" className={theme.Button}>
                   Apply
                 </button>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -968,25 +969,25 @@ function MobileNavigationExample() {
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState<string>('Overview');
   return (
-    <div className={styles.Stack}>
+    <div className="DrawerStack">
       <Drawer.Root open={open} onOpenChange={setOpen}>
-        <Drawer.Trigger className={styles.Button} aria-label="Open menu">
+        <Drawer.Trigger className={theme.Button} aria-label="Open menu">
           <MenuIcon />
         </Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} />
-          <Drawer.Viewport className={styles.SheetViewport}>
-            <Drawer.Popup className={styles.SheetPopup}>
-              <div className={styles.Grabber} />
-              <Drawer.Content className={styles.Content}>
-                <Drawer.Title className={styles.SheetTitle}>Menu</Drawer.Title>
+          <Drawer.Backdrop className={theme.DrawerBackdrop} />
+          <Drawer.Viewport className="DrawerSheetViewport">
+            <Drawer.Popup className="DrawerSheetPopup">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Content className="DrawerContent">
+                <Drawer.Title className="DrawerSheetTitle">Menu</Drawer.Title>
                 <nav aria-label="Site">
-                  <ul className={styles.NavList}>
+                  <ul className="DrawerNavList">
                     {NAV_ITEMS.map((item) => (
                       <li key={item}>
                         <button
                           type="button"
-                          className={styles.NavLink}
+                          className="DrawerNavLink"
                           aria-current={page === item ? 'page' : undefined}
                           onClick={() => {
                             setPage(item);
@@ -999,15 +1000,15 @@ function MobileNavigationExample() {
                     ))}
                   </ul>
                 </nav>
-                <div className={styles.SheetActions}>
-                  <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+                <div className="DrawerSheetActions">
+                  <Drawer.Close className={theme.Button}>Close</Drawer.Close>
                 </div>
               </Drawer.Content>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>
       </Drawer.Root>
-      <output className={styles.Output}>current page: {page}</output>
+      <output className="DrawerOutput">current page: {page}</output>
     </div>
   );
 }
@@ -1045,10 +1046,10 @@ function ProfileEditorExample() {
   const [draftName, setDraftName] = React.useState(profileName);
 
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
-        <output className={styles.Output}>Name: {profileName}</output>
-        <Drawer.Trigger handle={handleDrawerHandle} className={styles.Button}>
+    <div className="DrawerStack">
+      <div>
+        <output className="DrawerOutput">Name: {profileName}</output>
+        <Drawer.Trigger handle={handleDrawerHandle} className={theme.Button}>
           Edit profile
         </Drawer.Trigger>
       </div>
@@ -1064,27 +1065,27 @@ function ProfileEditorExample() {
         }}
       >
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} />
-          <Drawer.Viewport className={styles.HeroViewport}>
-            <Drawer.Popup className={styles.HeroPopup}>
-              <Drawer.Content className={styles.Content}>
-                <Drawer.Title className={styles.Title}>Edit profile</Drawer.Title>
-                <div className={styles.Field}>
-                  <label className={styles.Label} htmlFor="profile-draft-name">
+          <Drawer.Backdrop className={theme.DrawerBackdrop} />
+          <Drawer.Viewport className="DrawerHeroViewport">
+            <Drawer.Popup className="DrawerHeroPopup">
+              <Drawer.Content className="DrawerContent">
+                <Drawer.Title className={theme.DrawerTitle}>Edit profile</Drawer.Title>
+                <div className={theme.FieldRoot}>
+                  <label className={theme.FieldLabel} htmlFor="profile-draft-name">
                     Name
                   </label>
                   <input
                     id="profile-draft-name"
-                    className={styles.Input}
+                    className={theme.Input}
                     value={draftName}
                     onChange={(event) => setDraftName(event.target.value)}
                   />
                 </div>
-                <div className={styles.Actions}>
-                  <Drawer.Close className={styles.Button}>Cancel</Drawer.Close>
+                <div className={theme.DrawerActions}>
+                  <Drawer.Close className={theme.Button}>Cancel</Drawer.Close>
                   <button
                     type="button"
-                    className={styles.Button}
+                    className={theme.Button}
                     onClick={() => {
                       setProfileName(draftName);
                       handleDrawerHandle.close();
@@ -1174,16 +1175,16 @@ function PositionedDrawer({
   const side = POSITION_TO_SWIPE_DIRECTION[position];
   return (
     <Drawer.Root swipeDirection={side}>
-      <Drawer.Trigger className={styles.Button}>{triggerLabel}</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>{triggerLabel}</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={`${styles.EdgeViewport} ${SIDE_VIEWPORT_CLASS[side]}`}>
-          <Drawer.Popup className={styles.EdgePopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.Title}>{title}</Drawer.Title>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className={`${'DrawerEdgeViewport'} ${SIDE_VIEWPORT_CLASS[side]}`}>
+          <Drawer.Popup className="DrawerEdgePopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className={theme.DrawerTitle}>{title}</Drawer.Title>
               {children}
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className={theme.DrawerActions}>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -1195,15 +1196,15 @@ function PositionedDrawer({
 
 function PositionAwareExample() {
   return (
-    <div className={styles.Row}>
+    <div>
       <PositionedDrawer position="left" triggerLabel="Open menu" title="Menu">
-        <Drawer.Description className={styles.Description}>
+        <Drawer.Description className={theme.DrawerDescription}>
           Navigation lives on the left edge — the wrapper resolved{' '}
           <code>position=&quot;left&quot;</code> to <code>swipeDirection=&quot;left&quot;</code>.
         </Drawer.Description>
       </PositionedDrawer>
       <PositionedDrawer position="bottom" triggerLabel="Open filters" title="Filters">
-        <Drawer.Description className={styles.Description}>
+        <Drawer.Description className={theme.DrawerDescription}>
           Filters live on the bottom edge — the same wrapper resolved{' '}
           <code>position=&quot;bottom&quot;</code> to <code>swipeDirection=&quot;down&quot;</code>.
         </Drawer.Description>
@@ -1274,18 +1275,18 @@ export const NonModal: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
     <Drawer.Root swipeDirection="right" modal={false} disablePointerDismissal>
-      <Drawer.Trigger className={styles.Button}>Open non-modal drawer</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open non-modal drawer</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Viewport className={styles.EdgeViewportRight}>
-          <Drawer.Popup className={styles.EdgePopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.Title}>Non-modal drawer</Drawer.Title>
-              <Drawer.Description className={styles.Description}>
+        <Drawer.Viewport className="DrawerEdgeViewport DrawerEdgeViewportRight">
+          <Drawer.Popup className="DrawerEdgePopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className={theme.DrawerTitle}>Non-modal drawer</Drawer.Title>
+              <Drawer.Description className={theme.DrawerDescription}>
                 This drawer does not trap focus and ignores outside clicks. Use the close button or
                 swipe to dismiss it.
               </Drawer.Description>
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Close</Drawer.Close>
+              <div className={theme.DrawerActions}>
+                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
               </div>
             </Drawer.Content>
           </Drawer.Popup>
@@ -1318,22 +1319,22 @@ function UncontainedExample() {
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
-      <Drawer.Trigger className={styles.Button}>Open action sheet</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open action sheet</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className={styles.Backdrop} />
-        <Drawer.Viewport className={styles.SheetViewport}>
-          <Drawer.Popup className={styles.SheetPopup}>
-            <Drawer.Content className={styles.Content}>
-              <Drawer.Title className={styles.SheetTitle}>Profile actions</Drawer.Title>
-              <Drawer.Description className={styles.SheetDescription}>
+        <Drawer.Backdrop className={theme.DrawerBackdrop} />
+        <Drawer.Viewport className="DrawerSheetViewport">
+          <Drawer.Popup className="DrawerSheetPopup">
+            <Drawer.Content className="DrawerContent">
+              <Drawer.Title className="DrawerSheetTitle">Profile actions</Drawer.Title>
+              <Drawer.Description className="DrawerSheetDescription">
                 Choose an action for this user.
               </Drawer.Description>
-              <div className={styles.Actions}>
+              <div className="DrawerSheetActions">
                 {UNCONTAINED_ACTIONS.map((action) => (
                   <button
                     key={action}
                     type="button"
-                    className={styles.Button}
+                    className={theme.Button}
                     onClick={() => setOpen(false)}
                   >
                     {action}
@@ -1342,8 +1343,8 @@ function UncontainedExample() {
               </div>
             </Drawer.Content>
             {/* A second surface outside Content: the popup is not one contained box. */}
-            <div className={styles.StackContent}>
-              <button type="button" className={styles.Button} onClick={() => setOpen(false)}>
+            <div className="DrawerStackContent">
+              <button type="button" className={theme.Button} onClick={() => setOpen(false)}>
                 Block User
               </button>
             </div>
@@ -1395,26 +1396,26 @@ export const VirtualKeyboardAware: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger className={styles.Button}>Open keyboard-aware drawer</Drawer.Trigger>
+      <Drawer.Trigger className={theme.Button}>Open keyboard-aware drawer</Drawer.Trigger>
       <Drawer.VirtualKeyboardProvider>
         <Drawer.Portal>
-          <Drawer.Backdrop className={styles.Backdrop} />
-          <Drawer.Viewport className={styles.KeyboardViewport}>
-            <Drawer.Popup className={styles.SheetPopup}>
-              <div className={styles.Grabber} />
-              <Drawer.Title className={styles.SheetTitle}>Delivery details</Drawer.Title>
-              <Drawer.Content className={styles.Content}>
-                <div className={styles.Form}>
+          <Drawer.Backdrop className={theme.DrawerBackdrop} />
+          <Drawer.Viewport className="DrawerKeyboardViewport">
+            <Drawer.Popup className="DrawerSheetPopup">
+              <div className={theme.DrawerGrabber} />
+              <Drawer.Title className="DrawerSheetTitle">Delivery details</Drawer.Title>
+              <Drawer.Content className="DrawerContent">
+                <div className={theme.FormRoot}>
                   {KEYBOARD_FIELDS.map(([label, placeholder]) => (
-                    <label className={styles.Field} key={label}>
-                      <span className={styles.Label}>{label}</span>
-                      <input className={styles.Input} placeholder={placeholder} type="text" />
+                    <label className={theme.FieldRoot} key={label}>
+                      <span className={theme.FieldLabel}>{label}</span>
+                      <input className={theme.Input} placeholder={placeholder} type="text" />
                     </label>
                   ))}
                 </div>
               </Drawer.Content>
-              <div className={styles.Actions}>
-                <Drawer.Close className={styles.Button}>Save</Drawer.Close>
+              <div className="DrawerSheetActions">
+                <Drawer.Close className={theme.Button}>Save</Drawer.Close>
               </div>
             </Drawer.Popup>
           </Drawer.Viewport>

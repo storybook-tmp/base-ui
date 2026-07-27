@@ -1,0 +1,6 @@
+/* Demo-only glue for checkbox stories — not part of the Droppy theme. */
+
+.CheckboxDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

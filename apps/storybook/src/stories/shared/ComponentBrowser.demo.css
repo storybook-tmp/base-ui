@@ -1,0 +1,162 @@
+/* Demo-only glue for the Overview/Component browser page — not part of the Droppy theme. */
+
+.ComponentBrowserRoot {
+  margin: 1.5rem 0;
+}
+
+.ComponentBrowserSearchRow {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  background-color: var(--ds-color-surface-page);
+}
+
+.ComponentBrowserSearch {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.4;
+
+  &::placeholder {
+    color: var(--ds-color-text-hint);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.ComponentBrowserCount {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--ds-color-text-secondary);
+  white-space: nowrap;
+}
+
+.ComponentBrowserSection {
+  margin-top: 1.75rem;
+}
+
+.ComponentBrowserCategoryHeading {
+  margin: 0 0 0.875rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-2xs);
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+}
+
+.ComponentBrowserGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+/* `.ComponentBrowserGrid .ComponentBrowserCard` (2 classes) out-specifies Storybook's
+   `.sbdocs a` link styling (1 class + 1 element), so the card never inherits the docs
+   underline/link color. */
+.ComponentBrowserGrid .ComponentBrowserCard {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ComponentBrowserCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0.875rem 0.875rem 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--ds-motion-fast) var(--ds-motion-ease),
+    box-shadow var(--ds-motion-fast) var(--ds-motion-ease),
+    transform var(--ds-motion-fast) var(--ds-motion-ease);
+
+  /* Blue isn't allowed as a hover border/indicator (principles.md rule 2); neutral ink
+     stands in so the card still visibly lifts on hover. */
+  &:hover {
+    border-color: var(--ds-color-text-primary);
+    box-shadow: var(--ds-shadow-lift);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.ComponentBrowserCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ComponentBrowserCardName {
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+}
+
+.ComponentBrowserCardArrow {
+  flex: none;
+  color: var(--ds-color-text-hint);
+  font-size: 0.875rem;
+  opacity: 0;
+  transform: translateX(-3px);
+  transition:
+    opacity var(--ds-motion-fast) var(--ds-motion-ease),
+    transform var(--ds-motion-fast) var(--ds-motion-ease);
+
+  .ComponentBrowserCard:hover &,
+  .ComponentBrowserCard:focus-visible & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.ComponentBrowserCardDesc {
+  margin: 0.3125rem 0 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Schematic preview area (coss-style), pinned to the bottom of the card. */
+.ComponentBrowserPreview {
+  display: flex;
+  height: 108px;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-hint);
+}
+
+.ComponentBrowserPreview svg {
+  width: 152px;
+  height: 84px;
+}
+
+.ComponentBrowserEmpty {
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

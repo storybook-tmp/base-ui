@@ -1,0 +1,90 @@
+/* Demo-only glue for combobox stories — not part of the Droppy theme.
+   The grid (emoji picker) and hand-rolled virtualization recipes are bespoke
+   chrome, not standard Combobox anatomy — ported here faithfully so those
+   stories keep rendering as before the theme move. */
+
+.ComboboxDemoStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.ComboboxDemoRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ComboboxDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Layered on top of theme.ComboboxPopup: longer, more visible enter/exit
+   transition for the animation story. */
+.ComboboxDemoPopupAnimated {
+  transition:
+    opacity var(--ds-motion-fast) var(--ds-motion-ease),
+    transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.ComboboxDemoPopupAnimated[data-starting-style],
+.ComboboxDemoPopupAnimated[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Layered on top of theme.ComboboxPopup: popup hosting the input itself
+   (searchable-select pattern) sizes to content instead of the anchor width. */
+.ComboboxDemoPopupWithInput {
+  width: auto;
+  min-width: var(--anchor-width);
+}
+
+/* Grid mode (emoji picker) */
+
+.ComboboxDemoGridRow {
+  display: flex;
+}
+
+.ComboboxDemoGridItem {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.25rem;
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: var(--ds-radius-control);
+}
+
+.ComboboxDemoGridItem[data-highlighted] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ComboboxDemoGridItem[data-selected] {
+  outline: 2px solid var(--ds-color-text-primary);
+  outline-offset: -2px;
+}
+
+/* Hand-rolled virtualization */
+
+.ComboboxDemoScroller {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: 18rem;
+  padding-block: 0;
+  outline: 0;
+}
+
+/* Layered on top of theme.ComboboxItem: windowed rows render edge-to-edge. */
+.ComboboxDemoVirtualItem {
+  padding-block: 0;
+}
