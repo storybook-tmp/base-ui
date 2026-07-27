@@ -31,6 +31,7 @@ A graphical display of a numeric value within a range.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Storage/disk usage, the subject of the hero demo.
@@ -46,6 +47,7 @@ A graphical display of a numeric value within a range.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -61,7 +63,7 @@ import { Meter } from '@base-ui/react/meter';
 ```
 
 | Part              | Renders              | Purpose                                                                    | Optional? |
-| :----------------- | :-------------------- | :-------------------------------------------------------------------------- | :--------- |
+| :---------------- | :------------------- | :------------------------------------------------------------------------- | :-------- |
 | `Meter.Root`      | `<div role="meter">` | Owns `aria-value*`/`aria-labelledby`, computes formatted/percentage values | required  |
 | `Meter.Label`     | `<span>`             | Visible label; self-registers into Root's `aria-labelledby`                | yes       |
 | `Meter.Track`     | `<div>`              | Pure layout container representing the range                               | yes       |
@@ -73,6 +75,7 @@ All parts throw outside `<Meter.Root>`. Root also renders the same visually hidd
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Value, bounds, and clamping
@@ -104,6 +107,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 **Keyboard:** none. The APG meter pattern lists keyboard interaction as "Not applicable"; Meter renders no `tabIndex` or key handlers.
@@ -113,16 +117,8 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-**No data attributes exist on any Meter part**, in contrast with Progress's `data-progressing`/`data-complete`/`data-indeterminate`. Every part's `State` interface is empty, so even the `className`/`style` state-function form has nothing to branch on. This traces to the designed-then-dropped segment feature ([#743](https://github.com/mui/base-ui/pull/743) → open [#1434](https://github.com/mui/base-ui/issues/1434)).
-
-**No CSS variables either.** The fill is plain inline `style.width` on the Indicator; like Progress, this is an exception to our usual practice of carrying dynamic numeric values in CSS variables. Style meters by class, or compute conditional classes from the props you already control.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`value`**: required; there is no indeterminate escape hatch. If you can't produce a number yet, render Progress (indeterminate) or nothing.
@@ -134,6 +130,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -147,6 +144,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: do-dont */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="meter">
@@ -189,6 +187,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-09**: founding issue scopes Meter against the APG meter pattern; flags `[data-optimum]` styling as an open question ([#662](https://github.com/mui/base-ui/issues/662)).
@@ -202,6 +201,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#1434](https://github.com/mui/base-ui/issues/1434) (open): no ARIA-equivalent for native `<meter>`'s high/low/optimum segments; consumer-computed classes are the interim answer.
@@ -211,6 +211,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - To display **task completion** (including unknown-duration work), use [Progress](?path=/docs/status-display-progress--docs).
@@ -219,6 +220,7 @@ Native `<meter>`'s high/low/optimum "segments" were implemented in the original 
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Meter.Root

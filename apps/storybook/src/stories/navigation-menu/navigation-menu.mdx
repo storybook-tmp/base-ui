@@ -33,6 +33,7 @@ A collection of links and menus for website navigation: a `<nav>` bar whose disc
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Site headers where top-level entries open **rich link panels**. The hero renders "Overview"/"Handbook" triggers whose panels are link cards (title + description), plus a plain "GitHub" link with no panel: triggers and plain links mix freely in one `List`.
@@ -56,6 +57,7 @@ In short: _button-anchored actions → Menu; right-click/long-press → Context 
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -86,21 +88,21 @@ import { NavigationMenu } from '@base-ui/react/navigation-menu';
 </NavigationMenu.Root>;
 ```
 
-| Part                        | Renders                                | Purpose                                                                                                                                                    | Optional?                     |
-| :--------------------------- | :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------- |
+| Part                        | Renders                                | Purpose                                                                                                                                                   | Optional?                     |
+| :-------------------------- | :------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------- |
 | `NavigationMenu.Root`       | `<nav>` (top level) / `<div>` (nested) | Groups all parts; owns the scalar `value`; exactly one panel open at a time                                                                               | required                      |
-| `NavigationMenu.List`       | `<ul>`                                 | Roving arrow-key composite over top-level items (no `aria-orientation`, removed in [#4355](https://github.com/mui/base-ui/pull/4355))                      | required                      |
-| `NavigationMenu.Item`       | `<li>`                                 | One entry; provides its `value` (auto-generated if omitted)                                                                                                | required                      |
-| `NavigationMenu.Trigger`    | `<button aria-expanded aria-controls>` | Opens the item's panel on hover/click/keyboard                                                                                                             | with Content                  |
-| `NavigationMenu.Icon`       | `<span aria-hidden>`                   | Indicates the trigger opens a panel (default child `▼`)                                                                                                    | yes                           |
-| `NavigationMenu.Content`    | `<div>`                                | Authored inline next to its Trigger; **teleports into the Viewport** when its item is active                                                               | with Trigger                  |
-| `NavigationMenu.Link`       | `<a>`                                  | Navigates; `active` → `aria-current="page"` + `data-active`                                                                                                | expected                      |
+| `NavigationMenu.List`       | `<ul>`                                 | Roving arrow-key composite over top-level items (no `aria-orientation`, removed in [#4355](https://github.com/mui/base-ui/pull/4355))                     | required                      |
+| `NavigationMenu.Item`       | `<li>`                                 | One entry; provides its `value` (auto-generated if omitted)                                                                                               | required                      |
+| `NavigationMenu.Trigger`    | `<button aria-expanded aria-controls>` | Opens the item's panel on hover/click/keyboard                                                                                                            | with Content                  |
+| `NavigationMenu.Icon`       | `<span aria-hidden>`                   | Indicates the trigger opens a panel (default child `▼`)                                                                                                   | yes                           |
+| `NavigationMenu.Content`    | `<div>`                                | Authored inline next to its Trigger; **teleports into the Viewport** when its item is active                                                              | with Trigger                  |
+| `NavigationMenu.Link`       | `<a>`                                  | Navigates; `active` → `aria-current="page"` + `data-active`                                                                                               | expected                      |
 | `NavigationMenu.Portal`     | moves subtree to `<body>`              | The classic anchored-flyout mode; **omit it entirely** for inline nested content ([#2269](https://github.com/mui/base-ui/pull/2269))                      | optional, unlike Menu/Popover |
 | `NavigationMenu.Backdrop`   | `<div role="presentation">`            | Purely visual; the component is never modal                                                                                                               | yes                           |
-| `NavigationMenu.Positioner` | `<div>`                                | Anchors the popup against the **currently active trigger**; re-targets as it changes                                                                       | with Portal                   |
+| `NavigationMenu.Positioner` | `<div>`                                | Anchors the popup against the **currently active trigger**; re-targets as it changes                                                                      | with Portal                   |
 | `NavigationMenu.Popup`      | `<nav>`                                | Container for the content; itself a navigation landmark, stitched back into reading order via a visually-hidden `aria-owns` span after the active trigger | with Positioner               |
-| `NavigationMenu.Viewport`   | `<div>`                                | The clipping viewport where `Content` mounts; hosts old+new content during cross-fade                                                                      | with Popup                    |
-| `NavigationMenu.Arrow`      | `<div aria-hidden>`                    | Visual pointer toward the anchor                                                                                                                           | yes                           |
+| `NavigationMenu.Viewport`   | `<div>`                                | The clipping viewport where `Content` mounts; hosts old+new content during cross-fade                                                                     | with Popup                    |
+| `NavigationMenu.Arrow`      | `<div aria-hidden>`                    | Visual pointer toward the anchor                                                                                                                          | yes                           |
 
 **Two composition modes**: (1) **Popup mode**, the full `Portal → Positioner → Popup → Viewport` chain, anchored to the active trigger (the hero). (2) **Inline mode**, a nested `Root` rendering only `List` + `Viewport` with a `defaultValue`; content swaps inside the parent's panel with no new popup at all.
 
@@ -113,6 +115,7 @@ import { NavigationMenu } from '@base-ui/react/navigation-menu';
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### The shared, morphing popup
@@ -194,12 +197,13 @@ Popup/Positioner/Backdrop/Content expose `data-open`/`data-closed`/`data-startin
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 Pattern: [APG Disclosure Navigation](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/), a `<nav>` landmark, a plain list, and `<button aria-expanded aria-controls>` disclosure triggers over link panels. This is deliberately **not** the ARIA menu pattern, so there is no `role="menu"`, `menuitem`, or `menubar` anywhere. ([#2526](https://github.com/mui/base-ui/pull/2526), [#4349](https://github.com/mui/base-ui/issues/4349) → [#4355](https://github.com/mui/base-ui/pull/4355)).
 
 | Key                                    | Context                      | Result                                                                                                                   |
-| :-------------------------------------- | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| :------------------------------------- | :--------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
 | `Tab` / `Shift+Tab`                    | anywhere                     | Sequential focus: triggers → (into an open panel's links) → next trigger; leaving the whole menu closes it (`focus-out`) |
 | `ArrowRight` / `ArrowLeft`             | trigger focused (horizontal) | Move focus between top-level items (roving composite, no loop); does **not** open or switch content                      |
 | `ArrowDown`                            | trigger focused (horizontal) | Open that item's panel, focus moves into it (reason `list-navigation`)                                                   |
@@ -216,28 +220,8 @@ Home/End inside the List: our tests don't pin this behavior.
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part                                    | Attribute / variable                                                      | Present when                                                                                                    |
-| :--------------------------------------- | :------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
-| Trigger                                 | `data-popup-open` / `data-pressed`                                        | the trigger's panel is open / pressed                                                                           |
-| Icon                                    | `data-popup-open`                                                         | rotate the chevron when the panel is open                                                                       |
-| Link                                    | `data-active`                                                             | `active` prop is set (pairs with `aria-current`)                                                                |
-| Popup / Positioner / Backdrop / Content | `data-open` / `data-closed` / `data-starting-style` / `data-ending-style` | open/close transition lifecycle                                                                                 |
-| Content                                 | `data-activation-direction` (`left`\|`right`\|`up`\|`down`)               | which way the new trigger lies relative to the previous one                                                     |
-| Positioner                              | `data-instant`                                                            | initial open frame + window resize; disables transitions                                                       |
-| Popup / Positioner / Arrow              | `data-side` / `data-align` / `data-anchor-hidden`                         | resolved anchored-positioning result                                                                            |
-| Arrow                                   | `data-uncentered`                                                         | the arrow can't stay centered on the anchor                                                                     |
-| Positioner (CSS vars)                   | `--available-width/height`, `--anchor-width/height`, `--transform-origin` | while positioned                                                                                                |
-| Positioner (CSS var)                    | `--positioner-width/height`                                               | consume unconditionally; required for the morph to animate ([#2269](https://github.com/mui/base-ui/pull/2269)) |
-| Popup (CSS var)                         | `--popup-width/height`                                                    | same; becomes `auto` once idle so content can reflow ([#2070](https://github.com/mui/base-ui/pull/2070))       |
-
-Popup/Positioner **must** consume the size variables for morphing to work at all: `.Positioner { width: var(--positioner-width); height: var(--positioner-height) }`, `.Popup { width: var(--popup-width); height: var(--popup-height) }`, plus `[data-instant] { transition: none }`. Constrain scrollable panels with `max-height: var(--available-height)` and `box-sizing: border-box` on `Content`/`Popup` ([#2240](https://github.com/mui/base-ui/pull/2240)).
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`value` / `defaultValue` / `onValueChange` (Root)**: uncontrolled + `Item` auto-values for plain headers; add explicit `Item value`s + controlled `value` when syncing to router state or building disclosure analytics. Type it with `NavigationMenu.Root<MyId>` ([#4328](https://github.com/mui/base-ui/pull/4328)).
@@ -255,6 +239,7 @@ Popup/Positioner **must** consume the size variables for morphing to work at all
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -276,6 +261,7 @@ Popup/Positioner **must** consume the size variables for morphing to work at all
 {/* END: do-dont */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="navigation-menu">
@@ -326,6 +312,7 @@ wevm/vocs is a docs-site framework whose own top nav (rendering every Vocs-power
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2025-05, [#1741](https://github.com/mui/base-ui/pull/1741)**: component ships (beta.0). Founding goals: nested menus and full interruptibility of transitions.
@@ -341,6 +328,7 @@ wevm/vocs is a docs-site framework whose own top nav (rendering every Vocs-power
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#2254](https://github.com/mui/base-ui/issues/2254): no per-trigger click-only mode; the documented workaround is a very large `delay` (open).
@@ -352,6 +340,7 @@ wevm/vocs is a docs-site framework whose own top nav (rendering every Vocs-power
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For **action lists behind a button**, use [Menu](?path=/docs/overlays-menu--docs).
@@ -362,6 +351,7 @@ wevm/vocs is a docs-site framework whose own top nav (rendering every Vocs-power
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### NavigationMenu.Root

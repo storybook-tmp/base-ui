@@ -30,6 +30,7 @@ A container for grouping a set of buttons and controls.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - A persistent command bar grouping buttons, toggle groups, links, an occasional single input, and/or popup triggers that should share **one Tab stop** with arrow-key navigation among them.
@@ -45,6 +46,7 @@ A container for grouping a set of buttons and controls.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -63,7 +65,7 @@ import { Toolbar } from '@base-ui/react/toolbar';
 ```
 
 | Part                | Renders                  | Purpose                                              | Optional?                                      |
-| :------------------- | :------------------------ | :---------------------------------------------------- | :---------------------------------------------- |
+| :------------------ | :----------------------- | :--------------------------------------------------- | :--------------------------------------------- |
 | `Toolbar.Root`      | `<div role="toolbar">`   | The single composite region                          | required                                       |
 | `Toolbar.Button`    | `<button>`               | A button, or a trigger host via `render`             | optional (one or more typically)               |
 | `Toolbar.Link`      | `<a>`                    | A link item; can never be disabled                   | optional                                       |
@@ -74,6 +76,7 @@ import { Toolbar } from '@base-ui/react/toolbar';
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Composite keyboard navigation
@@ -107,10 +110,11 @@ The non-inverted composition direction: `<Toolbar.Button render={<Menu.Trigger /
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key                        | Action                                                                                                               |
-| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------------- |
 | `Tab`                      | Moves focus to exactly one item (single tab stop for the entire toolbar)                                             |
 | `ArrowRight` / `ArrowLeft` | `orientation="horizontal"`, LTR: move roving focus to next/previous item across all item types; wraps if `loopFocus` |
 | `ArrowDown` / `ArrowUp`    | `orientation="vertical"`: move roving focus to next/previous item                                                    |
@@ -122,20 +126,8 @@ The non-inverted composition direction: `<Toolbar.Button render={<Menu.Trigger /
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute          | Present on                                  | Present when                             |
-| :------------------ | :------------------------------------------- | :---------------------------------------- |
-| `data-disabled`    | Root, Button, Group, Input (not Link)       | disabled                                 |
-| `data-orientation` | Root, Button, Group, Link, Input, Separator | always, reflects `orientation`           |
-| `data-focusable`   | Button, Input                               | the item remains focusable-when-disabled |
-
-No CSS variables; there are no dynamic measurements to expose.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`orientation`** (Root, default `'horizontal'`): determines the active arrow-key axis and the default perpendicular `Separator` flip; set `'vertical'` for a sidebar-style command rail.
@@ -147,6 +139,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -161,6 +154,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: do-dont */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="toolbar">
@@ -203,6 +197,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **Introduced in [#1349](https://github.com/mui/base-ui/pull/1349)** (closing [#661](https://github.com/mui/base-ui/issues/661)): shipped with Root/Button/Input/Link/Group/Separator, `focusableWhenDisabled`, `orientation`, roving focus with `loop`, and a `cols` grid-layout prop; we deferred a `hotkey` prop to [#1454](https://github.com/mui/base-ui/issues/1454).
@@ -213,6 +208,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#1976](https://github.com/mui/base-ui/issues/1976#issuecomment-2916905663): disabled forwarding for `render`-composed buttons is a known, still-evolving area.
@@ -221,6 +217,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For a menu bar of drop-down application menus, use [Menubar](?path=/docs/navigation-menubar--docs).
@@ -230,6 +227,7 @@ No CSS variables; there are no dynamic measurements to expose.
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Toolbar.Root
