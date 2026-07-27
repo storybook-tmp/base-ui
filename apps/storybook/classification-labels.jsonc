@@ -43,9 +43,8 @@
     "examples": "Real-world combinations of components extracted from products that use Base UI",
     "playground": "One fully configurable story per component with handcrafted argTypes",
     "tests": "Play-function stories for specific behaviors",
-    "infra": "Storybook-internal stories for the docs' own tooling, not for a Base UI component",
     "animation": "Stories demonstrating the transition/animation contract (parked pending a decision on how to treat them)",
-    "styling": "Styling hooks and guidelines"
+    "infra": "Storybook-internal stories for the docs' own tooling, not for a Base UI component"
   },
   // Content to always delete
   "delete": ["mdx.styling", "mdx.testing", "story.infra"]
