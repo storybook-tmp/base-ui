@@ -24,12 +24,6 @@ const stateAttributesMapping: StateAttributesMapping<DialogPopupState> = {
   },
 };
 
-/**
- * A container for the dialog contents.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Dialog](https://base-ui.com/react/components/dialog)
- */
 export const DialogPopup = React.forwardRef(function DialogPopup(
   componentProps: DialogPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

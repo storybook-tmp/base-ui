@@ -25,12 +25,6 @@ const stateAttributesMapping: StateAttributesMapping<PopoverPopupState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the popover contents.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Popover](https://base-ui.com/react/components/popover)
- */
 export const PopoverPopup = React.forwardRef(function PopoverPopup(
   componentProps: PopoverPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

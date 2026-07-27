@@ -17,14 +17,6 @@ const stateAttributesMapping: StateAttributesMapping<MenuViewportState> = {
       : null,
 };
 
-/**
- * A viewport for displaying content transitions.
- * This component is only required if one popup can be opened by multiple triggers, its content
- * changes based on the trigger, and switching between them is animated.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuViewport = React.forwardRef(function MenuViewport(
   componentProps: MenuViewport.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

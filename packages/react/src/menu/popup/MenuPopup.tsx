@@ -24,12 +24,6 @@ const stateAttributesMapping: StateAttributesMapping<MenuPopupState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the menu items.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuPopup = React.forwardRef(function MenuPopup(
   componentProps: MenuPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

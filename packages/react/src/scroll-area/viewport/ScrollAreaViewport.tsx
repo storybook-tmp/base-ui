@@ -63,12 +63,6 @@ function removeCSSVariableInheritance() {
   scrollAreaOverflowVarsRegistered = true;
 }
 
-/**
- * The actual scrollable container of the scroll area.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Scroll Area](https://base-ui.com/react/components/scroll-area)
- */
 export const ScrollAreaViewport = React.forwardRef(function ScrollAreaViewport(
   componentProps: ScrollAreaViewport.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

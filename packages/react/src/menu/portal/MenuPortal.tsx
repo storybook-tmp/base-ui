@@ -4,13 +4,6 @@ import { FloatingPortal } from '../../floating-ui-react';
 import { useMenuRootContext } from '../root/MenuRootContext';
 import { MenuPortalContext } from './MenuPortalContext';
 
-/**
- * A portal element that moves the popup to a different part of the DOM.
- * By default, the portal element is appended to `<body>`.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuPortal = React.forwardRef(function MenuPortal(
   props: MenuPortal.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

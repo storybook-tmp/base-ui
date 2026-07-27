@@ -9,12 +9,6 @@ import { collapsibleStateAttributesMapping } from './stateAttributesMapping';
 import type { BaseUIChangeEventDetails } from '../../internals/createBaseUIEventDetails';
 import { REASONS } from '../../internals/reasons';
 
-/**
- * Groups all parts of the collapsible.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Collapsible](https://base-ui.com/react/components/collapsible)
- */
 export const CollapsibleRoot = React.forwardRef(function CollapsibleRoot(
   componentProps: CollapsibleRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

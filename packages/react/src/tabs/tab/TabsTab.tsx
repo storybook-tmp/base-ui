@@ -16,12 +16,6 @@ import { createChangeEventDetails } from '../../internals/createBaseUIEventDetai
 import { REASONS } from '../../internals/reasons';
 import { activeElement, contains } from '../../floating-ui-react/utils';
 
-/**
- * An individual interactive tab button that toggles the corresponding panel.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Tabs](https://base-ui.com/react/components/tabs)
- */
 export const TabsTab = React.forwardRef(function TabsTab(
   componentProps: TabsTab.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

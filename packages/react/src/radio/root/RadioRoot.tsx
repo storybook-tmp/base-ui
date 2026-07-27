@@ -26,12 +26,6 @@ import { useRadioGroupContext } from '../../radio-group/RadioGroupContext';
 import { serializeValue } from '../../internals/serializeValue';
 import { RadioRootContext } from './RadioRootContext';
 
-/**
- * Represents the radio button itself.
- * Renders a `<span>` element and a hidden `<input>` beside.
- *
- * Documentation: [Base UI Radio](https://base-ui.com/react/components/radio)
- */
 export const RadioRoot = React.forwardRef(function RadioRoot<Value>(
   componentProps: RadioRoot.Props<Value>,
   forwardedRef: React.ForwardedRef<HTMLElement>,

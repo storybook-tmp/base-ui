@@ -4,13 +4,6 @@ import { useTooltipRootContext } from '../root/TooltipRootContext';
 import { TooltipPortalContext } from './TooltipPortalContext';
 import { FloatingPortalLite } from '../../utils/FloatingPortalLite';
 
-/**
- * A portal element that moves the popup to a different part of the DOM.
- * By default, the portal element is appended to `<body>`.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Tooltip](https://base-ui.com/react/components/tooltip)
- */
 export const TooltipPortal = React.forwardRef(function TooltipPortal(
   props: TooltipPortal.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

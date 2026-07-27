@@ -16,12 +16,6 @@ import {
 import { CLOSE_DELAY, OPEN_DELAY } from '../utils/constants';
 import { safePolygon, useFocus, useHoverReferenceInteraction } from '../../floating-ui-react';
 
-/**
- * A link that opens the preview card.
- * Renders an `<a>` element.
- *
- * Documentation: [Base UI Preview Card](https://base-ui.com/react/components/preview-card)
- */
 export const PreviewCardTrigger = fastComponentRef(function PreviewCardTrigger(
   componentProps: PreviewCardTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,

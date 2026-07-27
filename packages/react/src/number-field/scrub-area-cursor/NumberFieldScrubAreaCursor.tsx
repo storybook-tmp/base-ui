@@ -17,15 +17,6 @@ const CURSOR_STYLE: React.CSSProperties = {
   pointerEvents: 'none',
 };
 
-/**
- * A custom element to display instead of the native cursor while using the scrub area.
- * Renders a `<span>` element.
- *
- * This component uses the [Pointer Lock API](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API), which may prompt the browser to display a related notification. It is disabled
- * in Safari to avoid a layout shift that this notification causes there.
- *
- * Documentation: [Base UI Number Field](https://base-ui.com/react/components/number-field)
- */
 export const NumberFieldScrubAreaCursor = React.forwardRef(function NumberFieldScrubAreaCursor(
   componentProps: NumberFieldScrubAreaCursor.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

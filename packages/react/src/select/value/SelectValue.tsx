@@ -12,12 +12,6 @@ const stateAttributesMapping: StateAttributesMapping<SelectValueState> = {
   value: () => null,
 };
 
-/**
- * A text label of the currently selected item.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectValue = React.forwardRef(function SelectValue(
   componentProps: SelectValue.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

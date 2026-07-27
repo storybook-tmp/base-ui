@@ -36,12 +36,6 @@ const OPPOSITE_DIRECTION_DAMPING_FACTOR = 0.5;
 const MIN_DRAG_THRESHOLD = 1;
 const TOAST_SWIPE_IGNORE_SELECTOR = `${BASE_UI_SWIPE_IGNORE_SELECTOR},${LEGACY_SWIPE_IGNORE_SELECTOR}`;
 
-/**
- * Groups all parts of an individual toast.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Toast](https://base-ui.com/react/components/toast)
- */
 export const ToastRoot = React.forwardRef(function ToastRoot(
   componentProps: ToastRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

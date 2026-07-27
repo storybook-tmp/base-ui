@@ -4,12 +4,6 @@ import { DialogTrigger } from '../../dialog/trigger/DialogTrigger';
 import type { DrawerHandle } from '../handle';
 import type { BaseUIComponentProps, NativeButtonProps } from '../../internals/types';
 
-/**
- * A button that opens the drawer.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Drawer](https://base-ui.com/react/components/drawer)
- */
 export const DrawerTrigger = DialogTrigger as DrawerTrigger;
 
 export interface DrawerTrigger {

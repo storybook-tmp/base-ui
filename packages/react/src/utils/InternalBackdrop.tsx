@@ -1,8 +1,5 @@
 import * as React from 'react';
 
-/**
- * @internal
- */
 export const InternalBackdrop = React.forwardRef(function InternalBackdrop(
   props: InternalBackdrop.Props,
   ref: React.ForwardedRef<HTMLDivElement>,

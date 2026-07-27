@@ -6,13 +6,6 @@ import { useComboboxRootContext } from '../root/ComboboxRootContext';
 import { ComboboxPortalContext } from './ComboboxPortalContext';
 import { selectors } from '../store';
 
-/**
- * A portal element that moves the popup to a different part of the DOM.
- * By default, the portal element is appended to `<body>`.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
- */
 export const ComboboxPortal = React.forwardRef(function ComboboxPortal(
   props: ComboboxPortal.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

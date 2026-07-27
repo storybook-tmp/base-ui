@@ -55,12 +55,6 @@ function areValuesEqual(
   return false;
 }
 
-/**
- * Groups all parts of the slider.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Slider](https://base-ui.com/react/components/slider)
- */
 export const SliderRoot = React.forwardRef(function SliderRoot<
   Value extends number | readonly number[],
 >(componentProps: SliderRoot.Props<Value>, forwardedRef: React.ForwardedRef<HTMLDivElement>) {

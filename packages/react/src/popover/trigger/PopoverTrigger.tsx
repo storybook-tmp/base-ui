@@ -20,12 +20,6 @@ import { usePopupHandleStore, useTriggerDataForwarding } from '../../utils/popup
 import { useTriggerFocusGuards } from '../../utils/popups/useTriggerFocusGuards';
 import { useOpenMethodTriggerProps } from '../../utils/useOpenInteractionType';
 
-/**
- * A button that opens the popover.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Popover](https://base-ui.com/react/components/popover)
- */
 export const PopoverTrigger = React.forwardRef(function PopoverTrigger(
   componentProps: PopoverTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

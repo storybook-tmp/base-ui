@@ -21,11 +21,6 @@ const menubarStateAttributesMapping: StateAttributesMapping<MenubarState> = {
   },
 };
 
-/**
- * The container for menus.
- *
- * Documentation: [Base UI Menubar](https://base-ui.com/react/components/menubar)
- */
 export const Menubar = React.forwardRef(function Menubar(
   props: Menubar.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

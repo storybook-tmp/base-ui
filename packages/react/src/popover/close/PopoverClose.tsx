@@ -8,12 +8,6 @@ import { createChangeEventDetails } from '../../internals/createBaseUIEventDetai
 import { REASONS } from '../../internals/reasons';
 import { useClosePartRegistration } from '../../utils/closePart';
 
-/**
- * A button that closes the popover.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Popover](https://base-ui.com/react/components/popover)
- */
 export const PopoverClose = React.forwardRef(function PopoverClose(
   componentProps: PopoverClose.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,

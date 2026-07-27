@@ -11,12 +11,6 @@ import { useTabsRootContext } from '../root/TabsRootContext';
 import type { TabsTab } from '../tab/TabsTab';
 import { TabsListContext } from './TabsListContext';
 
-/**
- * Groups the individual tab buttons.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Tabs](https://base-ui.com/react/components/tabs)
- */
 export const TabsList = React.forwardRef(function TabsList(
   componentProps: TabsList.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

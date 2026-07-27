@@ -7,12 +7,6 @@ import { useSliderRootContext } from '../root/SliderRootContext';
 import { sliderStateAttributesMapping } from '../root/stateAttributesMapping';
 import type { SliderRootState } from '../root/SliderRoot';
 
-/**
- * Displays the current value of the slider as text.
- * Renders an `<output>` element.
- *
- * Documentation: [Base UI Slider](https://base-ui.com/react/components/slider)
- */
 export const SliderValue = React.forwardRef(function SliderValue(
   componentProps: SliderValue.Props,
   forwardedRef: React.ForwardedRef<HTMLOutputElement>,

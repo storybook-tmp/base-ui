@@ -26,12 +26,6 @@ import { useAnchoredPopupScrollLock } from '../../utils/useAnchoredPopupScrollLo
 
 const FIXED: React.CSSProperties = { position: 'fixed' };
 
-/**
- * Positions the select popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectPositioner = React.forwardRef(function SelectPositioner(
   componentProps: SelectPositioner.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

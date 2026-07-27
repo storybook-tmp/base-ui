@@ -21,12 +21,6 @@ import { TooltipStore } from '../store/TooltipStore';
 import { type TooltipHandle } from '../store/TooltipHandle';
 import { REASONS } from '../../internals/reasons';
 
-/**
- * Groups all parts of the tooltip.
- * Doesn't render its own HTML element.
- *
- * Documentation: [Base UI Tooltip](https://base-ui.com/react/components/tooltip)
- */
 export const TooltipRoot = fastComponent(function TooltipRoot<Payload>(
   props: TooltipRoot.Props<Payload>,
 ) {

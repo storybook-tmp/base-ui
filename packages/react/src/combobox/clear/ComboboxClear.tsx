@@ -20,12 +20,6 @@ const stateAttributesMapping: StateAttributesMapping<ComboboxClearState> = {
   ...triggerOpenStateMapping,
 };
 
-/**
- * Clears the value when clicked.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
- */
 export const ComboboxClear = React.forwardRef(function ComboboxClear(
   componentProps: ComboboxClear.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,

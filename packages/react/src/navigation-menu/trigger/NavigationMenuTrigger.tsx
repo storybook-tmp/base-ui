@@ -59,13 +59,6 @@ import { useDirection } from '../../internals/direction-context/DirectionContext
 
 const DEFAULT_SIZE = { width: 0, height: 0 };
 
-/**
- * Opens the navigation menu popup when hovered or clicked, revealing the
- * associated content.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuTrigger = React.forwardRef(function NavigationMenuTrigger(
   componentProps: NavigationMenuTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,

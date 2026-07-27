@@ -7,12 +7,6 @@ import type { Side, Align } from '../../utils/useAnchorPositioning';
 import type { BaseUIComponentProps } from '../../internals/types';
 import { popupStateMapping } from '../../utils/popupStateMapping';
 
-/**
- * Displays an element positioned against the menu anchor.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuArrow = React.forwardRef(function MenuArrow(
   componentProps: MenuArrow.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

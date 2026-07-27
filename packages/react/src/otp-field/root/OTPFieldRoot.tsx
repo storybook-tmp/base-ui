@@ -36,12 +36,6 @@ import {
   type OTPValidationType,
 } from '../utils/otp';
 
-/**
- * Groups all OTP field parts and manages their state.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI OTP Field](https://base-ui.com/react/components/otp-field)
- */
 export const OTPFieldRoot = React.forwardRef(function OTPFieldRoot(
   componentProps: OTPFieldRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

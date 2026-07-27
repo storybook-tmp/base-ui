@@ -33,13 +33,6 @@ const stateAttributesMapping: StateAttributesMapping<NavigationMenuContentState>
   },
 };
 
-/**
- * A container for the content of the navigation menu item that is moved into the popup
- * when the item is active.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuContent = React.forwardRef(function NavigationMenuContent(
   componentProps: NavigationMenuContent.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

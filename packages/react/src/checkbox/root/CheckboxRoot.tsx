@@ -37,12 +37,6 @@ import { useValueChanged } from '../../internals/useValueChanged';
 
 export const PARENT_CHECKBOX = 'data-parent';
 
-/**
- * Represents the checkbox itself.
- * Renders a `<span>` element and a hidden `<input>` beside.
- *
- * Documentation: [Base UI Checkbox](https://base-ui.com/react/components/checkbox)
- */
 export const CheckboxRoot = React.forwardRef(function CheckboxRoot(
   componentProps: CheckboxRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

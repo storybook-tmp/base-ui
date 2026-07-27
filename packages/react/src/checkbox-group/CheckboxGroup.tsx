@@ -20,11 +20,6 @@ import { useFormContext } from '../internals/form-context/FormContext';
 import { useValueChanged } from '../internals/useValueChanged';
 import { areArraysEqual } from '../internals/areArraysEqual';
 
-/**
- * Provides a shared state to a series of checkboxes.
- *
- * Documentation: [Base UI Checkbox Group](https://base-ui.com/react/components/checkbox-group)
- */
 export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
   componentProps: CheckboxGroup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

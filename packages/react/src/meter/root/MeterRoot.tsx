@@ -8,12 +8,6 @@ import { valueToPercent } from '../../utils/valueToPercent';
 import { clamp } from '../../internals/clamp';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Groups all parts of the meter and provides the value for screen readers.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Meter](https://base-ui.com/react/components/meter)
- */
 export const MeterRoot = React.forwardRef(function MeterRoot(
   componentProps: MeterRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

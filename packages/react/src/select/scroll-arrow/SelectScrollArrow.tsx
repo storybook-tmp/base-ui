@@ -18,9 +18,6 @@ import {
 } from '../../utils/scrollEdges';
 import { selectors } from '../store';
 
-/**
- * @internal
- */
 export const SelectScrollArrow = React.forwardRef(function SelectScrollArrow(
   componentProps: SelectScrollArrow.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

@@ -8,12 +8,6 @@ import { stateAttributesMapping } from '../utils/stateAttributesMapping';
 import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 import { type TransitionStatus, useTransitionStatus } from '../../internals/useTransitionStatus';
 
-/**
- * Indicates whether the radio button is selected.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Radio](https://base-ui.com/react/components/radio)
- */
 export const RadioIndicator = React.forwardRef(function RadioIndicator(
   componentProps: RadioIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

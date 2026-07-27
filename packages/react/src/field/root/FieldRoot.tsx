@@ -209,12 +209,6 @@ const FieldRootInner = React.forwardRef(function FieldRootInner(
   return <FieldRootContext.Provider value={contextValue}>{element}</FieldRootContext.Provider>;
 });
 
-/**
- * Groups all parts of the field.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Field](https://base-ui.com/react/components/field)
- */
 export const FieldRoot = React.forwardRef(function FieldRoot(
   componentProps: FieldRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

@@ -41,12 +41,6 @@ import { mergeProps } from '../../merge-props';
 
 const BOUNDARY_OFFSET = 2;
 
-/**
- * A button that opens the menu.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuTrigger = fastComponentRef(function MenuTrigger(
   componentProps: MenuTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

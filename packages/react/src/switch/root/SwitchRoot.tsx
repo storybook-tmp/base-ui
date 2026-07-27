@@ -25,12 +25,6 @@ import { REASONS } from '../../internals/reasons';
 import type { BaseUIChangeEventDetails } from '../../types';
 import { useValueChanged } from '../../internals/useValueChanged';
 
-/**
- * Represents the switch itself.
- * Renders a `<span>` element and a hidden `<input>` beside.
- *
- * Documentation: [Base UI Switch](https://base-ui.com/react/components/switch)
- */
 export const SwitchRoot = React.forwardRef(function SwitchRoot(
   componentProps: SwitchRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

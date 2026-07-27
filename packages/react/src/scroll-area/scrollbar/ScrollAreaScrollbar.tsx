@@ -13,12 +13,6 @@ import { useDirection } from '../../internals/direction-context/DirectionContext
 import { scrollAreaStateAttributesMapping } from '../root/stateAttributes';
 import type { ScrollAreaRootState } from '../root/ScrollAreaRoot';
 
-/**
- * A vertical or horizontal scrollbar for the scroll area.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Scroll Area](https://base-ui.com/react/components/scroll-area)
- */
 export const ScrollAreaScrollbar = React.forwardRef(function ScrollAreaScrollbar(
   componentProps: ScrollAreaScrollbar.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

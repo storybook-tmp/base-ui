@@ -13,12 +13,6 @@ const stateAttributesMapping: StateAttributesMapping<NavigationMenuBackdropState
   ...transitionStatusMapping,
 };
 
-/**
- * A backdrop for the navigation menu popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuBackdrop = React.forwardRef(function NavigationMenuBackdrop(
   componentProps: NavigationMenuBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

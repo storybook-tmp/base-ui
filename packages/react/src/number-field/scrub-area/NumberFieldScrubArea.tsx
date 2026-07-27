@@ -25,12 +25,6 @@ const SCRUB_AREA_STYLE: React.CSSProperties = {
   userSelect: 'none',
 };
 
-/**
- * An interactive area where the user can click and drag to change the field value.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Number Field](https://base-ui.com/react/components/number-field)
- */
 export const NumberFieldScrubArea = React.forwardRef(function NumberFieldScrubArea(
   componentProps: NumberFieldScrubArea.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

@@ -42,12 +42,6 @@ const NAVIGATE_KEYS = new Set([
   'Escape',
 ]);
 
-/**
- * The native input control in the number field.
- * Renders an `<input>` element.
- *
- * Documentation: [Base UI Number Field](https://base-ui.com/react/components/number-field)
- */
 export const NumberFieldInput = React.forwardRef(function NumberFieldInput(
   componentProps: NumberFieldInput.Props,
   forwardedRef: React.ForwardedRef<HTMLInputElement>,

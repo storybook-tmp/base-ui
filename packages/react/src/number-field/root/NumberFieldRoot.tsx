@@ -42,12 +42,6 @@ import {
 } from '../../internals/createBaseUIEventDetails';
 import { REASONS } from '../../internals/reasons';
 
-/**
- * Groups all parts of the number field and manages its state.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Number Field](https://base-ui.com/react/components/number-field)
- */
 export const NumberFieldRoot = React.forwardRef(function NumberFieldRoot(
   componentProps: NumberFieldRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

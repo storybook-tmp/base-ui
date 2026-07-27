@@ -12,12 +12,6 @@ import { useBaseUiId } from '../../internals/useBaseUiId';
 import { useClick } from '../../floating-ui-react';
 import { useOpenMethodTriggerProps } from '../../utils/useOpenInteractionType';
 
-/**
- * A button that opens the dialog.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Dialog](https://base-ui.com/react/components/dialog)
- */
 export const DialogTrigger = React.forwardRef(function DialogTrigger(
   componentProps: DialogTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,

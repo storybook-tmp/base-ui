@@ -6,12 +6,6 @@ import { useSliderRootContext } from '../root/SliderRootContext';
 import type { SliderRootState } from '../root/SliderRoot';
 import { sliderStateAttributesMapping } from '../root/stateAttributesMapping';
 
-/**
- * Contains the slider indicator and represents the entire range of the slider.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Slider](https://base-ui.com/react/components/slider)
- */
 export const SliderTrack = React.forwardRef(function SliderTrack(
   componentProps: SliderTrack.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

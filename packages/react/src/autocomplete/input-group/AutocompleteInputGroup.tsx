@@ -5,12 +5,6 @@ import type { FieldRoot } from '../../field/root/FieldRoot';
 import type { Side } from '../../utils/useAnchorPositioning';
 import type { BaseUIComponentProps } from '../../internals/types';
 
-/**
- * A wrapper for the input and its associated controls.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Autocomplete](https://base-ui.com/react/components/autocomplete)
- */
 export const AutocompleteInputGroup = ComboboxInputGroup as AutocompleteInputGroup;
 
 export interface AutocompleteInputGroupState extends FieldRoot.State {

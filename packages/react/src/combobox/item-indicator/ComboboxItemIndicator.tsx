@@ -7,12 +7,6 @@ import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 import { useRenderElement } from '../../internals/useRenderElement';
 import { transitionStatusMapping } from '../../internals/stateAttributesMapping';
 
-/**
- * Indicates whether the item is selected.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
- */
 export const ComboboxItemIndicator = React.forwardRef(function ComboboxItemIndicator(
   componentProps: ComboboxItemIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

@@ -22,11 +22,6 @@ const stateAttributesMapping = {
   },
 };
 
-/**
- * Provides a shared state to a series of toggle buttons.
- *
- * Documentation: [Base UI Toggle Group](https://base-ui.com/react/components/toggle-group)
- */
 export const ToggleGroup = React.forwardRef(function ToggleGroup<Value extends string>(
   componentProps: ToggleGroup.Props<Value>,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

@@ -7,12 +7,6 @@ import { itemMapping } from '../utils/stateAttributesMapping';
 import { TransitionStatus, useTransitionStatus } from '../../internals/useTransitionStatus';
 import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 
-/**
- * Indicates whether the checkbox item is ticked.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuCheckboxItemIndicator = React.forwardRef(function MenuCheckboxItemIndicator(
   componentProps: MenuCheckboxItemIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

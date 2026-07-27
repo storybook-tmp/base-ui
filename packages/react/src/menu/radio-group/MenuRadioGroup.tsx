@@ -8,12 +8,6 @@ import { useRenderElement } from '../../internals/useRenderElement';
 import type { BaseUIComponentProps } from '../../internals/types';
 import type { MenuRoot } from '../root/MenuRoot';
 
-/**
- * Groups related radio items.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuRadioGroup = React.memo(
   React.forwardRef(function MenuRadioGroup(
     componentProps: MenuRadioGroup.Props,

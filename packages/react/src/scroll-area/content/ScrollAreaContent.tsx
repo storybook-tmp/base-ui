@@ -8,12 +8,6 @@ import { useScrollAreaRootContext } from '../root/ScrollAreaRootContext';
 import { scrollAreaStateAttributesMapping } from '../root/stateAttributes';
 import type { ScrollAreaRootState } from '../root/ScrollAreaRoot';
 
-/**
- * A container for the content of the scroll area.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Scroll Area](https://base-ui.com/react/components/scroll-area)
- */
 export const ScrollAreaContent = React.forwardRef(function ScrollAreaContent(
   componentProps: ScrollAreaContent.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

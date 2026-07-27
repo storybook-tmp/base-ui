@@ -8,12 +8,6 @@ import {
 } from './NavigationMenuItemContext';
 import { useBaseUiId } from '../../internals/useBaseUiId';
 
-/**
- * An individual navigation menu item.
- * Renders a `<li>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuItem = React.forwardRef(function NavigationMenuItem(
   componentProps: NavigationMenuItem.Props,
   forwardedRef: React.ForwardedRef<HTMLLIElement>,

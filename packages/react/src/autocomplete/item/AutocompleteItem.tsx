@@ -3,12 +3,6 @@ import type * as React from 'react';
 import { ComboboxItem } from '../../combobox/item/ComboboxItem';
 import type { BaseUIComponentProps, NonNativeButtonProps } from '../../internals/types';
 
-/**
- * An individual item in the list.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Autocomplete](https://base-ui.com/react/components/autocomplete)
- */
 export const AutocompleteItem = ComboboxItem as AutocompleteItem;
 
 export interface AutocompleteItemState {

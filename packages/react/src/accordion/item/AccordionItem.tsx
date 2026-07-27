@@ -19,12 +19,6 @@ import { useRenderElement } from '../../internals/useRenderElement';
 import { type BaseUIChangeEventDetails } from '../../internals/createBaseUIEventDetails';
 import { REASONS } from '../../internals/reasons';
 
-/**
- * Groups an accordion header with the corresponding panel.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Accordion](https://base-ui.com/react/components/accordion)
- */
 export const AccordionItem = React.forwardRef(function AccordionItem(
   componentProps: AccordionItem.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

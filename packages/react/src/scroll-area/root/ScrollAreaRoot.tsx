@@ -25,12 +25,6 @@ export type OverflowEdges = typeof DEFAULT_OVERFLOW_EDGES;
 export type Size = typeof DEFAULT_SIZE;
 export type Coords = typeof DEFAULT_COORDS;
 
-/**
- * Groups all parts of the scroll area.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Scroll Area](https://base-ui.com/react/components/scroll-area)
- */
 export const ScrollAreaRoot = React.forwardRef(function ScrollAreaRoot(
   componentProps: ScrollAreaRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

@@ -6,13 +6,6 @@ import { useDialogRootContext } from '../root/DialogRootContext';
 import { DialogPortalContext } from './DialogPortalContext';
 import { InternalBackdrop } from '../../utils/InternalBackdrop';
 
-/**
- * A portal element that moves the popup to a different part of the DOM.
- * By default, the portal element is appended to `<body>`.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Dialog](https://base-ui.com/react/components/dialog)
- */
 export const DialogPortal = React.forwardRef(function DialogPortal(
   props: DialogPortal.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
