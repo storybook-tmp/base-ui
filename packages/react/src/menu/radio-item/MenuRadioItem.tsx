@@ -117,32 +117,11 @@ export interface MenuRadioItemState {
 
 export interface MenuRadioItemProps
   extends NonNativeButtonProps, BaseUIComponentProps<'div', MenuRadioItemState> {
-  /**
-   * Value of the radio item.
-   * This is the value that will be set in the MenuRadioGroup when the item is selected.
-   */
   value: any;
-  /**
-   * The click handler for the menu item.
-   */
   onClick?: BaseUIComponentProps<'div', MenuRadioItemState>['onClick'] | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * Overrides the text label to use when the item is matched during keyboard text navigation.
-   */
   label?: string | undefined;
-  /**
-   * @ignore
-   */
   id?: string | undefined;
-  /**
-   * Whether to close the menu when the item is clicked.
-   * @default false
-   */
   closeOnClick?: boolean | undefined;
 }
 

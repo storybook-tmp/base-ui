@@ -73,9 +73,6 @@ export interface PopoverViewportState {
 }
 
 export interface PopoverViewportProps extends BaseUIComponentProps<'div', PopoverViewportState> {
-  /**
-   * The content to render inside the transition container.
-   */
   children?: React.ReactNode;
 }
 

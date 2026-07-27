@@ -83,18 +83,8 @@ export interface MenuLinkItemProps extends BaseUIComponentProps<
   MenuLinkItemState,
   React.ComponentPropsWithRef<'a'>
 > {
-  /**
-   * Overrides the text label to use when the item is matched during keyboard text navigation.
-   */
   label?: string | undefined;
-  /**
-   * @ignore
-   */
   id?: string | undefined;
-  /**
-   * Whether to close the menu when the item is clicked.
-   * @default false
-   */
   closeOnClick?: boolean | undefined;
 }
 

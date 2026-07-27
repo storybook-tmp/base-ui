@@ -160,32 +160,12 @@ export interface ToggleState {
 
 export interface ToggleProps<Value extends string>
   extends NativeButtonProps, BaseUIComponentProps<'button', ToggleState> {
-  /**
-   * Whether the toggle button is currently pressed.
-   * This is the controlled counterpart of `defaultPressed`.
-   */
   pressed?: boolean | undefined;
-  /**
-   * Whether the toggle button is currently pressed.
-   * This is the uncontrolled counterpart of `pressed`.
-   * @default false
-   */
   defaultPressed?: boolean | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * Callback fired when the pressed state is changed.
-   */
   onPressedChange?:
     | ((pressed: boolean, eventDetails: Toggle.ChangeEventDetails) => void)
     | undefined;
-  /**
-   * A unique string that identifies the toggle when used
-   * inside a toggle group.
-   */
   value?: Value | undefined;
 }
 

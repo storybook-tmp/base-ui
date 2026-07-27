@@ -34,10 +34,6 @@ export interface AutocompleteTriggerState extends FieldRootState {
 
 export interface AutocompleteTriggerProps
   extends NativeButtonProps, BaseUIComponentProps<'button', AutocompleteTriggerState> {
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

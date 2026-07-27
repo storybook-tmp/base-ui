@@ -84,20 +84,7 @@ export interface SelectValueProps extends Omit<
   BaseUIComponentProps<'span', SelectValueState>,
   'children'
 > {
-  /**
-   * Accepts a function that returns a `ReactNode` to format the selected value.
-   * @example
-   * ```tsx
-   * <Select.Value>
-   *   {(value: string | null) => value ? labels[value] : 'No value'}
-   * </Select.Value>
-   * ```
-   */
   children?: React.ReactNode | ((value: any) => React.ReactNode);
-  /**
-   * The placeholder value to display when no value is selected.
-   * This is overridden by `children` if specified, or by a null item's label in `items`.
-   */
   placeholder?: React.ReactNode;
 }
 

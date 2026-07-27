@@ -50,10 +50,6 @@ export interface ButtonState {
 
 export interface ButtonProps
   extends NativeButtonProps, BaseUIComponentProps<'button', ButtonState> {
-  /**
-   * Whether the button should be focusable when disabled.
-   * @default false
-   */
   focusableWhenDisabled?: boolean | undefined;
 }
 

@@ -164,23 +164,7 @@ export interface AccordionItemProps
   extends
     BaseUIComponentProps<'div', AccordionItemState>,
     Partial<Pick<UseCollapsibleRootParameters, 'disabled'>> {
-  /**
-   * A unique value that identifies this accordion item.
-   * If no value is provided, a unique ID will be generated automatically.
-   * Use when controlling the accordion programmatically, or to set an initial
-   * open state.
-   * @example
-   * ```tsx
-   * <Accordion.Root value={['a']}>
-   *   <Accordion.Item value="a" /> // initially open
-   *   <Accordion.Item value="b" /> // initially closed
-   * </Accordion.Root>
-   * ```
-   */
   value?: any;
-  /**
-   * Event handler called when the panel is opened or closed.
-   */
   onOpenChange?:
     | ((open: boolean, eventDetails: AccordionItem.ChangeEventDetails) => void)
     | undefined;

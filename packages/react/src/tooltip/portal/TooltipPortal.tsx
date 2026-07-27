@@ -35,10 +35,6 @@ export const TooltipPortal = React.forwardRef(function TooltipPortal(
 export interface TooltipPortalState {}
 
 export interface TooltipPortalProps extends FloatingPortalLite.Props<TooltipPortalState> {
-  /**
-   * Whether to keep the portal mounted in the DOM while the popup is hidden.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

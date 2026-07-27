@@ -140,26 +140,9 @@ export interface MenubarState {
 }
 
 export interface MenubarProps extends BaseUIComponentProps<'div', MenubarState> {
-  /**
-   * Whether the menubar is modal.
-   * @default true
-   */
   modal?: boolean | undefined;
-  /**
-   * Whether the whole menubar is disabled.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * The orientation of the menubar.
-   * @default 'horizontal'
-   */
   orientation?: MenuRoot.Orientation | undefined;
-  /**
-   * Whether to loop keyboard focus back to the first item
-   * when the end of the list is reached while using the arrow keys.
-   * @default true
-   */
   loopFocus?: boolean | undefined;
 }
 

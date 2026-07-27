@@ -46,17 +46,6 @@ export interface FieldValidityState extends Omit<FieldValidityData, 'state'> {
 }
 
 export interface FieldValidityProps {
-  /**
-   * A function that accepts the field validity state as an argument.
-   *
-   * ```jsx
-   * <Field.Validity>
-   *   {(validity) => {
-   *     return <div>...</div>
-   *   }}
-   * </Field.Validity>
-   * ```
-   */
   children: (state: FieldValidityState) => React.ReactNode;
 }
 

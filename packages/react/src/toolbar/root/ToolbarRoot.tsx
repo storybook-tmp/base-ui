@@ -103,16 +103,7 @@ export interface ToolbarRootState {
 
 export interface ToolbarRootProps extends BaseUIComponentProps<'div', ToolbarRootState> {
   disabled?: boolean | undefined;
-  /**
-   * The orientation of the toolbar.
-   * @default 'horizontal'
-   */
   orientation?: ToolbarRoot.Orientation | undefined;
-  /**
-   * If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.
-   *
-   * @default true
-   */
   loopFocus?: boolean | undefined;
 }
 

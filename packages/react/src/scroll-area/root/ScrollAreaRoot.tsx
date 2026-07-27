@@ -365,11 +365,6 @@ export interface ScrollAreaRootState {
 }
 
 export interface ScrollAreaRootProps extends BaseUIComponentProps<'div', ScrollAreaRootState> {
-  /**
-   * The threshold in pixels that must be passed before the overflow edge attributes are applied.
-   * Accepts a single number for all edges or an object to configure them individually.
-   * @default 0
-   */
   overflowEdgeThreshold?:
     | number
     | Partial<{

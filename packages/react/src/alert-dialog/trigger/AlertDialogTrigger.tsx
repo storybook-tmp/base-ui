@@ -23,10 +23,6 @@ export interface AlertDialogTriggerProps<Payload = unknown> extends Omit<
   DialogTriggerProps<Payload>,
   'handle'
 > {
-  /**
-   * A handle to associate the trigger with an alert dialog.
-   * Can be created with the AlertDialog.createHandle() method.
-   */
   handle?: AlertDialogHandle<Payload> | undefined;
 }
 

@@ -139,14 +139,7 @@ export interface TabsPanelState extends TabsRootState {
 }
 
 export interface TabsPanelProps extends BaseUIComponentProps<'div', TabsPanelState> {
-  /**
-   * The value of the TabPanel. It will be shown when the Tab with the corresponding value is active.
-   */
   value: TabsTab.Value;
-  /**
-   * Whether to keep the HTML element in the DOM while the panel is hidden.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

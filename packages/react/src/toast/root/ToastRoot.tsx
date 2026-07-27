@@ -605,14 +605,7 @@ export interface ToastRootState {
 }
 
 export interface ToastRootProps extends BaseUIComponentProps<'div', ToastRootState> {
-  /**
-   * The toast to render.
-   */
   toast: ToastRootToastObject<any>;
-  /**
-   * Direction(s) in which the toast can be swiped to dismiss.
-   * @default ['down', 'right']
-   */
   swipeDirection?:
     | 'up'
     | 'down'

@@ -88,15 +88,7 @@ export interface NavigationMenuLinkProps extends BaseUIComponentProps<
   NavigationMenuLinkState,
   React.ComponentPropsWithRef<'a'>
 > {
-  /**
-   * Whether the link is the currently active page.
-   * @default false
-   */
   active?: boolean | undefined;
-  /**
-   * Whether to close the navigation menu when the link is clicked.
-   * @default false
-   */
   closeOnClick?: boolean | undefined;
 }
 

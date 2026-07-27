@@ -73,9 +73,6 @@ export interface MenuViewportState {
 }
 
 export interface MenuViewportProps extends BaseUIComponentProps<'div', MenuViewportState> {
-  /**
-   * The content to render inside the transition container.
-   */
   children?: React.ReactNode;
 }
 

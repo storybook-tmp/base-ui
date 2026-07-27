@@ -135,11 +135,6 @@ export interface TooltipPositionerProps
   extends
     BaseUIComponentProps<'div', TooltipPositionerState>,
     Omit<UseAnchorPositioningSharedParameters, 'side'> {
-  /**
-   * Which side of the anchor element to align the popup against.
-   * May automatically change to avoid collisions.
-   * @default 'top'
-   */
   side?: Side | undefined;
 }
 

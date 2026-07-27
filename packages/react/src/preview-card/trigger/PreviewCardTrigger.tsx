@@ -128,23 +128,9 @@ export interface PreviewCardTriggerProps<Payload = unknown> extends BaseUICompon
   PreviewCardTriggerState,
   React.ComponentPropsWithRef<'a'>
 > {
-  /**
-   * A handle to associate the trigger with a preview card.
-   */
   handle?: PreviewCardHandle<Payload> | undefined;
-  /**
-   * A payload to pass to the preview card when it is opened.
-   */
   payload?: Payload | undefined;
-  /**
-   * How long to wait before the preview card opens. Specified in milliseconds.
-   * @default 600
-   */
   delay?: number | undefined;
-  /**
-   * How long to wait before closing the preview card. Specified in milliseconds.
-   * @default 300
-   */
   closeDelay?: number | undefined;
 }
 

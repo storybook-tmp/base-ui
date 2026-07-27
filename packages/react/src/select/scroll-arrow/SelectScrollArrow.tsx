@@ -187,10 +187,6 @@ export interface SelectScrollArrowProps extends BaseUIComponentProps<
   SelectScrollArrowState
 > {
   direction: 'up' | 'down';
-  /**
-   * Whether to keep the HTML element in the DOM while the select popup is not scrollable.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

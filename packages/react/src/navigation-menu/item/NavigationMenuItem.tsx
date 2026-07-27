@@ -43,11 +43,6 @@ export interface NavigationMenuItemProps extends BaseUIComponentProps<
   'li',
   NavigationMenuItemState
 > {
-  /**
-   * A unique value that identifies this navigation menu item.
-   * If no value is provided, a unique ID will be generated automatically.
-   * Use when controlling the navigation menu programmatically.
-   */
   value?: any;
 }
 

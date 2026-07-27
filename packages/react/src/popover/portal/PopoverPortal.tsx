@@ -35,10 +35,6 @@ export const PopoverPortal = React.forwardRef(function PopoverPortal(
 export interface PopoverPortalState {}
 
 export interface PopoverPortalProps extends FloatingPortal.Props<PopoverPortalState> {
-  /**
-   * Whether to keep the portal mounted in the DOM while the popup is hidden.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

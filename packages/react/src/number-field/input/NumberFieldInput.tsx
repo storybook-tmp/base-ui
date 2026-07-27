@@ -479,11 +479,6 @@ export interface NumberFieldInputProps extends BaseUIComponentProps<
   NumberFieldInputState,
   React.ComponentPropsWithRef<'input'>
 > {
-  /**
-   * A user-friendly description of the input's role for assistive tech. This is a role
-   * description, not an accessible name — use `Field.Label` or `aria-label` to name the control.
-   * @default 'Number field'
-   */
   'aria-roledescription'?: React.AriaAttributes['aria-roledescription'] | undefined;
 }
 

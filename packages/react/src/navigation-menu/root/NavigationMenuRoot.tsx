@@ -366,49 +366,15 @@ export interface NavigationMenuRootProps<Value = any> extends BaseUIComponentPro
   'nav',
   NavigationMenuRootState
 > {
-  /**
-   * A ref to imperative actions.
-   */
   actionsRef?: React.RefObject<NavigationMenuRoot.Actions | null> | undefined;
-  /**
-   * Event handler called after any animations complete when the navigation menu is closed.
-   */
   onOpenChangeComplete?: ((open: boolean) => void) | undefined;
-  /**
-   * The controlled value of the navigation menu item that should be currently open.
-   * When non-nullish, the menu will be open. When nullish, the menu will be closed.
-   *
-   * To render an uncontrolled navigation menu, use the `defaultValue` prop instead.
-   * @default null
-   */
   value?: Value | null | undefined;
-  /**
-   * The uncontrolled value of the item that should be initially selected.
-   *
-   * To render a controlled navigation menu, use the `value` prop instead.
-   * @default null
-   */
   defaultValue?: Value | null | undefined;
-  /**
-   * Callback fired when the value changes.
-   */
   onValueChange?:
     | ((value: Value | null, eventDetails: NavigationMenuRoot.ChangeEventDetails) => void)
     | undefined;
-  /**
-   * How long to wait before opening the navigation popup. Specified in milliseconds.
-   * @default 50
-   */
   delay?: number | undefined;
-  /**
-   * How long to wait before closing the navigation popup. Specified in milliseconds.
-   * @default 50
-   */
   closeDelay?: number | undefined;
-  /**
-   * The orientation of the navigation menu.
-   * @default 'horizontal'
-   */
   orientation?: 'horizontal' | 'vertical' | undefined;
 }
 

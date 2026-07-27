@@ -53,10 +53,6 @@ export const ComboboxGroup = React.forwardRef(function ComboboxGroup(
 export interface ComboboxGroupState {}
 
 export interface ComboboxGroupProps extends BaseUIComponentProps<'div', ComboboxGroupState> {
-  /**
-   * Items to be rendered within this group.
-   * When provided, child `Collection` components will use these items.
-   */
   items?: readonly any[] | undefined;
 }
 

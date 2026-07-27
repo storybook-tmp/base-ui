@@ -538,10 +538,6 @@ export interface ComboboxInputState extends FieldRootState {
 }
 
 export interface ComboboxInputProps extends BaseUIComponentProps<'input', ComboboxInputState> {
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

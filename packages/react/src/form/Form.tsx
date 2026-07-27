@@ -177,42 +177,11 @@ export interface FormState {}
 export interface FormProps<
   FormValues extends Record<string, any> = Record<string, any>,
 > extends BaseUIComponentProps<'form', FormState, React.ComponentPropsWithRef<'form'>> {
-  /**
-   * Determines when the form should be validated.
-   * The `validationMode` prop on `<Field.Root>` takes precedence over this.
-   *
-   * - `onSubmit` (default): validates the field when the form is submitted, afterwards fields will re-validate on change.
-   * - `onBlur`: validates a field when it loses focus.
-   * - `onChange`: validates the field on every change to its value.
-   *
-   * @default 'onSubmit'
-   */
   validationMode?: FormValidationMode | undefined;
-  /**
-   * Validation errors returned externally, typically after submission by a server or a form action.
-   * This should be an object where keys correspond to the `name` attribute on `<Field.Root>`,
-   * and values correspond to error(s) related to that field.
-   */
   errors?: FormContext['errors'] | undefined;
-  /**
-   * Event handler called when the form is submitted.
-   * `preventDefault()` is called on the native submit event when used.
-   */
   onFormSubmit?:
     | ((formValues: FormValues, eventDetails: Form.SubmitEventDetails) => void)
     | undefined;
-  /**
-   * A ref to imperative actions.
-   * - `validate`: Validates all fields when called. Optionally pass a field name to validate a single field.
-   * @example
-   * ```tsx
-   * // validate all fields
-   * actionsRef.current?.validate();
-   *
-   * // validate one field
-   * actionsRef.current?.validate('email');
-   * ```
-   */
   actionsRef?: React.RefObject<Form.Actions | null> | undefined;
 }
 

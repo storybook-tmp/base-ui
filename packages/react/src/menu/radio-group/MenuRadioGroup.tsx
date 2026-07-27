@@ -82,33 +82,12 @@ export const MenuRadioGroup = React.memo(
 );
 
 export interface MenuRadioGroupProps extends BaseUIComponentProps<'div', MenuRadioGroupState> {
-  /**
-   * The content of the component.
-   */
   children?: React.ReactNode;
-  /**
-   * The controlled value of the radio item that should be currently selected.
-   *
-   * To render an uncontrolled radio group, use the `defaultValue` prop instead.
-   */
   value?: any;
-  /**
-   * The uncontrolled value of the radio item that should be initially selected.
-   *
-   * To render a controlled radio group, use the `value` prop instead.
-   */
   defaultValue?: any;
-  /**
-   * Function called when the selected value changes.
-   */
   onValueChange?:
     | ((value: any, eventDetails: MenuRadioGroup.ChangeEventDetails) => void)
     | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   *
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

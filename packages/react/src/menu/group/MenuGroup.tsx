@@ -31,9 +31,6 @@ export const MenuGroup = React.forwardRef(function MenuGroup(
 });
 
 export interface MenuGroupProps extends BaseUIComponentProps<'div', MenuGroupState> {
-  /**
-   * The content of the component.
-   */
   children?: React.ReactNode;
 }
 

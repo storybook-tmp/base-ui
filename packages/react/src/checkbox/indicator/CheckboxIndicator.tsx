@@ -81,10 +81,6 @@ export interface CheckboxIndicatorProps extends BaseUIComponentProps<
   'span',
   CheckboxIndicatorState
 > {
-  /**
-   * Whether to keep the element in the DOM when the checkbox is not checked.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

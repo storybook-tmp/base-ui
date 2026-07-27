@@ -191,11 +191,6 @@ export interface NavigationMenuContentProps extends BaseUIComponentProps<
   'div',
   NavigationMenuContentState
 > {
-  /**
-   * Whether to keep the content mounted in the DOM while the popup is closed.
-   * Ensures the content is present during server-side rendering for web crawlers.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

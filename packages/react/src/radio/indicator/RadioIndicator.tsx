@@ -60,10 +60,6 @@ export const RadioIndicator = React.forwardRef(function RadioIndicator(
 });
 
 export interface RadioIndicatorProps extends BaseUIComponentProps<'span', RadioIndicatorState> {
-  /**
-   * Whether to keep the HTML element in the DOM when the radio button is inactive.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

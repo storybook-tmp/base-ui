@@ -60,10 +60,6 @@ export interface MenuRadioItemIndicatorProps extends BaseUIComponentProps<
   'span',
   MenuRadioItemIndicatorState
 > {
-  /**
-   * Whether to keep the HTML element in the DOM when the radio item is inactive.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

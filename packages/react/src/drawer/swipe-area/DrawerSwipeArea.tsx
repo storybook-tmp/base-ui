@@ -482,15 +482,7 @@ export const DrawerSwipeArea = React.forwardRef(function DrawerSwipeArea(
 });
 
 export interface DrawerSwipeAreaProps extends BaseUIComponentProps<'div', DrawerSwipeAreaState> {
-  /**
-   * Whether the swipe area is disabled.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * The swipe direction that opens the drawer.
-   * Defaults to the opposite of `Drawer.Root` `swipeDirection`.
-   */
   swipeDirection?: DrawerSwipeDirection | undefined;
 }
 

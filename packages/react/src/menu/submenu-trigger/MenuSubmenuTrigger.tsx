@@ -208,37 +208,11 @@ export interface MenuSubmenuTriggerState {
 export interface MenuSubmenuTriggerProps
   extends NonNativeButtonProps, BaseUIComponentProps<'div', MenuSubmenuTriggerState> {
   onClick?: BaseUIComponentProps<'div', MenuSubmenuTriggerState>['onClick'] | undefined;
-  /**
-   * Overrides the text label to use when the item is matched during keyboard text navigation.
-   */
   label?: string | undefined;
-  /**
-   * @ignore
-   */
   id?: string | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * How long to wait before the menu may be opened on hover. Specified in milliseconds.
-   *
-   * Requires the `openOnHover` prop.
-   * @default 100
-   */
   delay?: number | undefined;
-  /**
-   * How long to wait before closing the menu that was opened on hover.
-   * Specified in milliseconds.
-   *
-   * Requires the `openOnHover` prop.
-   * @default 0
-   */
   closeDelay?: number | undefined;
-  /**
-   * Whether the menu should also open when the trigger is hovered.
-   */
   openOnHover?: boolean | undefined;
 }
 

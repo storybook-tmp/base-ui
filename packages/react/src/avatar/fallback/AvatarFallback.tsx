@@ -52,11 +52,6 @@ export const AvatarFallback = React.forwardRef(function AvatarFallback(
 export interface AvatarFallbackState extends AvatarRootState {}
 
 export interface AvatarFallbackProps extends BaseUIComponentProps<'span', AvatarFallbackState> {
-  /**
-   * How long to wait before showing the fallback. Specified in milliseconds.
-   *
-   * @default 0
-   */
   delay?: number | undefined;
 }
 

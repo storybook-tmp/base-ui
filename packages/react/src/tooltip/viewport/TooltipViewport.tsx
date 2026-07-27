@@ -73,9 +73,6 @@ export interface TooltipViewportState {
 }
 
 export interface TooltipViewportProps extends BaseUIComponentProps<'div', TooltipViewportState> {
-  /**
-   * The content to render inside the transition container.
-   */
   children?: React.ReactNode;
 }
 

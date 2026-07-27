@@ -60,10 +60,6 @@ export interface MenuCheckboxItemIndicatorProps extends BaseUIComponentProps<
   'span',
   MenuCheckboxItemIndicatorState
 > {
-  /**
-   * Whether to keep the HTML element in the DOM when the checkbox item is not checked.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

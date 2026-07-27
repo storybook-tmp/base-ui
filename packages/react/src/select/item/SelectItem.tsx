@@ -286,21 +286,8 @@ export interface SelectItemState {
 export interface SelectItemProps
   extends NonNativeButtonProps, Omit<BaseUIComponentProps<'div', SelectItemState>, 'id'> {
   children?: React.ReactNode;
-  /**
-   * A unique value that identifies this select item.
-   * @default null
-   */
   value?: any;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * Specifies the text label to use when the item is matched during keyboard text navigation.
-   *
-   * Defaults to the item text content if not provided.
-   */
   label?: string | undefined;
 }
 

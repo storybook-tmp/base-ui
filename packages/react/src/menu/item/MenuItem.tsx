@@ -74,28 +74,10 @@ export interface MenuItemState {
 
 export interface MenuItemProps
   extends NonNativeButtonProps, BaseUIComponentProps<'div', MenuItemState> {
-  /**
-   * The click handler for the menu item.
-   */
   onClick?: BaseUIComponentProps<'div', MenuItemState>['onClick'] | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * Overrides the text label to use when the item is matched during keyboard text navigation.
-   */
   label?: string | undefined;
-  /**
-   * @ignore
-   */
   id?: string | undefined;
-  /**
-   * Whether to close the menu when the item is clicked.
-   *
-   * @default true
-   */
   closeOnClick?: boolean | undefined;
 }
 

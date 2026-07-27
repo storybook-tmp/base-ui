@@ -140,20 +140,7 @@ export interface CollapsiblePanelState extends CollapsibleRootState {
 }
 
 export interface CollapsiblePanelProps extends BaseUIComponentProps<'div', CollapsiblePanelState> {
-  /**
-   * Allows the browser's built-in page search to find and expand the panel contents.
-   *
-   * Overrides the `keepMounted` prop and uses `hidden="until-found"`
-   * to hide the element without removing it from the DOM.
-   *
-   * @default false
-   */
   hiddenUntilFound?: boolean | undefined;
-  /**
-   * Whether to keep the element in the DOM while the panel is hidden.
-   * This prop is ignored when `hiddenUntilFound` is used.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

@@ -90,36 +90,12 @@ export const MeterRoot = React.forwardRef(function MeterRoot(
 export interface MeterRootState {}
 
 export interface MeterRootProps extends BaseUIComponentProps<'div', MeterRootState> {
-  /**
-   * A string value that provides a user-friendly name for `aria-valuenow`, the current value of the meter.
-   */
   'aria-valuetext'?: React.AriaAttributes['aria-valuetext'] | undefined;
-  /**
-   * Options to format the value.
-   */
   format?: Intl.NumberFormatOptions | undefined;
-  /**
-   * A function that returns a string value that provides a human-readable text alternative for `aria-valuenow`, the current value of the meter.
-   */
   getAriaValueText?: ((formattedValue: string, value: number) => string) | undefined;
-  /**
-   * The locale used by `Intl.NumberFormat` when formatting the value.
-   * Defaults to the user's runtime locale.
-   */
   locale?: Intl.LocalesArgument | undefined;
-  /**
-   * The maximum value
-   * @default 100
-   */
   max?: number | undefined;
-  /**
-   * The minimum value
-   * @default 0
-   */
   min?: number | undefined;
-  /**
-   * The current value.
-   */
   value: number;
 }
 

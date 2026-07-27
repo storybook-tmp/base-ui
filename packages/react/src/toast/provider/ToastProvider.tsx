@@ -69,22 +69,8 @@ export interface ToastProviderState {}
 
 export interface ToastProviderProps {
   children?: React.ReactNode;
-  /**
-   * The default amount of time (in ms) before a toast is auto dismissed.
-   * A value of `0` will prevent the toast from being dismissed automatically.
-   * @default 5000
-   */
   timeout?: number | undefined;
-  /**
-   * The maximum number of toasts that can be displayed at once.
-   * When the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited`
-   * attribute) rather than removed, so they can be hidden or animated out.
-   * @default 3
-   */
   limit?: number | undefined;
-  /**
-   * A global manager for toasts to use outside of a React component.
-   */
   toastManager?: ToastManager | undefined;
 }
 

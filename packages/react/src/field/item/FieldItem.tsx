@@ -55,11 +55,6 @@ export const FieldItem = React.forwardRef(function FieldItem(
 export interface FieldItemState extends FieldRootState {}
 
 export interface FieldItemProps extends BaseUIComponentProps<'div', FieldItemState> {
-  /**
-   * Whether the wrapped control should ignore user interaction.
-   * The `disabled` prop on `<Field.Root>` takes precedence over this.
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

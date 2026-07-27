@@ -100,9 +100,6 @@ export interface AvatarImageProps extends BaseUIComponentProps<
   AvatarImageState,
   React.ComponentPropsWithRef<'img'>
 > {
-  /**
-   * Callback fired when the loading status changes.
-   */
   onLoadingStatusChange?: ((status: ImageLoadingStatus) => void) | undefined;
 }
 

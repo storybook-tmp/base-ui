@@ -76,9 +76,6 @@ export interface PreviewCardViewportProps extends BaseUIComponentProps<
   'div',
   PreviewCardViewportState
 > {
-  /**
-   * The content to render inside the transition container.
-   */
   children?: React.ReactNode;
 }
 

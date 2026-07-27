@@ -31,10 +31,6 @@ export interface ToolbarSeparatorState extends SeparatorState {}
 
 export interface ToolbarSeparatorProps
   extends BaseUIComponentProps<'div', ToolbarSeparatorState>, Separator.Props {
-  /**
-   * The orientation of the separator. Defaults to the opposite of the toolbar's
-   * orientation, so a horizontal toolbar renders vertical separators.
-   */
   orientation?: Orientation | undefined;
 }
 

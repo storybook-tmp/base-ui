@@ -157,9 +157,6 @@ export const FieldControl = React.forwardRef(function FieldControl(
 export interface FieldControlState extends FieldRootState {}
 
 export interface FieldControlProps extends BaseUIComponentProps<'input', FieldControlState> {
-  /**
-   * Callback fired when the `value` changes. Use when controlled.
-   */
   onValueChange?:
     | ((value: string, eventDetails: FieldControl.ChangeEventDetails) => void)
     | undefined;

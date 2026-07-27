@@ -275,9 +275,6 @@ export interface SelectTriggerState extends FieldRootState {
 export interface SelectTriggerProps
   extends NativeButtonProps, BaseUIComponentProps<'button', SelectTriggerState> {
   children?: React.ReactNode;
-  /**
-   * Whether the component should ignore user interaction.
-   */
   disabled?: boolean | undefined;
 }
 

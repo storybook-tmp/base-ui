@@ -39,10 +39,6 @@ export const ComboboxPortal = React.forwardRef(function ComboboxPortal(
 export interface ComboboxPortalState {}
 
 export interface ComboboxPortalProps extends FloatingPortal.Props<ComboboxPortalState> {
-  /**
-   * Whether to keep the portal mounted in the DOM while the popup is hidden.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

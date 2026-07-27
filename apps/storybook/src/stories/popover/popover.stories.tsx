@@ -925,43 +925,6 @@ export const CustomAnchor: Story = {
   render: () => <CustomAnchorExample />,
 };
 
-/** All positioning lives on the Positioner: `side`, `align`, `sideOffset`, `alignOffset`, `collisionPadding`. Tweak them via controls; design systems often compress these into one `placement` prop (dify-ui), but the primitives keep the axes separate. */
-export const PositionerPlayground: StoryObj<typeof Popover.Positioner> = {
-  args: {
-    side: 'bottom',
-    align: 'center',
-    sideOffset: 8,
-    alignOffset: 0,
-    collisionPadding: 5,
-  },
-  argTypes: {
-    side: {
-      control: 'select',
-      options: ['top', 'right', 'bottom', 'left', 'inline-start', 'inline-end'],
-    },
-    align: { control: 'select', options: ['start', 'center', 'end'] },
-    sideOffset: { control: 'number' },
-    alignOffset: { control: 'number' },
-    collisionPadding: { control: 'number' },
-  },
-  render: (args) => (
-    <Popover.Root defaultOpen>
-      <Popover.Trigger className={styles.Button}>Anchor</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...args}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Title className={styles.Title}>Anchor</Popover.Title>
-            <Popover.Description className={styles.Description}>
-              Positioned with side, align, and offsets.
-            </Popover.Description>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
-  ),
-};
-
 /** Inside sticky or fixed-positioned ancestors, the default `absolute` positioning can lag while scrolling — `positionMethod="fixed"` on the Positioner is the documented fix (#3653). */
 export const PositionMethodFixedInSticky: Story = {
   tags: ['highlight'],

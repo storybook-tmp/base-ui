@@ -94,9 +94,6 @@ export interface SelectItemIndicatorProps extends BaseUIComponentProps<
   SelectItemIndicatorState
 > {
   children?: React.ReactNode;
-  /**
-   * Whether to keep the HTML element in the DOM when the item is not selected.
-   */
   keepMounted?: boolean | undefined;
 }
 

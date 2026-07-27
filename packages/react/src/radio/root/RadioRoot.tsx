@@ -324,25 +324,10 @@ export interface RadioRootState extends FieldRootState {
 
 export interface RadioRootProps<Value = any>
   extends NonNativeButtonProps, Omit<BaseUIComponentProps<'span', RadioRootState>, 'value'> {
-  /**
-   * The unique identifying value of the radio in a group.
-   */
   value: Value;
-  /**
-   * Whether the component should ignore user interaction.
-   */
   disabled?: boolean | undefined;
-  /**
-   * Whether the user must choose a value before submitting a form.
-   */
   required?: boolean | undefined;
-  /**
-   * Whether the user should be unable to select the radio button.
-   */
   readOnly?: boolean | undefined;
-  /**
-   * A ref to access the hidden input element.
-   */
   inputRef?: React.Ref<HTMLInputElement> | undefined;
 }
 

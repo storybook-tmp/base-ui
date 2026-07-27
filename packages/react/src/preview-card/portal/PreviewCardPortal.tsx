@@ -35,10 +35,6 @@ export const PreviewCardPortal = React.forwardRef(function PreviewCardPortal(
 export interface PreviewCardPortalState {}
 
 export interface PreviewCardPortalProps extends FloatingPortalLite.Props<PreviewCardPortalState> {
-  /**
-   * Whether to keep the portal mounted in the DOM while the popup is hidden.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

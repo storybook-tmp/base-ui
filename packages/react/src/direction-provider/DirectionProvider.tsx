@@ -24,10 +24,6 @@ export interface DirectionProviderState {}
 
 export interface DirectionProviderProps {
   children?: React.ReactNode;
-  /**
-   * The reading direction of the text
-   * @default 'ltr'
-   */
   direction?: TextDirection | undefined;
 }
 
