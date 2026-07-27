@@ -55,7 +55,7 @@ export async function buildExperimentBranch(opts: {
   baseRef: string;
   baseCommit: string;
   now: string;
-  version: string;
+  version: number;
 }): Promise<BranchResult> {
   await checkoutRef(opts.git, opts.baseRef);
   await resetBranchToHead(opts.git, opts.branchName);
@@ -88,7 +88,7 @@ export async function regenerateExperiments(opts: {
   experiments: ExperimentConfig[];
   labels: Labels;
   now: string;
-  version: string;
+  version: number;
 }): Promise<BranchResult[]> {
   const git = createGit(opts.cwd);
   await assertClean(git);
