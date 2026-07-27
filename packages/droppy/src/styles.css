@@ -319,7 +319,7 @@
 
 /* ========================= Button ========================= */
 
-.Button {
+:where(.Button) {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -340,50 +340,50 @@
     box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.Button:hover:not([data-disabled]) {
+:where(.Button:hover:not([data-disabled])) {
   background-color: var(--ds-color-action-primary-hover);
 }
 
-.Button:focus-visible {
+:where(.Button:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.Button[data-disabled] {
+:where(.Button[data-disabled]) {
   opacity: 0.4;
   cursor: default;
 }
 
 /* ========================= Field + Input ========================= */
 
-.FieldRoot {
+:where(.FieldRoot) {
   display: flex;
   flex-direction: column;
 }
 
-.FieldLabel {
+:where(.FieldLabel) {
   color: var(--ds-color-text-label);
   font-family: var(--ds-type-family-body);
   font-size: var(--ds-type-size-sm);
   padding-bottom: 0.25rem;
 }
 
-.FieldLabel::first-letter {
+:where(.FieldLabel::first-letter) {
   text-transform: uppercase;
 }
 
-.FieldRoot[data-focused] .FieldLabel,
-.FieldRoot:focus-within .FieldLabel {
+:where(.FieldRoot[data-focused] .FieldLabel,
+.FieldRoot:focus-within .FieldLabel) {
   color: var(--ds-color-text-label-active);
 }
 
-.FieldDescription {
+:where(.FieldDescription) {
   color: var(--ds-color-text-secondary);
   font-family: var(--ds-type-family-body);
   font-size: var(--ds-type-size-xs);
 }
 
-.FieldError {
+:where(.FieldError) {
   color: var(--ds-color-text-error);
   font-family: var(--ds-type-family-body);
   font-size: var(--ds-type-size-2xs);
@@ -391,7 +391,7 @@
   min-height: 1rem;
 }
 
-.Input {
+:where(.Input) {
   box-sizing: border-box;
   /* Transparent 1px border, not 0: the input family's data-invalid/valid
      hooks (below) need a real border to color; transparent keeps today's
@@ -408,49 +408,49 @@
   transition: box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.Input::placeholder {
+:where(.Input::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.Input:hover,
+:where(.Input:hover,
 .Input:focus,
-.Input[data-focused] {
+.Input[data-focused]) {
   box-shadow: var(--ds-shadow-focus);
 }
 
-.Input[data-invalid] {
+:where(.Input[data-invalid]) {
   border-color: var(--ds-color-text-error);
 }
 
-.Input[data-valid] {
+:where(.Input[data-valid]) {
   border-color: var(--ds-color-text-primary);
 }
 
 /* ========================= Dialog ========================= */
 
-.DialogBackdrop {
+:where(.DialogBackdrop) {
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 20%);
   transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
-html[data-theme='dark'] .DialogBackdrop {
+:where(html[data-theme='dark'] .DialogBackdrop) {
   background-color: rgb(0 0 0 / 60%);
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop {
+  :where(html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop) {
     background-color: rgb(0 0 0 / 60%);
   }
 }
 
-.DialogBackdrop[data-starting-style],
-.DialogBackdrop[data-ending-style] {
+:where(.DialogBackdrop[data-starting-style],
+.DialogBackdrop[data-ending-style]) {
   opacity: 0;
 }
 
-.DialogPopup {
+:where(.DialogPopup) {
   box-sizing: border-box;
   position: fixed;
   top: 50%;
@@ -469,13 +469,13 @@ html[data-theme='dark'] .DialogBackdrop {
     transform var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
-.DialogPopup[data-starting-style],
-.DialogPopup[data-ending-style] {
+:where(.DialogPopup[data-starting-style],
+.DialogPopup[data-ending-style]) {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.95);
 }
 
-.DialogTitle {
+:where(.DialogTitle) {
   margin: 0;
   color: var(--ds-color-text-primary);
   font-family: var(--ds-type-family-heading);
@@ -483,36 +483,36 @@ html[data-theme='dark'] .DialogBackdrop {
   font-weight: var(--ds-type-weight-bold);
 }
 
-.DialogDescription {
+:where(.DialogDescription) {
   color: var(--ds-color-text-secondary);
   font-family: var(--ds-type-family-body);
 }
 
 /* ========================= Drawer ========================= */
 
-.DrawerBackdrop {
+:where(.DrawerBackdrop) {
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 20%);
   transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
-html[data-theme='dark'] .DrawerBackdrop {
+:where(html[data-theme='dark'] .DrawerBackdrop) {
   background-color: rgb(0 0 0 / 60%);
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme='light'], [data-theme='dark']) .DrawerBackdrop {
+  :where(html:not([data-theme='light'], [data-theme='dark']) .DrawerBackdrop) {
     background-color: rgb(0 0 0 / 60%);
   }
 }
 
-.DrawerBackdrop[data-starting-style],
-.DrawerBackdrop[data-ending-style] {
+:where(.DrawerBackdrop[data-starting-style],
+.DrawerBackdrop[data-ending-style]) {
   opacity: 0;
 }
 
-.DrawerPopup {
+:where(.DrawerPopup) {
   box-sizing: border-box;
   position: fixed;
   top: 0;
@@ -530,12 +530,12 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
 }
 
-.DrawerPopup[data-starting-style],
-.DrawerPopup[data-ending-style] {
+:where(.DrawerPopup[data-starting-style],
+.DrawerPopup[data-ending-style]) {
   transform: translateX(100%);
 }
 
-.DrawerTitle {
+:where(.DrawerTitle) {
   margin: 0;
   color: var(--ds-color-text-primary);
   font-family: var(--ds-type-family-heading);
@@ -545,7 +545,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Tooltip ========================= */
 
-.TooltipPopup {
+:where(.TooltipPopup) {
   box-sizing: border-box;
   background-color: var(--ds-color-surface-overlay);
   color: var(--ds-color-text-primary);
@@ -559,15 +559,15 @@ html[data-theme='dark'] .DrawerBackdrop {
     transform var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.TooltipPopup[data-starting-style],
-.TooltipPopup[data-ending-style] {
+:where(.TooltipPopup[data-starting-style],
+.TooltipPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.9);
 }
 
 /* ========================= Accordion ========================= */
 
-.AccordionRoot {
+:where(.AccordionRoot) {
   box-sizing: border-box;
   display: flex;
   max-width: 20rem;
@@ -577,15 +577,15 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.AccordionItem + .AccordionItem {
+:where(.AccordionItem + .AccordionItem) {
   border-top: 1px solid var(--ds-color-border-subtle);
 }
 
-.AccordionHeader {
+:where(.AccordionHeader) {
   margin: 0;
 }
 
-.AccordionTrigger {
+:where(.AccordionTrigger) {
   box-sizing: border-box;
   display: flex;
   width: 100%;
@@ -608,32 +608,32 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .AccordionTrigger:hover:not([data-disabled]) {
+  :where(.AccordionTrigger:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.AccordionTrigger:focus-visible {
+:where(.AccordionTrigger:focus-visible) {
   position: relative;
   outline: none;
   box-shadow: var(--ds-shadow-focus);
   z-index: 1;
 }
 
-.AccordionTrigger[data-disabled] {
+:where(.AccordionTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
   cursor: not-allowed;
 }
 
-.AccordionIcon {
+:where(.AccordionIcon) {
   transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-[data-panel-open] > .AccordionIcon {
+:where([data-panel-open] > .AccordionIcon) {
   transform: rotate(45deg);
 }
 
-.AccordionPanel {
+:where(.AccordionPanel) {
   box-sizing: border-box;
   height: var(--accordion-panel-height);
   overflow: hidden;
@@ -642,18 +642,18 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition: height var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.AccordionPanel[data-starting-style],
-.AccordionPanel[data-ending-style] {
+:where(.AccordionPanel[data-starting-style],
+.AccordionPanel[data-ending-style]) {
   height: 0;
 }
 
-.AccordionContent {
+:where(.AccordionContent) {
   padding: 0.5rem 0.75rem;
 }
 
 /* ========================= Avatar ========================= */
 
-.AvatarRoot {
+:where(.AvatarRoot) {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -671,13 +671,13 @@ html[data-theme='dark'] .DrawerBackdrop {
   width: 2rem;
 }
 
-.AvatarImage {
+:where(.AvatarImage) {
   object-fit: cover;
   height: 100%;
   width: 100%;
 }
 
-.AvatarFallback {
+:where(.AvatarFallback) {
   align-items: center;
   display: flex;
   justify-content: center;
@@ -688,7 +688,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Checkbox ========================= */
 
-.CheckboxLabel {
+:where(.CheckboxLabel) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -698,7 +698,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.CheckboxRoot {
+:where(.CheckboxRoot) {
   box-sizing: border-box;
   display: flex;
   flex-shrink: 0;
@@ -714,38 +714,38 @@ html[data-theme='dark'] .DrawerBackdrop {
   margin: 0;
 }
 
-.CheckboxRoot[data-checked],
-.CheckboxRoot[data-indeterminate] {
+:where(.CheckboxRoot[data-checked],
+.CheckboxRoot[data-indeterminate]) {
   background-color: var(--ds-color-action-primary);
   color: var(--ds-color-action-on-primary);
 }
 
-.CheckboxRoot:focus-visible {
+:where(.CheckboxRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.CheckboxRoot[data-disabled] {
+:where(.CheckboxRoot[data-disabled]) {
   border-color: var(--ds-color-border-subtle);
   cursor: not-allowed;
 }
 
-.CheckboxRoot[data-disabled][data-checked],
-.CheckboxRoot[data-disabled][data-indeterminate] {
+:where(.CheckboxRoot[data-disabled][data-checked],
+.CheckboxRoot[data-disabled][data-indeterminate]) {
   background-color: var(--ds-color-surface-sunken);
 }
 
-.CheckboxIndicator {
+:where(.CheckboxIndicator) {
   display: flex;
 }
 
-.CheckboxIndicator[data-unchecked] {
+:where(.CheckboxIndicator[data-unchecked]) {
   display: none;
 }
 
 /* ========================= CheckboxGroup ========================= */
 
-.CheckboxGroupRoot {
+:where(.CheckboxGroupRoot) {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -753,7 +753,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.CheckboxGroupItem {
+:where(.CheckboxGroupItem) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -767,7 +767,7 @@ html[data-theme='dark'] .DrawerBackdrop {
    heading-font legend with a rule beneath); checkbox-group's local Fieldset
    composition used a plainer one before this family had its own port. */
 
-.FieldsetRoot {
+:where(.FieldsetRoot) {
   border: 0;
   margin: 0;
   padding: 0;
@@ -778,7 +778,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   max-width: 16rem;
 }
 
-.FieldsetLegend {
+:where(.FieldsetLegend) {
   border-bottom: 1px solid var(--ds-color-border-subtle);
   font-family: var(--ds-type-family-heading);
   font-weight: var(--ds-type-weight-bold);
@@ -789,7 +789,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* Field.Item: pairs a Radio/Checkbox with its own label in a 2-col grid,
    for grouped controls inside a Fieldset. */
-.FieldItem {
+:where(.FieldItem) {
   display: grid;
   grid-template-columns: 1rem 1fr;
   column-gap: 0.5rem;
@@ -797,7 +797,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   align-items: center;
 }
 
-.FieldItemLabel {
+:where(.FieldItemLabel) {
   grid-column: 2;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -805,7 +805,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.FieldItemDescription {
+:where(.FieldItemDescription) {
   grid-column: 2;
   margin: 0;
   font-size: 0.75rem;
@@ -815,7 +815,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= RadioGroup / Radio ========================= */
 
-.RadioGroupRoot {
+:where(.RadioGroupRoot) {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -823,7 +823,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.RadioGroupItem {
+:where(.RadioGroupItem) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -832,7 +832,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   font-weight: 400;
 }
 
-.RadioRoot {
+:where(.RadioRoot) {
   box-sizing: border-box;
   display: flex;
   flex-shrink: 0;
@@ -848,36 +848,36 @@ html[data-theme='dark'] .DrawerBackdrop {
   margin: 0;
 }
 
-.RadioRoot[data-checked] {
+:where(.RadioRoot[data-checked]) {
   background-color: var(--ds-color-action-primary);
   color: var(--ds-color-action-on-primary);
 }
 
-.RadioRoot:focus-visible {
+:where(.RadioRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.RadioRoot[data-disabled] {
+:where(.RadioRoot[data-disabled]) {
   border-color: var(--ds-color-border-subtle);
   cursor: not-allowed;
 }
 
-.RadioRoot[data-disabled][data-checked] {
+:where(.RadioRoot[data-disabled][data-checked]) {
   background-color: var(--ds-color-surface-sunken);
 }
 
-.RadioIndicator {
+:where(.RadioIndicator) {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.RadioIndicator[data-unchecked] {
+:where(.RadioIndicator[data-unchecked]) {
   display: none;
 }
 
-.RadioIndicator::before {
+:where(.RadioIndicator::before) {
   content: '';
   border-radius: var(--ds-radius-round);
   width: 0.5rem;
@@ -887,7 +887,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Switch ========================= */
 
-.SwitchLabel {
+:where(.SwitchLabel) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -897,7 +897,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.SwitchRoot {
+:where(.SwitchRoot) {
   box-sizing: border-box;
   display: flex;
   flex-shrink: 0;
@@ -910,25 +910,25 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition: background-color var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.SwitchRoot[data-checked] {
+:where(.SwitchRoot[data-checked]) {
   background-color: var(--ds-color-action-primary);
 }
 
-.SwitchRoot:focus-visible {
+:where(.SwitchRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.SwitchRoot[data-disabled] {
+:where(.SwitchRoot[data-disabled]) {
   border-color: var(--ds-color-border-subtle);
   cursor: not-allowed;
 }
 
-.SwitchRoot[data-disabled][data-checked] {
+:where(.SwitchRoot[data-disabled][data-checked]) {
   background-color: var(--ds-color-surface-sunken);
 }
 
-.SwitchThumb {
+:where(.SwitchThumb) {
   width: 0.875rem;
   height: 0.875rem;
   border-radius: var(--ds-radius-round);
@@ -938,22 +938,22 @@ html[data-theme='dark'] .DrawerBackdrop {
     background-color var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.SwitchThumb[data-checked] {
+:where(.SwitchThumb[data-checked]) {
   translate: 1rem 0;
   background-color: var(--ds-color-action-on-primary);
 }
 
-.SwitchRoot[data-disabled] .SwitchThumb {
+:where(.SwitchRoot[data-disabled] .SwitchThumb) {
   background-color: var(--ds-color-text-hint);
 }
 
-.SwitchRoot[data-disabled] .SwitchThumb[data-checked] {
+:where(.SwitchRoot[data-disabled] .SwitchThumb[data-checked]) {
   background-color: var(--ds-color-action-on-primary);
 }
 
 /* ========================= Toggle ========================= */
 
-.ToggleRoot {
+:where(.ToggleRoot) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -971,40 +971,40 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .ToggleRoot:hover:not([data-disabled]) {
+  :where(.ToggleRoot:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.ToggleRoot:active:not([data-disabled]) {
+:where(.ToggleRoot:active:not([data-disabled])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ToggleRoot[data-pressed] {
+:where(.ToggleRoot[data-pressed]) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-label-active);
 }
 
-.ToggleRoot[data-disabled] {
+:where(.ToggleRoot[data-disabled]) {
   color: var(--ds-color-text-hint);
   cursor: not-allowed;
 }
 
-.ToggleRoot:focus-visible {
+:where(.ToggleRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
 /* ========================= ToggleGroup ========================= */
 
-.ToggleGroupRoot {
+:where(.ToggleGroupRoot) {
   display: flex;
   gap: 1px;
   padding: 1px;
   border: 1px solid var(--ds-color-border-subtle);
 }
 
-.ToggleGroupItem {
+:where(.ToggleGroupItem) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1022,26 +1022,26 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .ToggleGroupItem:hover:not([data-disabled]) {
+  :where(.ToggleGroupItem:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.ToggleGroupItem:active:not([data-disabled], [data-pressed]) {
+:where(.ToggleGroupItem:active:not([data-disabled], [data-pressed])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ToggleGroupItem[data-pressed] {
+:where(.ToggleGroupItem[data-pressed]) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-label-active);
 }
 
-.ToggleGroupItem[data-disabled] {
+:where(.ToggleGroupItem[data-disabled]) {
   color: var(--ds-color-text-hint);
   cursor: not-allowed;
 }
 
-.ToggleGroupItem:focus-visible {
+:where(.ToggleGroupItem:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
   position: relative;
@@ -1050,7 +1050,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Meter ========================= */
 
-.MeterRoot {
+:where(.MeterRoot) {
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 0.5rem;
@@ -1058,28 +1058,28 @@ html[data-theme='dark'] .DrawerBackdrop {
   max-width: 100%;
 }
 
-.MeterLabel {
+:where(.MeterLabel) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
   color: var(--ds-color-text-primary);
 }
 
-.MeterValue {
+:where(.MeterValue) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--ds-color-text-primary);
   text-align: right;
 }
 
-.MeterTrack {
+:where(.MeterTrack) {
   grid-column: 1 / 3;
   overflow: hidden;
   height: 0.75rem;
   background-color: var(--ds-color-surface-sunken);
 }
 
-.MeterIndicator {
+:where(.MeterIndicator) {
   background-color: var(--ds-color-action-progress);
   transition: width var(--ds-motion-slow);
 }
@@ -1088,17 +1088,17 @@ html[data-theme='dark'] .DrawerBackdrop {
    computed by the consumer from value/min/max and combined with
    MeterIndicator on the same element, e.g.
    `${theme.MeterIndicator} ${theme.MeterIndicatorLow}`. */
-.MeterIndicatorLow {
+:where(.MeterIndicatorLow) {
   background-color: var(--ds-color-surface-highlight);
 }
 
-.MeterIndicatorHigh {
+:where(.MeterIndicatorHigh) {
   background-color: var(--ds-color-text-error);
 }
 
 /* ========================= Progress ========================= */
 
-.ProgressRoot {
+:where(.ProgressRoot) {
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 0.5rem;
@@ -1106,35 +1106,35 @@ html[data-theme='dark'] .DrawerBackdrop {
   max-width: 100%;
 }
 
-.ProgressLabel {
+:where(.ProgressLabel) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 400;
   color: var(--ds-color-text-primary);
 }
 
-.ProgressValue {
+:where(.ProgressValue) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--ds-color-text-primary);
   text-align: right;
 }
 
-.ProgressTrack {
+:where(.ProgressTrack) {
   grid-column: 1 / 3;
   overflow: hidden;
   height: 0.25rem;
   background-color: var(--ds-color-surface-sunken);
 }
 
-.ProgressIndicator {
+:where(.ProgressIndicator) {
   background-color: var(--ds-color-action-progress);
   transition: width var(--ds-motion-slow);
 }
 
 /* Indeterminate mode receives no inline width from the library — any sweep
    animation is entirely consumer CSS, keyed off `data-indeterminate`. */
-.ProgressIndicator[data-indeterminate] {
+:where(.ProgressIndicator[data-indeterminate]) {
   width: 25%;
   height: 100%;
   animation: droppy-progress-sweep var(--ds-motion-slow) var(--ds-motion-ease) infinite;
@@ -1152,7 +1152,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Collapsible ========================= */
 
-.CollapsibleRoot {
+:where(.CollapsibleRoot) {
   display: flex;
   width: 12rem;
   min-height: 9rem;
@@ -1161,11 +1161,11 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.CollapsibleIcon {
+:where(.CollapsibleIcon) {
   transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.CollapsibleTrigger {
+:where(.CollapsibleTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1188,31 +1188,31 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .CollapsibleTrigger:hover:not([data-disabled]) {
+  :where(.CollapsibleTrigger:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-primary-hover);
   }
 }
 
-.CollapsibleTrigger:active:not([data-disabled]) {
+:where(.CollapsibleTrigger:active:not([data-disabled])) {
   background-color: var(--ds-color-action-primary-hover);
 }
 
-.CollapsibleTrigger:focus-visible {
+:where(.CollapsibleTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.CollapsibleTrigger[data-panel-open] .CollapsibleIcon {
+:where(.CollapsibleTrigger[data-panel-open] .CollapsibleIcon) {
   transform: rotate(90deg);
 }
 
-.CollapsibleTrigger[data-disabled] {
+:where(.CollapsibleTrigger[data-disabled]) {
   background-color: var(--ds-color-surface-sunken);
   color: var(--ds-color-text-hint);
   cursor: not-allowed;
 }
 
-.CollapsiblePanel {
+:where(.CollapsiblePanel) {
   display: flex;
   height: var(--collapsible-panel-height);
   flex-direction: column;
@@ -1223,16 +1223,16 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition: height var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.CollapsiblePanel[hidden]:not([hidden='until-found']) {
+:where(.CollapsiblePanel[hidden]:not([hidden='until-found'])) {
   display: none;
 }
 
-.CollapsiblePanel[data-starting-style],
-.CollapsiblePanel[data-ending-style] {
+:where(.CollapsiblePanel[data-starting-style],
+.CollapsiblePanel[data-ending-style]) {
   height: 0;
 }
 
-.CollapsibleContent {
+:where(.CollapsibleContent) {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1245,31 +1245,31 @@ html[data-theme='dark'] .DrawerBackdrop {
    library's own `data-orientation` attribute — same merge pattern as
    TabsList/SliderControl below, chosen over the module's two separately
    composed classes since both are the same rule set keyed on orientation). */
-.SeparatorRoot {
+:where(.SeparatorRoot) {
   width: 1px;
   height: 1.25rem;
   background-color: var(--ds-color-border-subtle);
 }
 
-.SeparatorRoot[data-orientation='horizontal'] {
+:where(.SeparatorRoot[data-orientation='horizontal']) {
   width: 100%;
   height: 1px;
 }
 
 /* ========================= Tabs ========================= */
 
-.TabsRoot {
+:where(.TabsRoot) {
   box-sizing: border-box;
   width: 100%;
   max-width: 20rem;
 }
 
-.TabsRoot[data-orientation='vertical'] {
+:where(.TabsRoot[data-orientation='vertical']) {
   display: flex;
   max-width: 24rem;
 }
 
-.TabsList {
+:where(.TabsList) {
   display: flex;
   position: relative;
   z-index: 1;
@@ -1277,13 +1277,13 @@ html[data-theme='dark'] .DrawerBackdrop {
   margin-bottom: -1px;
 }
 
-.TabsList[data-orientation='vertical'] {
+:where(.TabsList[data-orientation='vertical']) {
   flex-direction: column;
   margin-bottom: 0;
   margin-right: -1px;
 }
 
-.TabsTab {
+:where(.TabsTab) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1308,21 +1308,21 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .TabsTab:hover {
+  :where(.TabsTab:hover) {
     color: var(--ds-color-text-primary);
   }
 }
 
-.TabsTab[data-active] {
+:where(.TabsTab[data-active]) {
   color: var(--ds-color-text-label-active);
 }
 
-.TabsTab:focus-visible {
+:where(.TabsTab:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.TabsIndicator {
+:where(.TabsIndicator) {
   box-sizing: border-box;
   position: absolute;
   z-index: -1;
@@ -1339,7 +1339,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-[data-orientation='vertical'] .TabsIndicator {
+:where([data-orientation='vertical'] .TabsIndicator) {
   left: 0;
   top: 0;
   translate: 0 var(--active-tab-top);
@@ -1349,7 +1349,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   border-inline: 1px solid var(--ds-color-border-subtle);
 }
 
-.TabsPanelViewport {
+:where(.TabsPanelViewport) {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1359,7 +1359,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   border-block: 1px solid var(--ds-color-border-subtle);
 }
 
-.TabsPanel {
+:where(.TabsPanel) {
   box-sizing: border-box;
   grid-area: 1 / 1;
   display: flex;
@@ -1375,19 +1375,19 @@ html[data-theme='dark'] .DrawerBackdrop {
   background-color: var(--ds-color-surface-card);
 }
 
-.TabsPanel:focus-visible {
+:where(.TabsPanel:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
   z-index: 1;
 }
 
-.TabsPanel[hidden] {
+:where(.TabsPanel[hidden]) {
   display: none;
 }
 
 /* ========================= Toolbar ========================= */
 
-.ToolbarRoot {
+:where(.ToolbarRoot) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1398,12 +1398,12 @@ html[data-theme='dark'] .DrawerBackdrop {
   width: fit-content;
 }
 
-.ToolbarGroup {
+:where(.ToolbarGroup) {
   display: flex;
   gap: 1px;
 }
 
-.ToolbarButton {
+:where(.ToolbarButton) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1427,35 +1427,35 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .ToolbarButton:hover:not([data-disabled], [data-popup-open]) {
+  :where(.ToolbarButton:hover:not([data-disabled], [data-popup-open])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.ToolbarButton:active:not([data-disabled], [data-pressed]) {
+:where(.ToolbarButton:active:not([data-disabled], [data-pressed])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ToolbarButton[data-pressed] {
+:where(.ToolbarButton[data-pressed]) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-label-active);
 }
 
-.ToolbarButton[data-popup-open] {
+:where(.ToolbarButton[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ToolbarButton[data-disabled] {
+:where(.ToolbarButton[data-disabled]) {
   color: var(--ds-color-text-hint);
   cursor: not-allowed;
 }
 
-.ToolbarButton:focus-visible {
+:where(.ToolbarButton:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.ToolbarSeparator {
+:where(.ToolbarSeparator) {
   width: 1px;
   height: 16px;
   margin: 0.25rem;
@@ -1464,27 +1464,27 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Slider ========================= */
 
-.SliderRoot {
+:where(.SliderRoot) {
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 0.5rem;
 }
 
-.SliderLabel {
+:where(.SliderLabel) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 700;
   color: var(--ds-color-text-primary);
 }
 
-.SliderValue {
+:where(.SliderValue) {
   font-size: 0.875rem;
   color: var(--ds-color-text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
-.SliderControl {
+:where(.SliderControl) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1495,14 +1495,14 @@ html[data-theme='dark'] .DrawerBackdrop {
   user-select: none;
 }
 
-.SliderControl[data-orientation='vertical'] {
+:where(.SliderControl[data-orientation='vertical']) {
   width: auto;
   height: 8rem;
   padding-inline: 0.75rem;
   padding-block: 0;
 }
 
-.SliderTrack {
+:where(.SliderTrack) {
   width: 100%;
   height: 0.25rem;
   background-color: var(--ds-color-surface-sunken);
@@ -1510,18 +1510,18 @@ html[data-theme='dark'] .DrawerBackdrop {
   user-select: none;
 }
 
-.SliderTrack[data-orientation='vertical'] {
+:where(.SliderTrack[data-orientation='vertical']) {
   height: 100%;
   width: 0.25rem;
 }
 
-.SliderIndicator {
+:where(.SliderIndicator) {
   background-color: var(--ds-color-action-progress);
   -webkit-user-select: none;
   user-select: none;
 }
 
-.SliderThumb {
+:where(.SliderThumb) {
   box-sizing: border-box;
   width: 1rem;
   height: 1rem;
@@ -1532,7 +1532,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   user-select: none;
 }
 
-.SliderThumb:has(:focus-visible) {
+:where(.SliderThumb:has(:focus-visible)) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
@@ -1540,7 +1540,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 /* Hand-composed marks (library dropped the legacy Mark/marks API, #373):
    spans laid out via flex inside a track-shaped container, with Indicator/
    Thumb layering over them since those stay absolutely positioned. */
-.SliderMarksTrack {
+:where(.SliderMarksTrack) {
   width: 100%;
   height: 0.25rem;
   background-color: var(--ds-color-surface-sunken);
@@ -1551,7 +1551,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   justify-content: space-between;
 }
 
-.SliderMark {
+:where(.SliderMark) {
   z-index: 0;
   width: 1px;
   height: 100%;
@@ -1560,13 +1560,13 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= OTPField ========================= */
 
-.OtpFieldRoot {
+:where(.OtpFieldRoot) {
   display: flex;
   gap: 0.5rem;
   width: 100%;
 }
 
-.OtpFieldInput {
+:where(.OtpFieldInput) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1583,12 +1583,12 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.OtpFieldInput:focus {
+:where(.OtpFieldInput:focus) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.OtpFieldSeparator {
+:where(.OtpFieldSeparator) {
   align-self: center;
   width: 0.75rem;
   height: 1px;
@@ -1597,30 +1597,30 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= NumberField ========================= */
 
-.NumberFieldRoot {
+:where(.NumberFieldRoot) {
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 0.25rem;
 }
 
-.NumberFieldScrubArea {
+:where(.NumberFieldScrubArea) {
   cursor: ew-resize;
   font-weight: 700;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.NumberFieldScrubAreaCursor {
+:where(.NumberFieldScrubAreaCursor) {
   filter: drop-shadow(0 1px 1px rgb(0 0 0 / 50%));
 }
 
-.NumberFieldGroup {
+:where(.NumberFieldGroup) {
   display: flex;
   height: 2rem;
 }
 
-.NumberFieldInput {
+:where(.NumberFieldInput) {
   box-sizing: border-box;
   margin: 0;
   padding: 0 0.5rem;
@@ -1639,20 +1639,20 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (any-pointer: coarse) {
-  .NumberFieldInput {
+  :where(.NumberFieldInput) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 }
 
-.NumberFieldInput:focus {
+:where(.NumberFieldInput:focus) {
   z-index: 1;
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.NumberFieldDecrement,
-.NumberFieldIncrement {
+:where(.NumberFieldDecrement,
+.NumberFieldIncrement) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1671,23 +1671,23 @@ html[data-theme='dark'] .DrawerBackdrop {
   user-select: none;
 }
 
-.NumberFieldDecrement[data-disabled],
-.NumberFieldIncrement[data-disabled] {
+:where(.NumberFieldDecrement[data-disabled],
+.NumberFieldIncrement[data-disabled]) {
   color: var(--ds-color-text-hint);
   border-color: var(--ds-color-border-subtle);
 }
 
-.NumberFieldDecrement {
+:where(.NumberFieldDecrement) {
   border-right: 0;
 }
 
-.NumberFieldIncrement {
+:where(.NumberFieldIncrement) {
   border-left: 0;
 }
 
 /* ========================= Form ========================= */
 
-.FormRoot {
+:where(.FormRoot) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -1697,7 +1697,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Field (additions) ========================= */
 
-.FieldTextarea {
+:where(.FieldTextarea) {
   box-sizing: border-box;
   border: 1px solid transparent;
   outline: none;
@@ -1714,22 +1714,22 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition: box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.FieldTextarea::placeholder {
+:where(.FieldTextarea::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.FieldTextarea:hover,
+:where(.FieldTextarea:hover,
 .FieldTextarea:focus,
-.FieldTextarea[data-focused] {
+.FieldTextarea[data-focused]) {
   box-shadow: var(--ds-shadow-focus);
 }
 
-.FieldTextarea[data-invalid] {
+:where(.FieldTextarea[data-invalid]) {
   border-color: var(--ds-color-text-error);
 }
 
 /* Fades in on entry, out on exit via the transition-status attributes. */
-.FieldErrorAnimated {
+:where(.FieldErrorAnimated) {
   color: var(--ds-color-text-error);
   font-family: var(--ds-type-family-body);
   font-size: var(--ds-type-size-2xs);
@@ -1742,15 +1742,15 @@ html[data-theme='dark'] .DrawerBackdrop {
     translate var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.FieldErrorAnimated[data-starting-style],
-.FieldErrorAnimated[data-ending-style] {
+:where(.FieldErrorAnimated[data-starting-style],
+.FieldErrorAnimated[data-ending-style]) {
   opacity: 0;
   translate: 0 -0.25rem;
 }
 
 /* ========================= PreviewCard ========================= */
 
-.PreviewCardTrigger {
+:where(.PreviewCardTrigger) {
   outline: 0;
   color: var(--ds-color-text-primary);
   text-decoration-line: underline;
@@ -1760,28 +1760,28 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .PreviewCardTrigger:hover {
+  :where(.PreviewCardTrigger:hover) {
     text-decoration-color: var(--ds-color-text-primary);
   }
 }
 
-.PreviewCardTrigger[data-popup-open] {
+:where(.PreviewCardTrigger[data-popup-open]) {
   text-decoration-color: var(--ds-color-text-primary);
 }
 
-.PreviewCardTrigger:focus-visible {
+:where(.PreviewCardTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
   text-decoration-line: none;
 }
 
-.PreviewCardPositioner {
+:where(.PreviewCardPositioner) {
   height: var(--positioner-height);
   width: var(--positioner-width);
   max-width: var(--available-width);
 }
 
-.PreviewCardPopup {
+:where(.PreviewCardPopup) {
   box-sizing: border-box;
   position: relative;
   width: var(--popup-width, auto);
@@ -1797,13 +1797,13 @@ html[data-theme='dark'] .DrawerBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.PreviewCardPopup[data-starting-style],
-.PreviewCardPopup[data-ending-style] {
+:where(.PreviewCardPopup[data-starting-style],
+.PreviewCardPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.PreviewCardArrow {
+:where(.PreviewCardArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -1811,27 +1811,27 @@ html[data-theme='dark'] .DrawerBackdrop {
   overflow: clip;
 }
 
-.PreviewCardArrow[data-side='top'] {
+:where(.PreviewCardArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.PreviewCardArrow[data-side='bottom'] {
+:where(.PreviewCardArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.PreviewCardArrow[data-side='left'] {
+:where(.PreviewCardArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.PreviewCardArrow[data-side='right'] {
+:where(.PreviewCardArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.PreviewCardArrow::before {
+:where(.PreviewCardArrow::before) {
   content: '';
   position: absolute;
   bottom: 0;
@@ -1844,7 +1844,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   transform: translate(-50%, 50%) rotate(45deg);
 }
 
-.PreviewCardPopupContent {
+:where(.PreviewCardPopupContent) {
   width: min-content;
   display: flex;
   flex-direction: column;
@@ -1853,12 +1853,12 @@ html[data-theme='dark'] .DrawerBackdrop {
   box-sizing: border-box;
 }
 
-.PreviewCardImage {
+:where(.PreviewCardImage) {
   display: block;
   max-width: none;
 }
 
-.PreviewCardSummary {
+:where(.PreviewCardSummary) {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1866,7 +1866,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 
 /* ========================= Menu ========================= */
 
-.MenuTrigger {
+:where(.MenuTrigger) {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -1890,31 +1890,31 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .MenuTrigger:hover:not([data-disabled]) {
+  :where(.MenuTrigger:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.MenuTrigger:active:not([data-disabled]) {
+:where(.MenuTrigger:active:not([data-disabled])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuTrigger[data-popup-open] {
+:where(.MenuTrigger[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuTrigger[data-disabled] {
+:where(.MenuTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
   border-color: var(--ds-color-border-subtle);
 }
 
-.MenuTrigger:focus-visible {
+:where(.MenuTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
 /* Square kebab/ellipsis trigger for row-action menus. */
-.MenuTriggerIcon {
+:where(.MenuTriggerIcon) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1933,25 +1933,25 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .MenuTriggerIcon:hover:not([data-disabled]) {
+  :where(.MenuTriggerIcon:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.MenuTriggerIcon[data-popup-open] {
+:where(.MenuTriggerIcon[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuTriggerIcon:focus-visible {
+:where(.MenuTriggerIcon:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.MenuPositioner {
+:where(.MenuPositioner) {
   outline: 0;
 }
 
-.MenuPopup {
+:where(.MenuPopup) {
   box-sizing: border-box;
   position: relative;
   outline: 0;
@@ -1967,15 +1967,15 @@ html[data-theme='dark'] .DrawerBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.MenuPopup[data-starting-style],
-.MenuPopup[data-ending-style] {
+:where(.MenuPopup[data-starting-style],
+.MenuPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.MenuItem,
+:where(.MenuItem,
 .MenuLinkItem,
-.MenuSubmenuTrigger {
+.MenuSubmenuTrigger) {
   outline: 0;
   cursor: default;
   -webkit-user-select: none;
@@ -1989,28 +1989,28 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: inherit;
 }
 
-.MenuItem[data-popup-open],
+:where(.MenuItem[data-popup-open],
 .MenuLinkItem[data-popup-open],
 .MenuSubmenuTrigger[data-popup-open],
 .MenuItem[data-highlighted],
 .MenuLinkItem[data-highlighted],
-.MenuSubmenuTrigger[data-highlighted] {
+.MenuSubmenuTrigger[data-highlighted]) {
   z-index: 0;
   position: relative;
 }
 
-.MenuItem[data-highlighted],
+:where(.MenuItem[data-highlighted],
 .MenuLinkItem[data-highlighted],
-.MenuSubmenuTrigger[data-highlighted] {
+.MenuSubmenuTrigger[data-highlighted]) {
   color: var(--ds-color-text-primary);
 }
 
-.MenuItem[data-popup-open]::before,
+:where(.MenuItem[data-popup-open]::before,
 .MenuLinkItem[data-popup-open]::before,
 .MenuSubmenuTrigger[data-popup-open]::before,
 .MenuItem[data-highlighted]::before,
 .MenuLinkItem[data-highlighted]::before,
-.MenuSubmenuTrigger[data-highlighted]::before {
+.MenuSubmenuTrigger[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -2019,19 +2019,19 @@ html[data-theme='dark'] .DrawerBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuItem[data-disabled],
+:where(.MenuItem[data-disabled],
 .MenuLinkItem[data-disabled],
-.MenuSubmenuTrigger[data-disabled] {
+.MenuSubmenuTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.MenuLinkItem {
+:where(.MenuLinkItem) {
   align-items: center;
   gap: 0.375rem;
   text-decoration: none;
 }
 
-.MenuSubmenuTrigger {
+:where(.MenuSubmenuTrigger) {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -2041,20 +2041,20 @@ html[data-theme='dark'] .DrawerBackdrop {
 /* Destructive row action. No error-surface token exists in the Mealdrop
    contract, so the highlighted state falls back to the shared subtle-hover
    background like every other item; red stays as ink only. */
-.MenuDangerItem {
+:where(.MenuDangerItem) {
   color: var(--ds-color-text-error);
 }
 
-.MenuDangerItem[data-highlighted] {
+:where(.MenuDangerItem[data-highlighted]) {
   color: var(--ds-color-text-error);
 }
 
-.MenuDangerItem[data-highlighted]::before {
+:where(.MenuDangerItem[data-highlighted]::before) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuCheckboxItem,
-.MenuRadioItem {
+:where(.MenuCheckboxItem,
+.MenuRadioItem) {
   outline: 0;
   cursor: default;
   -webkit-user-select: none;
@@ -2070,15 +2070,15 @@ html[data-theme='dark'] .DrawerBackdrop {
   grid-template-columns: 1rem 1fr;
 }
 
-.MenuCheckboxItem[data-highlighted],
-.MenuRadioItem[data-highlighted] {
+:where(.MenuCheckboxItem[data-highlighted],
+.MenuRadioItem[data-highlighted]) {
   z-index: 0;
   position: relative;
   color: var(--ds-color-text-primary);
 }
 
-.MenuCheckboxItem[data-highlighted]::before,
-.MenuRadioItem[data-highlighted]::before {
+:where(.MenuCheckboxItem[data-highlighted]::before,
+.MenuRadioItem[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -2087,22 +2087,22 @@ html[data-theme='dark'] .DrawerBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenuCheckboxItem[data-disabled],
-.MenuRadioItem[data-disabled] {
+:where(.MenuCheckboxItem[data-disabled],
+.MenuRadioItem[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.MenuCheckboxItemIndicator,
-.MenuRadioItemIndicator {
+:where(.MenuCheckboxItemIndicator,
+.MenuRadioItemIndicator) {
   grid-column-start: 1;
 }
 
-.MenuCheckboxItemText,
-.MenuRadioItemText {
+:where(.MenuCheckboxItemText,
+.MenuRadioItemText) {
   grid-column-start: 2;
 }
 
-.MenuGroupLabel {
+:where(.MenuGroupLabel) {
   -webkit-user-select: none;
   user-select: none;
   padding-block: 0.5rem;
@@ -2114,7 +2114,7 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 /* Group label aligned with plain items (no indicator column). */
-.MenuPlainGroupLabel {
+:where(.MenuPlainGroupLabel) {
   -webkit-user-select: none;
   user-select: none;
   padding: 0.5rem 1rem;
@@ -2123,13 +2123,13 @@ html[data-theme='dark'] .DrawerBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.MenuSeparator {
+:where(.MenuSeparator) {
   margin: 0.25rem;
   height: 1px;
   background-color: var(--ds-color-border-subtle);
 }
 
-.MenuArrow {
+:where(.MenuArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -2137,27 +2137,27 @@ html[data-theme='dark'] .DrawerBackdrop {
   overflow: clip;
 }
 
-.MenuArrow[data-side='top'] {
+:where(.MenuArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.MenuArrow[data-side='bottom'] {
+:where(.MenuArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.MenuArrow[data-side='left'] {
+:where(.MenuArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.MenuArrow[data-side='right'] {
+:where(.MenuArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.MenuArrow::before {
+:where(.MenuArrow::before) {
   content: '';
   display: block;
   position: absolute;
@@ -2177,7 +2177,7 @@ html[data-theme='dark'] .DrawerBackdrop {
  * Viewport clips/slides the previous vs. current content past each other.
  * Purely mechanical plumbing — ported as chrome, not a redesign.
  */
-.MenuTransitionPositioner {
+:where(.MenuTransitionPositioner) {
   --easing: var(--ds-motion-ease);
   --animation-duration: var(--ds-motion-slow);
 
@@ -2189,11 +2189,11 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition-duration: var(--animation-duration);
 }
 
-.MenuTransitionPositioner[data-instant] {
+:where(.MenuTransitionPositioner[data-instant]) {
   transition: none;
 }
 
-.MenuTransitionPopup {
+:where(.MenuTransitionPopup) {
   position: relative;
   width: var(--popup-width, auto);
   height: var(--popup-height, auto);
@@ -2202,17 +2202,17 @@ html[data-theme='dark'] .DrawerBackdrop {
   transition-duration: var(--animation-duration);
 }
 
-.MenuTransitionPopup[data-starting-style],
-.MenuTransitionPopup[data-ending-style] {
+:where(.MenuTransitionPopup[data-starting-style],
+.MenuTransitionPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.9);
 }
 
-.MenuTransitionPopup[data-instant] {
+:where(.MenuTransitionPopup[data-instant]) {
   transition: none;
 }
 
-.MenuViewport {
+:where(.MenuViewport) {
   box-sizing: border-box;
   position: relative;
   overflow: clip;
@@ -2221,8 +2221,8 @@ html[data-theme='dark'] .DrawerBackdrop {
   padding: 0;
 }
 
-.MenuViewport [data-previous],
-.MenuViewport [data-current] {
+:where(.MenuViewport [data-previous],
+.MenuViewport [data-current]) {
   width: var(--popup-width);
   transform: translateX(0);
   opacity: 1;
@@ -2231,35 +2231,35 @@ html[data-theme='dark'] .DrawerBackdrop {
     opacity calc(var(--animation-duration) / 2) var(--easing);
 }
 
-.MenuViewport[data-activation-direction~='right'] [data-previous][data-ending-style] {
+:where(.MenuViewport[data-activation-direction~='right'] [data-previous][data-ending-style]) {
   transform: translateX(-50%);
   opacity: 0;
 }
 
-.MenuViewport[data-activation-direction~='right'] [data-current][data-starting-style] {
+:where(.MenuViewport[data-activation-direction~='right'] [data-current][data-starting-style]) {
   transform: translateX(50%);
   opacity: 0;
 }
 
-.MenuViewport[data-activation-direction~='left'] [data-previous][data-ending-style] {
+:where(.MenuViewport[data-activation-direction~='left'] [data-previous][data-ending-style]) {
   transform: translateX(50%);
   opacity: 0;
 }
 
-.MenuViewport[data-activation-direction~='left'] [data-current][data-starting-style] {
+:where(.MenuViewport[data-activation-direction~='left'] [data-current][data-starting-style]) {
   transform: translateX(-50%);
   opacity: 0;
 }
 
 /* ========================= Popover ========================= */
 
-.PopoverPositioner {
+:where(.PopoverPositioner) {
   width: var(--positioner-width);
   height: var(--positioner-height);
   max-width: var(--available-width);
 }
 
-.PopoverPopup {
+:where(.PopoverPopup) {
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -2280,13 +2280,13 @@ html[data-theme='dark'] .DrawerBackdrop {
   max-width: 500px;
 }
 
-.PopoverPopup[data-starting-style],
-.PopoverPopup[data-ending-style] {
+:where(.PopoverPopup[data-starting-style],
+.PopoverPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.PopoverArrow {
+:where(.PopoverArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -2294,27 +2294,27 @@ html[data-theme='dark'] .DrawerBackdrop {
   overflow: clip;
 }
 
-.PopoverArrow[data-side='top'] {
+:where(.PopoverArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.PopoverArrow[data-side='bottom'] {
+:where(.PopoverArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.PopoverArrow[data-side='left'] {
+:where(.PopoverArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.PopoverArrow[data-side='right'] {
+:where(.PopoverArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.PopoverArrow::before {
+:where(.PopoverArrow::before) {
   content: '';
   display: block;
   position: absolute;
@@ -2328,7 +2328,7 @@ html[data-theme='dark'] .DrawerBackdrop {
   transform: translate(-50%, 50%) rotate(45deg);
 }
 
-.PopoverTitle {
+:where(.PopoverTitle) {
   margin: 0;
   font-family: var(--ds-type-family-heading);
   font-size: var(--ds-type-size-xs);
@@ -2336,14 +2336,14 @@ html[data-theme='dark'] .DrawerBackdrop {
   font-weight: var(--ds-type-weight-bold);
 }
 
-.PopoverDescription {
+:where(.PopoverDescription) {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--ds-color-text-secondary);
 }
 
-.PopoverTrigger {
+:where(.PopoverTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -2365,25 +2365,25 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .PopoverTrigger:hover:not([data-disabled], :disabled) {
+  :where(.PopoverTrigger:hover:not([data-disabled], :disabled)) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.PopoverTrigger:active:not([data-disabled], :disabled) {
+:where(.PopoverTrigger:active:not([data-disabled], :disabled)) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.PopoverTrigger[data-popup-open]:not([data-disabled], :disabled) {
+:where(.PopoverTrigger[data-popup-open]:not([data-disabled], :disabled)) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.PopoverTrigger:focus-visible {
+:where(.PopoverTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.PopoverIconTrigger {
+:where(.PopoverIconTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -2407,23 +2407,23 @@ html[data-theme='dark'] .DrawerBackdrop {
 }
 
 @media (hover: hover) {
-  .PopoverIconTrigger:hover:not([data-disabled], :disabled) {
+  :where(.PopoverIconTrigger:hover:not([data-disabled], :disabled)) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.PopoverIconTrigger[data-popup-open]:not([data-disabled], :disabled) {
+:where(.PopoverIconTrigger[data-popup-open]:not([data-disabled], :disabled)) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.PopoverIconTrigger:focus-visible {
+:where(.PopoverIconTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
 /* Visually hidden but focusable — Popover.Close as the modal escape-hatch
    when no visible close affordance is otherwise rendered (#4084). */
-.PopoverClose {
+:where(.PopoverClose) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -2435,24 +2435,24 @@ html[data-theme='dark'] .DrawerBackdrop {
   border: 0;
 }
 
-.PopoverBackdrop {
+:where(.PopoverBackdrop) {
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 32%);
   transition: opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.PopoverBackdrop[data-starting-style],
-.PopoverBackdrop[data-ending-style] {
+:where(.PopoverBackdrop[data-starting-style],
+.PopoverBackdrop[data-ending-style]) {
   opacity: 0;
 }
 
-html[data-theme='dark'] .PopoverBackdrop {
+:where(html[data-theme='dark'] .PopoverBackdrop) {
   background-color: rgb(0 0 0 / 60%);
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme='light'], [data-theme='dark']) .PopoverBackdrop {
+  :where(html:not([data-theme='light'], [data-theme='dark']) .PopoverBackdrop) {
     background-color: rgb(0 0 0 / 60%);
   }
 }
@@ -2460,7 +2460,7 @@ html[data-theme='dark'] .PopoverBackdrop {
 /* detached-triggers-full recipe (same mechanical morph as MenuTransition*,
    normalized to the "Transition" naming here — source called these
    Animated*). */
-.PopoverTransitionPositioner {
+:where(.PopoverTransitionPositioner) {
   --easing: var(--ds-motion-ease);
   --animation-duration: var(--ds-motion-slow);
 
@@ -2472,11 +2472,11 @@ html[data-theme='dark'] .PopoverBackdrop {
   transition-duration: var(--animation-duration);
 }
 
-.PopoverTransitionPositioner[data-instant] {
+:where(.PopoverTransitionPositioner[data-instant]) {
   transition: none;
 }
 
-.PopoverTransitionPopup {
+:where(.PopoverTransitionPopup) {
   position: relative;
   outline: none;
   background-color: var(--ds-color-surface-overlay);
@@ -2492,17 +2492,17 @@ html[data-theme='dark'] .PopoverBackdrop {
   transition-duration: var(--animation-duration);
 }
 
-.PopoverTransitionPopup[data-starting-style],
-.PopoverTransitionPopup[data-ending-style] {
+:where(.PopoverTransitionPopup[data-starting-style],
+.PopoverTransitionPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.9);
 }
 
-.PopoverTransitionPopup[data-instant] {
+:where(.PopoverTransitionPopup[data-instant]) {
   transition: none;
 }
 
-.PopoverViewport {
+:where(.PopoverViewport) {
   --viewport-inline-padding: 0.75rem;
 
   box-sizing: border-box;
@@ -2513,8 +2513,8 @@ html[data-theme='dark'] .PopoverBackdrop {
   padding: 0.75rem var(--viewport-inline-padding);
 }
 
-.PopoverViewport [data-previous],
-.PopoverViewport [data-current] {
+:where(.PopoverViewport [data-previous],
+.PopoverViewport [data-current]) {
   width: calc(var(--popup-width) - 2 * var(--viewport-inline-padding));
   transform: translateX(0);
   opacity: 1;
@@ -2523,29 +2523,29 @@ html[data-theme='dark'] .PopoverBackdrop {
     opacity calc(var(--animation-duration) / 2) var(--easing);
 }
 
-.PopoverViewport[data-activation-direction~='right'] [data-previous][data-ending-style] {
+:where(.PopoverViewport[data-activation-direction~='right'] [data-previous][data-ending-style]) {
   transform: translateX(-50%);
   opacity: 0;
 }
 
-.PopoverViewport[data-activation-direction~='right'] [data-current][data-starting-style] {
+:where(.PopoverViewport[data-activation-direction~='right'] [data-current][data-starting-style]) {
   transform: translateX(50%);
   opacity: 0;
 }
 
-.PopoverViewport[data-activation-direction~='left'] [data-previous][data-ending-style] {
+:where(.PopoverViewport[data-activation-direction~='left'] [data-previous][data-ending-style]) {
   transform: translateX(50%);
   opacity: 0;
 }
 
-.PopoverViewport[data-activation-direction~='left'] [data-current][data-starting-style] {
+:where(.PopoverViewport[data-activation-direction~='left'] [data-current][data-starting-style]) {
   transform: translateX(-50%);
   opacity: 0;
 }
 
 /* ========================= Select ========================= */
 
-.SelectTrigger {
+:where(.SelectTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -2571,51 +2571,51 @@ html[data-theme='dark'] .PopoverBackdrop {
 }
 
 @media (hover: hover) {
-  .SelectTrigger:hover:not([data-disabled]) {
+  :where(.SelectTrigger:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.SelectTrigger[data-popup-open] {
+:where(.SelectTrigger[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.SelectTrigger:active:not([data-disabled]) {
+:where(.SelectTrigger:active:not([data-disabled])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.SelectTrigger[data-disabled] {
+:where(.SelectTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
   border-color: var(--ds-color-border-subtle);
   cursor: not-allowed;
 }
 
-.SelectTrigger[data-invalid] {
+:where(.SelectTrigger[data-invalid]) {
   border-color: var(--ds-color-text-error);
 }
 
-.SelectTrigger:focus-visible {
+:where(.SelectTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.SelectValue[data-placeholder] {
+:where(.SelectValue[data-placeholder]) {
   color: var(--ds-color-text-hint);
 }
 
-.SelectIcon {
+:where(.SelectIcon) {
   display: flex;
   flex-shrink: 0;
 }
 
-.SelectPositioner {
+:where(.SelectPositioner) {
   outline: none;
   z-index: 10;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.SelectPopup {
+:where(.SelectPopup) {
   box-sizing: border-box;
   outline: 0;
   border: 1px solid var(--ds-color-border-subtle);
@@ -2631,20 +2631,20 @@ html[data-theme='dark'] .PopoverBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.SelectPopup[data-starting-style],
-.SelectPopup[data-ending-style] {
+:where(.SelectPopup[data-starting-style],
+.SelectPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.SelectPopup[data-side='none'] {
+:where(.SelectPopup[data-side='none']) {
   transition: none;
   transform: translateY(1px);
   opacity: 1;
   min-width: calc(var(--anchor-width) + 1.75rem);
 }
 
-.SelectList {
+:where(.SelectList) {
   box-sizing: border-box;
   position: relative;
   padding-block: 0.25rem;
@@ -2653,7 +2653,7 @@ html[data-theme='dark'] .PopoverBackdrop {
   scroll-padding-block: 1.5rem;
 }
 
-.SelectItem {
+:where(.SelectItem) {
   box-sizing: border-box;
   outline: 0;
   font-size: 0.875rem;
@@ -2670,71 +2670,71 @@ html[data-theme='dark'] .PopoverBackdrop {
   user-select: none;
 }
 
-.SelectItem[data-highlighted] {
+:where(.SelectItem[data-highlighted]) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-primary);
 }
 
-.SelectItem[data-disabled] {
+:where(.SelectItem[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.SelectItem[data-disabled][data-highlighted] {
+:where(.SelectItem[data-disabled][data-highlighted]) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-hint);
 }
 
-.SelectItemIndicator {
+:where(.SelectItemIndicator) {
   grid-column-start: 1;
 }
 
-.SelectItemText {
+:where(.SelectItemText) {
   grid-column-start: 2;
 }
 
-.SelectItemLabel {
+:where(.SelectItemLabel) {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.SelectItemDescription {
+:where(.SelectItemDescription) {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--ds-color-text-secondary);
 }
 
-.SelectItem[data-highlighted] .SelectItemDescription {
+:where(.SelectItem[data-highlighted] .SelectItemDescription) {
   color: var(--ds-color-text-secondary);
 }
 
-.SelectValueText {
+:where(.SelectValueText) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.125rem;
 }
 
-.SelectValuePrimary {
+:where(.SelectValuePrimary) {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.SelectValueSecondary {
+:where(.SelectValueSecondary) {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--ds-color-text-secondary);
 }
 
-.SelectGroup {
+:where(.SelectGroup) {
   display: block;
   padding-bottom: 0.125rem;
 }
 
-.SelectGroup:last-child {
+:where(.SelectGroup:last-child) {
   padding-bottom: 0;
 }
 
-.SelectGroupLabel {
+:where(.SelectGroupLabel) {
   box-sizing: border-box;
   padding-block: 0.375rem;
   padding-left: calc(0.625rem + 1rem + 0.5rem);
@@ -2746,7 +2746,7 @@ html[data-theme='dark'] .PopoverBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.SelectSeparator {
+:where(.SelectSeparator) {
   height: 1px;
   margin-block: 0.25rem;
   margin-inline: 1rem;
@@ -2755,7 +2755,7 @@ html[data-theme='dark'] .PopoverBackdrop {
 
 /* Scroll-up/down arrows: mechanical, needed for a long option list to
    function visually once it overflows the positioner's available height. */
-.SelectScrollArrow {
+:where(.SelectScrollArrow) {
   width: 100%;
   background-color: var(--ds-color-surface-overlay);
   z-index: 2;
@@ -2768,7 +2768,7 @@ html[data-theme='dark'] .PopoverBackdrop {
   justify-content: center;
 }
 
-.SelectScrollArrow::before {
+:where(.SelectScrollArrow::before) {
   content: '';
   position: absolute;
   width: 100%;
@@ -2776,25 +2776,25 @@ html[data-theme='dark'] .PopoverBackdrop {
   left: 0;
 }
 
-.SelectScrollArrow[data-direction='up'] {
+:where(.SelectScrollArrow[data-direction='up']) {
   top: 0;
 }
 
-.SelectScrollArrow[data-direction='up'][data-side='none']::before {
+:where(.SelectScrollArrow[data-direction='up'][data-side='none']::before) {
   top: -100%;
 }
 
-.SelectScrollArrow[data-direction='down'] {
+:where(.SelectScrollArrow[data-direction='down']) {
   bottom: 0;
 }
 
-.SelectScrollArrow[data-direction='down'][data-side='none']::before {
+:where(.SelectScrollArrow[data-direction='down'][data-side='none']::before) {
   bottom: -100%;
 }
 
 /* ========================= ScrollArea ========================= */
 
-.ScrollAreaRoot {
+:where(.ScrollAreaRoot) {
   box-sizing: border-box;
   width: 24rem;
   height: 8.5rem;
@@ -2802,18 +2802,18 @@ html[data-theme='dark'] .PopoverBackdrop {
   background-color: var(--ds-color-surface-page);
 }
 
-.ScrollAreaViewport {
+:where(.ScrollAreaViewport) {
   box-sizing: border-box;
   height: 100%;
   border: 1px solid var(--ds-color-border-subtle);
 }
 
-.ScrollAreaViewport:focus-visible {
+:where(.ScrollAreaViewport:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.ScrollAreaContent {
+:where(.ScrollAreaContent) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -2826,7 +2826,7 @@ html[data-theme='dark'] .PopoverBackdrop {
    overflow custom properties. Raw black/transparent mask stops kept as-is —
    alpha-channel luminance keywords, not visual colors (a themed color would
    invert the mask in dark mode). */
-.ScrollAreaViewportFade {
+:where(.ScrollAreaViewportFade) {
   --fade-size: 40px;
   height: 100%;
   background: var(--ds-color-surface-page);
@@ -2844,7 +2844,7 @@ html[data-theme='dark'] .PopoverBackdrop {
 /* Track/corner stay a translucent black/white scrim rather than the opaque
    border-subtle token, as-is: they need to blend over whatever content
    scrolls beneath, which a flat token color can't do. */
-.ScrollAreaScrollbar {
+:where(.ScrollAreaScrollbar) {
   display: flex;
   position: relative;
   justify-content: center;
@@ -2855,49 +2855,49 @@ html[data-theme='dark'] .PopoverBackdrop {
   pointer-events: none;
 }
 
-:root[data-theme='dark'] .ScrollAreaScrollbar {
+:where(:root[data-theme='dark'] .ScrollAreaScrollbar) {
   background-color: rgb(255 255 255 / 12%);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaScrollbar {
+  :where(:root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaScrollbar) {
     background-color: rgb(255 255 255 / 12%);
   }
 }
 
-.ScrollAreaScrollbar[data-scrolling] {
+:where(.ScrollAreaScrollbar[data-scrolling]) {
   transition-duration: 0ms;
 }
 
-.ScrollAreaScrollbar[data-hovering],
-.ScrollAreaScrollbar[data-scrolling] {
+:where(.ScrollAreaScrollbar[data-hovering],
+.ScrollAreaScrollbar[data-scrolling]) {
   opacity: 1;
   pointer-events: auto;
 }
 
-.ScrollAreaScrollbar[data-orientation='vertical'] {
+:where(.ScrollAreaScrollbar[data-orientation='vertical']) {
   width: 1rem;
 }
 
-.ScrollAreaScrollbar[data-orientation='horizontal'] {
+:where(.ScrollAreaScrollbar[data-orientation='horizontal']) {
   height: 1rem;
 }
 
-.ScrollAreaThumb {
+:where(.ScrollAreaThumb) {
   width: 100%;
   background-color: var(--ds-color-border-subtle);
 }
 
-.ScrollAreaCorner {
+:where(.ScrollAreaCorner) {
   background-color: rgb(0 0 0 / 12%);
 }
 
-:root[data-theme='dark'] .ScrollAreaCorner {
+:where(:root[data-theme='dark'] .ScrollAreaCorner) {
   background-color: rgb(255 255 255 / 12%);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaCorner {
+  :where(:root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaCorner) {
     background-color: rgb(255 255 255 / 12%);
   }
 }
@@ -2909,7 +2909,7 @@ html[data-theme='dark'] .PopoverBackdrop {
    AlertDialog and the "open a dialog from a menu" recipe explicitly share
    this Popup/Backdrop, so both reuse these Dialog* keys rather than getting
    their own. */
-.DialogBackdrop {
+:where(.DialogBackdrop) {
   min-height: 100dvh;
   background-color: black;
   opacity: 0.2;
@@ -2918,24 +2918,24 @@ html[data-theme='dark'] .PopoverBackdrop {
 
 /* iOS 26+: ensure the backdrop covers the entire visible viewport. */
 @supports (-webkit-touch-callout: none) {
-  .DialogBackdrop {
+  :where(.DialogBackdrop) {
     position: absolute;
   }
 }
 
-html[data-theme='dark'] .DialogBackdrop {
+:where(html[data-theme='dark'] .DialogBackdrop) {
   opacity: 0.5;
   background-color: black;
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop {
+  :where(html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop) {
     opacity: 0.5;
     background-color: black;
   }
 }
 
-.DialogPopup {
+:where(.DialogPopup) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -2946,22 +2946,22 @@ html[data-theme='dark'] .DialogBackdrop {
   border: 1px solid var(--ds-color-border-subtle);
 }
 
-.DialogPopup[data-starting-style],
-.DialogPopup[data-ending-style] {
+:where(.DialogPopup[data-starting-style],
+.DialogPopup[data-ending-style]) {
   transform: translate(-50%, -50%) scale(0.98);
 }
 
-.DialogTitle {
+:where(.DialogTitle) {
   font-size: var(--ds-type-size-sm);
   line-height: 1.5rem;
 }
 
-.DialogDescription {
+:where(.DialogDescription) {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.DialogActions {
+:where(.DialogActions) {
   display: flex;
   align-items: center;
   justify-content: end;
@@ -2972,27 +2972,27 @@ html[data-theme='dark'] .DialogBackdrop {
    Shares Dialog's Backdrop/Popup/Title/Description/Actions verbatim (see
    comment above); the only net-new piece is the destructive-action color
    modifier on the shared Button. */
-.Button[data-color='red'] {
+:where(.Button[data-color='red']) {
   color: var(--ds-color-text-error);
 }
 
 /* ========================= Drawer (additions) ========================= */
 
-.DrawerDescription {
+:where(.DrawerDescription) {
   margin: 0 0 1.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--ds-color-text-secondary);
 }
 
-.DrawerActions {
+:where(.DrawerActions) {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
 }
 
 /* Bottom-sheet drag handle. */
-.DrawerGrabber {
+:where(.DrawerGrabber) {
   width: 3rem;
   height: 0.25rem;
   margin: 0 auto 1rem;
@@ -3001,7 +3001,7 @@ html[data-theme='dark'] .DialogBackdrop {
 
 /* ========================= Tooltip (additions) ========================= */
 
-.TooltipArrow {
+:where(.TooltipArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -3009,27 +3009,27 @@ html[data-theme='dark'] .DialogBackdrop {
   overflow: clip;
 }
 
-.TooltipArrow[data-side='top'] {
+:where(.TooltipArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.TooltipArrow[data-side='bottom'] {
+:where(.TooltipArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.TooltipArrow[data-side='left'] {
+:where(.TooltipArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.TooltipArrow[data-side='right'] {
+:where(.TooltipArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.TooltipArrow::before {
+:where(.TooltipArrow::before) {
   content: '';
   display: block;
   position: absolute;
@@ -3049,7 +3049,7 @@ html[data-theme='dark'] .DialogBackdrop {
    Item/CheckboxItem/RadioItem/Separator/GroupLabel below carry the exact
    Menu* values under ContextMenu's own collision-safe names. */
 
-.ContextMenuTrigger {
+:where(.ContextMenuTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -3068,15 +3068,15 @@ html[data-theme='dark'] .DialogBackdrop {
   user-select: none;
 }
 
-.ContextMenuTrigger[data-pressed] {
+:where(.ContextMenuTrigger[data-pressed]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ContextMenuPositioner {
+:where(.ContextMenuPositioner) {
   outline: 0;
 }
 
-.ContextMenuPopup {
+:where(.ContextMenuPopup) {
   box-sizing: border-box;
   outline: 0;
   padding-block: 0.25rem;
@@ -3091,15 +3091,15 @@ html[data-theme='dark'] .DialogBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.ContextMenuPopup[data-starting-style],
-.ContextMenuPopup[data-ending-style] {
+:where(.ContextMenuPopup[data-starting-style],
+.ContextMenuPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.ContextMenuItem,
+:where(.ContextMenuItem,
 .ContextMenuLinkItem,
-.ContextMenuSubmenuTrigger {
+.ContextMenuSubmenuTrigger) {
   outline: 0;
   cursor: default;
   -webkit-user-select: none;
@@ -3113,28 +3113,28 @@ html[data-theme='dark'] .DialogBackdrop {
   color: inherit;
 }
 
-.ContextMenuItem[data-popup-open],
+:where(.ContextMenuItem[data-popup-open],
 .ContextMenuLinkItem[data-popup-open],
 .ContextMenuSubmenuTrigger[data-popup-open],
 .ContextMenuItem[data-highlighted],
 .ContextMenuLinkItem[data-highlighted],
-.ContextMenuSubmenuTrigger[data-highlighted] {
+.ContextMenuSubmenuTrigger[data-highlighted]) {
   z-index: 0;
   position: relative;
 }
 
-.ContextMenuItem[data-highlighted],
+:where(.ContextMenuItem[data-highlighted],
 .ContextMenuLinkItem[data-highlighted],
-.ContextMenuSubmenuTrigger[data-highlighted] {
+.ContextMenuSubmenuTrigger[data-highlighted]) {
   color: var(--ds-color-text-primary);
 }
 
-.ContextMenuItem[data-popup-open]::before,
+:where(.ContextMenuItem[data-popup-open]::before,
 .ContextMenuLinkItem[data-popup-open]::before,
 .ContextMenuSubmenuTrigger[data-popup-open]::before,
 .ContextMenuItem[data-highlighted]::before,
 .ContextMenuLinkItem[data-highlighted]::before,
-.ContextMenuSubmenuTrigger[data-highlighted]::before {
+.ContextMenuSubmenuTrigger[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -3143,27 +3143,27 @@ html[data-theme='dark'] .DialogBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ContextMenuItem[data-disabled],
+:where(.ContextMenuItem[data-disabled],
 .ContextMenuLinkItem[data-disabled],
-.ContextMenuSubmenuTrigger[data-disabled] {
+.ContextMenuSubmenuTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.ContextMenuSubmenuTrigger {
+:where(.ContextMenuSubmenuTrigger) {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding-right: 0.5rem;
 }
 
-.ContextMenuLinkItem {
+:where(.ContextMenuLinkItem) {
   align-items: center;
   gap: 0.375rem;
   text-decoration: none;
 }
 
-.ContextMenuCheckboxItem,
-.ContextMenuRadioItem {
+:where(.ContextMenuCheckboxItem,
+.ContextMenuRadioItem) {
   outline: 0;
   cursor: default;
   -webkit-user-select: none;
@@ -3179,15 +3179,15 @@ html[data-theme='dark'] .DialogBackdrop {
   grid-template-columns: 1rem 1fr;
 }
 
-.ContextMenuCheckboxItem[data-highlighted],
-.ContextMenuRadioItem[data-highlighted] {
+:where(.ContextMenuCheckboxItem[data-highlighted],
+.ContextMenuRadioItem[data-highlighted]) {
   z-index: 0;
   position: relative;
   color: var(--ds-color-text-primary);
 }
 
-.ContextMenuCheckboxItem[data-highlighted]::before,
-.ContextMenuRadioItem[data-highlighted]::before {
+:where(.ContextMenuCheckboxItem[data-highlighted]::before,
+.ContextMenuRadioItem[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -3196,22 +3196,22 @@ html[data-theme='dark'] .DialogBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ContextMenuCheckboxItem[data-disabled],
-.ContextMenuRadioItem[data-disabled] {
+:where(.ContextMenuCheckboxItem[data-disabled],
+.ContextMenuRadioItem[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.ContextMenuCheckboxItemIndicator,
-.ContextMenuRadioItemIndicator {
+:where(.ContextMenuCheckboxItemIndicator,
+.ContextMenuRadioItemIndicator) {
   grid-column-start: 1;
 }
 
-.ContextMenuCheckboxItemText,
-.ContextMenuRadioItemText {
+:where(.ContextMenuCheckboxItemText,
+.ContextMenuRadioItemText) {
   grid-column-start: 2;
 }
 
-.ContextMenuGroupLabel {
+:where(.ContextMenuGroupLabel) {
   -webkit-user-select: none;
   user-select: none;
   padding-block: 0.5rem;
@@ -3222,7 +3222,7 @@ html[data-theme='dark'] .DialogBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.ContextMenuSeparator {
+:where(.ContextMenuSeparator) {
   margin: 0.25rem;
   height: 1px;
   background-color: var(--ds-color-border-subtle);
@@ -3234,18 +3234,18 @@ html[data-theme='dark'] .DialogBackdrop {
    reused as-is; only the bar itself and its per-item trigger/popup/item
    shapes differ from a standalone Menu. */
 
-.MenubarRoot {
+:where(.MenubarRoot) {
   display: flex;
   align-items: center;
 }
 
-.MenubarRoot[data-orientation='vertical'] {
+:where(.MenubarRoot[data-orientation='vertical']) {
   flex-direction: column;
   align-items: stretch;
   width: 10rem;
 }
 
-.MenubarMenuTrigger {
+:where(.MenubarMenuTrigger) {
   box-sizing: border-box;
   height: 2rem;
   padding: 0 0.75rem;
@@ -3262,31 +3262,31 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (hover: hover) {
-  .MenubarMenuTrigger:hover:not([data-disabled]) {
+  :where(.MenubarMenuTrigger:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.MenubarMenuTrigger:active:not([data-disabled]) {
+:where(.MenubarMenuTrigger:active:not([data-disabled])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenubarMenuTrigger[data-pressed],
-.MenubarMenuTrigger[data-popup-open] {
+:where(.MenubarMenuTrigger[data-pressed],
+.MenubarMenuTrigger[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenubarMenuTrigger[data-disabled] {
+:where(.MenubarMenuTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.MenubarMenuTrigger:focus-visible {
+:where(.MenubarMenuTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
   position: relative;
 }
 
-.MenubarMenuPopup {
+:where(.MenubarMenuPopup) {
   box-sizing: border-box;
   outline: 0;
   padding-block: 0.25rem;
@@ -3300,18 +3300,18 @@ html[data-theme='dark'] .DialogBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.MenubarMenuPopup[data-starting-style],
-.MenubarMenuPopup[data-ending-style] {
+:where(.MenubarMenuPopup[data-starting-style],
+.MenubarMenuPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.98);
 }
 
-.MenubarMenuPopup[data-instant] {
+:where(.MenubarMenuPopup[data-instant]) {
   transition: none;
 }
 
-.MenubarMenuItem,
-.MenubarSubmenuTrigger {
+:where(.MenubarMenuItem,
+.MenubarSubmenuTrigger) {
   outline: 0;
   cursor: default;
   -webkit-user-select: none;
@@ -3328,23 +3328,23 @@ html[data-theme='dark'] .DialogBackdrop {
   gap: 1rem;
 }
 
-.MenubarMenuItem[data-popup-open],
+:where(.MenubarMenuItem[data-popup-open],
 .MenubarSubmenuTrigger[data-popup-open],
 .MenubarMenuItem[data-highlighted],
-.MenubarSubmenuTrigger[data-highlighted] {
+.MenubarSubmenuTrigger[data-highlighted]) {
   z-index: 0;
   position: relative;
 }
 
-.MenubarMenuItem[data-highlighted],
-.MenubarSubmenuTrigger[data-highlighted] {
+:where(.MenubarMenuItem[data-highlighted],
+.MenubarSubmenuTrigger[data-highlighted]) {
   color: var(--ds-color-text-primary);
 }
 
-.MenubarMenuItem[data-popup-open]::before,
+:where(.MenubarMenuItem[data-popup-open]::before,
 .MenubarSubmenuTrigger[data-popup-open]::before,
 .MenubarMenuItem[data-highlighted]::before,
-.MenubarSubmenuTrigger[data-highlighted]::before {
+.MenubarSubmenuTrigger[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -3353,18 +3353,18 @@ html[data-theme='dark'] .DialogBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.MenubarMenuItem[data-disabled],
-.MenubarSubmenuTrigger[data-disabled] {
+:where(.MenubarMenuItem[data-disabled],
+.MenubarSubmenuTrigger[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.MenubarSubmenuTrigger {
+:where(.MenubarSubmenuTrigger) {
   padding-right: 0.5rem;
 }
 
 /* ========================= Autocomplete ========================= */
 
-.AutocompleteInput {
+:where(.AutocompleteInput) {
   box-sizing: border-box;
   padding: 0 0.5rem;
   margin: 0;
@@ -3382,23 +3382,23 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (any-pointer: coarse) {
-  .AutocompleteInput {
+  :where(.AutocompleteInput) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 }
 
-.AutocompleteInput::placeholder {
+:where(.AutocompleteInput::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.AutocompleteInput:focus {
+:where(.AutocompleteInput:focus) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
 /* Input + trailing Clear/Trigger buttons composition. */
-.AutocompleteInputGroup {
+:where(.AutocompleteInputGroup) {
   box-sizing: border-box;
   position: relative;
   width: 16rem;
@@ -3408,12 +3408,12 @@ html[data-theme='dark'] .DialogBackdrop {
   background-color: var(--ds-color-surface-sunken);
 }
 
-.AutocompleteInputGroup:focus-within {
+:where(.AutocompleteInputGroup:focus-within) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.AutocompleteGroupedInput {
+:where(.AutocompleteGroupedInput) {
   box-sizing: border-box;
   padding: 0 calc(0.5rem + 3rem) 0 0.5rem;
   margin: 0;
@@ -3431,17 +3431,17 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (any-pointer: coarse) {
-  .AutocompleteGroupedInput {
+  :where(.AutocompleteGroupedInput) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 }
 
-.AutocompleteGroupedInput::placeholder {
+:where(.AutocompleteGroupedInput::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.AutocompleteActionButtons {
+:where(.AutocompleteActionButtons) {
   position: absolute;
   right: 0;
   top: 0;
@@ -3450,7 +3450,7 @@ html[data-theme='dark'] .DialogBackdrop {
   align-items: center;
 }
 
-.AutocompleteActionButton {
+:where(.AutocompleteActionButton) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -3463,11 +3463,11 @@ html[data-theme='dark'] .DialogBackdrop {
   background: none;
 }
 
-.AutocompletePositioner {
+:where(.AutocompletePositioner) {
   outline: 0;
 }
 
-.AutocompletePopup {
+:where(.AutocompletePopup) {
   box-sizing: border-box;
   background-color: var(--ds-color-surface-overlay);
   color: var(--ds-color-text-primary);
@@ -3478,7 +3478,7 @@ html[data-theme='dark'] .DialogBackdrop {
   box-shadow: var(--ds-shadow-overlay);
 }
 
-.AutocompleteList {
+:where(.AutocompleteList) {
   box-sizing: border-box;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -3488,11 +3488,11 @@ html[data-theme='dark'] .DialogBackdrop {
   max-height: min(22.5rem, var(--available-height));
 }
 
-.AutocompleteList[data-empty] {
+:where(.AutocompleteList[data-empty]) {
   padding: 0;
 }
 
-.AutocompleteItem {
+:where(.AutocompleteItem) {
   box-sizing: border-box;
   outline: 0;
   cursor: default;
@@ -3506,13 +3506,13 @@ html[data-theme='dark'] .DialogBackdrop {
   line-height: 1rem;
 }
 
-.AutocompleteItem[data-highlighted] {
+:where(.AutocompleteItem[data-highlighted]) {
   z-index: 0;
   position: relative;
   color: var(--ds-color-text-primary);
 }
 
-.AutocompleteItem[data-highlighted]::before {
+:where(.AutocompleteItem[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -3521,11 +3521,11 @@ html[data-theme='dark'] .DialogBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.AutocompleteItem[data-disabled] {
+:where(.AutocompleteItem[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.AutocompleteEmpty {
+:where(.AutocompleteEmpty) {
   box-sizing: border-box;
   padding: 1rem 1rem 1rem 0.5rem;
   font-size: 0.875rem;
@@ -3533,7 +3533,7 @@ html[data-theme='dark'] .DialogBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.AutocompleteStatus {
+:where(.AutocompleteStatus) {
   box-sizing: border-box;
   padding: 0.5rem;
   font-size: 0.75rem;
@@ -3542,15 +3542,15 @@ html[data-theme='dark'] .DialogBackdrop {
   border-top: 1px solid var(--ds-color-border-subtle);
 }
 
-.AutocompleteGroup {
+:where(.AutocompleteGroup) {
   display: block;
 }
 
-.AutocompleteGroup:not(:last-child) {
+:where(.AutocompleteGroup:not(:last-child)) {
   margin-block-end: 0.25rem;
 }
 
-.AutocompleteGroupLabel {
+:where(.AutocompleteGroupLabel) {
   box-sizing: border-box;
   padding: 0.5rem;
   font-size: 0.875rem;
@@ -3561,25 +3561,25 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 /* Two-line items (fuzzy matching) and label+meta rows (async, palette). */
-.AutocompleteItemContent {
+:where(.AutocompleteItemContent) {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
   min-width: 0;
 }
 
-.AutocompleteItemTitle {
+:where(.AutocompleteItemTitle) {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.AutocompleteItemDescription {
+:where(.AutocompleteItemDescription) {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--ds-color-text-secondary);
 }
 
-.AutocompleteItemRow {
+:where(.AutocompleteItemRow) {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -3588,7 +3588,7 @@ html[data-theme='dark'] .DialogBackdrop {
   min-width: 0;
 }
 
-.AutocompleteItemMeta {
+:where(.AutocompleteItemMeta) {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--ds-color-text-hint);
@@ -3600,13 +3600,13 @@ html[data-theme='dark'] .DialogBackdrop {
    viewport-morph plumbing the popup needs to travel and resize between
    triggers (#2269); kept as mechanical chrome, not a redesign. */
 
-.NavigationMenuRoot {
+:where(.NavigationMenuRoot) {
   box-sizing: border-box;
   color: var(--ds-color-text-primary);
   min-width: max-content;
 }
 
-.NavigationMenuList {
+:where(.NavigationMenuList) {
   display: flex;
   position: relative;
   gap: 1px;
@@ -3615,13 +3615,13 @@ html[data-theme='dark'] .DialogBackdrop {
   margin: 0;
 }
 
-.NavigationMenuList[data-orientation='vertical'] {
+:where(.NavigationMenuList[data-orientation='vertical']) {
   flex-direction: column;
   align-items: stretch;
   width: 12rem;
 }
 
-.NavigationMenuTrigger {
+:where(.NavigationMenuTrigger) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -3644,37 +3644,37 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (hover: hover) {
-  .NavigationMenuTrigger:hover {
+  :where(.NavigationMenuTrigger:hover) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.NavigationMenuTrigger[data-popup-open] {
+:where(.NavigationMenuTrigger[data-popup-open]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.NavigationMenuTrigger:focus-visible {
+:where(.NavigationMenuTrigger:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
 /* Compact chevron-only trigger for the split link+trigger pattern (#4186). */
-.NavigationMenuChevronTrigger {
+:where(.NavigationMenuChevronTrigger) {
   padding: 0 0.375rem;
 }
 
-.NavigationMenuIcon {
+:where(.NavigationMenuIcon) {
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform var(--ds-motion-base) var(--ds-motion-ease);
 }
 
-.NavigationMenuIcon[data-popup-open] {
+:where(.NavigationMenuIcon[data-popup-open]) {
   transform: rotate(180deg);
 }
 
-.NavigationMenuPositioner {
+:where(.NavigationMenuPositioner) {
   --easing: var(--ds-motion-ease);
   --duration: var(--ds-motion-slow);
 
@@ -3687,44 +3687,44 @@ html[data-theme='dark'] .DialogBackdrop {
   max-width: var(--available-width);
 }
 
-.NavigationMenuPositioner::before {
+:where(.NavigationMenuPositioner::before) {
   content: '';
   position: absolute;
 }
 
-.NavigationMenuPositioner[data-side='top']::before {
+:where(.NavigationMenuPositioner[data-side='top']::before) {
   left: 0;
   right: 0;
   bottom: -10px;
   height: 10px;
 }
 
-.NavigationMenuPositioner[data-side='bottom']::before {
+:where(.NavigationMenuPositioner[data-side='bottom']::before) {
   left: 0;
   right: 0;
   top: -10px;
   height: 10px;
 }
 
-.NavigationMenuPositioner[data-side='left']::before {
+:where(.NavigationMenuPositioner[data-side='left']::before) {
   top: 0;
   bottom: 0;
   right: -10px;
   width: 10px;
 }
 
-.NavigationMenuPositioner[data-side='right']::before {
+:where(.NavigationMenuPositioner[data-side='right']::before) {
   top: 0;
   bottom: 0;
   left: -10px;
   width: 10px;
 }
 
-.NavigationMenuPositioner[data-instant] {
+:where(.NavigationMenuPositioner[data-instant]) {
   transition: none;
 }
 
-.NavigationMenuPopup {
+:where(.NavigationMenuPopup) {
   position: relative;
   overflow: visible;
   box-sizing: border-box;
@@ -3741,18 +3741,18 @@ html[data-theme='dark'] .DialogBackdrop {
   height: var(--popup-height);
 }
 
-.NavigationMenuPopup[data-starting-style],
-.NavigationMenuPopup[data-ending-style] {
+:where(.NavigationMenuPopup[data-starting-style],
+.NavigationMenuPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.9);
 }
 
-.NavigationMenuPopup[data-ending-style] {
+:where(.NavigationMenuPopup[data-ending-style]) {
   transition-timing-function: var(--ds-motion-ease);
   transition-duration: var(--ds-motion-fast);
 }
 
-.NavigationMenuContent {
+:where(.NavigationMenuContent) {
   box-sizing: border-box;
   transition:
     opacity calc(var(--duration) * 0.5) var(--ds-motion-ease),
@@ -3763,41 +3763,41 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (min-width: 500px) {
-  .NavigationMenuContent {
+  :where(.NavigationMenuContent) {
     width: max-content;
     max-width: 400px;
   }
 }
 
-.NavigationMenuContent[data-starting-style],
-.NavigationMenuContent[data-ending-style] {
+:where(.NavigationMenuContent[data-starting-style],
+.NavigationMenuContent[data-ending-style]) {
   opacity: 0;
 }
 
-.NavigationMenuContent[data-starting-style][data-activation-direction='left'] {
+:where(.NavigationMenuContent[data-starting-style][data-activation-direction='left']) {
   transform: translateX(-50%);
 }
 
-.NavigationMenuContent[data-starting-style][data-activation-direction='right'] {
+:where(.NavigationMenuContent[data-starting-style][data-activation-direction='right']) {
   transform: translateX(50%);
 }
 
-.NavigationMenuContent[data-ending-style][data-activation-direction='left'] {
+:where(.NavigationMenuContent[data-ending-style][data-activation-direction='left']) {
   transform: translateX(50%);
 }
 
-.NavigationMenuContent[data-ending-style][data-activation-direction='right'] {
+:where(.NavigationMenuContent[data-ending-style][data-activation-direction='right']) {
   transform: translateX(-50%);
 }
 
-.NavigationMenuViewport {
+:where(.NavigationMenuViewport) {
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%;
 }
 
-.NavigationMenuGridLinkList {
+:where(.NavigationMenuGridLinkList) {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3807,12 +3807,12 @@ html[data-theme='dark'] .DialogBackdrop {
 }
 
 @media (max-width: 500px) {
-  .NavigationMenuGridLinkList {
+  :where(.NavigationMenuGridLinkList) {
     grid-template-columns: 1fr;
   }
 }
 
-.NavigationMenuFlexLinkList {
+:where(.NavigationMenuFlexLinkList) {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -3823,7 +3823,7 @@ html[data-theme='dark'] .DialogBackdrop {
   list-style: none;
 }
 
-.NavigationMenuLinkCard {
+:where(.NavigationMenuLinkCard) {
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -3838,30 +3838,30 @@ html[data-theme='dark'] .DialogBackdrop {
   font-family: inherit;
 }
 
-.NavigationMenuLinkCard[data-popup-open],
-.NavigationMenuLinkCard[data-active] {
+:where(.NavigationMenuLinkCard[data-popup-open],
+.NavigationMenuLinkCard[data-active]) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
 @media (hover: hover) {
-  .NavigationMenuLinkCard:hover {
+  :where(.NavigationMenuLinkCard:hover) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.NavigationMenuLinkCard:focus-visible {
+:where(.NavigationMenuLinkCard:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.NavigationMenuLinkTitle {
+:where(.NavigationMenuLinkTitle) {
   margin: 0 0 4px;
   font-size: 0.875rem;
   font-weight: var(--ds-type-weight-regular);
   line-height: 1rem;
 }
 
-.NavigationMenuLinkDescription {
+:where(.NavigationMenuLinkDescription) {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -3870,29 +3870,29 @@ html[data-theme='dark'] .DialogBackdrop {
 
 /* Purely visual dimming layer — NavigationMenu is never modal, so this is
    cosmetic only, no focus trap. */
-.NavigationMenuBackdrop {
+:where(.NavigationMenuBackdrop) {
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 10%);
   transition: opacity var(--duration, var(--ds-motion-slow)) var(--ds-motion-ease);
 }
 
-html[data-theme='dark'] .NavigationMenuBackdrop {
+:where(html[data-theme='dark'] .NavigationMenuBackdrop) {
   background-color: rgb(0 0 0 / 40%);
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme='light'], [data-theme='dark']) .NavigationMenuBackdrop {
+  :where(html:not([data-theme='light'], [data-theme='dark']) .NavigationMenuBackdrop) {
     background-color: rgb(0 0 0 / 40%);
   }
 }
 
-.NavigationMenuBackdrop[data-starting-style],
-.NavigationMenuBackdrop[data-ending-style] {
+:where(.NavigationMenuBackdrop[data-starting-style],
+.NavigationMenuBackdrop[data-ending-style]) {
   opacity: 0;
 }
 
-.NavigationMenuArrow {
+:where(.NavigationMenuArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -3903,27 +3903,27 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
     right var(--duration) var(--easing);
 }
 
-.NavigationMenuArrow[data-side='top'] {
+:where(.NavigationMenuArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.NavigationMenuArrow[data-side='bottom'] {
+:where(.NavigationMenuArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.NavigationMenuArrow[data-side='left'] {
+:where(.NavigationMenuArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.NavigationMenuArrow[data-side='right'] {
+:where(.NavigationMenuArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.NavigationMenuArrow::before {
+:where(.NavigationMenuArrow::before) {
   content: '';
   display: block;
   position: absolute;
@@ -3942,7 +3942,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
    (same "select-like trigger for input-inside-popup pattern" shape, source
    comment in both modules). */
 
-.ComboboxInputGroup {
+:where(.ComboboxInputGroup) {
   box-sizing: border-box;
   position: relative;
   width: 14rem;
@@ -3952,20 +3952,20 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   background-color: var(--ds-color-surface-sunken);
 }
 
-.ComboboxInputGroup:focus-within {
+:where(.ComboboxInputGroup:focus-within) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.ComboboxInputGroup:has(.ComboboxClear) .ComboboxInput {
+:where(.ComboboxInputGroup:has(.ComboboxClear) .ComboboxInput) {
   padding: 0 calc(0.5rem + 2rem * 2) 0 0.5rem;
 }
 
-.ComboboxInputGroup:has([data-invalid]) {
+:where(.ComboboxInputGroup:has([data-invalid])) {
   border-color: var(--ds-color-text-error);
 }
 
-.ComboboxInput {
+:where(.ComboboxInput) {
   box-sizing: border-box;
   padding: 0 calc(0.5rem + 2rem) 0 0.5rem;
   margin: 0;
@@ -3982,22 +3982,22 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 @media (any-pointer: coarse) {
-  .ComboboxInput {
+  :where(.ComboboxInput) {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 }
 
-.ComboboxInput::placeholder {
+:where(.ComboboxInput::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxInput:disabled,
-.ComboboxInput[data-disabled] {
+:where(.ComboboxInput:disabled,
+.ComboboxInput[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxActionButtons {
+:where(.ComboboxActionButtons) {
   box-sizing: border-box;
   position: absolute;
   display: flex;
@@ -4011,8 +4011,8 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   padding: 0;
 }
 
-.ComboboxTrigger,
-.ComboboxClear {
+:where(.ComboboxTrigger,
+.ComboboxClear) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -4025,17 +4025,17 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   background: none;
 }
 
-.ComboboxTriggerIcon {
+:where(.ComboboxTriggerIcon) {
   display: flex;
   flex-shrink: 0;
   color: var(--ds-color-text-primary);
 }
 
-.ComboboxPositioner {
+:where(.ComboboxPositioner) {
   outline: 0;
 }
 
-.ComboboxPopup {
+:where(.ComboboxPopup) {
   box-sizing: border-box;
   background-color: var(--ds-color-surface-overlay);
   color: var(--ds-color-text-primary);
@@ -4050,14 +4050,14 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   box-shadow: var(--ds-shadow-overlay);
 }
 
-.ComboboxPopup[data-starting-style],
-.ComboboxPopup[data-ending-style] {
+:where(.ComboboxPopup[data-starting-style],
+.ComboboxPopup[data-ending-style]) {
   opacity: 0;
   transform: scale(0.95);
 }
 
 /* Popup hosting the input (searchable-select pattern). */
-.ComboboxPopupInput {
+:where(.ComboboxPopupInput) {
   box-sizing: border-box;
   padding: 0 0.5rem;
   margin: 0;
@@ -4076,11 +4076,11 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   outline: none;
 }
 
-.ComboboxPopupInput::placeholder {
+:where(.ComboboxPopupInput::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxList {
+:where(.ComboboxList) {
   box-sizing: border-box;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -4090,11 +4090,11 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   max-height: min(22.5rem, var(--available-height));
 }
 
-.ComboboxList[data-empty] {
+:where(.ComboboxList[data-empty]) {
   padding: 0;
 }
 
-.ComboboxItem {
+:where(.ComboboxItem) {
   box-sizing: border-box;
   outline: 0;
   cursor: default;
@@ -4111,13 +4111,13 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   line-height: 1rem;
 }
 
-.ComboboxItem[data-highlighted] {
+:where(.ComboboxItem[data-highlighted]) {
   z-index: 0;
   position: relative;
   color: var(--ds-color-text-primary);
 }
 
-.ComboboxItem[data-highlighted]::before {
+:where(.ComboboxItem[data-highlighted]::before) {
   content: '';
   z-index: -1;
   position: absolute;
@@ -4126,33 +4126,33 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ComboboxItem[data-disabled] {
+:where(.ComboboxItem[data-disabled]) {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxItemText {
+:where(.ComboboxItemText) {
   grid-column-start: 2;
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
 }
 
-.ComboboxItemIndicator {
+:where(.ComboboxItemIndicator) {
   grid-column-start: 1;
 }
 
-.ComboboxItemLabel {
+:where(.ComboboxItemLabel) {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.ComboboxItemDescription {
+:where(.ComboboxItemDescription) {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--ds-color-text-secondary);
 }
 
-.ComboboxEmpty {
+:where(.ComboboxEmpty) {
   box-sizing: border-box;
   padding: 1rem 1rem 1rem 0.5rem;
   font-size: 0.875rem;
@@ -4160,7 +4160,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxStatus {
+:where(.ComboboxStatus) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -4171,7 +4171,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxSpinner {
+:where(.ComboboxSpinner) {
   box-sizing: border-box;
   width: 0.75rem;
   height: 0.75rem;
@@ -4188,15 +4188,15 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   }
 }
 
-.ComboboxGroup {
+:where(.ComboboxGroup) {
   display: block;
 }
 
-.ComboboxGroup:last-child {
+:where(.ComboboxGroup:last-child) {
   padding-bottom: 0;
 }
 
-.ComboboxGroupLabel {
+:where(.ComboboxGroupLabel) {
   box-sizing: border-box;
   padding-block: 0.375rem;
   padding-left: calc(0.5rem + 1rem + 0.5rem);
@@ -4209,7 +4209,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   color: var(--ds-color-text-hint);
 }
 
-.ComboboxSeparator {
+:where(.ComboboxSeparator) {
   height: 1px;
   margin-block: 0.25rem;
   margin-inline: 1rem;
@@ -4217,7 +4217,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 /* Multiple selection with chips. */
-.ComboboxChipsInputGroup {
+:where(.ComboboxChipsInputGroup) {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -4232,16 +4232,16 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   cursor: text;
 }
 
-.ComboboxChipsInputGroup:has(.ComboboxChip) {
+:where(.ComboboxChipsInputGroup:has(.ComboboxChip)) {
   padding-inline: 0.25rem;
 }
 
-.ComboboxChipsInputGroup:focus-within {
+:where(.ComboboxChipsInputGroup:focus-within) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.ComboboxChips {
+:where(.ComboboxChips) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4249,7 +4249,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   width: 100%;
 }
 
-.ComboboxChip {
+:where(.ComboboxChip) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -4265,19 +4265,19 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   cursor: default;
 }
 
-.ComboboxChip:focus-within {
+:where(.ComboboxChip:focus-within) {
   background-color: var(--ds-color-action-subtle-hover);
   color: var(--ds-color-text-primary);
 }
 
 @media (hover: hover) {
-  .ComboboxChip[data-highlighted] {
+  :where(.ComboboxChip[data-highlighted]) {
     background-color: var(--ds-color-action-subtle-hover);
     color: var(--ds-color-text-primary);
   }
 }
 
-.ComboboxChipRemove {
+:where(.ComboboxChipRemove) {
   box-sizing: border-box;
   width: 1rem;
   height: 1rem;
@@ -4292,12 +4292,12 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 @media (hover: hover) {
-  .ComboboxChipRemove:hover {
+  :where(.ComboboxChipRemove:hover) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.ComboboxChipsInput {
+:where(.ComboboxChipsInput) {
   flex: 1;
   box-sizing: border-box;
   padding: 0;
@@ -4314,12 +4314,12 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   min-width: 3rem;
 }
 
-.ComboboxChipsInput::placeholder {
+:where(.ComboboxChipsInput::placeholder) {
   color: var(--ds-color-text-hint);
 }
 
 /* Inline (in-flow, no popup). */
-.ComboboxInlineListBox {
+:where(.ComboboxInlineListBox) {
   box-sizing: border-box;
   width: 14rem;
   margin-top: 0.25rem;
@@ -4329,7 +4329,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   color: var(--ds-color-text-primary);
 }
 
-.ComboboxInlineList {
+:where(.ComboboxInlineList) {
   box-sizing: border-box;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -4339,7 +4339,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   max-height: 12rem;
 }
 
-.ComboboxInlineList[data-empty] {
+:where(.ComboboxInlineList[data-empty]) {
   padding: 0;
 }
 
@@ -4349,7 +4349,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
    --toast-frontmost-height, --toast-swipe-movement-x/-y); --gap/--peek are
    user-space conventions carried over from the source demo. */
 
-.ToastViewport {
+:where(.ToastViewport) {
   position: fixed;
   z-index: 1;
   width: calc(100vw - 2rem);
@@ -4361,14 +4361,14 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 @media (min-width: 500px) {
-  .ToastViewport {
+  :where(.ToastViewport) {
     bottom: 2rem;
     right: 2rem;
     width: 22.5rem;
   }
 }
 
-.ToastRoot {
+:where(.ToastRoot) {
   --gap: 0.75rem;
   --peek: 0.75rem;
   --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
@@ -4412,55 +4412,55 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
     scale(var(--scale));
 }
 
-.ToastRoot[data-expanded] {
+:where(.ToastRoot[data-expanded]) {
   transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
   height: var(--toast-height);
 }
 
-.ToastRoot[data-starting-style],
-.ToastRoot[data-ending-style] {
+:where(.ToastRoot[data-starting-style],
+.ToastRoot[data-ending-style]) {
   transform: translateY(150%);
 }
 
-.ToastRoot[data-limited] {
+:where(.ToastRoot[data-limited]) {
   opacity: 0;
 }
 
-.ToastRoot[data-ending-style] {
+:where(.ToastRoot[data-ending-style]) {
   opacity: 0;
 }
 
-.ToastRoot[data-ending-style][data-swipe-direction='up'] {
+:where(.ToastRoot[data-ending-style][data-swipe-direction='up']) {
   transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
 }
 
-.ToastRoot[data-ending-style][data-swipe-direction='left'] {
+:where(.ToastRoot[data-ending-style][data-swipe-direction='left']) {
   transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
 }
 
-.ToastRoot[data-ending-style][data-swipe-direction='right'] {
+:where(.ToastRoot[data-ending-style][data-swipe-direction='right']) {
   transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
 }
 
-.ToastRoot[data-ending-style][data-swipe-direction='down'] {
+:where(.ToastRoot[data-ending-style][data-swipe-direction='down']) {
   transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
 }
 
-.ToastRoot[data-type='success'] .ToastText {
+:where(.ToastRoot[data-type='success'] .ToastText) {
   color: var(--ds-color-text-primary);
 }
 
-.ToastRoot[data-type='error'] .ToastText {
+:where(.ToastRoot[data-type='error'] .ToastText) {
   color: var(--ds-color-text-error);
 }
 
-.ToastRoot[data-type='info'] .ToastText {
+:where(.ToastRoot[data-type='info'] .ToastText) {
   color: var(--ds-color-text-primary);
 }
 
 /* Bridges the hover area between stacked toasts so the expanded state
    doesn't flicker while the pointer crosses the gap. */
-.ToastRoot::after {
+:where(.ToastRoot::after) {
   content: '';
   position: absolute;
   top: 100%;
@@ -4469,12 +4469,12 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   height: calc(var(--gap) + 1px);
 }
 
-.ToastRoot:focus-visible {
+:where(.ToastRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
 }
 
-.ToastContent {
+:where(.ToastContent) {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -4485,15 +4485,15 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   transition: opacity var(--ds-motion-base) var(--ds-motion-ease);
 }
 
-.ToastContent[data-behind] {
+:where(.ToastContent[data-behind]) {
   opacity: 0;
 }
 
-.ToastContent[data-expanded] {
+:where(.ToastContent[data-expanded]) {
   opacity: 1;
 }
 
-.ToastText {
+:where(.ToastText) {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -4502,7 +4502,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 /* Variant of ToastText for toasts that carry an action button (undo demo). */
-.ToastActionText {
+:where(.ToastActionText) {
   display: flex;
   min-width: 0;
   flex: 1;
@@ -4511,27 +4511,27 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   gap: 0.75rem;
 }
 
-.ToastMessage {
+:where(.ToastMessage) {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.ToastTitle {
+:where(.ToastTitle) {
   font-weight: 700;
   font-size: 0.875rem;
   line-height: 1.25rem;
   margin: 0;
 }
 
-.ToastDescription {
+:where(.ToastDescription) {
   font-size: 0.875rem;
   line-height: 1.25rem;
   margin: 0;
 }
 
-.ToastClose,
-.ToastActionButton {
+:where(.ToastClose,
+.ToastActionButton) {
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -4551,44 +4551,44 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
 }
 
 @media (hover: hover) {
-  .ToastClose:hover:not([data-disabled]),
-  .ToastActionButton:hover:not([data-disabled]) {
+  :where(.ToastClose:hover:not([data-disabled]),
+  .ToastActionButton:hover:not([data-disabled])) {
     background-color: var(--ds-color-action-subtle-hover);
   }
 }
 
-.ToastClose:active:not([data-disabled]),
-.ToastActionButton:active:not([data-disabled]) {
+:where(.ToastClose:active:not([data-disabled]),
+.ToastActionButton:active:not([data-disabled])) {
   background-color: var(--ds-color-action-subtle-hover);
 }
 
-.ToastClose[data-disabled],
-.ToastActionButton[data-disabled] {
+:where(.ToastClose[data-disabled],
+.ToastActionButton[data-disabled]) {
   color: var(--ds-color-text-hint);
   border-color: var(--ds-color-border-subtle);
 }
 
-.ToastClose:focus-visible,
-.ToastActionButton:focus-visible {
+:where(.ToastClose:focus-visible,
+.ToastActionButton:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus);
 }
 
-.ToastActionButton {
+:where(.ToastActionButton) {
   display: inline-flex;
 }
 
 /* Anchored toast parts (anchored demo: a Toast pinned to a trigger instead
    of stacked in a corner viewport). */
-.ToastAnchoredViewport {
+:where(.ToastAnchoredViewport) {
   outline: 0;
 }
 
-.ToastAnchoredPositioner {
+:where(.ToastAnchoredPositioner) {
   z-index: calc(1000 - var(--toast-index));
 }
 
-.ToastAnchoredRoot {
+:where(.ToastAnchoredRoot) {
   box-sizing: border-box;
   position: relative;
   font-size: 0.875rem;
@@ -4608,28 +4608,28 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
     opacity var(--ds-motion-fast) var(--ds-motion-ease);
 }
 
-.ToastAnchoredRoot[data-starting-style],
-.ToastAnchoredRoot[data-ending-style] {
+:where(.ToastAnchoredRoot[data-starting-style],
+.ToastAnchoredRoot[data-ending-style]) {
   opacity: 0;
   scale: 0.98;
 }
 
-.ToastAnchoredRoot[data-instant] {
+:where(.ToastAnchoredRoot[data-instant]) {
   transition: none;
 }
 
-.ToastAnchoredRoot:focus-visible {
+:where(.ToastAnchoredRoot:focus-visible) {
   outline: none;
   box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
 }
 
-.ToastAnchoredDescription {
+:where(.ToastAnchoredDescription) {
   margin: 0;
 }
 
 /* Visually hidden but still announced — gives the anchored toast's dialog
    role an accessible name without duplicating text in the compact layout. */
-.ToastSrOnly {
+:where(.ToastSrOnly) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -4641,7 +4641,7 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   border: 0;
 }
 
-.ToastArrow {
+:where(.ToastArrow) {
   display: block;
   position: relative;
   width: 12px;
@@ -4649,27 +4649,27 @@ html[data-theme='dark'] .NavigationMenuBackdrop {
   overflow: clip;
 }
 
-.ToastArrow[data-side='top'] {
+:where(.ToastArrow[data-side='top']) {
   bottom: -6px;
   rotate: 180deg;
 }
 
-.ToastArrow[data-side='bottom'] {
+:where(.ToastArrow[data-side='bottom']) {
   top: -6px;
   rotate: 0deg;
 }
 
-.ToastArrow[data-side='left'] {
+:where(.ToastArrow[data-side='left']) {
   right: -9px;
   rotate: 90deg;
 }
 
-.ToastArrow[data-side='right'] {
+:where(.ToastArrow[data-side='right']) {
   left: -9px;
   rotate: -90deg;
 }
 
-.ToastArrow::before {
+:where(.ToastArrow::before) {
   content: '';
   position: absolute;
   bottom: 0;
