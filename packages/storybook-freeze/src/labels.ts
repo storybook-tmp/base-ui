@@ -4,10 +4,9 @@ import { parse as parseJsonc } from 'jsonc-parser';
 export type Facet = string;
 
 export interface Labels {
-  offerableFacets: Facet[];
+  definedFacets: Facet[];
   deleteFacets: ReadonlySet<Facet>;
   storyTags: ReadonlySet<string>;
-  isDeleteFacet(facet: Facet): boolean;
   isKept(facet: Facet, keep: ReadonlySet<Facet>): boolean;
 }
 
@@ -16,7 +15,7 @@ const CONTENT_CATEGORIES = ['source-jsdoc', 'csf-jsdoc', 'mdx', 'general', 'stor
 export function loadLabels(jsoncPath: string): Labels {
   const raw = parseJsonc(readFileSync(jsoncPath, 'utf8')) as Record<string, unknown>;
   const deleteFacets = new Set<Facet>((raw.delete as string[] | undefined) ?? []);
-  const offerableFacets: Facet[] = [];
+  const definedFacets: Facet[] = [];
   const storyTags = new Set<string>();
 
   for (const category of CONTENT_CATEGORIES) {
@@ -30,17 +29,16 @@ export function loadLabels(jsoncPath: string): Labels {
         storyTags.add(leaf);
       }
       if (!deleteFacets.has(facet)) {
-        offerableFacets.push(facet);
+        definedFacets.push(facet);
       }
     }
   }
-  offerableFacets.sort();
+  definedFacets.sort();
 
   return {
-    offerableFacets,
+    definedFacets,
     deleteFacets,
     storyTags,
-    isDeleteFacet: (facet) => deleteFacets.has(facet),
     isKept: (facet, keep) => !deleteFacets.has(facet) && keep.has(facet),
   };
 }

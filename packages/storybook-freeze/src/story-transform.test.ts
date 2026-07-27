@@ -3,10 +3,9 @@ import { transformStory } from './story-transform';
 import type { Labels } from './labels';
 
 const labels: Labels = {
-  offerableFacets: [],
+  definedFacets: [],
   deleteFacets: new Set(['story.infra']),
   storyTags: new Set(['showcase', 'highlight', 'api-ref', 'infra']),
-  isDeleteFacet: (f) => f === 'story.infra',
   isKept: (f, keep) => f !== 'story.infra' && keep.has(f),
 };
 

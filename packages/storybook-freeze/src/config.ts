@@ -35,7 +35,7 @@ export function validateExperiments(raw: unknown, labels: Labels): ExperimentCon
     );
   }
 
-  const offerable = new Set(labels.offerableFacets);
+  const defined = new Set(labels.definedFacets);
   const seen = new Set<string>();
 
   return raw.map((entry, index) => {
@@ -72,12 +72,12 @@ export function validateExperiments(raw: unknown, labels: Labels): ExperimentCon
       );
     }
 
-    const unknownFacets = (facets as string[]).filter((facet) => !offerable.has(facet));
+    const unknownFacets = (facets as string[]).filter((facet) => !defined.has(facet));
     if (unknownFacets.length > 0) {
       throw new Error(
         `Base UI: ${CONFIG_FILENAME} ${where} (${branchName}) lists unknown facets: ` +
           `${unknownFacets.join(', ')}. ` +
-          'Facets must be offerable qualified labels (category.leaf) from ' +
+          'Facets must be qualified labels (category.leaf) from ' +
           'classification-labels.jsonc, excluding the always-stripped delete facets.',
       );
     }
