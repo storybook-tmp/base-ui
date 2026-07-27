@@ -9,12 +9,12 @@ import { FieldIntegratedAutocompleteExample } from './recreations/FieldIntegrate
 import { MultiSkinAutocompleteExample } from './recreations/MultiSkinAutocompleteExample';
 import fieldIntegratedAutocompleteSource from './recreations/FieldIntegratedAutocompleteExample.tsx?raw';
 import multiSkinAutocompleteSource from './recreations/MultiSkinAutocompleteExample.tsx?raw';
-import autocompleteRealWorldCss from './autocomplete-real-world.module.css?raw';
-import autocompleteCss from './autocomplete.module.css?raw';
+import autocompleteRealWorldCss from './autocomplete-real-world.demo.css?raw';
+import autocompleteCss from './autocomplete.demo.css?raw';
 
 export const autocompleteFiles = [
-  { path: '../autocomplete.module.css', code: autocompleteCss },
-  { path: '../autocomplete-real-world.module.css', code: autocompleteRealWorldCss },
+  { path: '../autocomplete.demo.css', code: autocompleteCss },
+  { path: '../autocomplete-real-world.demo.css', code: autocompleteRealWorldCss },
 ];
 
 # Autocomplete
@@ -333,6 +333,18 @@ There is **no `data-selected`** on Item (removed from the public contract in [#4
 
 {/* END: do-dont */}
 
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Put the input on the sunken surface token and let the single two-layer ring handle focus. (BR-09, DS-01)
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+
+**Don't**
+
+- Don't color the highlighted option — selection is a neutral surface shift, not accent ink. (BR-02)
+{/* END: brand */}
 
 {/* BEGIN: examples */}
 ## In the wild

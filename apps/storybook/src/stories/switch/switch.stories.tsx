@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { Switch } from '@base-ui/react/switch';
 import { Field } from '@base-ui/react/field';
-import styles from './switch.module.css';
+import theme from '@droppy/theme';
+import './switch.demo.css';
 
 /**
  * Stories follow research/c-components/switch (Tier 3): the kept hero demo,
@@ -23,9 +24,9 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <label className={styles.Label}>
-      <Switch.Root defaultChecked className={styles.Switch}>
-        <Switch.Thumb className={styles.Thumb} />
+    <label className={theme.SwitchLabel}>
+      <Switch.Root defaultChecked className={theme.SwitchRoot}>
+        <Switch.Thumb className={theme.SwitchThumb} />
       </Switch.Root>
       Notifications
     </label>
@@ -41,14 +42,14 @@ export const Hero: Story = {
 function ControlledExample() {
   const [checked, setChecked] = React.useState(false);
   return (
-    <div className={styles.Form}>
-      <label className={styles.Label}>
-        <Switch.Root checked={checked} onCheckedChange={setChecked} className={styles.Switch}>
-          <Switch.Thumb className={styles.Thumb} />
+    <div className={theme.FormRoot}>
+      <label className={theme.SwitchLabel}>
+        <Switch.Root checked={checked} onCheckedChange={setChecked} className={theme.SwitchRoot}>
+          <Switch.Thumb className={theme.SwitchThumb} />
         </Switch.Root>
         Airplane mode
       </label>
-      <span className={styles.Output}>{checked ? 'On' : 'Off'}</span>
+      <span className="SwitchDemoOutput">{checked ? 'On' : 'Off'}</span>
     </div>
   );
 }
@@ -68,9 +69,9 @@ export const WithFieldLabel: Story = {
   tags: ['highlight'],
   render: () => (
     <Field.Root>
-      <Field.Label className={styles.Label}>
-        <Switch.Root defaultChecked className={styles.Switch}>
-          <Switch.Thumb className={styles.Thumb} />
+      <Field.Label className={theme.SwitchLabel}>
+        <Switch.Root defaultChecked className={theme.SwitchRoot}>
+          <Switch.Thumb className={theme.SwitchThumb} />
         </Switch.Root>
         Marketing emails
       </Field.Label>
@@ -82,9 +83,9 @@ export const WithFieldLabel: Story = {
 export const NativeButton: Story = {
   tags: ['api-ref'],
   render: () => (
-    <label className={styles.Label}>
-      <Switch.Root nativeButton render={<button type="button" />} className={styles.Switch}>
-        <Switch.Thumb className={styles.Thumb} />
+    <label className={theme.SwitchLabel}>
+      <Switch.Root nativeButton render={<button type="button" />} className={theme.SwitchRoot}>
+        <Switch.Thumb className={theme.SwitchThumb} />
       </Switch.Root>
       Dark mode
     </label>
@@ -95,16 +96,16 @@ export const NativeButton: Story = {
 export const Disabled: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Form}>
-      <label className={styles.Label}>
-        <Switch.Root disabled className={styles.Switch}>
-          <Switch.Thumb className={styles.Thumb} />
+    <div className={theme.FormRoot}>
+      <label className={theme.SwitchLabel}>
+        <Switch.Root disabled className={theme.SwitchRoot}>
+          <Switch.Thumb className={theme.SwitchThumb} />
         </Switch.Root>
         Disabled off
       </label>
-      <label className={styles.Label}>
-        <Switch.Root disabled defaultChecked className={styles.Switch}>
-          <Switch.Thumb className={styles.Thumb} />
+      <label className={theme.SwitchLabel}>
+        <Switch.Root disabled defaultChecked className={theme.SwitchRoot}>
+          <Switch.Thumb className={theme.SwitchThumb} />
         </Switch.Root>
         Disabled on
       </label>
@@ -116,24 +117,24 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(String(data.get('newsletter')));
       }}
     >
-      <label className={styles.Label}>
-        <Switch.Root name="newsletter" className={styles.Switch}>
-          <Switch.Thumb className={styles.Thumb} />
+      <label className={theme.SwitchLabel}>
+        <Switch.Root name="newsletter" className={theme.SwitchRoot}>
+          <Switch.Thumb className={theme.SwitchThumb} />
         </Switch.Root>
         Subscribe to the newsletter
       </label>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
       {submitted !== null ? (
-        <output className={styles.Output}>newsletter={submitted}</output>
+        <output className="SwitchDemoOutput">newsletter={submitted}</output>
       ) : null}
     </form>
   );
@@ -152,19 +153,19 @@ export const FormIntegration: Story = {
 
 /**
  * Project-wide CSS smoke check (exactly one across the whole Storybook, per the
- * generated setup prompt): asserts a concrete computed style from switch.module.css,
- * proving the CSS Modules pipeline and shared preview styles actually load.
+ * generated setup prompt): asserts a concrete computed style from the Droppy
+ * theme stylesheet, proving `@droppy/theme` and shared preview styles actually load.
  */
 export const CssCheck: Story = {
   tags: ['highlight'],
   render: () => (
-    <Switch.Root defaultChecked className={styles.Switch} aria-label="CSS check switch">
-      <Switch.Thumb className={styles.Thumb} />
+    <Switch.Root defaultChecked className={theme.SwitchRoot} aria-label="CSS check switch">
+      <Switch.Thumb className={theme.SwitchThumb} />
     </Switch.Root>
   ),
   play: async ({ canvas }) => {
     const switchEl = canvas.getByRole('switch', { name: 'CSS check switch' });
-    // .Switch sets width: 2.25rem — 36px. Fails if the CSS Module did not load.
+    // .SwitchRoot sets width: 2.25rem — 36px. Fails if the theme stylesheet did not load.
     await expect(getComputedStyle(switchEl).width).toBe('36px');
   },
 };

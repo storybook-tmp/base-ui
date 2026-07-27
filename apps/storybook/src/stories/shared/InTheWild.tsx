@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { useStableCallback } from '@base-ui/utils/useStableCallback';
 import { lookupHighlight } from './wildHighlights';
-import styles from './InTheWild.module.css';
+import './InTheWild.demo.css';
 
 /**
  * Label for a card's secondary link: a GitHub URL points at source, so it reads
@@ -166,7 +166,7 @@ export function WildCards({
   const openIndex = openId == null ? -1 : sortedOrder.indexOf(openId);
 
   return (
-    <div className={styles.Grid}>
+    <div className="WildCardGrid">
       <WildCardsContext.Provider value={contextValue}>{children}</WildCardsContext.Provider>
       <WildCardViewer
         items={items}
@@ -275,7 +275,7 @@ export function WildCard({
   const thumbnailSrc = effectiveHighlight ?? imageSrc;
   const previewImg = (
     <img
-      className={styles.Preview}
+      className="WildCardPreview"
       src={thumbnailSrc}
       loading="lazy"
       alt={
@@ -287,11 +287,11 @@ export function WildCard({
   );
 
   return (
-    <div className={isCapture ? styles.Card : `${styles.Card} ${styles.CardFallback}`}>
+    <div className={isCapture ? 'WildCardCard' : 'WildCardCard WildCardCardFallback'}>
       {context && isCapture ? (
         <button
           type="button"
-          className={styles.PreviewButton}
+          className="WildCardPreviewButton"
           onClick={() => context.open(id)}
           aria-label={`View full size — ${title}`}
         >
@@ -300,14 +300,14 @@ export function WildCard({
       ) : (
         previewImg
       )}
-      <div className={styles.Body}>
-        <div className={styles.TitleRow}>
-          <a className={styles.Title} href={href} target="_blank" rel="noreferrer">
+      <div className="WildCardBody">
+        <div className="WildCardTitleRow">
+          <a className="WildCardTitle" href={href} target="_blank" rel="noreferrer">
             {title}
           </a>
           {(effectivePageUrl ?? live) ? (
             <a
-              className={styles.Live}
+              className="WildCardLive"
               href={effectivePageUrl ?? live}
               target="_blank"
               rel="noreferrer"
@@ -316,20 +316,20 @@ export function WildCard({
             </a>
           ) : null}
         </div>
-        <div className={styles.Badges}>
-          {license ? <span className={styles.License}>{license}</span> : null}
+        <div className="WildCardBadges">
+          {license ? <span className="WildCardLicense">{license}</span> : null}
           {reuse ? (
-            <span className={isCodeOk ? styles.Reuse : `${styles.Reuse} ${styles.ReuseFlagged}`}>
+            <span className={isCodeOk ? 'WildCardReuse' : 'WildCardReuse WildCardReuseFlagged'}>
               {reuse}
             </span>
           ) : null}
           {effectiveHighlight ? (
-            <span className={styles.Located} title="Component located on the page">
+            <span className="WildCardLocated" title="Component located on the page">
               ◎ located
             </span>
           ) : null}
         </div>
-        <p className={styles.Description}>{children}</p>
+        <p className="WildCardDescription">{children}</p>
       </div>
     </div>
   );
@@ -417,18 +417,18 @@ function WildCardViewer({
       }}
     >
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.ViewerBackdrop} />
+        <Dialog.Backdrop className="WildCardViewerBackdrop" />
         <Dialog.Popup
-          className={styles.ViewerPopup}
+          className="WildCardViewerPopup"
           onKeyDown={handleKeyDown}
           aria-label={item ? `${item.title} screenshot viewer` : 'Screenshot viewer'}
         >
           {item ? (
             <React.Fragment>
-              <div className={styles.ViewerStage}>
+              <div className="WildCardViewerStage">
                 <button
                   type="button"
-                  className={styles.ViewerNavPrev}
+                  className="WildCardViewerNavPrev"
                   onClick={goToPrevious}
                   disabled={count < 2}
                   aria-label="Previous screenshot"
@@ -436,7 +436,7 @@ function WildCardViewer({
                   ‹
                 </button>
                 <img
-                  className={styles.ViewerImage}
+                  className="WildCardViewerImage"
                   src={shownImage}
                   alt={
                     showComponent
@@ -446,31 +446,31 @@ function WildCardViewer({
                 />
                 <button
                   type="button"
-                  className={styles.ViewerNavNext}
+                  className="WildCardViewerNavNext"
                   onClick={goToNext}
                   disabled={count < 2}
                   aria-label="Next screenshot"
                 >
                   ›
                 </button>
-                <Dialog.Close className={styles.ViewerClose} aria-label="Close">
+                <Dialog.Close className="WildCardViewerClose" aria-label="Close">
                   ×
                 </Dialog.Close>
               </div>
-              <div className={styles.ViewerFooter}>
-                <div className={styles.ViewerAttribution}>
+              <div className="WildCardViewerFooter">
+                <div className="WildCardViewerAttribution">
                   <a
-                    className={styles.ViewerTitle}
+                    className="WildCardViewerTitle"
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
                   >
                     {item.title}
                   </a>
-                  <span className={styles.ViewerRepo}>{item.repo}</span>
+                  <span className="WildCardViewerRepo">{item.repo}</span>
                   {(item.pageUrl ?? item.live) ? (
                     <a
-                      className={styles.ViewerLive}
+                      className="WildCardViewerLive"
                       href={item.pageUrl ?? item.live}
                       target="_blank"
                       rel="noreferrer"
@@ -478,21 +478,21 @@ function WildCardViewer({
                       {secondaryLinkLabel(item.pageUrl ?? item.live)}
                     </a>
                   ) : null}
-                  {item.license ? <span className={styles.License}>{item.license}</span> : null}
+                  {item.license ? <span className="WildCardLicense">{item.license}</span> : null}
                   {item.reuse ? (
                     <span
-                      className={isCodeOk ? styles.Reuse : `${styles.Reuse} ${styles.ReuseFlagged}`}
+                      className={isCodeOk ? 'WildCardReuse' : 'WildCardReuse WildCardReuseFlagged'}
                     >
                       {item.reuse}
                     </span>
                   ) : null}
                 </div>
-                <div className={styles.ViewerFooterRight}>
+                <div className="WildCardViewerFooterRight">
                   {hasHighlight ? (
-                    <div className={styles.ViewerToggle} role="group" aria-label="Screenshot view">
+                    <div className="WildCardViewerToggle" role="group" aria-label="Screenshot view">
                       <button
                         type="button"
-                        className={styles.ViewerToggleButton}
+                        className="WildCardViewerToggleButton"
                         aria-pressed={!showComponent}
                         onClick={() => setShowComponent(false)}
                       >
@@ -500,7 +500,7 @@ function WildCardViewer({
                       </button>
                       <button
                         type="button"
-                        className={styles.ViewerToggleButton}
+                        className="WildCardViewerToggleButton"
                         aria-pressed={showComponent}
                         onClick={() => setShowComponent(true)}
                       >
@@ -508,19 +508,19 @@ function WildCardViewer({
                       </button>
                     </div>
                   ) : null}
-                  <div className={styles.ViewerCounter}>
+                  <div className="WildCardViewerCounter">
                     {index + 1} of {count}
                   </div>
                 </div>
               </div>
               {item.selector ? (
-                <div className={styles.ViewerLocator}>
-                  <span className={styles.ViewerLocatorLabel}>Locator</span>
-                  {item.route ? <code className={styles.ViewerRoute}>{item.route}</code> : null}
-                  <code className={styles.ViewerSelector}>{item.selector}</code>
+                <div className="WildCardViewerLocator">
+                  <span className="WildCardViewerLocatorLabel">Locator</span>
+                  {item.route ? <code className="WildCardViewerRoute">{item.route}</code> : null}
+                  <code className="WildCardViewerSelector">{item.selector}</code>
                   <button
                     type="button"
-                    className={styles.ViewerCopySelector}
+                    className="WildCardViewerCopySelector"
                     onClick={handleCopySelector}
                   >
                     {copied ? 'Copied' : 'Copy selector'}

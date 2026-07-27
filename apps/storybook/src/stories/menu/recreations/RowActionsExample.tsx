@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Menu } from '@base-ui/react/menu';
-import styles from '../menu.module.css';
+import theme from '@droppy/theme';
+import '../menu.demo.css';
 import { EllipsisIcon } from '../icons';
 
 /**
@@ -20,8 +21,8 @@ const fleetInstances = [
 export function RowActionsExample() {
   const [lastAction, setLastAction] = React.useState('none');
   return (
-    <div className={styles.Stack}>
-      <table className={styles.Table}>
+    <div className="MenuDemoStack">
+      <table className="MenuDemoTable">
         <thead>
           <tr>
             <th>Instance</th>
@@ -40,34 +41,34 @@ export function RowActionsExample() {
                 {/* modal={false}: row-action menus must not lock page scroll. */}
                 <Menu.Root modal={false}>
                   <Menu.Trigger
-                    className={styles.IconButton}
+                    className={theme.MenuTriggerIcon}
                     aria-label={`Row actions for ${instance.id}`}
                   >
                     <EllipsisIcon />
                   </Menu.Trigger>
                   <Menu.Portal>
                     <Menu.Positioner
-                      className={styles.Positioner}
+                      className={theme.MenuPositioner}
                       side="bottom"
                       align="end"
                       sideOffset={4}
                     >
-                      <Menu.Popup className={styles.Popup}>
+                      <Menu.Popup className={theme.MenuPopup}>
                         <Menu.Item
-                          className={styles.Item}
+                          className={theme.MenuItem}
                           onClick={() => setLastAction(`Start ${instance.id}`)}
                         >
                           Start
                         </Menu.Item>
                         <Menu.Item
-                          className={styles.Item}
+                          className={theme.MenuItem}
                           onClick={() => setLastAction(`Stop ${instance.id}`)}
                         >
                           Stop
                         </Menu.Item>
-                        <Menu.Separator className={styles.Separator} />
+                        <Menu.Separator className={theme.MenuSeparator} />
                         <Menu.Item
-                          className={`${styles.Item} ${styles.DangerItem}`}
+                          className={`${theme.MenuItem} ${theme.MenuDangerItem}`}
                           onClick={() => setLastAction(`Delete ${instance.id}`)}
                         >
                           Delete
@@ -81,7 +82,7 @@ export function RowActionsExample() {
           ))}
         </tbody>
       </table>
-      <output className={styles.Output}>last action: {lastAction}</output>
+      <output className="MenuDemoOutput">last action: {lastAction}</output>
     </div>
   );
 }

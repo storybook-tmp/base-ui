@@ -1,0 +1,12 @@
+/* Demo-only glue for button.stories.tsx — not part of the Droppy theme. */
+
+.Row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.Output {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

@@ -1,0 +1,20 @@
+/* Demo-only glue for otp-field stories — not part of the Droppy theme. */
+
+.OtpFieldDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.OtpFieldDemoRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* Wraps a split subset of OTPField.Input slots (e.g. either side of a
+   Separator) — purely a layout grouping, not an OTPField theme part. */
+.OtpFieldDemoGroup {
+  display: flex;
+  gap: 0.5rem;
+}

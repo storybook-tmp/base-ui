@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Popover } from '@base-ui/react/popover';
 import { Checkbox } from '@base-ui/react/checkbox';
-import styles from './popover.module.css';
+import theme from '@droppy/theme';
+import './popover.demo.css';
 import { QueuePopoverExample } from './recreations/QueuePopoverExample';
 import { LinkEditorToolbarExample } from './recreations/LinkEditorToolbarExample';
 import { MentionAutocompleteExample } from './recreations/MentionAutocompleteExample';
@@ -42,13 +43,13 @@ export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
     <Popover.Root>
-      <Popover.Trigger className={styles.Button}>Notifications</Popover.Trigger>
+      <Popover.Trigger className={theme.PopoverTrigger}>Notifications</Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Arrow className={theme.PopoverArrow} />
+            <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               You are all caught up. Good job!
             </Popover.Description>
           </Popover.Popup>
@@ -63,15 +64,15 @@ export const OpenOnHover: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
     <Popover.Root>
-      <Popover.Trigger openOnHover className={styles.Button}>
+      <Popover.Trigger openOnHover className={theme.PopoverTrigger}>
         Notifications
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Arrow className={theme.PopoverArrow} />
+            <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               You are all caught up. Good job!
             </Popover.Description>
           </Popover.Popup>
@@ -88,16 +89,16 @@ export const DetachedTriggersSimple: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <React.Fragment>
-      <Popover.Trigger className={styles.Button} handle={simpleHandle}>
+      <Popover.Trigger className={theme.PopoverTrigger} handle={simpleHandle}>
         Notifications
       </Popover.Trigger>
       <Popover.Root handle={simpleHandle}>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+              <Popover.Description className={theme.PopoverDescription}>
                 You are all caught up. Good job!
               </Popover.Description>
             </Popover.Popup>
@@ -121,16 +122,24 @@ function DetachedTriggersControlledExample() {
 
   return (
     <React.Fragment>
-      <div className={styles.Container}>
-        <Popover.Trigger className={styles.Button} handle={controlledHandle} id="dtc-trigger-1">
+      <div className="PopoverContainer">
+        <Popover.Trigger
+          className={theme.PopoverTrigger}
+          handle={controlledHandle}
+          id="dtc-trigger-1"
+        >
           Trigger 1
         </Popover.Trigger>
-        <Popover.Trigger className={styles.Button} handle={controlledHandle} id="dtc-trigger-2">
+        <Popover.Trigger
+          className={theme.PopoverTrigger}
+          handle={controlledHandle}
+          id="dtc-trigger-2"
+        >
           Trigger 2
         </Popover.Trigger>
         <button
           type="button"
-          className={styles.Button}
+          className={theme.PopoverTrigger}
           onClick={() => {
             setTriggerId('dtc-trigger-2');
             setOpen(true);
@@ -147,10 +156,10 @@ function DetachedTriggersControlledExample() {
       >
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+              <Popover.Description className={theme.PopoverDescription}>
                 You are all caught up. Good job!
               </Popover.Description>
             </Popover.Popup>
@@ -171,9 +180,9 @@ const morphHandle = Popover.createHandle<React.ComponentType>();
 
 function NotificationsPanel() {
   return (
-    <div className={styles.Stack}>
-      <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-      <Popover.Description className={styles.Description}>
+    <div className="PopoverStack">
+      <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+      <Popover.Description className={theme.PopoverDescription}>
         You are all caught up. Good job!
       </Popover.Description>
     </div>
@@ -182,9 +191,9 @@ function NotificationsPanel() {
 
 function ActivityPanel() {
   return (
-    <div className={styles.Stack}>
-      <Popover.Title className={styles.Title}>Activity</Popover.Title>
-      <Popover.Description className={styles.Description}>
+    <div className="PopoverStack">
+      <Popover.Title className={theme.PopoverTitle}>Activity</Popover.Title>
+      <Popover.Description className={theme.PopoverDescription}>
         Nothing interesting happened recently.
       </Popover.Description>
     </div>
@@ -193,13 +202,13 @@ function ActivityPanel() {
 
 function ProfilePanel() {
   return (
-    <div className={styles.ProfilePanel}>
-      <Popover.Title className={styles.Title}>Jason Eventon</Popover.Title>
-      <span className={styles.Avatar} aria-hidden>
+    <div className="PopoverProfilePanel">
+      <Popover.Title className={theme.PopoverTitle}>Jason Eventon</Popover.Title>
+      <span className="PopoverAvatar" aria-hidden>
         JE
       </span>
-      <span className={styles.Plan}>Pro plan</span>
-      <div className={styles.ProfileActions}>
+      <span className="PopoverPlan">Pro plan</span>
+      <div className="PopoverProfileActions">
         <a href="#profile-settings">Profile settings</a>
         <a href="#log-out">Log out</a>
       </div>
@@ -211,23 +220,31 @@ function ProfilePanel() {
 export const DetachedTriggersFull: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Container}>
-      <Popover.Trigger className={styles.Button} handle={morphHandle} payload={NotificationsPanel}>
+    <div className="PopoverContainer">
+      <Popover.Trigger
+        className={theme.PopoverTrigger}
+        handle={morphHandle}
+        payload={NotificationsPanel}
+      >
         Notifications
       </Popover.Trigger>
-      <Popover.Trigger className={styles.Button} handle={morphHandle} payload={ActivityPanel}>
+      <Popover.Trigger
+        className={theme.PopoverTrigger}
+        handle={morphHandle}
+        payload={ActivityPanel}
+      >
         Activity
       </Popover.Trigger>
-      <Popover.Trigger className={styles.Button} handle={morphHandle} payload={ProfilePanel}>
+      <Popover.Trigger className={theme.PopoverTrigger} handle={morphHandle} payload={ProfilePanel}>
         Profile
       </Popover.Trigger>
       <Popover.Root handle={morphHandle}>
         {({ payload: Payload }) => (
           <Popover.Portal>
-            <Popover.Positioner className={styles.AnimatedPositioner} sideOffset={8}>
-              <Popover.Popup className={styles.AnimatedPopup}>
-                <Popover.Arrow className={styles.Arrow} />
-                <Popover.Viewport className={styles.Viewport}>
+            <Popover.Positioner className={theme.PopoverTransitionPositioner} sideOffset={8}>
+              <Popover.Popup className={theme.PopoverTransitionPopup}>
+                <Popover.Arrow className={theme.PopoverArrow} />
+                <Popover.Viewport className={theme.PopoverViewport}>
                   {Payload !== undefined && <Payload />}
                 </Popover.Viewport>
               </Popover.Popup>
@@ -247,22 +264,22 @@ export const DetachedTriggersFull: Story = {
 export const OpenCloseInteraction: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Notifications</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Notifications</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Title className={styles.Title}>Notifications</Popover.Title>
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Title className={theme.PopoverTitle}>Notifications</Popover.Title>
+              <Popover.Description className={theme.PopoverDescription}>
                 You are all caught up. Good job!
               </Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.PopoverTrigger}>
         Outside area
       </button>
     </div>
@@ -297,18 +314,18 @@ export const OpenCloseInteraction: Story = {
 export const KeyboardTabThrough: Story = {
   tags: ['tests'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Quick actions</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Quick actions</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Quick actions</Popover.Title>
-              <div className={styles.Row}>
-                <button type="button" className={styles.Button}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Quick actions</Popover.Title>
+              <div className="PopoverRow">
+                <button type="button" className={theme.PopoverTrigger}>
                   Archive
                 </button>
-                <button type="button" className={styles.Button}>
+                <button type="button" className={theme.PopoverTrigger}>
                   Snooze
                 </button>
               </div>
@@ -316,7 +333,7 @@ export const KeyboardTabThrough: Story = {
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.PopoverTrigger}>
         Next in tab order
       </button>
     </div>
@@ -349,28 +366,28 @@ export const KeyboardTabThrough: Story = {
 export const ModalTrue: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root modal>
-        <Popover.Trigger className={styles.Button}>Display settings</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Display settings</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Display settings</Popover.Title>
-              <div className={styles.Row}>
-                <button type="button" className={styles.Button}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Display settings</Popover.Title>
+              <div className="PopoverRow">
+                <button type="button" className={theme.PopoverTrigger}>
                   Reset
                 </button>
-                <button type="button" className={styles.Button}>
+                <button type="button" className={theme.PopoverTrigger}>
                   Apply
                 </button>
               </div>
               {/* #4084: modal focus trapping requires a rendered Close. */}
-              <Popover.Close className={styles.SrOnly}>Close</Popover.Close>
+              <Popover.Close className={theme.PopoverClose}>Close</Popover.Close>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.PopoverTrigger}>
         Outside button
       </button>
     </div>
@@ -403,18 +420,18 @@ export const ModalTrue: Story = {
 export const NonModalDefault: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Display settings</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Display settings</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Display settings</Popover.Title>
-              <div className={styles.Row}>
-                <button type="button" className={styles.Button}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Display settings</Popover.Title>
+              <div className="PopoverRow">
+                <button type="button" className={theme.PopoverTrigger}>
                   Reset
                 </button>
-                <button type="button" className={styles.Button}>
+                <button type="button" className={theme.PopoverTrigger}>
                   Apply
                 </button>
               </div>
@@ -422,7 +439,7 @@ export const NonModalDefault: Story = {
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <input className={styles.Input} aria-label="Outside input" placeholder="Outside input" />
+      <input className={theme.Input} aria-label="Outside input" placeholder="Outside input" />
     </div>
   ),
   play: async ({ canvas, canvasElement, userEvent }) => {
@@ -445,27 +462,27 @@ export const NonModalDefault: Story = {
 export const TrapFocusMode: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root modal="trap-focus">
-        <Popover.Trigger className={styles.Button}>Insert variable</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Insert variable</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Insert variable</Popover.Title>
-              <div className={styles.Row}>
-                <button type="button" className={styles.Button}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Insert variable</Popover.Title>
+              <div className="PopoverRow">
+                <button type="button" className={theme.PopoverTrigger}>
                   Insert name
                 </button>
-                <button type="button" className={styles.Button}>
+                <button type="button" className={theme.PopoverTrigger}>
                   Insert email
                 </button>
               </div>
-              <Popover.Close className={styles.Button}>Cancel</Popover.Close>
+              <Popover.Close className={theme.PopoverTrigger}>Cancel</Popover.Close>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.PopoverTrigger}>
         Outside button
       </button>
     </div>
@@ -503,29 +520,37 @@ const imperativeHandle = Popover.createHandle();
 export const DetachedHandleImperative: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Stack}>
-      <Popover.Trigger className={styles.Button} handle={imperativeHandle} id="saved-searches">
+    <div className="PopoverStack">
+      <Popover.Trigger
+        className={theme.PopoverTrigger}
+        handle={imperativeHandle}
+        id="saved-searches"
+      >
         Saved searches
       </Popover.Trigger>
-      <div className={styles.Row}>
+      <div className="PopoverRow">
         <button
           type="button"
-          className={styles.Button}
+          className={theme.PopoverTrigger}
           onClick={() => imperativeHandle.open('saved-searches')}
         >
           Open via handle.open()
         </button>
-        <button type="button" className={styles.Button} onClick={() => imperativeHandle.close()}>
+        <button
+          type="button"
+          className={theme.PopoverTrigger}
+          onClick={() => imperativeHandle.close()}
+        >
           Close via handle.close()
         </button>
       </div>
       <Popover.Root handle={imperativeHandle}>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Title className={styles.Title}>Saved searches</Popover.Title>
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Title className={theme.PopoverTitle}>Saved searches</Popover.Title>
+              <Popover.Description className={theme.PopoverDescription}>
                 Anchored to the registered trigger, wherever the call came from.
               </Popover.Description>
             </Popover.Popup>
@@ -567,11 +592,11 @@ const plans: PlanDetails[] = [
 export const MultipleTriggersPayload: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Container}>
+    <div className="PopoverContainer">
       {plans.map((plan) => (
         <Popover.Trigger
           key={plan.name}
-          className={styles.Button}
+          className={theme.PopoverTrigger}
           handle={planHandle}
           payload={plan}
         >
@@ -582,10 +607,10 @@ export const MultipleTriggersPayload: Story = {
         {({ payload }) => (
           <Popover.Portal>
             <Popover.Positioner sideOffset={8}>
-              <Popover.Popup className={styles.Popup}>
-                <Popover.Arrow className={styles.Arrow} />
-                <Popover.Title className={styles.Title}>{payload?.name} plan</Popover.Title>
-                <Popover.Description className={styles.Description}>
+              <Popover.Popup className={theme.PopoverPopup}>
+                <Popover.Arrow className={theme.PopoverArrow} />
+                <Popover.Title className={theme.PopoverTitle}>{payload?.name} plan</Popover.Title>
+                <Popover.Description className={theme.PopoverDescription}>
                   {payload?.price} per month — {payload?.blurb}
                 </Popover.Description>
               </Popover.Popup>
@@ -614,8 +639,8 @@ function DismissalControlExample() {
   const [log, setLog] = React.useState<string[]>([]);
 
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="PopoverStack">
+      <div className="PopoverRow">
         <Popover.Root
           open={open}
           onOpenChange={(nextOpen, eventDetails) => {
@@ -631,24 +656,24 @@ function DismissalControlExample() {
             setLog((entries) => [...entries, eventDetails.reason]);
           }}
         >
-          <Popover.Trigger className={styles.Button}>Edit widget</Popover.Trigger>
+          <Popover.Trigger className={theme.PopoverTrigger}>Edit widget</Popover.Trigger>
           <Popover.Portal>
             <Popover.Positioner sideOffset={8}>
-              <Popover.Popup className={styles.Popup}>
-                <Popover.Title className={styles.Title}>Widget settings</Popover.Title>
-                <Popover.Description className={styles.Description}>
+              <Popover.Popup className={theme.PopoverPopup}>
+                <Popover.Title className={theme.PopoverTitle}>Widget settings</Popover.Title>
+                <Popover.Description className={theme.PopoverDescription}>
                   Clicking outside will not close this popover.
                 </Popover.Description>
-                <Popover.Close className={styles.Button}>Done</Popover.Close>
+                <Popover.Close className={theme.PopoverTrigger}>Done</Popover.Close>
               </Popover.Popup>
             </Popover.Positioner>
           </Popover.Portal>
         </Popover.Root>
-        <button type="button" className={styles.Button}>
+        <button type="button" className={theme.PopoverTrigger}>
           Outside area
         </button>
       </div>
-      <output className={styles.Output}>reasons: {log.length > 0 ? log.join(', ') : 'none'}</output>
+      <output className="PopoverOutput">reasons: {log.length > 0 ? log.join(', ') : 'none'}</output>
     </div>
   );
 }
@@ -681,14 +706,14 @@ export const HoverStickOnClick: Story = {
   tags: ['highlight'],
   render: () => (
     <Popover.Root>
-      <Popover.Trigger openOnHover className={styles.Button}>
+      <Popover.Trigger openOnHover className={theme.PopoverTrigger}>
         Shortcuts
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Arrow className={theme.PopoverArrow} />
+            <Popover.Description className={theme.PopoverDescription}>
               Press ? anywhere to open the shortcut list.
             </Popover.Description>
           </Popover.Popup>
@@ -720,21 +745,21 @@ export const HoverStickOnClick: Story = {
 export const Infotip: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
-      <span className={styles.Label}>Estimated tax</span>
+    <div className="PopoverRow">
+      <span className="PopoverLabel">Estimated tax</span>
       <Popover.Root>
         <Popover.Trigger
           openOnHover
-          className={styles.IconButton}
+          className={theme.PopoverIconTrigger}
           aria-label="More information about estimated tax"
         >
           i
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner side="top" sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Description className={theme.PopoverDescription}>
                 Calculated from your delivery address at checkout.
               </Popover.Description>
             </Popover.Popup>
@@ -748,38 +773,38 @@ export const Infotip: Story = {
 function FilterPanelExample() {
   const [applied, setApplied] = React.useState('none');
   return (
-    <div className={styles.Stack}>
+    <div className="PopoverStack">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Filter results</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Filter results</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Title className={styles.Title}>Filters</Popover.Title>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Title className={theme.PopoverTitle}>Filters</Popover.Title>
               <form
-                className={styles.Form}
+                className="PopoverForm"
                 onSubmit={(event) => {
                   event.preventDefault();
                   const data = new FormData(event.currentTarget);
                   setApplied([...data.keys()].join(', ') || 'none');
                 }}
               >
-                <label className={styles.Label}>
-                  <Checkbox.Root name="in-stock" defaultChecked className={styles.Checkbox}>
-                    <Checkbox.Indicator className={styles.CheckboxIndicator}>
+                <label className={theme.CheckboxLabel}>
+                  <Checkbox.Root name="in-stock" defaultChecked className={theme.CheckboxRoot}>
+                    <Checkbox.Indicator className={theme.CheckboxIndicator}>
                       <CheckIcon />
                     </Checkbox.Indicator>
                   </Checkbox.Root>
                   In stock
                 </label>
-                <label className={styles.Label}>
-                  <Checkbox.Root name="on-sale" className={styles.Checkbox}>
-                    <Checkbox.Indicator className={styles.CheckboxIndicator}>
+                <label className={theme.CheckboxLabel}>
+                  <Checkbox.Root name="on-sale" className={theme.CheckboxRoot}>
+                    <Checkbox.Indicator className={theme.CheckboxIndicator}>
                       <CheckIcon />
                     </Checkbox.Indicator>
                   </Checkbox.Root>
                   On sale
                 </label>
-                <Popover.Close className={styles.Button} type="submit">
+                <Popover.Close className={theme.PopoverTrigger} type="submit">
                   Apply
                 </Popover.Close>
               </form>
@@ -787,7 +812,7 @@ function FilterPanelExample() {
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <output className={styles.Output}>Applied: {applied}</output>
+      <output className="PopoverOutput">Applied: {applied}</output>
     </div>
   );
 }
@@ -832,7 +857,7 @@ export const TableRowSharedPopover: Story = {
   tags: ['highlight'],
   render: () => (
     <React.Fragment>
-      <table className={styles.Table}>
+      <table className="PopoverTable">
         <thead>
           <tr>
             <th>Order</th>
@@ -846,7 +871,11 @@ export const TableRowSharedPopover: Story = {
               <td>{order.id}</td>
               <td>{order.customer}</td>
               <td>
-                <Popover.Trigger className={styles.Button} handle={orderHandle} payload={order}>
+                <Popover.Trigger
+                  className={theme.PopoverTrigger}
+                  handle={orderHandle}
+                  payload={order}
+                >
                   Details
                 </Popover.Trigger>
               </td>
@@ -858,10 +887,10 @@ export const TableRowSharedPopover: Story = {
         {({ payload }) => (
           <Popover.Portal>
             <Popover.Positioner side="right" sideOffset={8}>
-              <Popover.Popup className={styles.Popup}>
-                <Popover.Arrow className={styles.Arrow} />
-                <Popover.Title className={styles.Title}>Order {payload?.id}</Popover.Title>
-                <Popover.Description className={styles.Description}>
+              <Popover.Popup className={theme.PopoverPopup}>
+                <Popover.Arrow className={theme.PopoverArrow} />
+                <Popover.Title className={theme.PopoverTitle}>Order {payload?.id}</Popover.Title>
+                <Popover.Description className={theme.PopoverDescription}>
                   {payload?.customer} — {payload?.total} ({payload?.status})
                 </Popover.Description>
               </Popover.Popup>
@@ -878,16 +907,16 @@ export const WithBackdrop: Story = {
   tags: ['highlight'],
   render: () => (
     <Popover.Root modal>
-      <Popover.Trigger className={styles.Button}>Review changes</Popover.Trigger>
+      <Popover.Trigger className={theme.PopoverTrigger}>Review changes</Popover.Trigger>
       <Popover.Portal>
-        <Popover.Backdrop className={styles.Backdrop} />
+        <Popover.Backdrop className={theme.PopoverBackdrop} />
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Title className={styles.Title}>Review changes</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Title className={theme.PopoverTitle}>Review changes</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               The dimmed backdrop focuses attention while this popover is open.
             </Popover.Description>
-            <Popover.Close className={styles.Button}>Got it</Popover.Close>
+            <Popover.Close className={theme.PopoverTrigger}>Got it</Popover.Close>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -898,17 +927,17 @@ export const WithBackdrop: Story = {
 function CustomAnchorExample() {
   const previewRef = React.useRef<HTMLElement>(null);
   return (
-    <div className={styles.Row}>
+    <div className="PopoverRow">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Explain expression</Popover.Trigger>
-        <code className={styles.AnchorTarget} ref={previewRef}>
+        <Popover.Trigger className={theme.PopoverTrigger}>Explain expression</Popover.Trigger>
+        <code className="PopoverAnchorTarget" ref={previewRef}>
           subtotal * 1.21
         </code>
         <Popover.Portal>
           <Popover.Positioner anchor={previewRef} side="bottom" align="start" sideOffset={8}>
-            <Popover.Popup className={styles.Popup}>
-              <Popover.Arrow className={styles.Arrow} />
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={theme.PopoverPopup}>
+              <Popover.Arrow className={theme.PopoverArrow} />
+              <Popover.Description className={theme.PopoverDescription}>
                 21% VAT is applied to the subtotal.
               </Popover.Description>
             </Popover.Popup>
@@ -946,13 +975,13 @@ export const PositionerPlayground: StoryObj<typeof Popover.Positioner> = {
   },
   render: (args) => (
     <Popover.Root defaultOpen>
-      <Popover.Trigger className={styles.Button}>Anchor</Popover.Trigger>
+      <Popover.Trigger className={theme.PopoverTrigger}>Anchor</Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner {...args}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Title className={styles.Title}>Anchor</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Arrow className={theme.PopoverArrow} />
+            <Popover.Title className={theme.PopoverTitle}>Anchor</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               Positioned with side, align, and offsets.
             </Popover.Description>
           </Popover.Popup>
@@ -966,15 +995,15 @@ export const PositionerPlayground: StoryObj<typeof Popover.Positioner> = {
 export const PositionMethodFixedInSticky: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.ScrollArea}>
-      <div className={styles.StickyHeader}>
-        <span className={styles.Label}>Inbox</span>
+    <div className="PopoverScrollArea">
+      <div className="PopoverStickyHeader">
+        <span className="PopoverLabel">Inbox</span>
         <Popover.Root>
-          <Popover.Trigger className={styles.Button}>Sort</Popover.Trigger>
+          <Popover.Trigger className={theme.PopoverTrigger}>Sort</Popover.Trigger>
           <Popover.Portal>
             <Popover.Positioner positionMethod="fixed" sideOffset={8}>
-              <Popover.Popup className={styles.Popup}>
-                <Popover.Description className={styles.Description}>
+              <Popover.Popup className={theme.PopoverPopup}>
+                <Popover.Description className={theme.PopoverDescription}>
                   positionMethod="fixed" keeps this popup steady while the list scrolls under the
                   sticky header.
                 </Popover.Description>
@@ -984,7 +1013,7 @@ export const PositionMethodFixedInSticky: Story = {
         </Popover.Root>
       </div>
       {Array.from({ length: 12 }, (_, index) => (
-        <p key={index} className={styles.Filler}>
+        <p key={index} className="PopoverFiller">
           Conversation {index + 1}
         </p>
       ))}
@@ -997,13 +1026,13 @@ export const TransitionStartingEndingStyle: Story = {
   tags: ['animation'],
   render: () => (
     <Popover.Root>
-      <Popover.Trigger className={styles.Button}>Toggle panel</Popover.Trigger>
+      <Popover.Trigger className={theme.PopoverTrigger}>Toggle panel</Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={`${styles.Popup} ${styles.TransitionPopup}`}>
-            <Popover.Arrow className={styles.Arrow} />
-            <Popover.Title className={styles.Title}>Animated</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={`${theme.PopoverPopup} PopoverTransitionExtra`}>
+            <Popover.Arrow className={theme.PopoverArrow} />
+            <Popover.Title className={theme.PopoverTitle}>Animated</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               Scales in from the transform origin, and back out on close.
             </Popover.Description>
           </Popover.Popup>
@@ -1016,20 +1045,20 @@ export const TransitionStartingEndingStyle: Story = {
 function KeepMountedExample() {
   const [settled, setSettled] = React.useState('closed');
   return (
-    <div className={styles.Stack}>
+    <div className="PopoverStack">
       <Popover.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Popover.Trigger className={styles.Button}>Toggle panel</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Toggle panel</Popover.Trigger>
         <Popover.Portal keepMounted>
           <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={`${styles.Popup} ${styles.TransitionPopup}`}>
-              <Popover.Description className={styles.Description}>
+            <Popover.Popup className={`${theme.PopoverPopup} PopoverTransitionExtra`}>
+              <Popover.Description className={theme.PopoverDescription}>
                 This popup stays mounted while closed.
               </Popover.Description>
             </Popover.Popup>
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <output className={styles.Output}>transition settled: {settled}</output>
+      <output className="PopoverOutput">transition settled: {settled}</output>
     </div>
   );
 }
@@ -1058,21 +1087,21 @@ export const NestedPopovers: Story = {
   tags: ['highlight'],
   render: () => (
     <Popover.Root>
-      <Popover.Trigger className={styles.Button}>Share</Popover.Trigger>
+      <Popover.Trigger className={theme.PopoverTrigger}>Share</Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={styles.Popup}>
-            <Popover.Title className={styles.Title}>Share</Popover.Title>
-            <Popover.Description className={styles.Description}>
+          <Popover.Popup className={theme.PopoverPopup}>
+            <Popover.Title className={theme.PopoverTitle}>Share</Popover.Title>
+            <Popover.Description className={theme.PopoverDescription}>
               Share this document with your team.
             </Popover.Description>
             <Popover.Root>
-              <Popover.Trigger className={styles.Button}>Permissions</Popover.Trigger>
+              <Popover.Trigger className={theme.PopoverTrigger}>Permissions</Popover.Trigger>
               <Popover.Portal>
                 <Popover.Positioner side="right" sideOffset={8}>
-                  <Popover.Popup className={styles.Popup}>
-                    <Popover.Arrow className={styles.Arrow} />
-                    <Popover.Description className={styles.Description}>
+                  <Popover.Popup className={theme.PopoverPopup}>
+                    <Popover.Arrow className={theme.PopoverArrow} />
+                    <Popover.Description className={theme.PopoverDescription}>
                       Viewers can read, editors can write.
                     </Popover.Description>
                   </Popover.Popup>
@@ -1090,26 +1119,26 @@ function InitialFinalFocusExample() {
   const urlInputRef = React.useRef<HTMLInputElement>(null);
   const summaryRef = React.useRef<HTMLButtonElement>(null);
   return (
-    <div className={styles.Stack}>
+    <div className="PopoverStack">
       <Popover.Root>
-        <Popover.Trigger className={styles.Button}>Add bookmark</Popover.Trigger>
+        <Popover.Trigger className={theme.PopoverTrigger}>Add bookmark</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner sideOffset={8}>
             <Popover.Popup
-              className={styles.Popup}
+              className={theme.PopoverPopup}
               initialFocus={urlInputRef}
               finalFocus={summaryRef}
             >
-              <Popover.Title className={styles.Title}>Add bookmark</Popover.Title>
-              <label className={styles.Label}>
+              <Popover.Title className={theme.PopoverTitle}>Add bookmark</Popover.Title>
+              <label className="PopoverLabel">
                 Name
-                <input className={styles.Input} defaultValue="Base UI" />
+                <input className={theme.Input} defaultValue="Base UI" />
               </label>
-              <label className={styles.Label}>
+              <label className="PopoverLabel">
                 URL
                 <input
                   ref={urlInputRef}
-                  className={styles.Input}
+                  className={theme.Input}
                   defaultValue="https://base-ui.com"
                 />
               </label>
@@ -1117,7 +1146,7 @@ function InitialFinalFocusExample() {
           </Popover.Positioner>
         </Popover.Portal>
       </Popover.Root>
-      <button type="button" ref={summaryRef} className={styles.Button}>
+      <button type="button" ref={summaryRef} className={theme.PopoverTrigger}>
         Focus lands here on close
       </button>
     </div>
@@ -1153,16 +1182,16 @@ const directionHandle = Popover.createHandle<string>();
 export const ViewportContentDirection: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Container}>
+    <div className="PopoverContainer">
       <Popover.Trigger
-        className={styles.Button}
+        className={theme.PopoverTrigger}
         handle={directionHandle}
         payload="This panel opened from the left trigger."
       >
         Left
       </Popover.Trigger>
       <Popover.Trigger
-        className={styles.Button}
+        className={theme.PopoverTrigger}
         handle={directionHandle}
         payload="This panel opened from the right trigger."
       >
@@ -1171,10 +1200,10 @@ export const ViewportContentDirection: Story = {
       <Popover.Root handle={directionHandle}>
         {({ payload }) => (
           <Popover.Portal>
-            <Popover.Positioner className={styles.AnimatedPositioner} sideOffset={8}>
-              <Popover.Popup className={styles.AnimatedPopup}>
-                <Popover.Viewport className={styles.Viewport}>
-                  <Popover.Description className={styles.Description}>
+            <Popover.Positioner className={theme.PopoverTransitionPositioner} sideOffset={8}>
+              <Popover.Popup className={theme.PopoverTransitionPopup}>
+                <Popover.Viewport className={theme.PopoverViewport}>
+                  <Popover.Description className={theme.PopoverDescription}>
                     {payload}
                   </Popover.Description>
                 </Popover.Viewport>
@@ -1193,16 +1222,16 @@ const arrowSides = ['top', 'right', 'bottom', 'left'] as const;
 export const ArrowSides: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.ArrowGrid}>
+    <div className="PopoverArrowGrid">
       {arrowSides.map((side) => (
         <Popover.Root key={side} defaultOpen>
-          <Popover.Trigger className={styles.Button}>{side}</Popover.Trigger>
+          <Popover.Trigger className={theme.PopoverTrigger}>{side}</Popover.Trigger>
           <Popover.Portal>
             <Popover.Positioner side={side} sideOffset={8}>
-              <Popover.Popup className={styles.Popup}>
-                <Popover.Arrow className={styles.Arrow} />
-                <Popover.Title className={styles.Title}>Arrow demo</Popover.Title>
-                <Popover.Description className={styles.Description}>
+              <Popover.Popup className={theme.PopoverPopup}>
+                <Popover.Arrow className={theme.PopoverArrow} />
+                <Popover.Title className={theme.PopoverTitle}>Arrow demo</Popover.Title>
+                <Popover.Description className={theme.PopoverDescription}>
                   {`side="${side}"`}
                 </Popover.Description>
               </Popover.Popup>

@@ -2,7 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor } from 'storybook/test';
 import { Accordion } from '@base-ui/react/accordion';
-import styles from './accordion.module.css';
+import theme from '@droppy/theme';
+import './accordion.demo.css';
 
 /**
  * Stories follow research/c-components/accordion (Tier 2): the hero FAQ demo
@@ -76,17 +77,17 @@ const faqItems = [
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={['what-is']}>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={['what-is']}>
       {faqItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value} className={styles.Item}>
-          <Accordion.Header className={styles.Header}>
-            <Accordion.Trigger className={styles.Trigger}>
+        <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
+          <Accordion.Header className={theme.AccordionHeader}>
+            <Accordion.Trigger className={theme.AccordionTrigger}>
               {item.question}
-              <PlusIcon className={styles.Icon} />
+              <PlusIcon className={theme.AccordionIcon} />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Panel className={styles.Panel}>
-            <div className={styles.Content}>{item.answer}</div>
+          <Accordion.Panel className={theme.AccordionPanel}>
+            <div className={theme.AccordionContent}>{item.answer}</div>
           </Accordion.Panel>
         </Accordion.Item>
       ))}
@@ -116,17 +117,17 @@ export const Hero: Story = {
 export const OpenMultiple: Story = {
   tags: ['api-ref', 'base'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} multiple>
+    <Accordion.Root className={theme.AccordionRoot} multiple>
       {faqItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value} className={styles.Item}>
-          <Accordion.Header className={styles.Header}>
-            <Accordion.Trigger className={styles.Trigger}>
+        <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
+          <Accordion.Header className={theme.AccordionHeader}>
+            <Accordion.Trigger className={theme.AccordionTrigger}>
               {item.question}
-              <PlusIcon className={styles.Icon} />
+              <PlusIcon className={theme.AccordionIcon} />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Panel className={styles.Panel}>
-            <div className={styles.Content}>{item.answer}</div>
+          <Accordion.Panel className={theme.AccordionPanel}>
+            <div className={theme.AccordionContent}>{item.answer}</div>
           </Accordion.Panel>
         </Accordion.Item>
       ))}
@@ -157,28 +158,28 @@ export const OpenMultiple: Story = {
 export const DisabledItem: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={[]}>
-      <Accordion.Item value="what-is" className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]}>
+      <Accordion.Item value="what-is" className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[0].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[0].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[0].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
 
-      <Accordion.Item value="get-started" disabled className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+      <Accordion.Item value="get-started" disabled className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[1].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[1].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[1].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion.Root>
@@ -208,29 +209,29 @@ function ControlledAccordionDemo() {
 
   return (
     <div>
-      <div className={styles.ExternalControls}>
+      <div className="ExternalControls">
         {faqItems.map((item) => (
           <button
             key={item.value}
             type="button"
-            className={styles.ExternalButton}
+            className="ExternalButton"
             onClick={() => setValue([item.value])}
           >
             Open “{item.question}”
           </button>
         ))}
       </div>
-      <Accordion.Root className={styles.Accordion} value={value} onValueChange={setValue}>
+      <Accordion.Root className={theme.AccordionRoot} value={value} onValueChange={setValue}>
         {faqItems.map((item) => (
-          <Accordion.Item key={item.value} value={item.value} className={styles.Item}>
-            <Accordion.Header className={styles.Header}>
-              <Accordion.Trigger className={styles.Trigger}>
+          <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
+            <Accordion.Header className={theme.AccordionHeader}>
+              <Accordion.Trigger className={theme.AccordionTrigger}>
                 {item.question}
-                <PlusIcon className={styles.Icon} />
+                <PlusIcon className={theme.AccordionIcon} />
               </Accordion.Trigger>
             </Accordion.Header>
-            <Accordion.Panel className={styles.Panel}>
-              <div className={styles.Content}>{item.answer}</div>
+            <Accordion.Panel className={theme.AccordionPanel}>
+              <div className={theme.AccordionContent}>{item.answer}</div>
             </Accordion.Panel>
           </Accordion.Item>
         ))}
@@ -278,16 +279,16 @@ export const ControlledValue: Story = {
 export const AnimatedPanelHeight: Story = {
   tags: ['animation'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={[]}>
-      <Accordion.Item value={faqItems[0].value} className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]}>
+      <Accordion.Item value={faqItems[0].value} className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[0].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel} data-testid="animated-panel" keepMounted>
-          <div className={styles.Content}>{faqItems[0].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel} data-testid="animated-panel" keepMounted>
+          <div className={theme.AccordionContent}>{faqItems[0].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion.Root>
@@ -324,17 +325,17 @@ export const AnimatedPanelHeight: Story = {
 export const HiddenUntilFound: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={[]} hiddenUntilFound>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]} hiddenUntilFound>
       {faqItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value} className={styles.Item}>
-          <Accordion.Header className={styles.Header}>
-            <Accordion.Trigger className={styles.Trigger}>
+        <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
+          <Accordion.Header className={theme.AccordionHeader}>
+            <Accordion.Trigger className={theme.AccordionTrigger}>
               {item.question}
-              <PlusIcon className={styles.Icon} />
+              <PlusIcon className={theme.AccordionIcon} />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Panel className={styles.Panel}>
-            <div className={styles.Content}>{item.answer}</div>
+          <Accordion.Panel className={theme.AccordionPanel}>
+            <div className={theme.AccordionContent}>{item.answer}</div>
           </Accordion.Panel>
         </Accordion.Item>
       ))}
@@ -364,40 +365,40 @@ export const HiddenUntilFound: Story = {
 export const MultipleWithDisabled: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} multiple defaultValue={[]}>
-      <Accordion.Item value={faqItems[0].value} className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+    <Accordion.Root className={theme.AccordionRoot} multiple defaultValue={[]}>
+      <Accordion.Item value={faqItems[0].value} className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[0].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[0].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[0].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
 
-      <Accordion.Item value={faqItems[1].value} disabled className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+      <Accordion.Item value={faqItems[1].value} disabled className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[1].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[1].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[1].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
 
-      <Accordion.Item value={faqItems[2].value} className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+      <Accordion.Item value={faqItems[2].value} className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[2].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[2].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[2].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion.Root>
@@ -433,27 +434,27 @@ export const MultipleWithDisabled: Story = {
 export const NestedAccordion: Story = {
   tags: ['highlight'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={['what-is']}>
-      <Accordion.Item value="what-is" className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={['what-is']}>
+      <Accordion.Item value="what-is" className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[0].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>
             {faqItems[0].answer}
-            <Accordion.Root className={`${styles.Accordion} ${styles.NestedAccordion}`}>
-              <Accordion.Item value="license" className={styles.Item}>
-                <Accordion.Header className={styles.Header}>
-                  <Accordion.Trigger className={styles.Trigger}>
+            <Accordion.Root className={`${theme.AccordionRoot} NestedAccordion`}>
+              <Accordion.Item value="license" className={theme.AccordionItem}>
+                <Accordion.Header className={theme.AccordionHeader}>
+                  <Accordion.Trigger className={theme.AccordionTrigger}>
                     What license is it under?
-                    <PlusIcon className={styles.Icon} />
+                    <PlusIcon className={theme.AccordionIcon} />
                   </Accordion.Trigger>
                 </Accordion.Header>
-                <Accordion.Panel className={styles.Panel}>
-                  <div className={styles.Content}>MIT.</div>
+                <Accordion.Panel className={theme.AccordionPanel}>
+                  <div className={theme.AccordionContent}>MIT.</div>
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion.Root>
@@ -461,15 +462,15 @@ export const NestedAccordion: Story = {
         </Accordion.Panel>
       </Accordion.Item>
 
-      <Accordion.Item value="get-started" className={styles.Item}>
-        <Accordion.Header className={styles.Header}>
-          <Accordion.Trigger className={styles.Trigger}>
+      <Accordion.Item value="get-started" className={theme.AccordionItem}>
+        <Accordion.Header className={theme.AccordionHeader}>
+          <Accordion.Trigger className={theme.AccordionTrigger}>
             {faqItems[1].question}
-            <PlusIcon className={styles.Icon} />
+            <PlusIcon className={theme.AccordionIcon} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Panel className={styles.Panel}>
-          <div className={styles.Content}>{faqItems[1].answer}</div>
+        <Accordion.Panel className={theme.AccordionPanel}>
+          <div className={theme.AccordionContent}>{faqItems[1].answer}</div>
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion.Root>
@@ -504,17 +505,17 @@ export const NestedAccordion: Story = {
 export const KeyboardTabFlow: Story = {
   tags: ['tests'],
   render: () => (
-    <Accordion.Root className={styles.Accordion} defaultValue={[]}>
+    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]}>
       {faqItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value} className={styles.Item}>
-          <Accordion.Header className={styles.Header}>
-            <Accordion.Trigger className={styles.Trigger}>
+        <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
+          <Accordion.Header className={theme.AccordionHeader}>
+            <Accordion.Trigger className={theme.AccordionTrigger}>
               {item.question}
-              <PlusIcon className={styles.Icon} />
+              <PlusIcon className={theme.AccordionIcon} />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Panel className={styles.Panel}>
-            <div className={styles.Content}>{item.answer}</div>
+          <Accordion.Panel className={theme.AccordionPanel}>
+            <div className={theme.AccordionContent}>{item.answer}</div>
           </Accordion.Panel>
         </Accordion.Item>
       ))}

@@ -9,13 +9,9 @@ import { MultiControlQuoteFormExample } from './recreations/MultiControlQuoteFor
 import { ZeroJSFieldsetFormExample } from './recreations/ZeroJSFieldsetFormExample';
 import multiControlQuoteFormSource from './recreations/MultiControlQuoteFormExample.tsx?raw';
 import zeroJsFieldsetFormSource from './recreations/ZeroJSFieldsetFormExample.tsx?raw';
-import formRealWorldCss from './form-real-world.module.css?raw';
-import formCss from './form.module.css?raw';
+import formCss from './form.demo.css?raw';
 
-export const formFiles = [
-  { path: '../form.module.css', code: formCss },
-  { path: '../form-real-world.module.css', code: formRealWorldCss },
-];
+export const formFiles = [{ path: '../form.demo.css', code: formCss }];
 
 <Meta of={FormStories} />
 
@@ -210,6 +206,15 @@ See the [Field styling contract](?path=/docs/form-inputs-field--docs) for the fu
 
 {/* END: do-dont */}
 
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Keep error feedback red-ink-only — red has exactly one job. (BR-02)
+- Write all form copy in sentence case, short and direct. (BR-08)
+{/* END: brand */}
+
 {/* BEGIN: examples */}
 ## In the wild
 
@@ -261,7 +266,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
     license: 'MIT',
   }}
   code={multiControlQuoteFormSource}
-  css={formRealWorldCss}
+  css={formCss}
   dependencies={formFiles}
 >
   <MultiControlQuoteFormExample />
@@ -275,7 +280,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
     license: 'MIT',
   }}
   code={zeroJsFieldsetFormSource}
-  css={formRealWorldCss}
+  css={formCss}
   dependencies={formFiles}
 >
   <ZeroJSFieldsetFormExample />

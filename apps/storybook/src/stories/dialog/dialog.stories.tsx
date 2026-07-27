@@ -7,7 +7,8 @@ import { Menu } from '@base-ui/react/menu';
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
-import styles from './dialog.module.css';
+import theme from '@droppy/theme';
+import './dialog.demo.css';
 import { XIcon } from './icons';
 import { SidePanelExample } from './recreations/SidePanelExample';
 import { SettingsModalExample } from './recreations/SettingsModalExample';
@@ -49,18 +50,18 @@ export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>View notifications</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>View notifications</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Notifications</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Notifications</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               You are all caught up. Good job!
             </Dialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -73,18 +74,18 @@ export const OpenCloseInteraction: Story = {
   tags: ['api-ref'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Session details</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Session details</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               A dialog interrupts the page on purpose — it owns focus until dismissed.
             </Dialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -115,29 +116,31 @@ export const NestedDialogs: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>View notifications</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>View notifications</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.NestedPopup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Notifications</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className="DialogNestedPopup">
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Notifications</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               You are all caught up. Good job!
             </Dialog.Description>
           </div>
-          <div className={styles.Actions}>
+          <div className={theme.DialogActions}>
             <Dialog.Root>
-              <Dialog.Trigger className={styles.Button}>Customize</Dialog.Trigger>
+              <Dialog.Trigger className={theme.Button}>Customize</Dialog.Trigger>
               <Dialog.Portal>
-                <Dialog.Popup className={styles.NestedPopup}>
-                  <div className={styles.Intro}>
-                    <Dialog.Title className={styles.Title}>Customize notifications</Dialog.Title>
-                    <Dialog.Description className={styles.Description}>
+                <Dialog.Popup className="DialogNestedPopup">
+                  <div className="DialogIntro">
+                    <Dialog.Title className={theme.DialogTitle}>
+                      Customize notifications
+                    </Dialog.Title>
+                    <Dialog.Description className={theme.DialogDescription}>
                       Review your settings here.
                     </Dialog.Description>
                   </div>
-                  <div className={styles.EndActions}>
-                    <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+                  <div className={theme.DialogActions}>
+                    <Dialog.Close className={theme.Button}>Close</Dialog.Close>
                   </div>
                 </Dialog.Popup>
               </Dialog.Portal>
@@ -184,15 +187,15 @@ function CloseConfirmationExample() {
         }
       }}
     >
-      <Dialog.Trigger className={styles.Button}>Tweet</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Tweet</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.Popup}>
-          <Dialog.Title id={titleId} className={styles.Title}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <Dialog.Title id={titleId} className={theme.DialogTitle}>
             New tweet
           </Dialog.Title>
           <form
-            className={styles.TextareaContainer}
+            className="DialogTextareaContainer"
             onSubmit={(event) => {
               event.preventDefault();
               setDialogOpen(false);
@@ -201,14 +204,14 @@ function CloseConfirmationExample() {
             <textarea
               aria-labelledby={titleId}
               required
-              className={styles.Textarea}
+              className={theme.FieldTextarea}
               placeholder="What’s on your mind?"
               value={textareaValue}
               onChange={(event) => setTextareaValue(event.target.value)}
             />
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Cancel</Dialog.Close>
-              <button type="submit" className={styles.Button}>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
+              <button type="submit" className={theme.Button}>
                 Tweet
               </button>
             </div>
@@ -219,18 +222,18 @@ function CloseConfirmationExample() {
       {/* Confirmation dialog */}
       <AlertDialog.Root open={confirmationOpen} onOpenChange={setConfirmationOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <AlertDialog.Title className={styles.Title}>Discard tweet?</AlertDialog.Title>
-              <AlertDialog.Description className={styles.Description}>
+          <AlertDialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <AlertDialog.Title className={theme.DialogTitle}>Discard tweet?</AlertDialog.Title>
+              <AlertDialog.Description className={theme.DialogDescription}>
                 Your tweet will be lost.
               </AlertDialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <AlertDialog.Close className={styles.Button}>Go back</AlertDialog.Close>
+            <div className={theme.DialogActions}>
+              <AlertDialog.Close className={theme.Button}>Go back</AlertDialog.Close>
               <button
                 type="button"
-                className={styles.Button}
+                className={theme.Button}
                 onClick={() => {
                   setConfirmationOpen(false);
                   setDialogOpen(false);
@@ -310,35 +313,35 @@ function OutsideScrollExample() {
   const popupRef = React.useRef<HTMLDivElement>(null);
   return (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Viewport className={styles.Viewport}>
-          <ScrollArea.Root style={{ position: undefined }} className={styles.ScrollViewport}>
-            <ScrollArea.Viewport className={styles.ScrollViewport}>
-              <ScrollArea.Content className={styles.ScrollContent}>
-                <Dialog.Popup ref={popupRef} className={styles.FlowPopup} initialFocus={popupRef}>
-                  <div className={styles.PopupHeader}>
-                    <Dialog.Title className={styles.Title}>Dialog</Dialog.Title>
-                    <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Viewport className="DialogViewport">
+          <ScrollArea.Root style={{ position: undefined }} className="DialogScrollViewport">
+            <ScrollArea.Viewport className="DialogScrollViewport">
+              <ScrollArea.Content className="DialogScrollContent">
+                <Dialog.Popup ref={popupRef} className="DialogFlowPopup" initialFocus={popupRef}>
+                  <div className="DialogPopupHeader">
+                    <Dialog.Title className={theme.DialogTitle}>Dialog</Dialog.Title>
+                    <Dialog.Description className={theme.DialogDescription}>
                       This layout keeps an outer container scrollable while the dialog can extend
                       past the bottom edge.
                     </Dialog.Description>
-                    <Dialog.Close className={styles.IconClose} aria-label="Close">
+                    <Dialog.Close className="DialogIconClose" aria-label="Close">
                       <XIcon />
                     </Dialog.Close>
                   </div>
                   {CONTENT_SECTIONS.map((item) => (
-                    <section className={styles.Section} key={item.title}>
-                      <h3 className={styles.SectionTitle}>{item.title}</h3>
-                      <p className={styles.SectionBody}>{item.body}</p>
+                    <section className="DialogSection" key={item.title}>
+                      <h3 className="DialogSectionTitle">{item.title}</h3>
+                      <p className="DialogSectionBody">{item.body}</p>
                     </section>
                   ))}
                 </Dialog.Popup>
               </ScrollArea.Content>
             </ScrollArea.Viewport>
-            <ScrollArea.Scrollbar className={styles.Scrollbar}>
-              <ScrollArea.Thumb className={styles.ScrollbarThumb} />
+            <ScrollArea.Scrollbar className="DialogScrollbar">
+              <ScrollArea.Thumb className="DialogScrollbarThumb" />
             </ScrollArea.Scrollbar>
           </ScrollArea.Root>
         </Dialog.Viewport>
@@ -368,34 +371,34 @@ export const InsideScroll: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Viewport className={styles.CenteredViewport}>
-          <Dialog.Popup className={styles.InsidePopup}>
-            <div className={styles.InsideHeader}>
-              <Dialog.Title className={styles.Title}>Dialog</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Viewport className="DialogCenteredViewport">
+          <Dialog.Popup className="DialogInsidePopup">
+            <div className="DialogInsideHeader">
+              <Dialog.Title className={theme.DialogTitle}>Dialog</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 This layout keeps the popup fully on screen while allowing its content to scroll.
               </Dialog.Description>
             </div>
-            <ScrollArea.Root className={styles.InsideBody}>
-              <ScrollArea.Viewport className={styles.InsideBodyViewport}>
-                <ScrollArea.Content className={styles.InsideBodyContent}>
+            <ScrollArea.Root className="DialogInsideBody">
+              <ScrollArea.Viewport className="DialogInsideBodyViewport">
+                <ScrollArea.Content className="DialogInsideBodyContent">
                   {CONTENT_SECTIONS.map((item) => (
-                    <section className={styles.Section} key={item.title}>
-                      <h3 className={styles.SectionTitle}>{item.title}</h3>
-                      <p className={styles.SectionBody}>{item.body}</p>
+                    <section className="DialogSection" key={item.title}>
+                      <h3 className="DialogSectionTitle">{item.title}</h3>
+                      <p className="DialogSectionBody">{item.body}</p>
                     </section>
                   ))}
                 </ScrollArea.Content>
               </ScrollArea.Viewport>
-              <ScrollArea.Scrollbar className={styles.Scrollbar}>
-                <ScrollArea.Thumb className={styles.ScrollbarThumb} />
+              <ScrollArea.Scrollbar className="DialogScrollbar">
+                <ScrollArea.Thumb className="DialogScrollbarThumb" />
               </ScrollArea.Scrollbar>
             </ScrollArea.Root>
-            <div className={styles.InsideActions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className="DialogInsideActions">
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Viewport>
@@ -418,18 +421,18 @@ export const UncontainedContent: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Viewport className={styles.UncontainedViewport}>
-          <Dialog.Popup className={styles.UncontainedPopup}>
-            <Dialog.Close className={styles.FloatingClose} aria-label="Close">
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Viewport className="DialogUncontainedViewport">
+          <Dialog.Popup className="DialogUncontainedPopup">
+            <Dialog.Close className="DialogFloatingClose" aria-label="Close">
               <XIcon />
             </Dialog.Close>
-            <div className={styles.UncontainedSurface}>
-              <div className={styles.Intro}>
-                <Dialog.Title className={styles.Title}>Media preview</Dialog.Title>
-                <Dialog.Description className={styles.Description}>
+            <div className="DialogUncontainedSurface">
+              <div className="DialogIntro">
+                <Dialog.Title className={theme.DialogTitle}>Media preview</Dialog.Title>
+                <Dialog.Description className={theme.DialogDescription}>
                   The close button floats above this surface but remains inside the popup subtree.
                 </Dialog.Description>
               </div>
@@ -461,22 +464,22 @@ export const DetachedTriggerSimple: Story = {
   tags: ['highlight', 'base'],
   render: () => (
     <React.Fragment>
-      <Dialog.Trigger className={styles.Button} handle={notificationsDialog}>
+      <Dialog.Trigger className={theme.Button} handle={notificationsDialog}>
         View notifications
       </Dialog.Trigger>
 
       <Dialog.Root handle={notificationsDialog}>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Notifications</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Notifications</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 You are all caught up. Good job!
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
@@ -509,9 +512,9 @@ function DetachedTriggersControlledExample() {
 
   return (
     <React.Fragment>
-      <div className={styles.Container}>
+      <div className="DialogContainer">
         <Dialog.Trigger
-          className={styles.Button}
+          className={theme.Button}
           handle={detachedDialog}
           id="detached-trigger-1"
           payload={1}
@@ -519,7 +522,7 @@ function DetachedTriggersControlledExample() {
           Open 1
         </Dialog.Trigger>
         <Dialog.Trigger
-          className={styles.Button}
+          className={theme.Button}
           handle={detachedDialog}
           id="detached-trigger-2"
           payload={2}
@@ -527,7 +530,7 @@ function DetachedTriggersControlledExample() {
           Open 2
         </Dialog.Trigger>
         <button
-          className={styles.Button}
+          className={theme.Button}
           type="button"
           onClick={() => {
             setTriggerId('detached-trigger-2');
@@ -546,13 +549,13 @@ function DetachedTriggersControlledExample() {
       >
         {({ payload }) => (
           <Dialog.Portal>
-            <Dialog.Backdrop className={styles.Backdrop} />
-            <Dialog.Popup className={styles.Popup}>
+            <Dialog.Backdrop className={theme.DialogBackdrop} />
+            <Dialog.Popup className={theme.DialogPopup}>
               {payload !== undefined && (
-                <Dialog.Title className={styles.Title}>Dialog {payload}</Dialog.Title>
+                <Dialog.Title className={theme.DialogTitle}>Dialog {payload}</Dialog.Title>
               )}
-              <div className={styles.Actions}>
-                <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+              <div className={theme.DialogActions}>
+                <Dialog.Close className={theme.Button}>Close</Dialog.Close>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>
@@ -596,17 +599,17 @@ const releaseDialog = Dialog.createHandle<ReleasePayload>();
 
 function HandleImperativePayloadExample() {
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="DialogStack">
+      <div className="DialogRow">
         <Dialog.Trigger
-          className={styles.Button}
+          className={theme.Button}
           handle={releaseDialog}
           payload={{ name: 'Aurora', version: '1.2.0' }}
         >
           Aurora details
         </Dialog.Trigger>
         <Dialog.Trigger
-          className={styles.Button}
+          className={theme.Button}
           handle={releaseDialog}
           payload={{ name: 'Borealis', version: '2.0.0-beta.1' }}
         >
@@ -614,7 +617,7 @@ function HandleImperativePayloadExample() {
         </Dialog.Trigger>
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => releaseDialog.openWithPayload({ name: 'Cascade', version: '0.9.4' })}
         >
           Open imperatively (Cascade)
@@ -624,18 +627,18 @@ function HandleImperativePayloadExample() {
       <Dialog.Root handle={releaseDialog}>
         {({ payload }) => (
           <Dialog.Portal>
-            <Dialog.Backdrop className={styles.Backdrop} />
-            <Dialog.Popup className={styles.Popup}>
-              <div className={styles.Intro}>
-                <Dialog.Title className={styles.Title}>
+            <Dialog.Backdrop className={theme.DialogBackdrop} />
+            <Dialog.Popup className={theme.DialogPopup}>
+              <div className="DialogIntro">
+                <Dialog.Title className={theme.DialogTitle}>
                   {payload ? `${payload.name} release` : 'Release'}
                 </Dialog.Title>
-                <Dialog.Description className={styles.Description}>
+                <Dialog.Description className={theme.DialogDescription}>
                   {payload ? `Version ${payload.version}` : 'No payload provided.'}
                 </Dialog.Description>
               </div>
-              <div className={styles.Actions}>
-                <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+              <div className={theme.DialogActions}>
+                <Dialog.Close className={theme.Button}>Close</Dialog.Close>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>
@@ -674,39 +677,39 @@ export const HandleImperativePayload: Story = {
 function ModalVsNonModalExample() {
   const [outsideClicks, setOutsideClicks] = React.useState(0);
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
+    <div className="DialogStack">
+      <div className="DialogRow">
         <Dialog.Root>
-          <Dialog.Trigger className={styles.Button}>Open modal</Dialog.Trigger>
+          <Dialog.Trigger className={theme.Button}>Open modal</Dialog.Trigger>
           <Dialog.Portal>
-            <Dialog.Backdrop className={styles.Backdrop} data-testid="modal-backdrop" />
-            <Dialog.Popup className={styles.Popup}>
-              <div className={styles.Intro}>
-                <Dialog.Title className={styles.Title}>Modal dialog</Dialog.Title>
-                <Dialog.Description className={styles.Description}>
+            <Dialog.Backdrop className={theme.DialogBackdrop} data-testid="modal-backdrop" />
+            <Dialog.Popup className={theme.DialogPopup}>
+              <div className="DialogIntro">
+                <Dialog.Title className={theme.DialogTitle}>Modal dialog</Dialog.Title>
+                <Dialog.Description className={theme.DialogDescription}>
                   Focus is trapped, page scroll is locked, and outside pointer interactions are
                   blocked by an invisible internal backdrop.
                 </Dialog.Description>
               </div>
-              <div className={styles.Actions}>
-                <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+              <div className={theme.DialogActions}>
+                <Dialog.Close className={theme.Button}>Close</Dialog.Close>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>
         </Dialog.Root>
 
         <Dialog.Root modal={false}>
-          <Dialog.Trigger className={styles.Button}>Open non-modal</Dialog.Trigger>
+          <Dialog.Trigger className={theme.Button}>Open non-modal</Dialog.Trigger>
           <Dialog.Portal>
-            <Dialog.Popup className={styles.PanelPopup}>
-              <div className={styles.Intro}>
-                <Dialog.Title className={styles.Title}>Non-modal panel</Dialog.Title>
-                <Dialog.Description className={styles.Description}>
+            <Dialog.Popup className="DialogPanelPopup">
+              <div className="DialogIntro">
+                <Dialog.Title className={theme.DialogTitle}>Non-modal panel</Dialog.Title>
+                <Dialog.Description className={theme.DialogDescription}>
                   The rest of the page stays scrollable and interactive.
                 </Dialog.Description>
               </div>
-              <div className={styles.Actions}>
-                <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+              <div className={theme.DialogActions}>
+                <Dialog.Close className={theme.Button}>Close</Dialog.Close>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>
@@ -714,13 +717,13 @@ function ModalVsNonModalExample() {
 
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => setOutsideClicks((count) => count + 1)}
         >
           Outside area
         </button>
       </div>
-      <output className={styles.Output}>outside clicks: {outsideClicks}</output>
+      <output className="DialogOutput">outside clicks: {outsideClicks}</output>
     </div>
   );
 }
@@ -759,27 +762,27 @@ export const ModalVsNonModal: Story = {
 export const TrapFocusMode: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
+    <div className="DialogRow">
       <Dialog.Root modal="trap-focus">
-        <Dialog.Trigger className={styles.Button}>Open inspector</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Open inspector</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Popup className={styles.PanelPopup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Layers inspector</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Popup className="DialogPanelPopup">
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Layers inspector</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 Keyboard focus stays inside, but the page is not blocked.
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <button type="button" className={styles.Button}>
+            <div className={theme.DialogActions}>
+              <button type="button" className={theme.Button}>
                 Re-scan
               </button>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <button type="button" className={styles.Button}>
+      <button type="button" className={theme.Button}>
         Outside area
       </button>
     </div>
@@ -820,32 +823,32 @@ export const TrapFocusMode: Story = {
 function ControlledExample() {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
-        <button type="button" className={styles.Button} onClick={() => setOpen(true)}>
+    <div className="DialogStack">
+      <div className="DialogRow">
+        <button type="button" className={theme.Button} onClick={() => setOpen(true)}>
           Open from outside
         </button>
-        <button type="button" className={styles.Button} onClick={() => setOpen(false)}>
+        <button type="button" className={theme.Button} onClick={() => setOpen(false)}>
           Close from outside
         </button>
       </div>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Controlled dialog</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Controlled dialog</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 External state owns this dialog — no Trigger required.
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <output className={styles.Output}>state: {open ? 'open' : 'closed'}</output>
+      <output className="DialogOutput">state: {open ? 'open' : 'closed'}</output>
     </div>
   );
 }
@@ -872,18 +875,18 @@ export const DisablePointerDismissal: Story = {
   tags: ['api-ref'],
   render: () => (
     <Dialog.Root disablePointerDismissal>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} data-testid="backdrop" />
-        <Dialog.Popup className={styles.Popup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Careful edits</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} data-testid="backdrop" />
+        <Dialog.Popup className={theme.DialogPopup}>
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Careful edits</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               Clicking outside does not close this dialog. Use the button below.
             </Dialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -911,7 +914,7 @@ function ChangeReasonExample() {
   const [open, setOpen] = React.useState(false);
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       <Dialog.Root
         open={open}
         onOpenChange={(nextOpen, eventDetails) => {
@@ -921,23 +924,23 @@ function ChangeReasonExample() {
           }
         }}
       >
-        <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} data-testid="reason-backdrop" />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Reason inspector</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} data-testid="reason-backdrop" />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Reason inspector</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 Close me with Esc, the backdrop, or the button — each reports its reason.
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <output className={styles.Output}>
+      <output className="DialogOutput">
         close reasons: {log.length > 0 ? log.join(', ') : 'none yet'}
       </output>
     </div>
@@ -976,7 +979,7 @@ export const ChangeReasonInspector: Story = {
 function CancelCloseExample() {
   const [canceled, setCanceled] = React.useState(0);
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       <Dialog.Root
         onOpenChange={(nextOpen, eventDetails) => {
           // Veto light dismissal while staying uncontrolled.
@@ -986,23 +989,23 @@ function CancelCloseExample() {
           }
         }}
       >
-        <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} data-testid="cancel-backdrop" />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Sticky dialog</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} data-testid="cancel-backdrop" />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Sticky dialog</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 Outside presses are vetoed with eventDetails.cancel().
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <output className={styles.Output}>canceled closes: {canceled}</output>
+      <output className="DialogOutput">canceled closes: {canceled}</output>
     </div>
   );
 }
@@ -1037,39 +1040,39 @@ function InitialAndFinalFocusExample() {
   const nameId = React.useId();
   const emailId = React.useId();
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       <Dialog.Root>
-        <Dialog.Trigger className={styles.Button}>Invite teammate</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Invite teammate</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.Popup} initialFocus={emailRef} finalFocus={auditRef}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Invite teammate</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup} initialFocus={emailRef} finalFocus={auditRef}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Invite teammate</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 Email gets initial focus; closing sends focus to the audit-log button.
               </Dialog.Description>
             </div>
-            <div className={styles.Form}>
-              <div className={styles.Field}>
-                <label className={styles.Label} htmlFor={nameId}>
+            <div className={theme.FormRoot}>
+              <div className={theme.FieldRoot}>
+                <label className={theme.FieldLabel} htmlFor={nameId}>
                   Name
                 </label>
-                <input id={nameId} className={styles.Input} />
+                <input id={nameId} className={theme.Input} />
               </div>
-              <div className={styles.Field}>
-                <label className={styles.Label} htmlFor={emailId}>
+              <div className={theme.FieldRoot}>
+                <label className={theme.FieldLabel} htmlFor={emailId}>
                   Email
                 </label>
-                <input id={emailId} ref={emailRef} type="email" className={styles.Input} />
+                <input id={emailId} ref={emailRef} type="email" className={theme.Input} />
               </div>
             </div>
-            <div className={styles.EndActions}>
-              <Dialog.Close className={styles.Button}>Cancel</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <button type="button" ref={auditRef} className={styles.Button}>
+      <button type="button" ref={auditRef} className={theme.Button}>
         View audit log
       </button>
     </div>
@@ -1106,20 +1109,20 @@ function FormInDialogExample() {
   const [open, setOpen] = React.useState(false);
   const [savedName, setSavedName] = React.useState<string | null>(null);
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Trigger className={styles.Button}>Rename project</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Rename project</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Rename project</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Rename project</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 The dialog closes only when the form submits successfully.
               </Dialog.Description>
             </div>
             <Form
-              className={styles.Form}
+              className={theme.FormRoot}
               onSubmit={(event) => {
                 event.preventDefault();
                 const data = new FormData(event.currentTarget);
@@ -1127,13 +1130,13 @@ function FormInDialogExample() {
                 setOpen(false);
               }}
             >
-              <Field.Root name="project" className={styles.Field}>
-                <Field.Label className={styles.Label}>Project name</Field.Label>
-                <Field.Control required placeholder="Untitled" className={styles.Input} />
+              <Field.Root name="project" className={theme.FieldRoot}>
+                <Field.Label className={theme.FieldLabel}>Project name</Field.Label>
+                <Field.Control required placeholder="Untitled" className={theme.Input} />
               </Field.Root>
-              <div className={styles.EndActions}>
-                <Dialog.Close className={styles.GhostButton}>Cancel</Dialog.Close>
-                <button type="submit" className={styles.Button}>
+              <div className={theme.DialogActions}>
+                <Dialog.Close className="DialogGhostButton">Cancel</Dialog.Close>
+                <button type="submit" className={theme.Button}>
                   Save
                 </button>
               </div>
@@ -1141,7 +1144,7 @@ function FormInDialogExample() {
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      {savedName !== null ? <output className={styles.Output}>Saved: {savedName}</output> : null}
+      {savedName !== null ? <output className="DialogOutput">Saved: {savedName}</output> : null}
     </div>
   );
 }
@@ -1169,15 +1172,15 @@ function OpenFromMenuExample() {
   return (
     <React.Fragment>
       <Menu.Root>
-        <Menu.Trigger className={styles.Button}>Project options</Menu.Trigger>
+        <Menu.Trigger className={theme.Button}>Project options</Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner sideOffset={8}>
-            <Menu.Popup className={styles.MenuPopup}>
+            <Menu.Popup className={theme.MenuPopup}>
               {/* Open the dialog when the menu item is clicked */}
-              <Menu.Item className={styles.MenuItem} onClick={() => setDialogOpen(true)}>
+              <Menu.Item className={theme.MenuItem} onClick={() => setDialogOpen(true)}>
                 Rename project…
               </Menu.Item>
-              <Menu.Item className={styles.MenuItem}>Duplicate</Menu.Item>
+              <Menu.Item className={theme.MenuItem}>Duplicate</Menu.Item>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
@@ -1185,16 +1188,16 @@ function OpenFromMenuExample() {
 
       <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.Popup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Rename project</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className={theme.DialogPopup}>
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Rename project</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 Opened from a menu item via controlled state.
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
@@ -1228,32 +1231,34 @@ function NestedAlertDialogGuardExample() {
   const [open, setOpen] = React.useState(false);
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className={styles.Button}>Manage project</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Manage project</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Backdrop className={styles.Backdrop} />
-        <Dialog.Popup className={styles.NestedPopup}>
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Manage project</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className={theme.DialogBackdrop} />
+        <Dialog.Popup className="DialogNestedPopup">
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Manage project</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               Destructive actions are guarded by an alert dialog that requires a response.
             </Dialog.Description>
           </div>
-          <div className={styles.EndActions}>
-            <Dialog.Close className={styles.GhostButton}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className="DialogGhostButton">Close</Dialog.Close>
             <AlertDialog.Root>
-              <AlertDialog.Trigger className={styles.Button}>Delete project…</AlertDialog.Trigger>
+              <AlertDialog.Trigger className={theme.Button}>Delete project…</AlertDialog.Trigger>
               <AlertDialog.Portal>
-                <AlertDialog.Popup className={styles.Popup}>
-                  <div className={styles.Intro}>
-                    <AlertDialog.Title className={styles.Title}>Delete project?</AlertDialog.Title>
-                    <AlertDialog.Description className={styles.Description}>
+                <AlertDialog.Popup className={theme.DialogPopup}>
+                  <div className="DialogIntro">
+                    <AlertDialog.Title className={theme.DialogTitle}>
+                      Delete project?
+                    </AlertDialog.Title>
+                    <AlertDialog.Description className={theme.DialogDescription}>
                       This cannot be undone. The alert dialog cannot be dismissed by clicking
                       outside.
                     </AlertDialog.Description>
                   </div>
-                  <div className={styles.EndActions}>
-                    <AlertDialog.Close className={styles.GhostButton}>Cancel</AlertDialog.Close>
-                    <button type="button" className={styles.Button} onClick={() => setOpen(false)}>
+                  <div className={theme.DialogActions}>
+                    <AlertDialog.Close className="DialogGhostButton">Cancel</AlertDialog.Close>
+                    <button type="button" className={theme.Button} onClick={() => setOpen(false)}>
                       Delete
                     </button>
                   </div>
@@ -1295,25 +1300,25 @@ export const NestedAlertDialogGuard: Story = {
 function ExitAnimationExample() {
   const [settled, setSettled] = React.useState('none yet');
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       <Dialog.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+        <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.AnimatedBackdrop} />
-          <Dialog.Popup className={styles.AnimatedPopup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Animated dialog</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className="DialogAnimatedBackdrop" />
+          <Dialog.Popup className="DialogAnimatedPopup">
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Animated dialog</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 CSS transitions drive both entry and exit via data attributes.
               </Dialog.Description>
             </div>
-            <div className={styles.Actions}>
-              <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+            <div className={theme.DialogActions}>
+              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      <output className={styles.Output}>animation settled: {settled}</output>
+      <output className="DialogOutput">animation settled: {settled}</output>
     </div>
   );
 }
@@ -1347,18 +1352,18 @@ export const KeepMounted: Story = {
   tags: ['api-ref'],
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open dialog</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
       <Dialog.Portal keepMounted>
-        <Dialog.Backdrop className={styles.AnimatedBackdrop} />
-        <Dialog.Popup className={styles.AnimatedPopup} data-testid="keep-mounted-popup">
-          <div className={styles.Intro}>
-            <Dialog.Title className={styles.Title}>Persistent subtree</Dialog.Title>
-            <Dialog.Description className={styles.Description}>
+        <Dialog.Backdrop className="DialogAnimatedBackdrop" />
+        <Dialog.Popup className="DialogAnimatedPopup" data-testid="keep-mounted-popup">
+          <div className="DialogIntro">
+            <Dialog.Title className={theme.DialogTitle}>Persistent subtree</Dialog.Title>
+            <Dialog.Description className={theme.DialogDescription}>
               This popup stays in the DOM while closed.
             </Dialog.Description>
           </div>
-          <div className={styles.Actions}>
-            <Dialog.Close className={styles.Button}>Close</Dialog.Close>
+          <div className={theme.DialogActions}>
+            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
           </div>
         </Dialog.Popup>
       </Dialog.Portal>

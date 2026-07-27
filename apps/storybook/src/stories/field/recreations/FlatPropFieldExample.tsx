@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
-import styles from '../field.module.css';
+import theme from '@droppy/theme';
+import '../field.demo.css';
 
 /**
  * Recreation of cloudflare/kumo's Field wrapper: the whole composition collapses into
@@ -29,13 +30,13 @@ function KumoField({
   children: (inputProps: { id?: string; required?: boolean }) => React.ReactNode;
 }) {
   return (
-    <Field.Root name={name} className={styles.Field}>
-      {hideLabel ? null : <Field.Label className={styles.Label}>{label}</Field.Label>}
+    <Field.Root name={name} className={theme.FieldRoot}>
+      {hideLabel ? null : <Field.Label className={theme.FieldLabel}>{label}</Field.Label>}
       {children({ required })}
       {description ? (
-        <Field.Description className={styles.Description}>{description}</Field.Description>
+        <Field.Description className={theme.FieldDescription}>{description}</Field.Description>
       ) : null}
-      <Field.Error className={styles.Error} match="valueMissing">
+      <Field.Error className={theme.FieldError} match="valueMissing">
         {errorMessage ?? 'This field is required.'}
       </Field.Error>
     </Field.Root>
@@ -46,7 +47,7 @@ export function FlatPropFieldExample() {
   const [status, setStatus] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Row}
+      className="FieldDemoRow"
       onSubmit={(event) => {
         event.preventDefault();
         setStatus('Saved');
@@ -60,7 +61,7 @@ export function FlatPropFieldExample() {
         errorMessage="Please enter your full name."
       >
         {({ required }) => (
-          <Field.Control required={required} placeholder="Ada Lovelace" className={styles.Input} />
+          <Field.Control required={required} placeholder="Ada Lovelace" className={theme.Input} />
         )}
       </KumoField>
       <KumoField
@@ -75,14 +76,14 @@ export function FlatPropFieldExample() {
             required={required}
             aria-label="Search"
             placeholder="Search…"
-            className={styles.Input}
+            className={theme.Input}
           />
         )}
       </KumoField>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
-      {status ? <output className={styles.Output}>{status}</output> : null}
+      {status ? <output className="FieldDemoOutput">{status}</output> : null}
     </Form>
   );
 }

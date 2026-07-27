@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Form } from '@base-ui/react/form';
 import { Field } from '@base-ui/react/field';
 import { Fieldset } from '@base-ui/react/fieldset';
-import styles from '../form.module.css';
-import rw from '../form-real-world.module.css';
+import theme from '@droppy/theme';
+import '../form.demo.css';
 
 /**
  * Recreation of nauvalazhar/selia's zero-JS validation demo: a `Fieldset` groups two
@@ -19,33 +19,33 @@ export function ZeroJSFieldsetFormExample() {
 
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         setStatus('Submitted');
       }}
     >
-      <Fieldset.Root className={rw.Fieldset}>
-        <Fieldset.Legend className={rw.Legend}>Contact information</Fieldset.Legend>
-        <Field.Root name="name" className={styles.Field}>
-          <Field.Label className={styles.Label}>Name</Field.Label>
-          <Field.Control required className={styles.Input} />
-          <Field.Error className={styles.Error} match="valueMissing">
+      <Fieldset.Root className={theme.FieldsetRoot}>
+        <Fieldset.Legend className={theme.FieldsetLegend}>Contact information</Fieldset.Legend>
+        <Field.Root name="name" className={theme.FieldRoot}>
+          <Field.Label className={theme.FieldLabel}>Name</Field.Label>
+          <Field.Control required className={theme.Input} />
+          <Field.Error className={theme.FieldError} match="valueMissing">
             This is required
           </Field.Error>
         </Field.Root>
-        <Field.Root name="email" className={styles.Field}>
-          <Field.Label className={styles.Label}>Email</Field.Label>
-          <Field.Control type="email" required className={styles.Input} />
-          <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Root name="email" className={theme.FieldRoot}>
+          <Field.Label className={theme.FieldLabel}>Email</Field.Label>
+          <Field.Control type="email" required className={theme.Input} />
+          <Field.Error className={theme.FieldError} match="valueMissing">
             This is required
           </Field.Error>
         </Field.Root>
       </Fieldset.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Submit
       </button>
-      {status ? <output className={styles.Output}>{status}</output> : null}
+      {status ? <output className="FormDemoOutput">{status}</output> : null}
     </Form>
   );
 }

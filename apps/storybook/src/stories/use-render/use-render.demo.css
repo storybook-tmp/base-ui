@@ -1,0 +1,34 @@
+/* Demo-only glue for useRender stories — not part of the Droppy theme. */
+
+.UseRenderText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+}
+
+.UseRenderStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.UseRenderButton {
+  box-sizing: border-box;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &[data-odd] {
+    border-style: dashed;
+  }
+}
+
+.UseRenderCount {
+  font-weight: 700;
+}

@@ -4,7 +4,7 @@ import { DirectionProvider } from '@base-ui/react/direction-provider';
 import { Slider } from '@base-ui/react/slider';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
-import styles from './direction-provider.module.css';
+import theme from '@droppy/theme';
 
 /**
  * Stories follow research/c-components/direction-provider (Tier 3 utils
@@ -28,10 +28,10 @@ export const Hero: Story = {
     <div dir="rtl">
       <DirectionProvider direction="rtl">
         <Slider.Root defaultValue={25}>
-          <Slider.Control className={styles.Control}>
-            <Slider.Track className={styles.Track}>
-              <Slider.Indicator className={styles.Indicator} />
-              <Slider.Thumb aria-label="Volume" className={styles.Thumb} />
+          <Slider.Control className={theme.SliderControl}>
+            <Slider.Track className={theme.SliderTrack}>
+              <Slider.Indicator className={theme.SliderIndicator} />
+              <Slider.Thumb aria-label="Volume" className={theme.SliderThumb} />
             </Slider.Track>
           </Slider.Control>
         </Slider.Root>
@@ -46,14 +46,18 @@ export const FlipCompositeRTL: Story = {
   render: () => (
     <div dir="rtl">
       <DirectionProvider direction="rtl">
-        <ToggleGroup aria-label="Text alignment" defaultValue={['left']} className={styles.Panel}>
-          <Toggle aria-label="Align left" value="left" className={styles.Button}>
+        <ToggleGroup
+          aria-label="Text alignment"
+          defaultValue={['left']}
+          className={theme.ToggleGroupRoot}
+        >
+          <Toggle aria-label="Align left" value="left" className={theme.ToggleGroupItem}>
             L
           </Toggle>
-          <Toggle aria-label="Align center" value="center" className={styles.Button}>
+          <Toggle aria-label="Align center" value="center" className={theme.ToggleGroupItem}>
             C
           </Toggle>
-          <Toggle aria-label="Align right" value="right" className={styles.Button}>
+          <Toggle aria-label="Align right" value="right" className={theme.ToggleGroupItem}>
             R
           </Toggle>
         </ToggleGroup>

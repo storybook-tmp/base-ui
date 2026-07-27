@@ -1,0 +1,43 @@
+/* Demo-only glue for mergeProps stories — not part of the Droppy theme. */
+
+.MergePropsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  max-width: 20rem;
+}
+
+.MergePropsToggleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.MergePropsToggle {
+  box-sizing: border-box;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &[data-pressed] {
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-label-active);
+  }
+}
+
+.MergePropsLabel {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.MergePropsLog {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+}

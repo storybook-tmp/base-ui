@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Select } from '@base-ui/react/select';
-import styles from '../select.module.css';
-import rw from '../select-real-world.module.css';
+import theme from '@droppy/theme';
+import '../select.demo.css';
+import '../select-real-world.demo.css';
 import { CaretUpDownIcon, CheckIcon } from '../DemoSelect';
 
 /**
@@ -40,33 +41,33 @@ export function RegistrySelect({
   );
   const labelMap = Object.fromEntries(entries.map((entry) => [entry.value, entry.label]));
   return (
-    <div className={styles.Field}>
+    <div className={theme.FieldRoot}>
       <Select.Root items={labelMap}>
-        <Select.Label className={styles.Label}>{label}</Select.Label>
-        <Select.Trigger className={styles.Select}>
-          <Select.Value className={styles.Value} placeholder={placeholder} />
-          <Select.Icon className={styles.Icon}>
+        <Select.Label className={theme.FieldLabel}>{label}</Select.Label>
+        <Select.Trigger className={theme.SelectTrigger}>
+          <Select.Value className={theme.SelectValue} placeholder={placeholder} />
+          <Select.Icon className={theme.SelectIcon}>
             <CaretUpDownIcon />
           </Select.Icon>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner className={styles.Positioner} sideOffset={4}>
-            <Select.Popup className={styles.Popup}>
-              <Select.List className={styles.List}>
+          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
+            <Select.Popup className={theme.SelectPopup}>
+              <Select.List className={theme.SelectList}>
                 {entries.map((entry) => (
                   <Select.Item
                     key={entry.value}
                     value={entry.value}
                     disabled={entry.disabled}
-                    className={styles.Item}
+                    className={theme.SelectItem}
                   >
-                    <Select.ItemIndicator className={styles.ItemIndicator}>
+                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
                       <CheckIcon />
                     </Select.ItemIndicator>
-                    <Select.ItemText className={styles.ItemText}>
+                    <Select.ItemText className={theme.SelectItemText}>
                       {entry.label}
                       {entry.disabledReason ? (
-                        <span className={rw.DisabledReason}>{entry.disabledReason}</span>
+                        <span className="SelectDemoDisabledReason">{entry.disabledReason}</span>
                       ) : null}
                     </Select.ItemText>
                   </Select.Item>

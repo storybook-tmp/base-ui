@@ -6,7 +6,7 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toggle } from '@base-ui/react/toggle';
 import { Menu } from '@base-ui/react/menu';
 import { NumberField } from '@base-ui/react/number-field';
-import styles from './toolbar.module.css';
+import theme from '@droppy/theme';
 
 /**
  * Stories follow research/c-components/toolbar (Tier 3): the kept docs hero
@@ -39,21 +39,25 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <Toolbar.Root aria-label="Formatting" className={styles.Toolbar}>
-      <ToggleGroup aria-label="Alignment" defaultValue={['align-left']} className={styles.Group}>
-        <Toolbar.Button render={<Toggle />} value="align-left" className={styles.Button}>
+    <Toolbar.Root aria-label="Formatting" className={theme.ToolbarRoot}>
+      <ToggleGroup
+        aria-label="Alignment"
+        defaultValue={['align-left']}
+        className={theme.ToolbarGroup}
+      >
+        <Toolbar.Button render={<Toggle />} value="align-left" className={theme.ToolbarButton}>
           Align Left
         </Toolbar.Button>
-        <Toolbar.Button render={<Toggle />} value="align-right" className={styles.Button}>
+        <Toolbar.Button render={<Toggle />} value="align-right" className={theme.ToolbarButton}>
           Align Right
         </Toolbar.Button>
       </ToggleGroup>
-      <Toolbar.Separator className={styles.Separator} />
-      <Toolbar.Group aria-label="Numerical format" className={styles.Group}>
-        <Toolbar.Button aria-label="Format as currency" className={styles.Button}>
+      <Toolbar.Separator className={theme.ToolbarSeparator} />
+      <Toolbar.Group aria-label="Numerical format" className={theme.ToolbarGroup}>
+        <Toolbar.Button aria-label="Format as currency" className={theme.ToolbarButton}>
           $
         </Toolbar.Button>
-        <Toolbar.Button aria-label="Format as percent" className={styles.Button}>
+        <Toolbar.Button aria-label="Format as percent" className={theme.ToolbarButton}>
           %
         </Toolbar.Button>
       </Toolbar.Group>
@@ -83,20 +87,20 @@ export const Hero: Story = {
 
 function ToolbarWithMenuExample() {
   return (
-    <Toolbar.Root aria-label="Document actions" className={styles.Toolbar}>
-      <Toolbar.Button aria-label="Bold" className={styles.Button}>
+    <Toolbar.Root aria-label="Document actions" className={theme.ToolbarRoot}>
+      <Toolbar.Button aria-label="Bold" className={theme.ToolbarButton}>
         B
       </Toolbar.Button>
-      <Toolbar.Separator className={styles.Separator} />
+      <Toolbar.Separator className={theme.ToolbarSeparator} />
       <Menu.Root>
-        <Toolbar.Button render={<Menu.Trigger />} className={styles.Button}>
+        <Toolbar.Button render={<Menu.Trigger />} className={theme.ToolbarButton}>
           More actions
         </Toolbar.Button>
         <Menu.Portal>
-          <Menu.Positioner className={styles.Positioner} sideOffset={4}>
-            <Menu.Popup className={styles.Popup}>
-              <Menu.Item className={styles.Item}>Duplicate</Menu.Item>
-              <Menu.Item className={styles.Item}>Delete</Menu.Item>
+          <Menu.Positioner className={theme.MenuPositioner} sideOffset={4}>
+            <Menu.Popup className={theme.MenuPopup}>
+              <Menu.Item className={theme.MenuItem}>Duplicate</Menu.Item>
+              <Menu.Item className={theme.MenuItem}>Delete</Menu.Item>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
@@ -122,7 +126,14 @@ export const ToolbarButtonAsMenuTrigger: Story = {
 
     await userEvent.click(trigger);
     const menu = await body.findByRole('menu');
-    await expect(menu).toBeVisible();
+    // The theme's Menu.Popup mounts with an enter transition
+    // (data-starting-style opacity 0 -> 1); findByRole resolves on the next
+    // DOM mutation, often before that transition has advanced at all, so
+    // wait for the popup to actually be visible rather than asserting
+    // immediately.
+    await waitFor(() => {
+      expect(menu).toBeVisible();
+    });
     await waitFor(async () => {
       await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
@@ -147,16 +158,16 @@ export const ToolbarButtonAsMenuTrigger: Story = {
 export const CompositeKeyboardNavigation: Story = {
   tags: ['tests'],
   render: () => (
-    <Toolbar.Root aria-label="Mixed items" className={styles.Toolbar}>
-      <Toolbar.Button className={styles.Button}>Bold</Toolbar.Button>
-      <Toolbar.Link href="https://base-ui.com" className={styles.Button}>
+    <Toolbar.Root aria-label="Mixed items" className={theme.ToolbarRoot}>
+      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
+      <Toolbar.Link href="https://base-ui.com" className={theme.ToolbarButton}>
         Docs
       </Toolbar.Link>
-      <Toolbar.Group aria-label="Alignment" className={styles.Group}>
-        <Toolbar.Button className={styles.Button}>Left</Toolbar.Button>
-        <Toolbar.Button className={styles.Button}>Right</Toolbar.Button>
+      <Toolbar.Group aria-label="Alignment" className={theme.ToolbarGroup}>
+        <Toolbar.Button className={theme.ToolbarButton}>Left</Toolbar.Button>
+        <Toolbar.Button className={theme.ToolbarButton}>Right</Toolbar.Button>
       </Toolbar.Group>
-      <Toolbar.Input defaultValue="" aria-label="Search" className={styles.Button} />
+      <Toolbar.Input defaultValue="" aria-label="Search" className={theme.ToolbarButton} />
     </Toolbar.Root>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -197,15 +208,15 @@ export const CompositeKeyboardNavigation: Story = {
 export const DisabledCascadeExceptLinks: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Toolbar.Root aria-label="Mixed items (disabled)" disabled className={styles.Toolbar}>
-      <Toolbar.Button className={styles.Button}>Bold</Toolbar.Button>
-      <Toolbar.Link href="https://base-ui.com" className={styles.Button}>
+    <Toolbar.Root aria-label="Mixed items (disabled)" disabled className={theme.ToolbarRoot}>
+      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
+      <Toolbar.Link href="https://base-ui.com" className={theme.ToolbarButton}>
         Docs
       </Toolbar.Link>
-      <Toolbar.Group aria-label="Alignment" className={styles.Group}>
-        <Toolbar.Button className={styles.Button}>Left</Toolbar.Button>
+      <Toolbar.Group aria-label="Alignment" className={theme.ToolbarGroup}>
+        <Toolbar.Button className={theme.ToolbarButton}>Left</Toolbar.Button>
       </Toolbar.Group>
-      <Toolbar.Input defaultValue="" aria-label="Search" className={styles.Button} />
+      <Toolbar.Input defaultValue="" aria-label="Search" className={theme.ToolbarButton} />
     </Toolbar.Root>
   ),
   play: async ({ canvas }) => {
@@ -231,18 +242,18 @@ export const DisabledCascadeExceptLinks: Story = {
 
 function ToolbarWithNumberFieldExample() {
   return (
-    <Toolbar.Root aria-label="Document settings" className={styles.Toolbar}>
-      <Toolbar.Button className={styles.Button}>Bold</Toolbar.Button>
-      <Toolbar.Separator className={styles.Separator} />
+    <Toolbar.Root aria-label="Document settings" className={theme.ToolbarRoot}>
+      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
+      <Toolbar.Separator className={theme.ToolbarSeparator} />
       <NumberField.Root defaultValue={12} min={8} max={96}>
-        <NumberField.Group className={styles.Group}>
-          <NumberField.Decrement className={styles.Button}>-</NumberField.Decrement>
+        <NumberField.Group className={theme.ToolbarGroup}>
+          <NumberField.Decrement className={theme.ToolbarButton}>-</NumberField.Decrement>
           <Toolbar.Input
             render={<NumberField.Input aria-label="Font size" />}
-            className={styles.Button}
+            className={theme.ToolbarButton}
             style={{ width: '3rem', textAlign: 'center' }}
           />
-          <NumberField.Increment className={styles.Button}>+</NumberField.Increment>
+          <NumberField.Increment className={theme.ToolbarButton}>+</NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
     </Toolbar.Root>

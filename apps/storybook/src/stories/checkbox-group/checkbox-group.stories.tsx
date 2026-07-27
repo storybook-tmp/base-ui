@@ -6,7 +6,8 @@ import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { Field } from '@base-ui/react/field';
 import { Fieldset } from '@base-ui/react/fieldset';
 import { Form } from '@base-ui/react/form';
-import styles from './checkbox-group.module.css';
+import theme from '@droppy/theme';
+import './checkbox-group.demo.css';
 
 function CheckIcon(props: React.ComponentProps<'svg'>) {
   return (
@@ -72,27 +73,27 @@ export const Basic: Story = {
     <CheckboxGroup
       aria-label="Apples"
       defaultValue={['fuji-apple']}
-      className={styles.CheckboxGroup}
+      className={theme.CheckboxGroupRoot}
     >
-      <label className={styles.Item}>
-        <Checkbox.Root value="fuji-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="fuji-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="gala-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="gala-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="granny-smith-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="granny-smith-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
@@ -116,12 +117,12 @@ function ParentTriStateExample() {
       value={value}
       onValueChange={setValue}
       allValues={fruits}
-      className={styles.CheckboxGroup}
+      className={theme.CheckboxGroupRoot}
     >
-      <label className={styles.Item}>
-        <Checkbox.Root className={styles.Checkbox} parent>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root className={theme.CheckboxRoot} parent>
           <Checkbox.Indicator
-            className={styles.Indicator}
+            className={theme.CheckboxIndicator}
             render={(props, state) => (
               <span {...props}>{state.indeterminate ? <HorizontalRuleIcon /> : <CheckIcon />}</span>
             )}
@@ -129,25 +130,25 @@ function ParentTriStateExample() {
         </Checkbox.Root>
         All apples
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="fuji-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="fuji-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Fuji
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="gala-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="gala-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="granny-smith-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="granny-smith-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
@@ -196,47 +197,49 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string[] | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(data.getAll('protocols') as string[]);
       }}
     >
-      <Field.Root name="protocols" className={styles.CheckboxGroup}>
-        <Fieldset.Root className={styles.Fieldset} render={<CheckboxGroup />}>
-          <Fieldset.Legend className={styles.Legend}>Allowed network protocols</Fieldset.Legend>
-          <Field.Item className={styles.FieldItem}>
-            <Checkbox.Root value="http" className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+      <Field.Root name="protocols" className={theme.CheckboxGroupRoot}>
+        <Fieldset.Root className={theme.FieldsetRoot} render={<CheckboxGroup />}>
+          <Fieldset.Legend className={theme.FieldsetLegend}>
+            Allowed network protocols
+          </Fieldset.Legend>
+          <Field.Item className={theme.FieldItem}>
+            <Checkbox.Root value="http" className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Field.Label className={styles.ItemLabel}>HTTP</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>HTTP</Field.Label>
           </Field.Item>
-          <Field.Item className={styles.FieldItem}>
-            <Checkbox.Root value="https" className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+          <Field.Item className={theme.FieldItem}>
+            <Checkbox.Root value="https" className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Field.Label className={styles.ItemLabel}>HTTPS</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>HTTPS</Field.Label>
           </Field.Item>
-          <Field.Item className={styles.FieldItem}>
-            <Checkbox.Root value="ssh" className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+          <Field.Item className={theme.FieldItem}>
+            <Checkbox.Root value="ssh" className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Field.Label className={styles.ItemLabel}>SSH</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>SSH</Field.Label>
           </Field.Item>
         </Fieldset.Root>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
       {submitted !== null ? (
-        <output className={styles.Output}>protocols={JSON.stringify(submitted)}</output>
+        <output className="CheckboxGroupDemoOutput">protocols={JSON.stringify(submitted)}</output>
       ) : null}
     </Form>
   );
@@ -258,31 +261,31 @@ export const FormSubmitArray: Story = {
 function ControlledArrayExample() {
   const [value, setValue] = React.useState<string[]>([]);
   return (
-    <div className={styles.Form}>
+    <div className={theme.FormRoot}>
       <CheckboxGroup
         aria-label="Apples"
         value={value}
         onValueChange={setValue}
-        className={styles.CheckboxGroup}
+        className={theme.CheckboxGroupRoot}
       >
-        <label className={styles.Item}>
-          <Checkbox.Root value="fuji-apple" className={styles.Checkbox}>
-            <Checkbox.Indicator className={styles.Indicator}>
+        <label className={theme.CheckboxGroupItem}>
+          <Checkbox.Root value="fuji-apple" className={theme.CheckboxRoot}>
+            <Checkbox.Indicator className={theme.CheckboxIndicator}>
               <CheckIcon />
             </Checkbox.Indicator>
           </Checkbox.Root>
           Fuji
         </label>
-        <label className={styles.Item}>
-          <Checkbox.Root value="gala-apple" className={styles.Checkbox}>
-            <Checkbox.Indicator className={styles.Indicator}>
+        <label className={theme.CheckboxGroupItem}>
+          <Checkbox.Root value="gala-apple" className={theme.CheckboxRoot}>
+            <Checkbox.Indicator className={theme.CheckboxIndicator}>
               <CheckIcon />
             </Checkbox.Indicator>
           </Checkbox.Root>
           Gala
         </label>
       </CheckboxGroup>
-      <output className={styles.Output}>value={JSON.stringify(value)}</output>
+      <output className="CheckboxGroupDemoOutput">value={JSON.stringify(value)}</output>
     </div>
   );
 }
@@ -331,12 +334,12 @@ function DisabledChildExample() {
       value={value}
       onValueChange={setValue}
       allValues={fruits}
-      className={styles.CheckboxGroup}
+      className={theme.CheckboxGroupRoot}
     >
-      <label className={styles.Item}>
-        <Checkbox.Root className={styles.Checkbox} parent>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root className={theme.CheckboxRoot} parent>
           <Checkbox.Indicator
-            className={styles.Indicator}
+            className={theme.CheckboxIndicator}
             render={(props, state) => (
               <span {...props}>{state.indeterminate ? <HorizontalRuleIcon /> : <CheckIcon />}</span>
             )}
@@ -344,25 +347,25 @@ function DisabledChildExample() {
         </Checkbox.Root>
         All apples
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="fuji-apple" disabled className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="fuji-apple" disabled className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Fuji (disabled, pre-checked)
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="gala-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="gala-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Gala
       </label>
-      <label className={styles.Item}>
-        <Checkbox.Root value="granny-smith-apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxGroupItem}>
+        <Checkbox.Root value="granny-smith-apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
@@ -401,32 +404,32 @@ export const DisabledChildExcludedFromParentToggle: Story = {
 
 function RequiredAllExample() {
   return (
-    <Form className={styles.Form}>
-      <Field.Root name="agreements" className={styles.CheckboxGroup}>
-        <Fieldset.Root className={styles.Fieldset} render={<CheckboxGroup />}>
-          <Fieldset.Legend className={styles.Legend}>Required agreements</Fieldset.Legend>
-          <Field.Item className={styles.FieldItem}>
-            <Checkbox.Root value="privacy" required className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+    <Form className={theme.FormRoot}>
+      <Field.Root name="agreements" className={theme.CheckboxGroupRoot}>
+        <Fieldset.Root className={theme.FieldsetRoot} render={<CheckboxGroup />}>
+          <Fieldset.Legend className={theme.FieldsetLegend}>Required agreements</Fieldset.Legend>
+          <Field.Item className={theme.FieldItem}>
+            <Checkbox.Root value="privacy" required className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Field.Label className={styles.ItemLabel}>Privacy policy</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>Privacy policy</Field.Label>
           </Field.Item>
-          <Field.Item className={styles.FieldItem}>
-            <Checkbox.Root value="terms" required className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+          <Field.Item className={theme.FieldItem}>
+            <Checkbox.Root value="terms" required className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Field.Label className={styles.ItemLabel}>Terms of service</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>Terms of service</Field.Label>
           </Field.Item>
         </Fieldset.Root>
-        <Field.Error className={styles.Output} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           You must agree to both before continuing.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
     </Form>
@@ -441,7 +444,7 @@ function NestedParentExample() {
   const mainPermissions = ['view-dashboard', 'manage-users'];
 
   return (
-    <div className={styles.CheckboxGroup}>
+    <div className={theme.CheckboxGroupRoot}>
       <CheckboxGroup
         aria-label="Main permissions"
         value={mainValue}
@@ -454,11 +457,11 @@ function NestedParentExample() {
           setMainValue(value);
         }}
         allValues={mainPermissions}
-        className={styles.CheckboxGroup}
+        className={theme.CheckboxGroupRoot}
       >
-        <label className={styles.Item}>
-          <Checkbox.Root value="view-dashboard" className={styles.Checkbox}>
-            <Checkbox.Indicator className={styles.Indicator}>
+        <label className={theme.CheckboxGroupItem}>
+          <Checkbox.Root value="view-dashboard" className={theme.CheckboxRoot}>
+            <Checkbox.Indicator className={theme.CheckboxIndicator}>
               <CheckIcon />
             </Checkbox.Indicator>
           </Checkbox.Root>
@@ -477,12 +480,12 @@ function NestedParentExample() {
             setManagementValue(value);
           }}
           allValues={userManagementPermissions}
-          className={styles.CheckboxGroup}
+          className={theme.CheckboxGroupRoot}
         >
-          <label className={styles.Item}>
-            <Checkbox.Root className={styles.Checkbox} parent>
+          <label className={theme.CheckboxGroupItem}>
+            <Checkbox.Root className={theme.CheckboxRoot} parent>
               <Checkbox.Indicator
-                className={styles.Indicator}
+                className={theme.CheckboxIndicator}
                 render={(props, state) => (
                   <span {...props}>
                     {state.indeterminate ? <HorizontalRuleIcon /> : <CheckIcon />}
@@ -492,17 +495,17 @@ function NestedParentExample() {
             </Checkbox.Root>
             Manage users
           </label>
-          <label className={styles.Item}>
-            <Checkbox.Root value="create-user" className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+          <label className={theme.CheckboxGroupItem}>
+            <Checkbox.Root value="create-user" className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
             Create user
           </label>
-          <label className={styles.Item}>
-            <Checkbox.Root value="edit-user" className={styles.Checkbox}>
-              <Checkbox.Indicator className={styles.Indicator}>
+          <label className={theme.CheckboxGroupItem}>
+            <Checkbox.Root value="edit-user" className={theme.CheckboxRoot}>
+              <Checkbox.Indicator className={theme.CheckboxIndicator}>
                 <CheckIcon />
               </Checkbox.Indicator>
             </Checkbox.Root>
@@ -510,7 +513,7 @@ function NestedParentExample() {
           </label>
         </CheckboxGroup>
       </CheckboxGroup>
-      <output className={styles.Output}>
+      <output className="CheckboxGroupDemoOutput">
         manage-users in main: {String(mainValue.includes('manage-users'))}
       </output>
     </div>

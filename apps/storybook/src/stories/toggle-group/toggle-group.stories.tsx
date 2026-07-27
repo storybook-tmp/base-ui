@@ -4,7 +4,8 @@ import { expect } from 'storybook/test';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toolbar } from '@base-ui/react/toolbar';
-import styles from './toggle-group.module.css';
+import theme from '@droppy/theme';
+import './toggle-group.demo.css';
 
 function AlignLeftIcon(props: React.ComponentProps<'svg'>) {
   return (
@@ -119,14 +120,18 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <ToggleGroup aria-label="Text alignment" defaultValue={['left']} className={styles.Panel}>
-      <Toggle aria-label="Align left" value="left" className={styles.Button}>
+    <ToggleGroup
+      aria-label="Text alignment"
+      defaultValue={['left']}
+      className={theme.ToggleGroupRoot}
+    >
+      <Toggle aria-label="Align left" value="left" className={theme.ToggleGroupItem}>
         <AlignLeftIcon />
       </Toggle>
-      <Toggle aria-label="Align center" value="center" className={styles.Button}>
+      <Toggle aria-label="Align center" value="center" className={theme.ToggleGroupItem}>
         <AlignCenterIcon />
       </Toggle>
-      <Toggle aria-label="Align right" value="right" className={styles.Button}>
+      <Toggle aria-label="Align right" value="right" className={theme.ToggleGroupItem}>
         <AlignRightIcon />
       </Toggle>
     </ToggleGroup>
@@ -144,15 +149,15 @@ export const Multiple: Story = {
       multiple
       defaultValue={['bold']}
       aria-label="Text formatting options"
-      className={styles.Panel}
+      className={theme.ToggleGroupRoot}
     >
-      <Toggle aria-label="Bold" value="bold" className={styles.Button}>
+      <Toggle aria-label="Bold" value="bold" className={theme.ToggleGroupItem}>
         <BoldIcon />
       </Toggle>
-      <Toggle aria-label="Italic" value="italic" className={styles.Button}>
+      <Toggle aria-label="Italic" value="italic" className={theme.ToggleGroupItem}>
         <ItalicIcon />
       </Toggle>
-      <Toggle aria-label="Underline" value="underline" className={styles.Button}>
+      <Toggle aria-label="Underline" value="underline" className={theme.ToggleGroupItem}>
         <UnderlineIcon />
       </Toggle>
     </ToggleGroup>
@@ -183,17 +188,17 @@ export const Multiple: Story = {
 export const CompositeKeyboardNavigation: Story = {
   tags: ['tests'],
   render: () => (
-    <ToggleGroup aria-label="Numbered options" className={styles.Panel}>
-      <Toggle aria-label="One" value="one" className={styles.Button}>
+    <ToggleGroup aria-label="Numbered options" className={theme.ToggleGroupRoot}>
+      <Toggle aria-label="One" value="one" className={theme.ToggleGroupItem}>
         1
       </Toggle>
-      <Toggle aria-label="Two" value="two" className={styles.Button}>
+      <Toggle aria-label="Two" value="two" className={theme.ToggleGroupItem}>
         2
       </Toggle>
-      <Toggle aria-label="Three" value="three" className={styles.Button}>
+      <Toggle aria-label="Three" value="three" className={theme.ToggleGroupItem}>
         3
       </Toggle>
-      <Toggle aria-label="Four" value="four" className={styles.Button}>
+      <Toggle aria-label="Four" value="four" className={theme.ToggleGroupItem}>
         4
       </Toggle>
     </ToggleGroup>
@@ -236,11 +241,11 @@ export const CompositeKeyboardNavigation: Story = {
 export const SingleSelectClearable: Story = {
   tags: ['highlight'],
   render: () => (
-    <ToggleGroup aria-label="View mode" defaultValue={['grid']} className={styles.Panel}>
-      <Toggle aria-label="Grid view" value="grid" className={styles.Button}>
+    <ToggleGroup aria-label="View mode" defaultValue={['grid']} className={theme.ToggleGroupRoot}>
+      <Toggle aria-label="Grid view" value="grid" className={theme.ToggleGroupItem}>
         Grid
       </Toggle>
-      <Toggle aria-label="List view" value="list" className={styles.Button}>
+      <Toggle aria-label="List view" value="list" className={theme.ToggleGroupItem}>
         List
       </Toggle>
     </ToggleGroup>
@@ -272,28 +277,32 @@ export const SingleSelectClearable: Story = {
 export const DisabledGroupAndItem: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Row}>
-      <ToggleGroup aria-label="Alignment (group disabled)" disabled className={styles.Panel}>
-        <Toggle aria-label="Align left" value="left" className={styles.Button}>
+    <div className="ToggleGroupDemoRow">
+      <ToggleGroup
+        aria-label="Alignment (group disabled)"
+        disabled
+        className={theme.ToggleGroupRoot}
+      >
+        <Toggle aria-label="Align left" value="left" className={theme.ToggleGroupItem}>
           Left
         </Toggle>
-        <Toggle aria-label="Align right" value="right" className={styles.Button}>
+        <Toggle aria-label="Align right" value="right" className={theme.ToggleGroupItem}>
           Right
         </Toggle>
       </ToggleGroup>
-      <ToggleGroup aria-label="Alignment (one item disabled)" className={styles.Panel}>
-        <Toggle aria-label="Align top" value="top" className={styles.Button}>
+      <ToggleGroup aria-label="Alignment (one item disabled)" className={theme.ToggleGroupRoot}>
+        <Toggle aria-label="Align top" value="top" className={theme.ToggleGroupItem}>
           Top
         </Toggle>
         <Toggle
           aria-label="Align middle (disabled)"
           value="middle"
           disabled
-          className={styles.Button}
+          className={theme.ToggleGroupItem}
         >
           Mid
         </Toggle>
-        <Toggle aria-label="Align bottom" value="bottom" className={styles.Button}>
+        <Toggle aria-label="Align bottom" value="bottom" className={theme.ToggleGroupItem}>
           Bottom
         </Toggle>
       </ToggleGroup>
@@ -322,15 +331,15 @@ export const DisabledGroupAndItem: Story = {
 
 function ToolbarHostedToggleGroupExample() {
   return (
-    <Toolbar.Root aria-label="Alignment toolbar" className={styles.Panel}>
+    <Toolbar.Root aria-label="Alignment toolbar" className={theme.ToggleGroupRoot}>
       <ToggleGroup aria-label="Alignment" defaultValue={['left']}>
-        <Toolbar.Button render={<Toggle />} value="left" className={styles.Button}>
+        <Toolbar.Button render={<Toggle />} value="left" className={theme.ToggleGroupItem}>
           Left
         </Toolbar.Button>
-        <Toolbar.Button render={<Toggle />} value="center" className={styles.Button}>
+        <Toolbar.Button render={<Toggle />} value="center" className={theme.ToggleGroupItem}>
           Center
         </Toolbar.Button>
-        <Toolbar.Button render={<Toggle />} value="right" className={styles.Button}>
+        <Toolbar.Button render={<Toggle />} value="right" className={theme.ToggleGroupItem}>
           Right
         </Toolbar.Button>
       </ToggleGroup>

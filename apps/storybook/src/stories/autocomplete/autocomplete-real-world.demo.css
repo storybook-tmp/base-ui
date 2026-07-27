@@ -1,0 +1,123 @@
+/* Demo-only glue for the autocomplete real-world recreation stories
+   (field-integrated wrapper, multi-skin registry) — not part of the Droppy
+   theme. Common popup/item chrome comes from theme.Autocomplete* via
+   autocomplete.demo.css's siblings. */
+
+/* Multi-skin registry (reui-style) */
+
+.AutocompleteDemoSkinRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 16rem;
+}
+
+.AutocompleteDemoSkinSwitcher {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.AutocompleteDemoSkinButton {
+  box-sizing: border-box;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .AutocompleteDemoSkinButton:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.AutocompleteDemoSkinButton[aria-pressed='true'] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-primary);
+}
+
+.AutocompleteDemoSkinBackdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* Layered on top of theme.AutocompletePopup: per-skin background/border overrides. */
+.AutocompleteDemoSkinPopup[data-skin='vega'] {
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  border-color: var(--ds-color-border-subtle);
+}
+
+/* Nova is a fixed-identity "custom developer skin" that intentionally never
+   follows the app theme (see command-palette/multi-skin demo intent) — the
+   brand token set has no dark-accent surface for this, so it's remapped to
+   the neutral inverse pair as the closest theme-safe stand-in. See clash log. */
+.AutocompleteDemoSkinPopup[data-skin='nova'] {
+  background-color: var(--ds-color-surface-inverse);
+  color: var(--ds-color-text-on-inverse);
+  border-color: var(--ds-color-border-subtle);
+  box-shadow: var(--ds-shadow-overlay);
+}
+
+.AutocompleteDemoSkinArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.AutocompleteDemoSkinArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.AutocompleteDemoSkinArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.AutocompleteDemoSkinArrow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+.AutocompleteDemoSkinArrow[data-skin='vega']::before {
+  background-color: var(--ds-color-surface-overlay);
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.AutocompleteDemoSkinArrow[data-skin='nova']::before {
+  background-color: var(--ds-color-surface-inverse);
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+/* Layered on top of theme.AutocompleteItem: nova-skin highlight override. */
+.AutocompleteDemoSkinItem[data-skin='nova'][data-highlighted] {
+  color: var(--ds-color-text-primary);
+}
+
+.AutocompleteDemoSkinItem[data-skin='nova'][data-highlighted]::before {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+/* Layered on top of theme.AutocompleteEmpty: the nova skin always renders a dark
+   navy popup background regardless of system color scheme, so the theme's default
+   (light-mode) muted gray fails color-contrast against it — override explicitly. */
+.AutocompleteDemoSkinEmpty[data-skin='nova'] {
+  color: var(--ds-color-text-on-inverse);
+}

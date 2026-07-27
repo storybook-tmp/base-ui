@@ -1,0 +1,382 @@
+/* Demo-only glue for the "In the wild" gallery (WildCards/WildCard/WildCardViewer) —
+   not part of the Droppy theme. */
+
+.WildCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.WildCardCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+}
+
+/* Cards without a real screenshot (GitHub OG-card fallback) sort after captured ones.
+   `order: 1` beats the default `order: 0` in the grid without reordering the DOM. */
+.WildCardCardFallback {
+  order: 1;
+}
+
+.WildCardPreview {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.WildCardPreviewButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  margin: 0;
+  background: none;
+  cursor: zoom-in;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.WildCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.75rem 0.875rem 0.875rem;
+}
+
+.WildCardTitleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.WildCardTitle {
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.WildCardLive {
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.WildCardBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.WildCardLicense,
+.WildCardReuse {
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: var(--ds-color-text-secondary);
+  white-space: nowrap;
+}
+
+/* No Droppy warning/caution color exists (grey + 2 pale accents only — principles.md
+   rule 1); flagged badges get a darker neutral ink instead of the orange original. */
+.WildCardReuseFlagged {
+  border-color: var(--ds-color-text-primary);
+  color: var(--ds-color-text-primary);
+}
+
+/* Badge marking a card whose component has been located + highlighted on the page. */
+.WildCardLocated {
+  border: 1px solid var(--ds-color-text-primary);
+  border-radius: var(--ds-radius-control);
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: var(--ds-color-text-primary);
+  white-space: nowrap;
+}
+
+.WildCardDescription {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Fullscreen viewer (Dialog). Deliberately sized as a near-fullscreen lightbox — much
+   larger than the theme's DialogPopup — so it is NOT bound to theme.DialogBackdrop/
+   DialogPopup; those are sized for a small centered modal and would break this layout. */
+
+.WildCardViewerBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background-color: oklch(14.5% 0 0deg / 60%);
+}
+
+.WildCardViewerPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2147483001;
+  display: flex;
+  overflow: hidden;
+  width: min(94vw, 1200px);
+  max-height: 94vh;
+  flex-direction: column;
+  border-radius: var(--ds-radius-sheet);
+  background-color: var(--ds-color-surface-overlay);
+  box-shadow: var(--ds-shadow-overlay);
+  outline: none;
+  transform: translate(-50%, -50%);
+}
+
+.WildCardViewerStage {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.WildCardViewerImage {
+  display: block;
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+/* Floating nav/close buttons overlay the image at ~85-90% alpha in the source; Droppy
+   has no translucent-surface token, so they flatten to the opaque overlay surface. */
+.WildCardViewerNavPrev,
+.WildCardViewerNavNext {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: translateY(-50%);
+
+  &:hover:not(:disabled) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.WildCardViewerNavPrev {
+  left: 1rem;
+}
+
+.WildCardViewerNavNext {
+  right: 1rem;
+}
+
+.WildCardViewerClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+
+  &:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+/* Segmented "Full page / Component" toggle. Lives in the footer beside the counter so
+   switching views never overlaps or shifts the screenshot itself. */
+.WildCardViewerToggle {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
+  background-color: var(--ds-color-surface-overlay);
+}
+
+/* Right cluster of the viewer footer: the view toggle + the "N of M" counter. */
+.WildCardViewerFooterRight {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.WildCardViewerToggleButton {
+  border: none;
+  margin: 0;
+  padding: 0.3125rem 0.75rem;
+  background: none;
+  color: var(--ds-color-text-secondary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &[aria-pressed='true'] {
+    background-color: var(--ds-color-action-primary);
+    color: var(--ds-color-action-on-primary);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.WildCardViewerFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--ds-color-border-subtle);
+}
+
+/* Agent-handoff locator bar: route + CSS selector + copy, below the attribution footer. */
+.WildCardViewerLocator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.WildCardViewerLocatorLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ds-color-text-hint);
+}
+
+.WildCardViewerRoute,
+.WildCardViewerSelector {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+}
+
+.WildCardViewerSelector {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.WildCardViewerCopySelector {
+  margin-left: auto;
+  padding: 0.1875rem 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.WildCardViewerAttribution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.WildCardViewerTitle {
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.WildCardViewerRepo {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.WildCardViewerLive {
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.WildCardViewerCounter {
+  flex: none;
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+  white-space: nowrap;
+}

@@ -21,6 +21,7 @@ This repository contains the source code and documentation for Base UI: a headl
 ## Styling
 
 - In CSS Modules demos (`docs/src/app/(docs)/**/demos/**/*.module.css`), use raw color values from the Tailwind `@theme` block in `docs/src/css/index.css`. For example, use `oklch(14.5% 0 0deg)` instead of `var(--color-neutral-950)`.
+- In the Storybook app (`apps/storybook/src/stories/**/*.module.css`), do NOT use raw color values: consume the semantic design tokens (`--ds-color-*`, `--ds-radius-*`, `--ds-shadow-*`, `--ds-motion-*`) defined in `apps/storybook/src/styles/theme.css`, which is generated from the Mealdrop brand extraction in `research/f-brand-v2/tokens.json`. Never reference `--ds-palette-*` primitives from components.
 - When using `user-select: none;` in CSS, also add `-webkit-user-select: none;` to support Safari. Tailwind's `select-none` class already includes this.
 
 ## Linting, typechecking, and formatting

@@ -4,7 +4,7 @@ import { SyntaxHighlighter } from 'storybook/internal/components';
 import { ThemeProvider, ensure, themes } from 'storybook/theming';
 import { useIsoLayoutEffect } from '@base-ui/utils/useIsoLayoutEffect';
 import { useTimeout } from '@base-ui/utils/useTimeout';
-import styles from './MiniPlayground.module.css';
+import './MiniPlayground.demo.css';
 
 export interface MiniPlaygroundSource {
   /**
@@ -43,7 +43,7 @@ export interface MiniPlaygroundProps {
    * Extra local files the `code` snippet imports (beyond the single `css` prop), so the
    * "Open in StackBlitz" export can bundle a self-contained, buildable project. Each entry's
    * `path` is the import specifier exactly as written in the source (e.g. `'../icons'`,
-   * `'../autocomplete-real-world.module.css'`, `'../DemoSelect'`), and `code` is its `?raw`
+   * `'../autocomplete-real-world.demo.css'`, `'../DemoSelect'`), and `code` is its `?raw`
    * contents. Transitive imports are followed, so a bundled component that imports its own
    * stylesheet just needs that stylesheet listed here too. Anything a demo imports that isn't
    * provided is stubbed at export time so the project still builds.
@@ -68,7 +68,7 @@ export interface MiniPlaygroundDependency {
 // container this panel is embedded in, but this panel can also render in a plain
 // (non-docs) story canvas where no such provider exists, so we supply our own baseline
 // here to avoid a crash. Token colors are re-themed for light/dark in
-// MiniPlayground.module.css (which wins on CSS specificity), so the exact base theme
+// MiniPlayground.demo.css (which wins on CSS specificity), so the exact base theme
 // picked here doesn't matter much.
 const syntaxHighlighterTheme = ensure(themes.light);
 
@@ -115,18 +115,18 @@ function CodePanel({
 
   return (
     <React.Fragment>
-      <div className={styles.CodeToolbar}>
-        <div className={styles.CodeToolbarStart}>
-          <span className={styles.Filename}>{filename}</span>
+      <div className="MiniPlaygroundCodeToolbar">
+        <div className="MiniPlaygroundCodeToolbarStart">
+          <span className="MiniPlaygroundFilename">{filename}</span>
           {toolbarStart}
         </div>
         <button
           type="button"
-          className={styles.CopyButton}
+          className="MiniPlaygroundCopyButton"
           onClick={handleCopy}
           aria-label={copied ? 'Copied to clipboard' : copyLabel}
         >
-          <span aria-hidden="true" className={styles.CopyIcon}>
+          <span aria-hidden="true" className="MiniPlaygroundCopyIcon">
             {copied ? '✓' : '⧉'}
           </span>
           {copied ? 'Copied' : 'Copy'}
@@ -135,7 +135,7 @@ function CodePanel({
       {/* Focusable + labelled so keyboard users can scroll long snippets and screen readers
           announce the region. A scrollable container must be keyboard-reachable (WCAG 2.1.1). */}
       <div
-        className={styles.CodeScroll}
+        className="MiniPlaygroundCodeScroll"
         role="region"
         aria-label={`${filename} source`}
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- focusable scroll region for keyboard access (WCAG 2.1.1)
@@ -193,49 +193,53 @@ export function MiniPlayground({
   };
 
   return (
-    <div className={styles.Root}>
-      <div className={styles.Header}>
-        {title ? <h3 className={styles.Title}>{title}</h3> : null}
-        <div className={styles.HeaderActions}>
+    <div className="MiniPlaygroundRoot">
+      <div className="MiniPlaygroundHeader">
+        {title ? <h3 className="MiniPlaygroundTitle">{title}</h3> : null}
+        <div className="MiniPlaygroundHeaderActions">
           {source ? (
-            <a className={styles.Source} href={source.href} target="_blank" rel="noreferrer">
+            <a className="MiniPlaygroundSource" href={source.href} target="_blank" rel="noreferrer">
               {source.repo}
-              <span className={styles.License}>{source.license}</span>
+              <span className="MiniPlaygroundLicense">{source.license}</span>
             </a>
           ) : null}
-          <button type="button" className={styles.ToolbarButton} onClick={handleOpenInStackBlitz}>
+          <button
+            type="button"
+            className="MiniPlaygroundToolbarButton"
+            onClick={handleOpenInStackBlitz}
+          >
             Open in StackBlitz ⚡
           </button>
         </div>
       </div>
 
-      <Tabs.Root className={styles.TabsRoot} defaultValue="preview">
-        <Tabs.List className={styles.List}>
-          <Tabs.Tab className={styles.Tab} value="preview">
+      <Tabs.Root className="MiniPlaygroundTabsRoot" defaultValue="preview">
+        <Tabs.List className="MiniPlaygroundList">
+          <Tabs.Tab className="MiniPlaygroundTab" value="preview">
             Preview
           </Tabs.Tab>
-          <Tabs.Tab className={styles.Tab} value="jsx">
+          <Tabs.Tab className="MiniPlaygroundTab" value="jsx">
             JSX
           </Tabs.Tab>
-          <Tabs.Tab className={styles.Tab} value="html">
+          <Tabs.Tab className="MiniPlaygroundTab" value="html">
             HTML
           </Tabs.Tab>
           {css ? (
-            <Tabs.Tab className={styles.Tab} value="css">
+            <Tabs.Tab className="MiniPlaygroundTab" value="css">
               CSS
             </Tabs.Tab>
           ) : null}
-          <Tabs.Indicator className={styles.Indicator} />
+          <Tabs.Indicator className="MiniPlaygroundIndicator" />
         </Tabs.List>
 
-        <div className={styles.PanelViewport}>
-          <Tabs.Panel className={styles.Panel} value="preview">
-            <div ref={stageRef} className={styles.Stage}>
+        <div className="MiniPlaygroundPanelViewport">
+          <Tabs.Panel className="MiniPlaygroundPanel" value="preview">
+            <div ref={stageRef} className="MiniPlaygroundStage">
               {children}
             </div>
           </Tabs.Panel>
 
-          <Tabs.Panel className={styles.Panel} value="jsx">
+          <Tabs.Panel className="MiniPlaygroundPanel" value="jsx">
             <CodePanel
               language="tsx"
               filename="index.tsx"
@@ -244,7 +248,7 @@ export function MiniPlayground({
             />
           </Tabs.Panel>
 
-          <Tabs.Panel className={styles.Panel} value="html">
+          <Tabs.Panel className="MiniPlaygroundPanel" value="html">
             <CodePanel
               language="html"
               filename="rendered.html"
@@ -252,8 +256,12 @@ export function MiniPlayground({
               copyLabel="Copy rendered HTML to clipboard"
               toolbarStart={
                 <React.Fragment>
-                  <span className={styles.Note}>Rendered DOM at last capture</span>
-                  <button type="button" className={styles.InlineButton} onClick={captureHtml}>
+                  <span className="MiniPlaygroundNote">Rendered DOM at last capture</span>
+                  <button
+                    type="button"
+                    className="MiniPlaygroundInlineButton"
+                    onClick={captureHtml}
+                  >
                     Refresh
                   </button>
                 </React.Fragment>
@@ -262,10 +270,10 @@ export function MiniPlayground({
           </Tabs.Panel>
 
           {css ? (
-            <Tabs.Panel className={styles.Panel} value="css">
+            <Tabs.Panel className="MiniPlaygroundPanel" value="css">
               <CodePanel
                 language="css"
-                filename="styles.module.css"
+                filename="styles.css"
                 value={css}
                 copyLabel="Copy CSS to clipboard"
               />

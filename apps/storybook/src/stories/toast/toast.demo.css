@@ -1,0 +1,239 @@
+/*
+ * Demo-only glue for toast.stories.tsx — not part of the Droppy theme.
+ * The bottom-right stacked Viewport/Root/Content/Text/Title/Description/
+ * Close/Action/Arrow/SrOnly parts, plus the Anchored family
+ * (AnchoredViewport/AnchoredPositioner/AnchoredRoot/AnchoredDescription),
+ * all bind directly to @droppy/theme (ToastViewport, ToastRoot, etc). Everything below is either
+ * a page-level demo affordance (buttons, rows, output logs) or a
+ * position/dedupe variant the theme doesn't ship a themed twin for — ported
+ * faithfully per the family brief.
+ */
+
+/* Top-center viewport (position demo) — no themed equivalent, the theme only
+   ships the bottom-right ToastViewport. */
+.TopViewport {
+  position: fixed;
+  z-index: 1;
+  max-width: 22.5rem;
+  width: calc(100vw - 2rem);
+  margin: 0 auto;
+  top: 1rem;
+  right: 0;
+  left: 0;
+  bottom: auto;
+}
+
+/* Top-center stacked toast (position demo): offsets grow downward and the
+   enter/exit transform leaves through the top edge — the mirror image of
+   theme.ToastRoot, kept as its own full class rather than combined with it. */
+.TopToast {
+  --gap: 0.75rem;
+  --peek: 0.75rem;
+  --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
+  --shrink: calc(1 - var(--scale));
+  --height: var(--toast-frontmost-height, var(--toast-height));
+  --offset-y: calc(
+    var(--toast-offset-y) + (var(--toast-index) * var(--gap)) + var(--toast-swipe-movement-y)
+  );
+  position: absolute;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: top center;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow),
+    height var(--ds-motion-fast);
+  cursor: default;
+  z-index: calc(1000 - var(--toast-index));
+  height: var(--height);
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(
+      calc(
+        var(--toast-swipe-movement-y) + (var(--toast-index) * var(--peek)) +
+          (var(--shrink) * var(--height))
+      )
+    )
+    scale(var(--scale));
+
+  &[data-expanded] {
+    transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
+    height: var(--toast-height);
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateY(-150%);
+  }
+
+  &[data-limited] {
+    opacity: 0;
+  }
+
+  &[data-ending-style] {
+    opacity: 0;
+
+    &[data-swipe-direction='up'] {
+      transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
+    }
+    &[data-swipe-direction='left'] {
+      transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
+    }
+    &[data-swipe-direction='right'] {
+      transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
+    }
+    &[data-swipe-direction='down'] {
+      transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 100%;
+    height: calc(var(--gap) + 1px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
+  }
+}
+
+/* Deduplicate demo: alternate animation names so repeated upserts restart the
+   same pulse (keyed off toast.updateKey parity). */
+.PulseEven {
+  animation: pulse-even var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+.PulseOdd {
+  animation: pulse-odd var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+@keyframes pulse-even {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.04;
+  }
+}
+
+@keyframes pulse-odd {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.04;
+  }
+}
+
+/* Page-level demo buttons/rows/output — not Toast parts. */
+.Button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ds-color-action-on-primary);
+  -webkit-user-select: none;
+  user-select: none;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--ds-color-action-primary-hover);
+    }
+  }
+
+  &:active {
+    background-color: var(--ds-color-action-primary-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.Row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.Output {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Real-world recreations (research/d-real-world-usage/toast) — ported
+   faithfully as demo glue per the family brief. */
+
+/* lumi-ui-style anchored + actionable toast: strikethrough label while archived. */
+.ArchivedLabel {
+  &[data-archived] {
+    text-decoration: line-through;
+    color: var(--ds-color-text-hint);
+  }
+}
+
+/* rosen-bridge-style "Alert inside Toast.Content" idiom: a left border keyed
+   on the custom `severity` data, distinct from theme.ToastRoot's own
+   [data-type] styling. */
+.Alert {
+  border-left: 4px solid var(--ds-color-text-hint);
+
+  &[data-severity='info'] {
+    border-left-color: var(--ds-color-text-primary);
+  }
+
+  &[data-severity='warning'] {
+    border-left-color: var(--ds-color-text-primary);
+  }
+
+  &[data-severity='error'] {
+    border-left-color: var(--ds-color-text-error);
+  }
+}
+
+/* Composes theme.ToastClose in the story (multi-class bind) + this padding override. */
+.AlertDismiss {
+  padding: 0 0.5rem;
+}

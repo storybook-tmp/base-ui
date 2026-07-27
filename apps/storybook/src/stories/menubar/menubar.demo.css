@@ -1,0 +1,20 @@
+/* Demo-only glue for menubar stories — not part of the Droppy theme. */
+
+.MenubarDemoStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.MenubarDemoRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.MenubarDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

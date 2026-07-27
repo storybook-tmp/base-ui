@@ -2,7 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Toast } from '@base-ui/react/toast';
-import styles from './toast.module.css';
+import theme from '@droppy/theme';
+import './toast.demo.css';
 
 /**
  * Stories follow research/c-components/toast (Tier 1): the eight kept docs demos
@@ -56,7 +57,7 @@ interface ToastDemoShellProps extends Omit<Toast.Provider.Props, 'children'> {
 function ToastDemoShell({
   children,
   renderToast = renderStackedToast,
-  viewportClassName = styles.Viewport,
+  viewportClassName = theme.ToastViewport,
   ...providerProps
 }: ToastDemoShellProps) {
   return (
@@ -84,19 +85,19 @@ function ToastStack({
 
 function StackedToastContent() {
   return (
-    <Toast.Content className={styles.Content}>
-      <div className={styles.Text}>
-        <Toast.Title className={styles.Title} />
-        <Toast.Description className={styles.Description} />
+    <Toast.Content className={theme.ToastContent}>
+      <div className={theme.ToastText}>
+        <Toast.Title className={theme.ToastTitle} />
+        <Toast.Description className={theme.ToastDescription} />
       </div>
-      <Toast.Close className={styles.Close}>Dismiss</Toast.Close>
+      <Toast.Close className={theme.ToastClose}>Dismiss</Toast.Close>
     </Toast.Content>
   );
 }
 
 function renderStackedToast(toast: Toast.Root.ToastObject) {
   return (
-    <Toast.Root toast={toast} className={styles.Toast}>
+    <Toast.Root toast={toast} className={theme.ToastRoot}>
       <StackedToastContent />
     </Toast.Root>
   );
@@ -117,7 +118,7 @@ function AddMessageButton({ timeout }: { timeout?: number }) {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={addToast}>
+    <button type="button" className="Button" onClick={addToast}>
       Add toast
     </button>
   );
@@ -148,7 +149,7 @@ function CreateToastButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={createToast}>
+    <button type="button" className="Button" onClick={createToast}>
       Create toast
     </button>
   );
@@ -235,7 +236,7 @@ function VaryingHeightsButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={createToast}>
+    <button type="button" className="Button" onClick={createToast}>
       Create varying height toast
     </button>
   );
@@ -299,17 +300,17 @@ function DurationExample() {
 function DurationButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Quick toast', timeout: 1000 })}
       >
         Add 1s toast
       </button>
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Long-lived toast', timeout: 8000 })}
       >
         Add 8s toast
@@ -348,10 +349,10 @@ function PersistentExample() {
 function PersistentButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() =>
           toastManager.add({
             title: 'Backup running',
@@ -364,7 +365,7 @@ function PersistentButtons() {
       </button>
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Autosaved' })}
       >
         Autosave (default timeout)
@@ -414,7 +415,7 @@ function HoverPauseButton() {
   return (
     <button
       type="button"
-      className={styles.Button}
+      className="Button"
       onClick={() =>
         toastManager.add({
           title: 'Report ready',
@@ -460,7 +461,7 @@ function SwipeExample() {
   return (
     <ToastDemoShell
       renderToast={(toast) => (
-        <Toast.Root toast={toast} swipeDirection={['down', 'right']} className={styles.Toast}>
+        <Toast.Root toast={toast} swipeDirection={['down', 'right']} className={theme.ToastRoot}>
           <StackedToastContent />
         </Toast.Root>
       )}
@@ -475,7 +476,7 @@ function SwipeButton() {
   return (
     <button
       type="button"
-      className={styles.Button}
+      className="Button"
       onClick={() =>
         toastManager.add({
           title: 'Swipe me away',
@@ -498,9 +499,9 @@ export const SwipeToDismiss: Story = {
 function TopCenterExample() {
   return (
     <ToastDemoShell
-      viewportClassName={styles.TopViewport}
+      viewportClassName="TopViewport"
       renderToast={(toast) => (
-        <Toast.Root toast={toast} swipeDirection="up" className={styles.TopToast}>
+        <Toast.Root toast={toast} swipeDirection="up" className="TopToast">
           <StackedToastContent />
         </Toast.Root>
       )}
@@ -523,7 +524,7 @@ function TopCenterButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={createToast}>
+    <button type="button" className="Button" onClick={createToast}>
       Create toast
     </button>
   );
@@ -537,7 +538,10 @@ export const CustomPosition: Story = {
 
 function AnchoredExample() {
   return (
-    <ToastDemoShell viewportClassName={styles.AnchoredViewport} renderToast={renderAnchoredToast}>
+    <ToastDemoShell
+      viewportClassName={theme.ToastAnchoredViewport}
+      renderToast={renderAnchoredToast}
+    >
       <CopyButton />
     </ToastDemoShell>
   );
@@ -545,11 +549,11 @@ function AnchoredExample() {
 
 function renderAnchoredToast(toast: Toast.Root.ToastObject) {
   return (
-    <Toast.Positioner toast={toast} className={styles.AnchoredPositioner}>
-      <Toast.Root toast={toast} className={styles.AnchoredToast}>
-        <Toast.Arrow className={styles.Arrow} />
+    <Toast.Positioner toast={toast} className={theme.ToastAnchoredPositioner}>
+      <Toast.Root toast={toast} className={theme.ToastAnchoredRoot}>
+        <Toast.Arrow className={theme.ToastArrow} />
         <Toast.Content>
-          <Toast.Description className={styles.AnchoredDescription} />
+          <Toast.Description className={theme.ToastAnchoredDescription} />
         </Toast.Content>
       </Toast.Root>
     </Toast.Positioner>
@@ -572,7 +576,7 @@ function CopyButton() {
   }
 
   return (
-    <button type="button" ref={buttonRef} className={styles.Button} onClick={handleCopy}>
+    <button type="button" ref={buttonRef} className="Button" onClick={handleCopy}>
       Copy npm install command
     </button>
   );
@@ -615,9 +619,9 @@ function notifyFromOutsideReact() {
 export const GlobalManager: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Stack}>
+    <div className="Stack">
       {/* This button is NOT inside the Toast.Provider subtree. */}
-      <button type="button" className={styles.Button} onClick={() => notifyFromOutsideReact()}>
+      <button type="button" className="Button" onClick={() => notifyFromOutsideReact()}>
         Notify from outside React
       </button>
       <ToastDemoShell toastManager={globalToastManager} />
@@ -658,11 +662,11 @@ function UpdateButtons() {
   }
 
   return (
-    <div className={styles.Row}>
-      <button type="button" className={styles.Button} onClick={startExport}>
+    <div className="Row">
+      <button type="button" className="Button" onClick={startExport}>
         Start export
       </button>
-      <button type="button" className={styles.Button} onClick={reportProgress}>
+      <button type="button" className="Button" onClick={reportProgress}>
         Report progress
       </button>
     </div>
@@ -695,9 +699,9 @@ function CloseAllExample() {
 function CloseAllButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <AddMessageButton timeout={0} />
-      <button type="button" className={styles.Button} onClick={() => toastManager.close()}>
+      <button type="button" className="Button" onClick={() => toastManager.close()}>
         Dismiss all
       </button>
     </div>
@@ -743,7 +747,7 @@ function SaveDraftButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={saveDraft}>
+    <button type="button" className="Button" onClick={saveDraft}>
       Save draft
     </button>
   );
@@ -754,10 +758,10 @@ function PulseToastItem({ toast }: { toast: Toast.Root.ToastObject }) {
 
   // New toasts start with `updateKey: 0`, so the first add skips the replay pulse.
   if (toast.updateKey) {
-    pulseClassName = toast.updateKey % 2 === 0 ? styles.PulseEven : styles.PulseOdd;
+    pulseClassName = toast.updateKey % 2 === 0 ? 'PulseEven' : 'PulseOdd';
   }
 
-  const className = [styles.Toast, pulseClassName].filter(Boolean).join(' ');
+  const className = [theme.ToastRoot, pulseClassName].filter(Boolean).join(' ');
 
   return (
     <Toast.Root toast={toast} className={className}>
@@ -805,19 +809,19 @@ function isCustomToast(
 
 function renderCustomDataToast(toast: Toast.Root.ToastObject) {
   return (
-    <Toast.Root toast={toast} className={styles.Toast}>
-      <Toast.Content className={styles.Content}>
-        <div className={styles.Text}>
-          <Toast.Title className={styles.Title}>{toast.title}</Toast.Title>
+    <Toast.Root toast={toast} className={theme.ToastRoot}>
+      <Toast.Content className={theme.ToastContent}>
+        <div className={theme.ToastText}>
+          <Toast.Title className={theme.ToastTitle}>{toast.title}</Toast.Title>
           {isCustomToast(toast) && toast.data ? (
-            <Toast.Description className={styles.Description}>
+            <Toast.Description className={theme.ToastDescription}>
               data.userId is {toast.data.userId}
             </Toast.Description>
           ) : (
-            <Toast.Description className={styles.Description} />
+            <Toast.Description className={theme.ToastDescription} />
           )}
         </div>
-        <Toast.Close className={styles.Close}>Dismiss</Toast.Close>
+        <Toast.Close className={theme.ToastClose}>Dismiss</Toast.Close>
       </Toast.Content>
     </Toast.Root>
   );
@@ -838,7 +842,7 @@ function CustomDataButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={createToast}>
+    <button type="button" className="Button" onClick={createToast}>
       Create custom toast
     </button>
   );
@@ -886,7 +890,7 @@ function RunPromiseButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={runPromise}>
+    <button type="button" className="Button" onClick={runPromise}>
       Import data
     </button>
   );
@@ -923,14 +927,14 @@ function UndoExample() {
 
 function renderActionToast(toast: Toast.Root.ToastObject) {
   return (
-    <Toast.Root toast={toast} className={styles.Toast}>
-      <Toast.Content className={styles.Content}>
-        <div className={styles.ActionText}>
-          <div className={styles.Message}>
-            <Toast.Title className={styles.Title} />
-            <Toast.Description className={styles.Description} />
+    <Toast.Root toast={toast} className={theme.ToastRoot}>
+      <Toast.Content className={theme.ToastContent}>
+        <div className={theme.ToastActionText}>
+          <div className={theme.ToastMessage}>
+            <Toast.Title className={theme.ToastTitle} />
+            <Toast.Description className={theme.ToastDescription} />
           </div>
-          <Toast.Action className={styles.ActionButton} />
+          <Toast.Action className={theme.ToastActionButton} />
         </div>
       </Toast.Content>
     </Toast.Root>
@@ -960,7 +964,7 @@ function PerformActionButton() {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={performAction}>
+    <button type="button" className="Button" onClick={performAction}>
       Archive message
     </button>
   );
@@ -986,13 +990,11 @@ export const UndoAction: Story = {
 function LifecycleExample() {
   const [log, setLog] = React.useState<string[]>([]);
   return (
-    <div className={styles.Stack}>
+    <div className="Stack">
       <ToastDemoShell>
         <LifecycleButton onLog={(entry) => setLog((prev) => [...prev, entry])} />
       </ToastDemoShell>
-      <output className={styles.Output}>
-        lifecycle: {log.length > 0 ? log.join(' → ') : 'none yet'}
-      </output>
+      <output className="Output">lifecycle: {log.length > 0 ? log.join(' → ') : 'none yet'}</output>
     </div>
   );
 }
@@ -1010,7 +1012,7 @@ function LifecycleButton({ onLog }: { onLog: (entry: string) => void }) {
   }
 
   return (
-    <button type="button" className={styles.Button} onClick={upload}>
+    <button type="button" className="Button" onClick={upload}>
       Upload file
     </button>
   );
@@ -1053,17 +1055,17 @@ function PriorityExample() {
 function PriorityButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Draft saved', priority: 'low' })}
       >
         Polite (low)
       </button>
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() =>
           toastManager.add({
             title: 'Session expired',
@@ -1159,24 +1161,24 @@ function TypeStylingExample() {
 function TypeStylingButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Deploy succeeded', type: 'success', timeout: 0 })}
       >
         Success
       </button>
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Deploy failed', type: 'error', timeout: 0 })}
       >
         Error
       </button>
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() => toastManager.add({ title: 'Deploy queued', type: 'info', timeout: 0 })}
       >
         Info
@@ -1212,16 +1214,16 @@ export const TypeStyling: Story = {
 
 function renderAnchoredActionToast(toast: Toast.Root.ToastObject) {
   return (
-    <Toast.Positioner toast={toast} className={styles.AnchoredPositioner}>
-      <Toast.Root toast={toast} className={styles.AnchoredToast}>
-        <Toast.Arrow className={styles.Arrow} />
+    <Toast.Positioner toast={toast} className={theme.ToastAnchoredPositioner}>
+      <Toast.Root toast={toast} className={theme.ToastAnchoredRoot}>
+        <Toast.Arrow className={theme.ToastArrow} />
         <Toast.Content>
-          <div className={styles.ActionText}>
+          <div className={theme.ToastActionText}>
             {/* Visually hidden: the visible text lives in Description alone, but the
                 dialog role still needs an accessible name (aria-dialog-name). */}
-            <Toast.Title className={styles.SrOnly} />
-            <Toast.Description className={styles.AnchoredDescription} />
-            <Toast.Action className={styles.ActionButton} />
+            <Toast.Title className={theme.ToastSrOnly} />
+            <Toast.Description className={theme.ToastAnchoredDescription} />
+            <Toast.Action className={theme.ToastActionButton} />
           </div>
         </Toast.Content>
       </Toast.Root>
@@ -1251,14 +1253,14 @@ function ArchiveFileRow() {
   }
 
   return (
-    <div className={styles.Row}>
-      <span className={styles.ArchivedLabel} data-archived={archived || undefined}>
+    <div className="Row">
+      <span className="ArchivedLabel" data-archived={archived || undefined}>
         roadmap.pdf
       </span>
       <button
         type="button"
         ref={buttonRef}
-        className={styles.Button}
+        className="Button"
         onClick={handleArchive}
         disabled={archived}
       >
@@ -1271,7 +1273,7 @@ function ArchiveFileRow() {
 function AnchoredActionExample() {
   return (
     <ToastDemoShell
-      viewportClassName={styles.AnchoredViewport}
+      viewportClassName={theme.ToastAnchoredViewport}
       renderToast={renderAnchoredActionToast}
     >
       <ArchiveFileRow />
@@ -1338,16 +1340,16 @@ function Alert({
   const [copied, setCopied] = React.useState(false);
 
   return (
-    <div className={`${styles.Content} ${styles.Alert}`} data-severity={severity}>
-      <div className={styles.Text}>
-        <p className={styles.Description}>{message}</p>
+    <div className={`${theme.ToastContent} Alert`} data-severity={severity}>
+      <div className={theme.ToastText}>
+        <p className={theme.ToastDescription}>{message}</p>
       </div>
-      <button type="button" className={styles.ActionButton} onClick={() => setCopied(true)}>
+      <button type="button" className={theme.ToastActionButton} onClick={() => setCopied(true)}>
         {copied ? 'Copied' : 'Copy'}
       </button>
       <button
         type="button"
-        className={styles.AlertDismiss}
+        className={`${theme.ToastClose} AlertDismiss`}
         aria-label="Dismiss"
         onClick={() => toastManager.close(toastId)}
       >
@@ -1359,10 +1361,10 @@ function Alert({
 
 function renderAlertToast(toast: Toast.Root.ToastObject) {
   if (!isAlertToast(toast) || !toast.data) {
-    return <Toast.Root toast={toast} className={styles.Toast} />;
+    return <Toast.Root toast={toast} className={theme.ToastRoot} />;
   }
   return (
-    <Toast.Root toast={toast} className={styles.Toast}>
+    <Toast.Root toast={toast} className={theme.ToastRoot}>
       <Alert severity={toast.data.severity} message={toast.data.message} toastId={toast.id} />
     </Toast.Root>
   );
@@ -1371,10 +1373,10 @@ function renderAlertToast(toast: Toast.Root.ToastObject) {
 function AlertToastButtons() {
   const toastManager = Toast.useToastManager();
   return (
-    <div className={styles.Row}>
+    <div className="Row">
       <button
         type="button"
-        className={styles.Button}
+        className="Button"
         onClick={() =>
           toastManager.add({
             timeout: 0,

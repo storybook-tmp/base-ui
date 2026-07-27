@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Field } from '@base-ui/react/field';
-import styles from '../field.module.css';
-import rw from '../field-real-world.module.css';
+import theme from '@droppy/theme';
+import '../field.demo.css';
 
 /**
  * Recreation of nauvalazhar/selia's `FieldItem` grid layout: a `grid-cols-[auto_1fr]`
@@ -31,17 +31,23 @@ function SearchIcon(props: React.ComponentProps<'svg'>) {
 
 export function GridLayoutFieldExample() {
   return (
-    <Field.Root name="query" validationMode="onChange" className={rw.GridField}>
-      <Field.Label className={rw.GridLabel}>Search the docs</Field.Label>
-      <span className={rw.GridIcon} aria-hidden="true">
+    <Field.Root name="query" validationMode="onChange" className="FieldDemoGridField">
+      <Field.Label className={`${theme.FieldLabel} FieldDemoGridLabelSpan`}>
+        Search the docs
+      </Field.Label>
+      <span className="FieldDemoGridIcon" aria-hidden="true">
         <SearchIcon />
       </span>
-      <Field.Control required placeholder="e.g. useRender" className={rw.GridInput} />
-      <Field.Description className={rw.GridDescription}>
+      <Field.Control
+        required
+        placeholder="e.g. useRender"
+        className={`${theme.Input} FieldDemoGridCell`}
+      />
+      <Field.Description className={`${theme.FieldDescription} FieldDemoGridCell`}>
         Aligned under the control, not the label — try resizing to compare with the vertical-stack
         stories above.
       </Field.Description>
-      <Field.Error className={rw.GridError} match="valueMissing">
+      <Field.Error className={`${theme.FieldError} FieldDemoGridCell`} match="valueMissing">
         A search term is required.
       </Field.Error>
     </Field.Root>

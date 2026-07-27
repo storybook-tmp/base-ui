@@ -1,0 +1,397 @@
+/* Demo-only glue for the MiniPlayground panel — not part of the Droppy theme.
+   Tab styling is a deliberately customized recreation of the Droppy theme's Tabs look
+   (fixed toolbar-height tabs, full-width panel, smaller type) for this code-preview
+   panel — not bound to theme.TabsRoot/TabsTab/etc, which are sized for a standalone
+   app-level Tabs component and would change this layout if swapped in. */
+
+.MiniPlaygroundRoot {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+}
+
+.MiniPlaygroundHeader {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  row-gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+}
+
+.MiniPlaygroundHeaderActions {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.MiniPlaygroundTitle {
+  margin: 0;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  line-height: 1.25rem;
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+}
+
+.MiniPlaygroundSource {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.MiniPlaygroundLicense {
+  box-sizing: border-box;
+  padding: 0.0625rem 0.375rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+}
+
+.MiniPlaygroundTabsRoot {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.MiniPlaygroundList {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
+  margin-bottom: -1px;
+}
+
+.MiniPlaygroundTab {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
+  outline: 0;
+  background: none;
+  color: var(--ds-color-text-secondary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  padding-inline: 0.625rem;
+  padding-block: 0;
+  height: calc(2rem + 1px);
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--ds-color-text-primary);
+    }
+  }
+
+  &[data-active] {
+    color: var(--ds-color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.MiniPlaygroundIndicator {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  translate: var(--active-tab-left);
+  width: var(--active-tab-width);
+  height: 100%;
+  transition-property: translate, width;
+  transition-duration: var(--ds-motion-fast);
+  transition-timing-function: var(--ds-motion-ease);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MiniPlaygroundPanelViewport {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  border-top: 1px solid var(--ds-color-border-subtle);
+}
+
+.MiniPlaygroundPanel {
+  box-sizing: border-box;
+  grid-area: 1 / 1;
+  width: 100%;
+  min-height: 6rem;
+  outline: 0;
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-page);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+    z-index: 1;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.MiniPlaygroundStage {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 6rem;
+  padding: 1.5rem;
+}
+
+/* Header action button (e.g. "Open in StackBlitz"). Ghost/toolbar style, not a primary CTA. */
+.MiniPlaygroundToolbarButton {
+  box-sizing: border-box;
+  padding: 0.1875rem 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--ds-color-action-subtle-hover);
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.MiniPlaygroundCodeToolbar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem 0.375rem 0.75rem;
+  background-color: var(--ds-color-surface-sunken);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+}
+
+.MiniPlaygroundCodeToolbarStart {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.MiniPlaygroundFilename {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MiniPlaygroundNote {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+  white-space: nowrap;
+}
+
+/* Toolbar-embedded, low-emphasis control (the HTML "Refresh" action). Ghost style. */
+.MiniPlaygroundInlineButton {
+  box-sizing: border-box;
+  padding: 0.125rem 0.4375rem;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-control);
+  background: none;
+  color: var(--ds-color-text-secondary);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--ds-color-text-primary);
+      border-color: var(--ds-color-border-subtle);
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+/* Right-aligned Copy button shared by every code tab. Ghost style. */
+.MiniPlaygroundCopyButton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  flex: none;
+  padding: 0.1875rem 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--ds-color-border-subtle);
+      background: var(--ds-color-action-subtle-hover);
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+  }
+}
+
+.MiniPlaygroundCopyIcon {
+  font-size: 0.8125rem;
+  line-height: 1;
+}
+
+.MiniPlaygroundCodeScroll {
+  box-sizing: border-box;
+  max-height: 22rem;
+  overflow: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5rem;
+  tab-size: 2;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-shadow-focus);
+    z-index: 1;
+  }
+
+  /* The Storybook SyntaxHighlighter wraps its <pre> in its own scroll container and adds
+     default padding/margins; flatten those so our .MiniPlaygroundCodeScroll owns scrolling +
+     spacing and the line-number gutter aligns to the left edge. */
+  & pre {
+    margin: 0 !important;
+    padding: 0.75rem 0.875rem !important;
+    background: transparent !important;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace !important;
+  }
+
+  & code {
+    font-family: inherit !important;
+  }
+}
+
+/* Token colors for the `SyntaxHighlighter` (from `storybook/internal/components`) used in
+   the JSX/CSS tabs. Its tokens are plain Prism classNames (e.g. `token comment`) with no
+   built-in color of their own, but the active Storybook theme injects its own token
+   colors via `styled-components`/emotion (an ancestor-scoped `.css-<hash> * .token.xxx`
+   rule). That hash class is version-dependent and not something we can reliably
+   out-specify, so `!important` is the deliberate, robust override here.
+   Droppy has no per-token-hue palette for code (grey carries almost everything — see
+   principles.md rule 1), so distinction here comes from text weight/tone + the existing
+   italic/bold, not from color. */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--ds-color-text-hint) !important;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: var(--ds-color-text-secondary) !important;
+}
+
+.token.tag,
+.token.selector,
+.token.deleted {
+  color: var(--ds-color-text-primary) !important;
+}
+
+.token.attr-name,
+.token.property,
+.token.variable {
+  color: var(--ds-color-text-secondary) !important;
+}
+
+.token.string,
+.token.attr-value,
+.token.char,
+.token.inserted {
+  color: var(--ds-color-text-primary) !important;
+}
+
+.token.keyword,
+.token.atrule,
+.token.important,
+.token.regex {
+  color: var(--ds-color-text-primary) !important;
+}
+
+.token.function,
+.token.class-name {
+  color: var(--ds-color-text-primary) !important;
+}
+
+.token.number,
+.token.boolean,
+.token.constant,
+.token.symbol,
+.token.unit {
+  color: var(--ds-color-text-secondary) !important;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+  color: var(--ds-color-text-hint) !important;
+}
+
+.token.bold {
+  font-weight: 700;
+}
+
+.token.italic {
+  font-style: italic;
+}

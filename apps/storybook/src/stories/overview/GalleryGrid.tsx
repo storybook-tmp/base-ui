@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { composeStories } from '@storybook/react-vite';
-import styles from './gallery.module.css';
+import './gallery.demo.css';
 
 import * as AccordionStories from '../accordion/accordion.stories';
 import * as AlertDialogStories from '../alert-dialog/alert-dialog.stories';
@@ -95,11 +95,11 @@ const families: ReadonlyArray<{ name: string; Preview: React.ComponentType }> = 
 
 export function GalleryGrid() {
   return (
-    <div className={styles.Grid}>
+    <div className="GalleryGrid">
       {families.map(({ name, Preview }) => (
-        <div key={name} className={styles.Card}>
-          <div className={styles.CardName}>{name}</div>
-          <div className={styles.CardPreview}>
+        <div key={name} className="GalleryCard">
+          <div className="GalleryCardName">{name}</div>
+          <div className="GalleryCardPreview">
             <Preview />
           </div>
         </div>

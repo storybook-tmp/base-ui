@@ -9,7 +9,7 @@ import { ShadowPortalExample } from './recreations/ShadowPortalExample';
 import rowActionsSource from './recreations/RowActionsExample.tsx?raw';
 import settingsMenuSource from './recreations/SettingsMenuExample.tsx?raw';
 import shadowPortalSource from './recreations/ShadowPortalExample.tsx?raw';
-import menuCss from './menu.module.css?raw';
+import menuCss from './menu.demo.css?raw';
 import menuIconsSource from './icons.tsx?raw';
 import nextjsOrgShot from '../../../../../research/d-real-world-usage/_captures/nextjs-org.png';
 
@@ -346,6 +346,19 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - Don't port Radix idioms: there is no `asChild` (use `render`), no `data-state` (use `data-open`/`data-popup-open`), and submenus need `SubmenuRoot`, not nested roots ([#3983](https://github.com/mui/base-ui/issues/3983), [#717](https://github.com/mui/base-ui/issues/717)).
 
 {/* END: do-dont */}
+
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
+- Highlight items with the neutral subtle-hover surface. (BR-01)
+
+**Don't**
+
+- Don't give danger items a red fill — red stays ink-only; the missing error-surface token is a recorded clash. (BR-02)
+{/* END: brand */}
 
 {/* BEGIN: examples */}
 ## In the wild

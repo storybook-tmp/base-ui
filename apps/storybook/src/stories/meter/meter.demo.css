@@ -1,0 +1,7 @@
+/* Demo-only glue for meter.stories.tsx — not part of the Droppy theme. */
+
+.Stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

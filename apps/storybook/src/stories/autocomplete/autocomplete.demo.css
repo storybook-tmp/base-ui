@@ -1,0 +1,211 @@
+/* Demo-only glue for autocomplete stories — not part of the Droppy theme.
+   The command-palette, emoji-picker (grid), and virtualization recipes are
+   recreations of bespoke chrome, not standard Autocomplete anatomy — ported
+   here faithfully so those stories keep rendering as before the theme move. */
+
+.AutocompleteDemoStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.AutocompleteDemoRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.AutocompleteDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.AutocompleteDemoIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* Layered on top of theme.AutocompletePopup: a visible enter/exit transition for
+   the animation story only. */
+.AutocompleteDemoPopupAnimated {
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.AutocompleteDemoPopupAnimated[data-starting-style],
+.AutocompleteDemoPopupAnimated[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Command palette: layered on top of theme.DialogBackdrop/DialogPopup, which already
+   supply the overlay tint, surface color, radius, and shadow — this glue only carries
+   the palette's own top-anchored position/size, which wins over the theme's centered
+   defaults because this stylesheet loads after the theme's. */
+
+.AutocompleteDemoPalettePopup {
+  top: 4.5rem;
+  transform: translate(-50%, 0);
+  width: 22rem;
+  max-width: calc(100vw - 3rem);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.AutocompleteDemoPaletteInput {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  padding: 0 0.75rem;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  outline: none;
+}
+
+.AutocompleteDemoPaletteInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteDemoPaletteInput:focus {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.AutocompleteDemoPaletteList {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: 16rem;
+  padding-block: 0.25rem;
+}
+
+.AutocompleteDemoPaletteList[data-empty] {
+  padding: 0;
+}
+
+.AutocompleteDemoPaletteItem {
+  box-sizing: border-box;
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  border-radius: var(--ds-radius-control);
+}
+
+.AutocompleteDemoPaletteItem[data-highlighted] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+/* Grid layout (emoji picker) */
+
+/* Layered on top of theme.AutocompletePopup: narrower fixed width for the grid skin. */
+.AutocompleteDemoGridPopup {
+  width: 14rem;
+}
+
+.AutocompleteDemoInsetInput {
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  height: 2rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  outline: none;
+}
+
+.AutocompleteDemoInsetInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteDemoInsetInput:focus {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.AutocompleteDemoGridList {
+  box-sizing: border-box;
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.AutocompleteDemoGridList[data-empty] {
+  padding: 0;
+}
+
+.AutocompleteDemoGridRow {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+}
+
+.AutocompleteDemoGridItem {
+  box-sizing: border-box;
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding: 0.5rem 0.125rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: transparent;
+  border-radius: var(--ds-radius-control);
+}
+
+.AutocompleteDemoGridItem[data-highlighted] {
+  z-index: 0;
+  position: relative;
+}
+
+.AutocompleteDemoGridItem[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+/* Virtualized list (manual windowing; no external virtualizer dependency) */
+
+.AutocompleteDemoVirtualScroller {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: 18rem;
+}
+
+.AutocompleteDemoVirtualSpacer {
+  position: relative;
+  width: 100%;
+}

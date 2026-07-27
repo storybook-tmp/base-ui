@@ -1,0 +1,621 @@
+/*
+ * Story-only demo glue for the Drawer stories: the RECIPE variants (Hero,
+ * Sheet, Edge four-sides matrix, Snap points, Stack nesting, Indent
+ * provider, Contained portal, swipe-area strip, mobile-nav) plus layout
+ * scaffolding. These carry the gesture styling contract
+ * (--drawer-swipe-progress/movement-x/y, --drawer-snap-point-offset,
+ * --drawer-swipe-strength, [data-swiping], [data-swipe-dismiss]) and are
+ * ported here verbatim so every recipe story keeps rendering as it did under
+ * CSS modules. Themed parts (Button, Backdrop, Title, Description, Actions,
+ * Grabber, Form, Field, Label, Input, Textarea, and the Dialog-inside-Drawer
+ * Dialog* parts) bind classes straight from @droppy/theme instead of living
+ * here.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Backdrops — opacity bound to the swipe progress variable            */
+/* ------------------------------------------------------------------ */
+
+/* A heavier backdrop for the styling-contract story so the fade is unmissable. */
+.DrawerProgressBackdrop {
+  --backdrop-opacity: 0.55;
+  position: fixed;
+  min-height: 100dvh;
+  inset: 0;
+  background-color: black;
+  opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
+  transition-duration: var(--ds-motion-slow);
+  transition-property: opacity;
+  transition-timing-function: var(--ds-motion-ease);
+}
+
+:root[data-theme='dark'] .DrawerProgressBackdrop {
+  --backdrop-opacity: 0.8;
+}
+
+/* system fallback when no data-theme is set — keep in sync with the block above */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light'], [data-theme='dark']) .DrawerProgressBackdrop {
+    --backdrop-opacity: 0.8;
+  }
+}
+
+.DrawerProgressBackdrop[data-starting-style],
+.DrawerProgressBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.DrawerProgressBackdrop[data-swiping] {
+  transition-duration: 0ms;
+}
+
+.DrawerProgressBackdrop[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: right-side drawer with overshoot bleed (docs hero demo)       */
+/* ------------------------------------------------------------------ */
+
+.DrawerHeroViewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.DrawerHeroPopup {
+  --bleed: 3rem;
+  box-sizing: border-box;
+  width: calc(20rem + var(--bleed));
+  max-width: calc(100vw - 3rem + var(--bleed));
+  height: 100%;
+  padding: 1.5rem;
+  padding-right: calc(1.5rem + var(--bleed));
+  margin-right: calc(-1 * var(--bleed));
+  border-radius: var(--ds-radius-sheet);
+  border-left: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  outline: 0;
+  box-shadow: var(--ds-shadow-overlay);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: auto;
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
+  will-change: transform;
+  /* The popup follows the pointer during a drag. */
+  transform: translateX(var(--drawer-swipe-movement-x));
+}
+
+.DrawerHeroPopup[data-starting-style],
+.DrawerHeroPopup[data-ending-style] {
+  transform: translateX(calc(100% - var(--bleed) + 2px));
+}
+
+.DrawerHeroPopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+.DrawerContent {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bottom sheet (docs position demo) — the workhorse layout            */
+/* ------------------------------------------------------------------ */
+
+.DrawerSheetViewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Same layout plus the virtual-keyboard inset. The var exists only while the
+   keyboard is aligned, so the 0px fallback is required. */
+.DrawerKeyboardViewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--drawer-keyboard-inset, 0);
+}
+
+.DrawerSheetPopup {
+  --bleed: 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: calc(80vh + var(--bleed));
+  margin-bottom: calc(-1 * var(--bleed));
+  padding: 1rem 1.5rem 1.5rem;
+  padding-bottom: calc(1.5rem + var(--bleed));
+  border-radius: var(--ds-radius-sheet);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  outline: 0;
+  box-shadow: var(--ds-shadow-overlay);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
+  will-change: transform;
+  transform: translateY(var(--drawer-swipe-movement-y));
+}
+
+.DrawerSheetPopup[data-starting-style],
+.DrawerSheetPopup[data-ending-style] {
+  transform: translateY(calc(100% - var(--bleed) + 2px));
+}
+
+.DrawerSheetPopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+/* Distinct exit when dismissed BY SWIPING: the release keeps the gesture's
+   momentum, so ease out fast instead of the stately default. */
+.DrawerSheetPopup[data-swipe-dismiss] {
+  transition-timing-function: var(--ds-motion-ease);
+}
+
+.DrawerSheetTitle {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-sm);
+  line-height: 1.5rem;
+  font-weight: var(--ds-type-weight-bold);
+  text-align: center;
+}
+
+.DrawerSheetDescription {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+  text-align: center;
+}
+
+.DrawerSheetActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Four-sides matrix — placement is CSS keyed off [data-swipe-direction] */
+/* ------------------------------------------------------------------ */
+
+.DrawerEdgeViewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+}
+
+.DrawerEdgeViewportUp {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.DrawerEdgeViewportDown {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.DrawerEdgeViewportLeft {
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.DrawerEdgeViewportRight {
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.DrawerEdgePopup {
+  box-sizing: border-box;
+  padding: 1.5rem;
+  border-radius: var(--ds-radius-sheet);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  outline: 0;
+  box-shadow: var(--ds-shadow-overlay);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
+  will-change: transform;
+}
+
+.DrawerEdgePopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+/* Vertical sheets: full width, gesture on the Y axis. */
+.DrawerEdgePopup[data-swipe-direction='up'],
+.DrawerEdgePopup[data-swipe-direction='down'] {
+  width: 100%;
+  max-height: 60vh;
+  transform: translateY(var(--drawer-swipe-movement-y));
+}
+
+/* Horizontal drawers: full height, gesture on the X axis. */
+.DrawerEdgePopup[data-swipe-direction='left'],
+.DrawerEdgePopup[data-swipe-direction='right'] {
+  width: min(20rem, calc(100vw - 3rem));
+  transform: translateX(var(--drawer-swipe-movement-x));
+}
+
+.DrawerEdgePopup[data-swipe-direction='up'] {
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+}
+
+.DrawerEdgePopup[data-swipe-direction='up'][data-starting-style],
+.DrawerEdgePopup[data-swipe-direction='up'][data-ending-style] {
+  transform: translateY(calc(-100% - 2px));
+}
+
+.DrawerEdgePopup[data-swipe-direction='down'] {
+  border-top: 1px solid var(--ds-color-border-subtle);
+}
+
+.DrawerEdgePopup[data-swipe-direction='down'][data-starting-style],
+.DrawerEdgePopup[data-swipe-direction='down'][data-ending-style] {
+  transform: translateY(calc(100% + 2px));
+}
+
+.DrawerEdgePopup[data-swipe-direction='left'] {
+  border-right: 1px solid var(--ds-color-border-subtle);
+}
+
+.DrawerEdgePopup[data-swipe-direction='left'][data-starting-style],
+.DrawerEdgePopup[data-swipe-direction='left'][data-ending-style] {
+  transform: translateX(calc(-100% - 2px));
+}
+
+.DrawerEdgePopup[data-swipe-direction='right'] {
+  border-left: 1px solid var(--ds-color-border-subtle);
+}
+
+.DrawerEdgePopup[data-swipe-direction='right'][data-starting-style],
+.DrawerEdgePopup[data-swipe-direction='right'][data-ending-style] {
+  transform: translateX(calc(100% + 2px));
+}
+
+/* ------------------------------------------------------------------ */
+/* Snap points (docs snap-points demo)                                 */
+/* ------------------------------------------------------------------ */
+
+.DrawerSnapPopup {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100dvh - 4rem);
+  /* Keep painted content below the fold while resting at a detent. */
+  padding-bottom: max(0px, calc(var(--drawer-snap-point-offset) + var(--drawer-swipe-movement-y)));
+  border-radius: var(--ds-radius-sheet);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  outline: 0;
+  overflow: visible;
+  touch-action: none;
+  box-shadow: var(--ds-shadow-overlay);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
+  will-change: transform;
+  /* Compose the detent offset with the live drag movement (docs formula). */
+  transform: translateY(calc(var(--drawer-snap-point-offset) + var(--drawer-swipe-movement-y)));
+}
+
+.DrawerSnapPopup[data-starting-style],
+.DrawerSnapPopup[data-ending-style] {
+  transform: translateY(calc(100% + 2px));
+  padding-bottom: 0;
+}
+
+.DrawerSnapPopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+.DrawerDragArea {
+  flex-shrink: 0;
+  padding: 0.875rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.DrawerSnapScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: auto;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.DrawerCards {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.DrawerCard {
+  height: 3rem;
+  background-color: var(--ds-color-surface-card);
+}
+
+/* ------------------------------------------------------------------ */
+/* Swipe area — tinted for demonstration (invisible in real apps)      */
+/* ------------------------------------------------------------------ */
+
+.DrawerSwipeAreaStrip {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  border-left: 1px dashed var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.DrawerSwipeAreaLabel {
+  font-size: 0.75rem;
+  color: var(--ds-color-text-secondary);
+  writing-mode: vertical-rl;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Indent provider (docs indent-provider demo, contained in a shell)   */
+/* ------------------------------------------------------------------ */
+
+.DrawerIndentRoot {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.DrawerIndentBackground {
+  position: absolute;
+  inset: 0;
+  background-color: var(--ds-color-surface-inverse);
+}
+
+.DrawerIndent {
+  --indent-radius: calc(1rem * (1 - var(--drawer-swipe-progress)));
+  --indent-transition: calc(1 - clamp(0, calc(var(--drawer-swipe-progress) * 100000), 1));
+  position: relative;
+  min-height: 20rem;
+  transition:
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    border-radius var(--ds-motion-base) var(--ds-motion-ease);
+  transform-origin: center top;
+  will-change: transform;
+  border: 1px solid var(--ds-color-border-subtle);
+  contain: layout;
+  padding: 1rem;
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-page);
+  transition-duration:
+    calc(400ms * var(--indent-transition)), calc(250ms * var(--indent-transition));
+}
+
+/* Present while any drawer inside the nearest Provider is open; the scale
+   eases back toward 1 as the drag progresses toward dismissal. */
+.DrawerIndent[data-active] {
+  transform: scale(calc(0.98 + (0.02 * var(--drawer-swipe-progress))))
+    translateY(calc(0.5rem * (1 - var(--drawer-swipe-progress))));
+  border-top-left-radius: var(--indent-radius);
+  border-top-right-radius: var(--indent-radius);
+}
+
+.DrawerIndentCenter {
+  min-height: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Backdrop/Viewport variants for portaling into the shell container. */
+.DrawerContainedBackdrop {
+  --backdrop-opacity: 0.2;
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
+  transition-duration: var(--ds-motion-slow);
+  transition-property: opacity;
+  transition-timing-function: var(--ds-motion-ease);
+}
+
+:root[data-theme='dark'] .DrawerContainedBackdrop {
+  --backdrop-opacity: 0.7;
+}
+
+/* system fallback when no data-theme is set — keep in sync with the block above */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light'], [data-theme='dark']) .DrawerContainedBackdrop {
+    --backdrop-opacity: 0.7;
+  }
+}
+
+.DrawerContainedBackdrop[data-starting-style],
+.DrawerContainedBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.DrawerContainedBackdrop[data-swiping] {
+  transition-duration: 0ms;
+}
+
+.DrawerContainedBackdrop[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+.DrawerContainedViewport {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Nested drawer stack (docs nested demo)                              */
+/* ------------------------------------------------------------------ */
+
+.DrawerStackPopup {
+  --bleed: 3rem;
+  --peek: 1rem;
+  --stack-progress: clamp(0, var(--drawer-swipe-progress), 1);
+  --stack-step: 0.05;
+  --stack-peek-offset: max(
+    0px,
+    calc((var(--nested-drawers) - var(--stack-progress)) * var(--peek))
+  );
+  --stack-scale-base: max(0, calc(1 - (var(--nested-drawers) * var(--stack-step))));
+  --stack-scale: calc(var(--stack-scale-base) + (var(--stack-step) * var(--stack-progress)));
+  --stack-shrink: calc(1 - var(--stack-scale));
+  --stack-height: max(
+    0px,
+    calc(var(--drawer-frontmost-height, var(--drawer-height)) - var(--bleed))
+  );
+  --translate-y: calc(
+    var(--drawer-swipe-movement-y) - var(--stack-peek-offset) -
+      (var(--stack-shrink) * var(--stack-height))
+  );
+
+  box-sizing: border-box;
+  position: relative;
+  width: calc(100% + 2px);
+  margin-left: -1px;
+  margin-right: -1px;
+  max-height: calc(80vh + var(--bleed));
+  height: var(--drawer-height, auto);
+  margin-bottom: calc(-1 * var(--bleed));
+  padding: 1rem 1.5rem 1.5rem;
+  padding-bottom: calc(1.5rem + var(--bleed));
+  border-radius: var(--ds-radius-sheet);
+  border-width: 1px 1px 0;
+  border-style: solid;
+  border-color: var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  outline: 0;
+  box-shadow: var(--ds-shadow-overlay);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform-origin: 50% calc(100% - var(--bleed));
+  transition:
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    height var(--ds-motion-slow) var(--ds-motion-ease);
+  will-change: transform;
+  /* Parent sheets shrink and peek out behind the frontmost drawer. */
+  transform: translateY(var(--translate-y)) scale(var(--stack-scale));
+}
+
+.DrawerStackPopup[data-swiping],
+.DrawerStackPopup[data-nested-drawer-swiping] {
+  transition-duration: 0ms;
+}
+
+.DrawerStackPopup[data-nested-drawer-open] {
+  height: calc(var(--stack-height) + var(--bleed));
+  overflow: hidden;
+}
+
+.DrawerStackPopup[data-starting-style],
+.DrawerStackPopup[data-ending-style] {
+  transform: translateY(calc(100% - var(--bleed) + 2px));
+}
+
+.DrawerStackPopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+}
+
+.DrawerStackContent {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+[data-nested-drawer-open] .DrawerStackContent {
+  opacity: 0;
+}
+
+[data-nested-drawer-open][data-nested-drawer-swiping] .DrawerStackContent {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Forms, navigation, and story scaffolding                            */
+/* ------------------------------------------------------------------ */
+
+.DrawerNavList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.DrawerNavLink {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: var(--ds-radius-control);
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  color: var(--ds-color-text-primary);
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .DrawerNavLink:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.DrawerNavLink[aria-current='page'] {
+  font-weight: 700;
+}
+
+.DrawerNavLink:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.DrawerStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.DrawerOutput {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-color-text-secondary);
+}
