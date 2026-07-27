@@ -9,7 +9,7 @@ import { regenerateExperiments } from './freeze';
 
 const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), '../../../..');
 const LABELS_PATH = path.join(REPO_ROOT, 'apps/storybook/classification-labels.jsonc');
-const VERSION = '0.1.0';
+const VERSION = 1;
 
 function fail(message: string): never {
   p.log.error(message);
