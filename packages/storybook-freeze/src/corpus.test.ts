@@ -6,10 +6,9 @@ import { runCorpus } from './corpus';
 import type { Labels } from './labels';
 
 const labels: Labels = {
-  offerableFacets: [],
+  definedFacets: [],
   deleteFacets: new Set(['story.infra']),
   storyTags: new Set(['showcase', 'infra']),
-  isDeleteFacet: (f) => f === 'story.infra',
   isKept: (f, keep) => f !== 'story.infra' && keep.has(f),
 };
 

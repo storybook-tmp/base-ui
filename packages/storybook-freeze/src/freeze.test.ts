@@ -7,10 +7,9 @@ import { regenerateExperiments } from './freeze';
 import type { Labels } from './labels';
 
 const labels: Labels = {
-  offerableFacets: ['story.showcase', 'story.api-ref'],
+  definedFacets: ['story.showcase', 'story.api-ref'],
   deleteFacets: new Set(['story.infra']),
   storyTags: new Set(['showcase', 'api-ref', 'infra']),
-  isDeleteFacet: (f) => f === 'story.infra',
   isKept: (f, keep) => f !== 'story.infra' && keep.has(f),
 };
 

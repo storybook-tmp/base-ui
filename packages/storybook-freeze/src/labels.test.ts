@@ -10,19 +10,14 @@ describe('loadLabels', () => {
   const labels = loadLabels(LABELS);
 
   it('offers mdx.props and story.showcase and story.base', () => {
-    expect(labels.offerableFacets).toContain('mdx.props');
-    expect(labels.offerableFacets).toContain('story.showcase');
-    expect(labels.offerableFacets).toContain('story.base');
+    expect(labels.definedFacets).toContain('mdx.props');
+    expect(labels.definedFacets).toContain('story.showcase');
+    expect(labels.definedFacets).toContain('story.base');
   });
 
   it('never offers delete facets', () => {
-    expect(labels.offerableFacets).not.toContain('mdx.styling');
-    expect(labels.offerableFacets).not.toContain('story.infra');
-  });
-
-  it('exposes delete facets', () => {
-    expect(labels.isDeleteFacet('story.infra')).toBe(true);
-    expect(labels.isDeleteFacet('story.showcase')).toBe(false);
+    expect(labels.definedFacets).not.toContain('mdx.styling');
+    expect(labels.definedFacets).not.toContain('story.infra');
   });
 
   it('exposes bare story tag leaves', () => {

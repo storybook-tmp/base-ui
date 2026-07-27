@@ -78,8 +78,7 @@ export function transformStory(
     const effectiveTags = [...new Set([...metaTags, ...tagsOf(declarator.init)])].filter((tag) =>
       labels.storyTags.has(tag),
     );
-    const hasDeleteTag = effectiveTags.some((tag) => labels.isDeleteFacet(`story.${tag}`));
-    const isKept = !hasDeleteTag && effectiveTags.some((tag) => keep.has(`story.${tag}`));
+    const isKept = effectiveTags.some((tag) => labels.isKept(`story.${tag}`, keep));
 
     if (!isKept) {
       const lead = leadingBlockComment(node, comments, code);
