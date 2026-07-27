@@ -71,7 +71,7 @@ export function transformStory(
     }
     const declarator = node.declaration.declarations[0];
     const typeName = declarator?.id?.typeAnnotation?.typeAnnotation?.typeName?.name;
-    if (typeName !== 'Story') {
+    if (typeName !== 'Story' && typeName !== 'StoryObj') {
       continue;
     }
 
