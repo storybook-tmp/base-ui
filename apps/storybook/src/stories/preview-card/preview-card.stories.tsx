@@ -546,13 +546,18 @@ export const DetachedTriggersFull: Story = {
   ),
   play: async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
-    await userEvent.hover(canvas.getByRole('link', { name: 'Design' }));
+    const trigger = canvas.getByRole('link', { name: 'Design' });
+    // Re-fire the hover each poll: a dropped first hover isn't replayed. interval must
+    // exceed the 600ms OPEN_DELAY rest-timer, or each retry cancels it before it fires.
     await waitFor(
-      () =>
+      async () => {
+        await userEvent.unhover(trigger);
+        await userEvent.hover(trigger);
         expect(
           body.getByText('Planning the form and function of an object or system.'),
-        ).toBeVisible(),
-      { timeout: 3000 },
+        ).toBeVisible();
+      },
+      { timeout: 6000, interval: 900 },
     );
   },
 };
