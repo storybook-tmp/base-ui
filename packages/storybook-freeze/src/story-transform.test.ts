@@ -68,6 +68,16 @@ describe('transformStory', () => {
     expect(r.code).toContain('Hero demo.');
   });
 
+  it('supports both Story and StoryObj export types', () => {
+    const storyObj = [
+      'const meta = { title: "Form inputs/Checkbox" } satisfies Meta;',
+      'export default meta;',
+      "export const Hero: StoryObj<typeof meta> = { tags: ['showcase'], render: () => null };",
+    ].join('\n');
+    const r = transformStory('checkbox.stories.tsx', storyObj, new Set(['story.showcase']), labels);
+    expect(r.code).toContain('export const Hero');
+  });
+
   it('always strips story.infra exports (delete facet wins)', () => {
     const infra = [
       'const meta = { tags: [] } satisfies Meta;',
