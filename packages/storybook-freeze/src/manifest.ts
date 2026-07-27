@@ -6,7 +6,7 @@ export interface Manifest {
   baseCommit: string;
   keptFacets: string[];
   createdAt: string;
-  tool: string;
+  version: number;
 }
 
 export function buildManifest(args: {
@@ -14,14 +14,14 @@ export function buildManifest(args: {
   baseCommit: string;
   keptFacets: string[];
   createdAt: string;
-  version: string;
+  version: number;
 }): Manifest {
   return {
     branchName: args.branchName,
     baseCommit: args.baseCommit,
     keptFacets: [...args.keptFacets].sort(),
     createdAt: args.createdAt,
-    tool: `storybook-freeze@${args.version}`,
+    version: args.version,
   };
 }
 

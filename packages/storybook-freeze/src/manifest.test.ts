@@ -19,11 +19,11 @@ describe('manifest', () => {
       baseCommit: 'abc123',
       keptFacets: ['story.showcase', 'mdx.props'],
       createdAt: '2026-07-24T00:00:00.000Z',
-      version: '0.1.0',
+      version: 1,
     });
     expect(m.branchName).toBe('experiment/exp-1');
     expect(m.keptFacets).toEqual(['mdx.props', 'story.showcase']);
-    expect(m.tool).toBe('storybook-freeze@0.1.0');
+    expect(m.version).toBe(1);
   });
 
   it('writes experiment.json to cwd', async () => {
@@ -33,7 +33,7 @@ describe('manifest', () => {
       baseCommit: 'abc123',
       keptFacets: [],
       createdAt: '2026-07-24T00:00:00.000Z',
-      version: '0.1.0',
+      version: 1,
     });
     const p = await writeManifest(dir, m);
     expect(p).toBe(path.join(dir, 'experiment.json'));
