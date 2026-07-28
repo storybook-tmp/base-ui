@@ -29,13 +29,11 @@ part looks like — what you see there is what you get from this package.
 
 ## Why no component layer (yet)
 
-This is milestone 1, and the lack of a component layer is deliberate, not an oversight:
-class binding happens at every call site, in feature code, with no wrapper hiding it. That
-friction is the point — it's meant to demonstrate what raw Base UI consumption actually
-costs before a design system layer exists. Composed/variant styling (an icon button's
-padding, a modal's position, a drawer's width) is app-level CSS or `styled()` composed at
-the call site, not a shared wrapper.
+Class binding happens at every call site, in feature code, with no wrapper hiding it. That
+friction is the point: it shows what raw Base UI consumption costs before a design system
+layer exists. Composed/variant styling (an icon button's padding, a modal's position, a
+drawer's width) is app-level CSS or `styled()` composed at the call site, not a shared
+wrapper.
 
-A richer "Droppy" component layer that removes this per-call-site tax — the shape the earlier
-`@base-ui/mealdrop` wrappers previewed — is a later phase, built once the milestone-1 cost is
-measured.
+A richer "Droppy" component layer that removes this per-call-site tax is a later phase,
+built once that cost is measured.

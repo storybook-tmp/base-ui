@@ -1,24 +1,14 @@
 /*
- * App-level styling for this Storybook. All design tokens, fonts, and component
- * chrome now live in the @droppy/theme package (packages/droppy/src/styles.css)
- * — this file only carries what's specific to hosting the theme inside
- * Storybook: the global box-sizing reset, the app's own light/dark
- * cross-fade, base body layout, and the small-screen root font-size drop.
+ * App-level styling for this Storybook. Design tokens, fonts, and component
+ * chrome live in @droppy/theme (packages/droppy/src/styles.css); this file
+ * carries only what is specific to hosting that theme in a Storybook — the
+ * box-sizing reset, base body layout, and the small-screen root font size.
  */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-/* Site-wide 250ms theme cross-fade (matches the token package's --ds-motion-base).
- * Scoped to color-ish properties only so layout/transform animations are unaffected. */
-* {
-  transition:
-    background-color var(--ds-motion-base) var(--ds-motion-ease),
-    color var(--ds-motion-base) var(--ds-motion-ease),
-    border-color var(--ds-motion-base) var(--ds-motion-ease);
 }
 
 body {
@@ -30,6 +20,12 @@ body {
   background-color: var(--ds-color-surface-page);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Fade the page surface on a theme switch, matching the component cross-fade
+   * @droppy/theme applies to its own parts. */
+  transition:
+    background-color var(--ds-motion-base) var(--ds-motion-ease),
+    color var(--ds-motion-base) var(--ds-motion-ease);
 }
 
 /* Root font drops 16 -> 14px below the sm breakpoint (640px) */
@@ -37,17 +33,4 @@ body {
   html {
     font-size: 14px;
   }
-}
-
-/* A couple of demos (autocomplete, combobox) put theme.FieldLabel on the element
- * that WRAPS the control instead of on a standalone label. FieldLabel is a
- * text-only label style with no layout of its own, so in those demos the control
- * rendered beside the label text instead of stacked below it. Restore the column
- * layout on just those wrappers. A proper text-only <Field.Label> has no control
- * child, so :has() leaves it untouched. */
-.FieldLabel:has(> input, > [class*='Input'], > [class*='Chips']) {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-bottom: 0;
 }

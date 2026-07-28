@@ -13,9 +13,8 @@
  *
  *   <Button className={theme.Button}>Order now</Button>
  *
- * This is deliberate, not an oversight: milestone 1 is raw Base UI
- * consumption, friction included. A richer "Droppy" component layer that
- * removes the per-call-site tax is a later phase — see the README.
+ * A richer "Droppy" component layer that removes the per-call-site tax is a
+ * later phase; see the README.
  */
 
 const theme = {
