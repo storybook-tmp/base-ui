@@ -508,7 +508,9 @@ export const EdgeAlignment: Story = {
     </Slider.Root>
   ),
   play: async ({ canvas }) => {
-    const thumb = canvas.getByRole('slider', { name: 'Volume' });
+    // Edge alignment insets the thumb, so it stays visibility:hidden (its role="slider"
+    // input out of the a11y tree) until a post-mount measurement lands. Retry until it's there.
+    const thumb = await waitFor(() => canvas.getByRole('slider', { name: 'Volume' }));
     await expect(thumb).toHaveAttribute('aria-valuenow', '25');
   },
 };

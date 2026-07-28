@@ -544,9 +544,17 @@ export const DetachedTriggersFull: Story = {
   ),
   play: async ({ canvas, canvasElement }) => {
     const body = within(canvasElement.ownerDocument.body);
-    // Focus opens with no delay, unlike the hover rest-timer. The popup shows
-    // the payload of whichever trigger opened it.
-    canvas.getByRole('button', { name: 'Timer' }).focus();
-    await waitFor(() => expect(body.getByText('Set a timer')).toBeVisible());
+    const trigger = canvas.getByRole('button', { name: 'Timer' });
+    // Focus only opens the tooltip when it counts as :focus-visible, which a bare first
+    // .focus() may not in a capture harness — and a dropped open isn't replayed. Re-fire
+    // each poll via blur+focus (re-focusing an already-focused element won't refire onFocus).
+    await waitFor(
+      () => {
+        trigger.blur();
+        trigger.focus();
+        expect(body.getByText('Set a timer')).toBeVisible();
+      },
+      { timeout: 3000 },
+    );
   },
 };
