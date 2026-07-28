@@ -38,3 +38,16 @@ body {
     font-size: 14px;
   }
 }
+
+/* A couple of demos (autocomplete, combobox) put theme.FieldLabel on the element
+ * that WRAPS the control instead of on a standalone label. FieldLabel is a
+ * text-only label style with no layout of its own, so in those demos the control
+ * rendered beside the label text instead of stacked below it. Restore the column
+ * layout on just those wrappers. A proper text-only <Field.Label> has no control
+ * child, so :has() leaves it untouched. */
+.FieldLabel:has(> input, > [class*='Input'], > [class*='Chips']) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 0;
+}
