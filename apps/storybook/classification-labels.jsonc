@@ -1,0 +1,51 @@
+{
+  // packages/react/ source code
+  "source-jsdoc": {
+    "component": "Description of the component function",
+    "props": "Description of properties in the API / TS interface"
+  },
+  // JSDoc in the CSF files
+  "csf-jsdoc": {
+    "meta": "Description of the CSF meta / component",
+    "story": "Description of the story function"
+  },
+  // Individual MDX files that document a component
+  "mdx": {
+    "general": "General component information",
+    "behavior": "Explanation of component behaviour",
+    "examples": "Real-world usage examples",
+    "do-dont": "Do's and don'ts",
+    "when-to-use": "When to use and not to use, alternatives",
+    "anatomy": "The component anatomy",
+    "history": "Decision history on the component",
+    "known-issues": "Known issues and open questions about the component",
+    "a11y": "A11y rules to follow",
+    "brand": "Rules specific to the Droppy brand",
+    "props": "API reference / props section (MDX)",
+    "styling": "Styling hooks and guidelines (MDX)",
+    "testing": "Testing guidelines"
+  },
+  // General / repo-wide MDX files, matched by their <Meta tags={[...]} /> (whole-file)
+  "general": {
+    "general-a11y": "General accessibility guidelines",
+    "general-tokens": "Design tokens ( 🤸 stretch goal )",
+    "general-setup": "Setup guide",
+    "general-brand": "Brand principles",
+    "general-do-dont": "General usage guidelines",
+    "general-when-to-use": "General component selection guidelines"
+  },
+  // Story tags
+  "story": {
+    "base": "1:1 mapping of base-ui.com doc content",
+    "api-ref": "stories for individual component props",
+    "showcase": "One primary example that shows the most relevant use case of the component with realistic input data",
+    "highlight": "Stories that clarify a specific point made in documentation (e.g. compares two components, shows a tricky combo of props to achieve a goal)",
+    "examples": "Real-world combinations of components extracted from products that use Base UI",
+    "playground": "One fully configurable story per component with handcrafted argTypes",
+    "tests": "Play-function stories for specific behaviors",
+    "animation": "Stories demonstrating the transition/animation contract (parked pending a decision on how to treat them)",
+    "infra": "Storybook-internal stories for the docs' own tooling, not for a Base UI component"
+  },
+  // Content to always delete
+  "delete": ["mdx.styling", "mdx.testing", "story.infra"]
+}

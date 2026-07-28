@@ -927,6 +927,7 @@ export const CustomAnchor: Story = {
 
 /** All positioning lives on the Positioner: `side`, `align`, `sideOffset`, `alignOffset`, `collisionPadding`. Tweak them via controls; design systems often compress these into one `placement` prop (dify-ui), but the primitives keep the axes separate. */
 export const PositionerPlayground: StoryObj<typeof Popover.Positioner> = {
+  tags: ['highlight'],
   args: {
     side: 'bottom',
     align: 'center',

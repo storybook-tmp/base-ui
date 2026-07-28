@@ -1,0 +1,31 @@
+{
+  "name": "@base-ui/storybook-freeze",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CLI that freezes the Storybook corpus into an experiment branch for ML experiments.",
+  "bin": {
+    "storybook-freeze": "./src/cli.ts"
+  },
+  "scripts": {
+    "start": "tsx src/cli.ts",
+    "test": "vitest run",
+    "typescript": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "globby": "16.2.0",
+    "jsonc-parser": "3.3.1",
+    "magic-string": "0.30.21",
+    "oxc-parser": "0.127.0",
+    "prettier": "3.8.3",
+    "simple-git": "^3.36.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.5",
+    "@types/node": "22.18.13",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.8"
+  }
+}
