@@ -1,0 +1,4972 @@
+/*
+ * @droppy/theme — single stylesheet.
+ * 1) Droppy design tokens (generated from the DS theme; light + dark via
+ *    html[data-theme] with a system-preference fallback, Montserrat/Hind).
+ * 2) Component chrome — one plain PascalCase class per Base UI part, named
+ *    `{Component}{Part}` (e.g. `DialogPopup`, `MenuPositioner`), bound at
+ *    call sites via the `theme` object this package also exports (see
+ *    index.ts). Consumers import this file once; Storybook renders the same
+ *    classes, so it shows what this package produces.
+ * Brand rules: single two-layer focus ring, radius ladder (control 4 /
+ * card 8 / sheet 16 / pill 32), 150-300ms ease-in motion, body-face
+ * regular-weight buttons.
+ */
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Montserrat Regular'),
+    local('Montserrat-Regular'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Montserrat Medium'),
+    local('Montserrat-Medium'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_ZpC3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Montserrat Bold'),
+    local('Montserrat-Bold'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_dJE3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 900;
+  src:
+    local('Montserrat Black'),
+    local('Montserrat-Black'),
+    url('https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_epG3gnD_vx3rCs.woff2')
+      format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Hind;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Hind Regular'),
+    local('Hind-Regular'),
+    url('https://fonts.gstatic.com/s/hind/v11/5aU69_a8oxmIdGl4BDGwgDI.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Hind;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Hind Medium'),
+    local('Hind-Medium'),
+    url('https://fonts.gstatic.com/s/hind/v11/5aU19_a8oxmIfJpbERySjRhc9V0.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ---- primitive: color.neutral ---- */
+  --ds-palette-neutral-0: #fff;
+  --ds-palette-neutral-50: #f9f9f9;
+  --ds-palette-neutral-100: #f5f6f7;
+  --ds-palette-neutral-150: #e9e9e9;
+  --ds-palette-neutral-200: #d2d2d2;
+  --ds-palette-neutral-300: #bcbcbc;
+  --ds-palette-neutral-400: #a6a6a6;
+  --ds-palette-neutral-500: #909090;
+  --ds-palette-neutral-600: #797979;
+  --ds-palette-neutral-700: #636363;
+  --ds-palette-neutral-750: #4d4d4d;
+  --ds-palette-neutral-800: #363636;
+  --ds-palette-neutral-900: #2c2c2c;
+  --ds-palette-neutral-950: #202020;
+
+  /* ---- primitive: color.green (surface accent — never ink) ---- */
+  --ds-palette-green-100: #f2fcde;
+  --ds-palette-green-200: #e5f8bc;
+  --ds-palette-green-300: #cedfa9;
+
+  /* ---- primitive: color.blue (surfaces; 400/700 = focus/review ink only) ---- */
+  --ds-palette-blue-100: #d8eef2;
+  --ds-palette-blue-200: #b1dde4;
+  --ds-palette-blue-400: #8eb1b6;
+  --ds-palette-blue-700: #596f72;
+
+  /* ---- primitive: color.red (error only) ---- */
+  --ds-palette-red-300: #e57373;
+  --ds-palette-red-500: #d70808;
+  --ds-palette-red-700: #b71c1c;
+
+  /* ---- primitive: color.brand (mascot/loading/celebration only — never UI chrome) ---- */
+  --ds-palette-brand-shine: #9ff4f1;
+  --ds-palette-brand-200: #61d8de;
+  --ds-palette-brand-300: #4cc8c0;
+  --ds-palette-brand-400: #36c1bf;
+  --ds-palette-brand-500: #22aca7;
+  --ds-palette-brand-nose: #b1dce3;
+  --ds-palette-brand-dark-shine: #efffbb;
+  --ds-palette-brand-dark-100: #e4f7bb;
+  --ds-palette-brand-dark-200: #daeaae;
+  --ds-palette-brand-dark-300: #d2e29a;
+  --ds-palette-brand-dark-400: #c6d88b;
+
+  /* ---- primitive: type ---- */
+  --ds-type-family-heading: 'Montserrat', sans-serif;
+  --ds-type-family-body: 'Hind', sans-serif;
+  --ds-type-size-2xs: 0.72rem;
+  --ds-type-size-xs: 0.9rem;
+  --ds-type-size-sm: 1rem;
+  --ds-type-size-md: 1.125rem;
+  --ds-type-size-lg: 1.4rem;
+  --ds-type-size-xl: 1.75rem;
+  --ds-type-size-2xl: 2.19rem;
+  --ds-type-size-3xl: 2.74rem;
+  --ds-type-weight-regular: 400;
+  --ds-type-weight-medium: 500;
+  --ds-type-weight-bold: 700;
+  --ds-type-weight-black: 900;
+  --ds-type-tracking-display: -2px;
+  --ds-type-tracking-default: normal;
+
+  /* ---- primitive: space ---- */
+  --ds-space-3xs: 0.25rem;
+  --ds-space-2xs: 0.5rem;
+  --ds-space-xs: 1rem;
+  --ds-space-sm: 1.5rem;
+  --ds-space-md: 2rem;
+  --ds-space-lg: 3.25rem;
+  --ds-space-xl: 5.25rem;
+
+  /* ---- primitive: radius (ladder by floatiness) ---- */
+  --ds-radius-control: 4px;
+  --ds-radius-card: 8px;
+  --ds-radius-sheet: 16px;
+  --ds-radius-pill: 32px;
+  --ds-radius-round: 50%;
+
+  /* ---- primitive: shadow ---- */
+  --ds-shadow-lift: 0px 14px 26px 0px rgb(0 0 0 / 8%);
+  --ds-shadow-overlay: 0 28px 48px rgb(0 0 0 / 40%);
+
+  /* ---- primitive: motion ---- */
+  --ds-motion-fast: 150ms;
+  --ds-motion-base: 250ms;
+  --ds-motion-slow: 300ms;
+  --ds-motion-ease: ease-in;
+
+  /* ---- primitive: breakpoint (documentation only — use literal px in queries) ---- */
+  --ds-breakpoint-sm: 640px;
+  --ds-breakpoint-md: 768px;
+  --ds-breakpoint-lg: 1024px;
+  --ds-breakpoint-xl: 1440px;
+
+  /* ---- semantic: color (light) ---- */
+  --ds-color-surface-page: var(--ds-palette-neutral-0);
+  --ds-color-surface-card: var(--ds-palette-neutral-50);
+  --ds-color-surface-sunken: var(--ds-palette-neutral-100);
+  --ds-color-surface-overlay: var(--ds-palette-neutral-0);
+  --ds-color-surface-inverse: var(--ds-palette-neutral-900);
+  --ds-color-surface-highlight: var(--ds-palette-green-200);
+  --ds-color-surface-info: var(--ds-palette-blue-200);
+  --ds-color-text-primary: var(--ds-palette-neutral-900);
+  --ds-color-text-secondary: var(--ds-palette-neutral-700);
+  --ds-color-text-hint: var(--ds-palette-neutral-600);
+  --ds-color-text-label: var(--ds-palette-neutral-800);
+  --ds-color-text-label-active: var(--ds-palette-neutral-950);
+  --ds-color-text-on-inverse: var(--ds-palette-neutral-0);
+  --ds-color-text-error: var(--ds-palette-red-700);
+  --ds-color-text-review: var(--ds-palette-blue-700);
+  --ds-color-action-primary: var(--ds-palette-neutral-950);
+  --ds-color-action-primary-hover: var(--ds-palette-neutral-900);
+  --ds-color-action-on-primary: var(--ds-palette-neutral-0);
+  --ds-color-action-subtle-hover: var(--ds-palette-neutral-100);
+  --ds-color-action-progress: var(--ds-palette-neutral-950);
+  --ds-color-border-subtle: var(--ds-palette-neutral-150);
+  --ds-color-focus-ring: var(--ds-palette-blue-400);
+  --ds-color-focus-halo: var(--ds-palette-blue-100);
+  --ds-color-icon-default: var(--ds-palette-neutral-900);
+  --ds-color-skeleton-base: var(--ds-palette-neutral-150);
+  --ds-color-skeleton-highlight: var(--ds-palette-neutral-100);
+  --ds-color-chip-contrast-bg: var(--ds-palette-neutral-950);
+  --ds-color-chip-contrast-text: var(--ds-palette-neutral-0);
+
+  /* ---- composed: the single two-layer focus ring (principles rule 9) ---- */
+  --ds-shadow-focus: 0 0 0 1px var(--ds-color-focus-ring), 0 0 0 4px var(--ds-color-focus-halo);
+}
+
+/*
+ * =========================================================================
+ * DARK SEMANTIC LAYER — DEFINED TWICE BELOW; THE TWO BLOCKS MUST STAY IN SYNC.
+ * Block 1: :root[data-theme='dark'] — driven by the addon-themes toolbar
+ *          picker (withThemeByDataAttribute stamps data-theme on <html>).
+ * Block 2: @media (prefers-color-scheme: dark) fallback, guarded with
+ *          :not([data-theme=...]) so it applies only when nothing set an
+ *          explicit theme (e.g. contexts without the decorator).
+ * CSS custom properties can't be shared across the two conditions without a
+ * preprocessor. Both blocks are generated from research/f-brand-v2/tokens.json
+ * — when a value changes, edit BOTH or regenerate BOTH.
+ * =========================================================================
+ */
+:root[data-theme='dark'] {
+  /* ---- semantic: color (dark) — every role redefined in full ---- */
+  --ds-color-surface-page: var(--ds-palette-neutral-950);
+  --ds-color-surface-card: var(--ds-palette-neutral-900);
+  --ds-color-surface-sunken: var(--ds-palette-neutral-800);
+  --ds-color-surface-overlay: var(--ds-palette-neutral-900);
+  --ds-color-surface-inverse: var(--ds-palette-neutral-900);
+  --ds-color-surface-highlight: var(--ds-palette-neutral-900);
+  --ds-color-surface-info: var(--ds-palette-neutral-900);
+  --ds-color-text-primary: var(--ds-palette-neutral-0);
+  --ds-color-text-secondary: var(--ds-palette-neutral-400);
+  --ds-color-text-hint: var(--ds-palette-neutral-400);
+  --ds-color-text-label: var(--ds-palette-neutral-150);
+  --ds-color-text-label-active: var(--ds-palette-neutral-0);
+  --ds-color-text-on-inverse: var(--ds-palette-neutral-0);
+  --ds-color-text-error: var(--ds-palette-red-300);
+  --ds-color-text-review: var(--ds-palette-blue-200);
+  --ds-color-action-primary: var(--ds-palette-green-200);
+  --ds-color-action-primary-hover: var(--ds-palette-green-300);
+  --ds-color-action-on-primary: var(--ds-palette-neutral-900);
+  --ds-color-action-subtle-hover: var(--ds-palette-neutral-800);
+  --ds-color-action-progress: var(--ds-palette-green-200);
+  --ds-color-border-subtle: var(--ds-palette-neutral-800);
+  --ds-color-focus-ring: var(--ds-palette-blue-700);
+  --ds-color-focus-halo: var(--ds-palette-blue-200);
+  --ds-color-icon-default: var(--ds-palette-neutral-0);
+  --ds-color-skeleton-base: var(--ds-palette-neutral-750);
+  --ds-color-skeleton-highlight: var(--ds-palette-neutral-700);
+  --ds-color-chip-contrast-bg: var(--ds-palette-neutral-950);
+  --ds-color-chip-contrast-text: var(--ds-palette-neutral-0);
+
+  /* dark ring widens to 2px (tokens.json focus.ring note) */
+  --ds-shadow-focus: 0 0 0 2px var(--ds-color-focus-ring), 0 0 0 4px var(--ds-color-focus-halo);
+}
+
+/* System-preference fallback — SAME values as :root[data-theme='dark'] above
+ * (see sync warning). Applies only when no explicit data-theme is set. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light'], [data-theme='dark']) {
+    /* ---- semantic: color (dark) — every role redefined in full ---- */
+    --ds-color-surface-page: var(--ds-palette-neutral-950);
+    --ds-color-surface-card: var(--ds-palette-neutral-900);
+    --ds-color-surface-sunken: var(--ds-palette-neutral-800);
+    --ds-color-surface-overlay: var(--ds-palette-neutral-900);
+    --ds-color-surface-inverse: var(--ds-palette-neutral-900);
+    --ds-color-surface-highlight: var(--ds-palette-neutral-900);
+    --ds-color-surface-info: var(--ds-palette-neutral-900);
+    --ds-color-text-primary: var(--ds-palette-neutral-0);
+    --ds-color-text-secondary: var(--ds-palette-neutral-400);
+    --ds-color-text-hint: var(--ds-palette-neutral-400);
+    --ds-color-text-label: var(--ds-palette-neutral-150);
+    --ds-color-text-label-active: var(--ds-palette-neutral-0);
+    --ds-color-text-on-inverse: var(--ds-palette-neutral-0);
+    --ds-color-text-error: var(--ds-palette-red-300);
+    --ds-color-text-review: var(--ds-palette-blue-200);
+    --ds-color-action-primary: var(--ds-palette-green-200);
+    --ds-color-action-primary-hover: var(--ds-palette-green-300);
+    --ds-color-action-on-primary: var(--ds-palette-neutral-900);
+    --ds-color-action-subtle-hover: var(--ds-palette-neutral-800);
+    --ds-color-action-progress: var(--ds-palette-green-200);
+    --ds-color-border-subtle: var(--ds-palette-neutral-800);
+    --ds-color-focus-ring: var(--ds-palette-blue-700);
+    --ds-color-focus-halo: var(--ds-palette-blue-200);
+    --ds-color-icon-default: var(--ds-palette-neutral-0);
+    --ds-color-skeleton-base: var(--ds-palette-neutral-750);
+    --ds-color-skeleton-highlight: var(--ds-palette-neutral-700);
+    --ds-color-chip-contrast-bg: var(--ds-palette-neutral-950);
+    --ds-color-chip-contrast-text: var(--ds-palette-neutral-0);
+
+    /* dark ring widens to 2px (tokens.json focus.ring note) */
+    --ds-shadow-focus: 0 0 0 2px var(--ds-color-focus-ring), 0 0 0 4px var(--ds-color-focus-halo);
+  }
+}
+
+/* ========================= Theme cross-fade ========================= */
+
+/*
+ * Switching the theme repaints every token-derived color at once. These are the
+ * properties that change, faded over --ds-motion-base so the switch reads as a
+ * transition rather than a jump. Listing the parts explicitly keeps this off
+ * host-app markup, and the color-only property list keeps it clear of layout
+ * and transform animations; :where() holds specificity at zero, so the
+ * per-part transitions below always win. Every class in the theme lookup
+ * (src/index.ts) belongs here — add new parts to both.
+ */
+:where(
+  .Button,
+  .FieldRoot,
+  .FieldLabel,
+  .FieldDescription,
+  .FieldError,
+  .Input,
+  .DialogBackdrop,
+  .DialogPopup,
+  .DialogTitle,
+  .DialogDescription,
+  .DrawerBackdrop,
+  .DrawerPopup,
+  .DrawerTitle,
+  .TooltipPopup,
+  .AccordionRoot,
+  .AccordionItem,
+  .AccordionHeader,
+  .AccordionTrigger,
+  .AccordionIcon,
+  .AccordionPanel,
+  .AccordionContent,
+  .AvatarRoot,
+  .AvatarImage,
+  .AvatarFallback,
+  .CheckboxLabel,
+  .CheckboxRoot,
+  .CheckboxIndicator,
+  .CheckboxGroupRoot,
+  .CheckboxGroupItem,
+  .FieldsetRoot,
+  .FieldsetLegend,
+  .RadioGroupRoot,
+  .RadioGroupItem,
+  .RadioRoot,
+  .RadioIndicator,
+  .SwitchLabel,
+  .SwitchRoot,
+  .SwitchThumb,
+  .ToggleRoot,
+  .ToggleGroupRoot,
+  .ToggleGroupItem,
+  .MeterRoot,
+  .MeterLabel,
+  .MeterValue,
+  .MeterTrack,
+  .MeterIndicator,
+  .MeterIndicatorLow,
+  .MeterIndicatorHigh,
+  .ProgressRoot,
+  .ProgressLabel,
+  .ProgressValue,
+  .ProgressTrack,
+  .ProgressIndicator,
+  .CollapsibleRoot,
+  .CollapsibleIcon,
+  .CollapsibleTrigger,
+  .CollapsiblePanel,
+  .CollapsibleContent,
+  .SeparatorRoot,
+  .TabsRoot,
+  .TabsList,
+  .TabsTab,
+  .TabsIndicator,
+  .TabsPanelViewport,
+  .TabsPanel,
+  .ToolbarRoot,
+  .ToolbarGroup,
+  .ToolbarButton,
+  .ToolbarSeparator,
+  .SliderRoot,
+  .SliderLabel,
+  .SliderValue,
+  .SliderControl,
+  .SliderTrack,
+  .SliderIndicator,
+  .SliderThumb,
+  .SliderMarksTrack,
+  .SliderMark,
+  .OtpFieldRoot,
+  .OtpFieldInput,
+  .OtpFieldSeparator,
+  .NumberFieldRoot,
+  .NumberFieldScrubArea,
+  .NumberFieldScrubAreaCursor,
+  .NumberFieldGroup,
+  .NumberFieldInput,
+  .NumberFieldDecrement,
+  .NumberFieldIncrement,
+  .FormRoot,
+  .FieldItem,
+  .FieldItemLabel,
+  .FieldItemDescription,
+  .FieldTextarea,
+  .FieldErrorAnimated,
+  .PreviewCardTrigger,
+  .PreviewCardPositioner,
+  .PreviewCardPopup,
+  .PreviewCardArrow,
+  .PreviewCardPopupContent,
+  .PreviewCardImage,
+  .PreviewCardSummary,
+  .ScrollAreaRoot,
+  .ScrollAreaViewport,
+  .ScrollAreaContent,
+  .ScrollAreaViewportFade,
+  .ScrollAreaScrollbar,
+  .ScrollAreaThumb,
+  .ScrollAreaCorner,
+  .MenuTrigger,
+  .MenuTriggerIcon,
+  .MenuPositioner,
+  .MenuPopup,
+  .MenuItem,
+  .MenuLinkItem,
+  .MenuSubmenuTrigger,
+  .MenuDangerItem,
+  .MenuCheckboxItem,
+  .MenuRadioItem,
+  .MenuCheckboxItemIndicator,
+  .MenuRadioItemIndicator,
+  .MenuCheckboxItemText,
+  .MenuRadioItemText,
+  .MenuGroupLabel,
+  .MenuPlainGroupLabel,
+  .MenuSeparator,
+  .MenuArrow,
+  .MenuTransitionPositioner,
+  .MenuTransitionPopup,
+  .MenuViewport,
+  .PopoverPositioner,
+  .PopoverPopup,
+  .PopoverArrow,
+  .PopoverTitle,
+  .PopoverDescription,
+  .PopoverTrigger,
+  .PopoverIconTrigger,
+  .PopoverClose,
+  .PopoverBackdrop,
+  .PopoverTransitionPositioner,
+  .PopoverTransitionPopup,
+  .PopoverViewport,
+  .SelectTrigger,
+  .SelectValue,
+  .SelectIcon,
+  .SelectPositioner,
+  .SelectPopup,
+  .SelectList,
+  .SelectItem,
+  .SelectItemIndicator,
+  .SelectItemText,
+  .SelectItemLabel,
+  .SelectItemDescription,
+  .SelectValueText,
+  .SelectValuePrimary,
+  .SelectValueSecondary,
+  .SelectGroup,
+  .SelectGroupLabel,
+  .SelectSeparator,
+  .SelectScrollArrow,
+  .DialogActions,
+  .DrawerDescription,
+  .DrawerActions,
+  .DrawerGrabber,
+  .TooltipArrow,
+  .ContextMenuTrigger,
+  .ContextMenuPositioner,
+  .ContextMenuPopup,
+  .ContextMenuItem,
+  .ContextMenuLinkItem,
+  .ContextMenuSubmenuTrigger,
+  .ContextMenuCheckboxItem,
+  .ContextMenuRadioItem,
+  .ContextMenuCheckboxItemIndicator,
+  .ContextMenuRadioItemIndicator,
+  .ContextMenuCheckboxItemText,
+  .ContextMenuRadioItemText,
+  .ContextMenuGroupLabel,
+  .ContextMenuSeparator,
+  .MenubarRoot,
+  .MenubarMenuTrigger,
+  .MenubarMenuPopup,
+  .MenubarMenuItem,
+  .MenubarSubmenuTrigger,
+  .AutocompleteInput,
+  .AutocompleteInputGroup,
+  .AutocompleteGroupedInput,
+  .AutocompleteActionButtons,
+  .AutocompleteActionButton,
+  .AutocompletePositioner,
+  .AutocompletePopup,
+  .AutocompleteList,
+  .AutocompleteItem,
+  .AutocompleteEmpty,
+  .AutocompleteStatus,
+  .AutocompleteGroup,
+  .AutocompleteGroupLabel,
+  .AutocompleteItemContent,
+  .AutocompleteItemTitle,
+  .AutocompleteItemDescription,
+  .AutocompleteItemRow,
+  .AutocompleteItemMeta,
+  .NavigationMenuRoot,
+  .NavigationMenuList,
+  .NavigationMenuTrigger,
+  .NavigationMenuChevronTrigger,
+  .NavigationMenuIcon,
+  .NavigationMenuPositioner,
+  .NavigationMenuPopup,
+  .NavigationMenuContent,
+  .NavigationMenuViewport,
+  .NavigationMenuGridLinkList,
+  .NavigationMenuFlexLinkList,
+  .NavigationMenuLinkCard,
+  .NavigationMenuLinkTitle,
+  .NavigationMenuLinkDescription,
+  .NavigationMenuBackdrop,
+  .NavigationMenuArrow,
+  .ComboboxInputGroup,
+  .ComboboxInput,
+  .ComboboxActionButtons,
+  .ComboboxTrigger,
+  .ComboboxClear,
+  .ComboboxTriggerIcon,
+  .ComboboxPositioner,
+  .ComboboxPopup,
+  .ComboboxPopupInput,
+  .ComboboxList,
+  .ComboboxItem,
+  .ComboboxItemText,
+  .ComboboxItemIndicator,
+  .ComboboxItemLabel,
+  .ComboboxItemDescription,
+  .ComboboxEmpty,
+  .ComboboxStatus,
+  .ComboboxSpinner,
+  .ComboboxGroup,
+  .ComboboxGroupLabel,
+  .ComboboxSeparator,
+  .ComboboxChipsInputGroup,
+  .ComboboxChips,
+  .ComboboxChip,
+  .ComboboxChipRemove,
+  .ComboboxChipsInput,
+  .ComboboxInlineListBox,
+  .ComboboxInlineList,
+  .ToastViewport,
+  .ToastRoot,
+  .ToastContent,
+  .ToastText,
+  .ToastActionText,
+  .ToastMessage,
+  .ToastTitle,
+  .ToastDescription,
+  .ToastClose,
+  .ToastActionButton,
+  .ToastAnchoredViewport,
+  .ToastAnchoredPositioner,
+  .ToastAnchoredRoot,
+  .ToastAnchoredDescription,
+  .ToastSrOnly,
+  .ToastArrow
+) {
+  transition:
+    background-color var(--ds-motion-base) var(--ds-motion-ease),
+    color var(--ds-motion-base) var(--ds-motion-ease),
+    border-color var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+/* ========================= Button ========================= */
+
+.Button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  padding: 0.875rem 1rem;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+  font-family: var(--ds-type-family-body);
+  font-weight: var(--ds-type-weight-regular);
+  font-size: var(--ds-type-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--ds-motion-fast) var(--ds-motion-ease),
+    box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.Button:hover:not([data-disabled]) {
+  background-color: var(--ds-color-action-primary-hover);
+}
+
+.Button:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.Button[data-disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ========================= Field + Input ========================= */
+
+.FieldRoot {
+  display: flex;
+  flex-direction: column;
+}
+
+.FieldLabel {
+  color: var(--ds-color-text-label);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-sm);
+  padding-bottom: 0.25rem;
+}
+
+.FieldLabel::first-letter {
+  text-transform: uppercase;
+}
+
+/* Field.Label may either sit beside the control or wrap it. The wrapping form
+ * needs a column layout of its own; a text-only label has no control child, so
+ * :has() leaves it untouched. */
+.FieldLabel:has(> input, > [class*='Input'], > [class*='Chips']) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 0;
+}
+
+.FieldRoot[data-focused] .FieldLabel,
+.FieldRoot:focus-within .FieldLabel {
+  color: var(--ds-color-text-label-active);
+}
+
+.FieldDescription {
+  color: var(--ds-color-text-secondary);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-xs);
+}
+
+.FieldError {
+  color: var(--ds-color-text-error);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-2xs);
+  margin-top: 0.25rem;
+  min-height: 1rem;
+}
+
+.Input {
+  box-sizing: border-box;
+  /* Transparent 1px border, not 0: the input family's data-invalid/valid
+     hooks (below) need a real border to color; transparent keeps today's
+     shadow-only look unchanged until a state colors it. */
+  border: 1px solid transparent;
+  outline: none;
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-sm);
+  transition: box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.Input::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.Input:hover,
+.Input:focus,
+.Input[data-focused] {
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.Input[data-invalid] {
+  border-color: var(--ds-color-text-error);
+}
+
+.Input[data-valid] {
+  border-color: var(--ds-color-text-primary);
+}
+
+/* ========================= Dialog ========================= */
+
+.DialogBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 20%);
+  transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+html[data-theme='dark'] .DialogBackdrop {
+  background-color: rgb(0 0 0 / 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop {
+    background-color: rgb(0 0 0 / 60%);
+  }
+}
+
+.DialogBackdrop[data-starting-style],
+.DialogBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.DialogPopup {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(37.5rem, calc(100vw - 2rem));
+  max-height: 85vh;
+  overflow: auto;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-body);
+  border-radius: var(--ds-radius-sheet);
+  box-shadow: var(--ds-shadow-overlay);
+  transition:
+    opacity var(--ds-motion-slow) var(--ds-motion-ease),
+    transform var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+.DialogPopup[data-starting-style],
+.DialogPopup[data-ending-style] {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+.DialogTitle {
+  margin: 0;
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-lg);
+  font-weight: var(--ds-type-weight-bold);
+}
+
+.DialogDescription {
+  color: var(--ds-color-text-secondary);
+  font-family: var(--ds-type-family-body);
+}
+
+/* ========================= Drawer ========================= */
+
+.DrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 20%);
+  transition: opacity var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+html[data-theme='dark'] .DrawerBackdrop {
+  background-color: rgb(0 0 0 / 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light'], [data-theme='dark']) .DrawerBackdrop {
+    background-color: rgb(0 0 0 / 60%);
+  }
+}
+
+.DrawerBackdrop[data-starting-style],
+.DrawerBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.DrawerPopup {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: var(--droppy-drawer-width, 26.25rem);
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-body);
+  border-radius: var(--ds-radius-sheet) 0 0 var(--ds-radius-sheet);
+  box-shadow: var(--ds-shadow-overlay);
+  transition: transform var(--ds-motion-slow) var(--ds-motion-ease);
+}
+
+.DrawerPopup[data-starting-style],
+.DrawerPopup[data-ending-style] {
+  transform: translateX(100%);
+}
+
+.DrawerTitle {
+  margin: 0;
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-lg);
+  font-weight: var(--ds-type-weight-bold);
+}
+
+/* ========================= Tooltip ========================= */
+
+.TooltipPopup {
+  box-sizing: border-box;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-xs);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--ds-radius-card);
+  box-shadow: var(--ds-shadow-lift);
+  transition:
+    opacity var(--ds-motion-fast) var(--ds-motion-ease),
+    transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.TooltipPopup[data-starting-style],
+.TooltipPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* ========================= Accordion ========================= */
+
+.AccordionRoot {
+  box-sizing: border-box;
+  display: flex;
+  max-width: 20rem;
+  width: 100%;
+  flex-direction: column;
+  border: 1px solid var(--ds-color-border-subtle);
+  color: var(--ds-color-text-primary);
+}
+
+.AccordionItem + .AccordionItem {
+  border-top: 1px solid var(--ds-color-border-subtle);
+}
+
+.AccordionHeader {
+  margin: 0;
+}
+
+.AccordionTrigger {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  text-align: left;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .AccordionTrigger:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.AccordionTrigger:focus-visible {
+  position: relative;
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  z-index: 1;
+}
+
+.AccordionTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+  cursor: not-allowed;
+}
+
+.AccordionIcon {
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+[data-panel-open] > .AccordionIcon {
+  transform: rotate(45deg);
+}
+
+.AccordionPanel {
+  box-sizing: border-box;
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: height var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.AccordionPanel[data-starting-style],
+.AccordionPanel[data-ending-style] {
+  height: 0;
+}
+
+.AccordionContent {
+  padding: 0.5rem 0.75rem;
+}
+
+/* ========================= Avatar ========================= */
+
+.AvatarRoot {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  border-radius: var(--ds-radius-round);
+  -webkit-user-select: none;
+  user-select: none;
+  font-weight: 400;
+  color: var(--ds-color-text-secondary);
+  background-color: var(--ds-color-surface-sunken);
+  font-size: 0.875rem;
+  line-height: 1;
+  overflow: hidden;
+  height: 2rem;
+  width: 2rem;
+}
+
+.AvatarImage {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.AvatarFallback {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+/* ========================= Checkbox ========================= */
+
+.CheckboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+}
+
+.CheckboxRoot {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-page);
+  color: var(--ds-color-surface-page);
+  padding: 0;
+  margin: 0;
+}
+
+.CheckboxRoot[data-checked],
+.CheckboxRoot[data-indeterminate] {
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+}
+
+.CheckboxRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.CheckboxRoot[data-disabled] {
+  border-color: var(--ds-color-border-subtle);
+  cursor: not-allowed;
+}
+
+.CheckboxRoot[data-disabled][data-checked],
+.CheckboxRoot[data-disabled][data-indeterminate] {
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.CheckboxIndicator {
+  display: flex;
+}
+
+.CheckboxIndicator[data-unchecked] {
+  display: none;
+}
+
+/* ========================= CheckboxGroup ========================= */
+
+.CheckboxGroupRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.25rem;
+  color: var(--ds-color-text-primary);
+}
+
+.CheckboxGroupItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+/* ========================= Fieldset =========================
+   Authoritative shape is the dedicated fieldset family's own module (a
+   heading-font legend with a rule beneath); checkbox-group's local Fieldset
+   composition used a plainer one before this family had its own port. */
+
+.FieldsetRoot {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 16rem;
+}
+
+.FieldsetLegend {
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  font-family: var(--ds-type-family-heading);
+  font-weight: var(--ds-type-weight-bold);
+  font-size: var(--ds-type-size-sm);
+  line-height: 1.5rem;
+  color: var(--ds-color-text-primary);
+}
+
+/* Field.Item: pairs a Radio/Checkbox with its own label in a 2-col grid,
+   for grouped controls inside a Fieldset. */
+.FieldItem {
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  column-gap: 0.5rem;
+  row-gap: 0.125rem;
+  align-items: center;
+}
+
+.FieldItemLabel {
+  grid-column: 2;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+}
+
+.FieldItemDescription {
+  grid-column: 2;
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* ========================= RadioGroup / Radio ========================= */
+
+.RadioGroupRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.75rem;
+  color: var(--ds-color-text-primary);
+}
+
+.RadioGroupItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.RadioRoot {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-round);
+  background-color: var(--ds-color-surface-page);
+  color: var(--ds-color-surface-page);
+  padding: 0;
+  margin: 0;
+}
+
+.RadioRoot[data-checked] {
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+}
+
+.RadioRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.RadioRoot[data-disabled] {
+  border-color: var(--ds-color-border-subtle);
+  cursor: not-allowed;
+}
+
+.RadioRoot[data-disabled][data-checked] {
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.RadioIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RadioIndicator[data-unchecked] {
+  display: none;
+}
+
+.RadioIndicator::before {
+  content: '';
+  border-radius: var(--ds-radius-round);
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: currentcolor;
+}
+
+/* ========================= Switch ========================= */
+
+.SwitchLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+}
+
+.SwitchRoot {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-pill);
+  padding: 0.125rem;
+  width: 2.25rem;
+  height: 1.25rem;
+  background-color: var(--ds-color-surface-page);
+  transition: background-color var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.SwitchRoot[data-checked] {
+  background-color: var(--ds-color-action-primary);
+}
+
+.SwitchRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.SwitchRoot[data-disabled] {
+  border-color: var(--ds-color-border-subtle);
+  cursor: not-allowed;
+}
+
+.SwitchRoot[data-disabled][data-checked] {
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.SwitchThumb {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: var(--ds-radius-round);
+  background-color: var(--ds-color-text-primary);
+  transition:
+    translate var(--ds-motion-fast) var(--ds-motion-ease),
+    background-color var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.SwitchThumb[data-checked] {
+  translate: 1rem 0;
+  background-color: var(--ds-color-action-on-primary);
+}
+
+.SwitchRoot[data-disabled] .SwitchThumb {
+  background-color: var(--ds-color-text-hint);
+}
+
+.SwitchRoot[data-disabled] .SwitchThumb[data-checked] {
+  background-color: var(--ds-color-action-on-primary);
+}
+
+/* ========================= Toggle ========================= */
+
+.ToggleRoot {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .ToggleRoot:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.ToggleRoot:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ToggleRoot[data-pressed] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-label-active);
+}
+
+.ToggleRoot[data-disabled] {
+  color: var(--ds-color-text-hint);
+  cursor: not-allowed;
+}
+
+.ToggleRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* ========================= ToggleGroup ========================= */
+
+.ToggleGroupRoot {
+  display: flex;
+  gap: 1px;
+  padding: 1px;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.ToggleGroupItem {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .ToggleGroupItem:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.ToggleGroupItem:active:not([data-disabled], [data-pressed]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ToggleGroupItem[data-pressed] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-label-active);
+}
+
+.ToggleGroupItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+  cursor: not-allowed;
+}
+
+.ToggleGroupItem:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================= Meter ========================= */
+
+.MeterRoot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+  width: 15rem;
+  max-width: 100%;
+}
+
+.MeterLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+}
+
+.MeterValue {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+  text-align: right;
+}
+
+.MeterTrack {
+  grid-column: 1 / 3;
+  overflow: hidden;
+  height: 0.75rem;
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.MeterIndicator {
+  background-color: var(--ds-color-action-progress);
+  transition: width var(--ds-motion-slow);
+}
+
+/* Meter ships no data attributes for value tiers (issue #1434): these are
+   computed by the consumer from value/min/max and combined with
+   MeterIndicator on the same element, e.g.
+   `${theme.MeterIndicator} ${theme.MeterIndicatorLow}`. */
+.MeterIndicatorLow {
+  background-color: var(--ds-color-surface-highlight);
+}
+
+.MeterIndicatorHigh {
+  background-color: var(--ds-color-text-error);
+}
+
+/* ========================= Progress ========================= */
+
+.ProgressRoot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+  width: 15rem;
+  max-width: 100%;
+}
+
+.ProgressLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+}
+
+.ProgressValue {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+  text-align: right;
+}
+
+.ProgressTrack {
+  grid-column: 1 / 3;
+  overflow: hidden;
+  height: 0.25rem;
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.ProgressIndicator {
+  background-color: var(--ds-color-action-progress);
+  transition: width var(--ds-motion-slow);
+}
+
+/* Indeterminate mode receives no inline width from the library — any sweep
+   animation is entirely consumer CSS, keyed off `data-indeterminate`. */
+.ProgressIndicator[data-indeterminate] {
+  width: 25%;
+  height: 100%;
+  animation: droppy-progress-sweep var(--ds-motion-slow) var(--ds-motion-ease) infinite;
+}
+
+@keyframes droppy-progress-sweep {
+  0% {
+    translate: -100% 0;
+  }
+
+  100% {
+    translate: 400% 0;
+  }
+}
+
+/* ========================= Collapsible ========================= */
+
+.CollapsibleRoot {
+  display: flex;
+  width: 12rem;
+  min-height: 9rem;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--ds-color-text-primary);
+}
+
+.CollapsibleIcon {
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.CollapsibleTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.5rem 0 0.75rem;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .CollapsibleTrigger:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-primary-hover);
+  }
+}
+
+.CollapsibleTrigger:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-primary-hover);
+}
+
+.CollapsibleTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.CollapsibleTrigger[data-panel-open] .CollapsibleIcon {
+  transform: rotate(90deg);
+}
+
+.CollapsibleTrigger[data-disabled] {
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-hint);
+  cursor: not-allowed;
+}
+
+.CollapsiblePanel {
+  display: flex;
+  height: var(--collapsible-panel-height);
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: height var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.CollapsiblePanel[hidden]:not([hidden='until-found']) {
+  display: none;
+}
+
+.CollapsiblePanel[data-starting-style],
+.CollapsiblePanel[data-ending-style] {
+  height: 0;
+}
+
+.CollapsibleContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+}
+
+/* ========================= Separator ========================= */
+
+/* Base (vertical is the un-suffixed shape here; horizontal flips via the
+   library's own `data-orientation` attribute — same merge pattern as
+   TabsList/SliderControl below, chosen over the module's two separately
+   composed classes since both are the same rule set keyed on orientation). */
+.SeparatorRoot {
+  width: 1px;
+  height: 1.25rem;
+  background-color: var(--ds-color-border-subtle);
+}
+
+.SeparatorRoot[data-orientation='horizontal'] {
+  width: 100%;
+  height: 1px;
+}
+
+/* ========================= Tabs ========================= */
+
+.TabsRoot {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.TabsRoot[data-orientation='vertical'] {
+  display: flex;
+  max-width: 24rem;
+}
+
+.TabsList {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  gap: 0.25rem;
+  margin-bottom: -1px;
+}
+
+.TabsList[data-orientation='vertical'] {
+  flex-direction: column;
+  margin-bottom: 0;
+  margin-right: -1px;
+}
+
+.TabsTab {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
+  outline: 0;
+  border-radius: var(--ds-radius-control);
+  background: none;
+  color: var(--ds-color-text-secondary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  padding-inline: 0.5rem;
+  padding-block: 0;
+  height: calc(2rem + 1px);
+}
+
+@media (hover: hover) {
+  .TabsTab:hover {
+    color: var(--ds-color-text-primary);
+  }
+}
+
+.TabsTab[data-active] {
+  color: var(--ds-color-text-label-active);
+}
+
+.TabsTab:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.TabsIndicator {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  translate: var(--active-tab-left);
+  width: var(--active-tab-width);
+  height: 100%;
+  transition-property: translate, width;
+  transition-duration: var(--ds-motion-fast);
+  transition-timing-function: var(--ds-motion-ease);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+[data-orientation='vertical'] .TabsIndicator {
+  left: 0;
+  top: 0;
+  translate: 0 var(--active-tab-top);
+  width: 100%;
+  height: var(--active-tab-height);
+  border-top: 1px solid var(--ds-color-border-subtle);
+  border-inline: 1px solid var(--ds-color-border-subtle);
+}
+
+.TabsPanelViewport {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-height: 8rem;
+  border-inline: 1px solid var(--ds-color-border-subtle);
+  border-block: 1px solid var(--ds-color-border-subtle);
+}
+
+.TabsPanel {
+  box-sizing: border-box;
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  outline: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-surface-card);
+}
+
+.TabsPanel:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  z-index: 1;
+}
+
+.TabsPanel[hidden] {
+  display: none;
+}
+
+/* ========================= Toolbar ========================= */
+
+.ToolbarRoot {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-card);
+  padding: 1px;
+  width: fit-content;
+}
+
+.ToolbarGroup {
+  display: flex;
+  gap: 1px;
+}
+
+.ToolbarButton {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  margin: 0;
+  border: 0;
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .ToolbarButton:hover:not([data-disabled], [data-popup-open]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.ToolbarButton:active:not([data-disabled], [data-pressed]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ToolbarButton[data-pressed] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-label-active);
+}
+
+.ToolbarButton[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ToolbarButton[data-disabled] {
+  color: var(--ds-color-text-hint);
+  cursor: not-allowed;
+}
+
+.ToolbarButton:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.ToolbarSeparator {
+  width: 1px;
+  height: 16px;
+  margin: 0.25rem;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* ========================= Slider ========================= */
+
+.SliderRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.SliderLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  color: var(--ds-color-text-primary);
+}
+
+.SliderValue {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.SliderControl {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 14rem;
+  padding-block: 0.75rem;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SliderControl[data-orientation='vertical'] {
+  width: auto;
+  height: 8rem;
+  padding-inline: 0.75rem;
+  padding-block: 0;
+}
+
+.SliderTrack {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--ds-color-surface-sunken);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SliderTrack[data-orientation='vertical'] {
+  height: 100%;
+  width: 0.25rem;
+}
+
+.SliderIndicator {
+  background-color: var(--ds-color-action-progress);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SliderThumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--ds-radius-round);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-page);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SliderThumb:has(:focus-visible) {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* Hand-composed marks (library dropped the legacy Mark/marks API, #373):
+   spans laid out via flex inside a track-shaped container, with Indicator/
+   Thumb layering over them since those stay absolutely positioned. */
+.SliderMarksTrack {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--ds-color-surface-sunken);
+  -webkit-user-select: none;
+  user-select: none;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.SliderMark {
+  z-index: 0;
+  width: 1px;
+  height: 100%;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* ========================= OTPField ========================= */
+
+.OtpFieldRoot {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.OtpFieldInput {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--ds-radius-control);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+}
+
+.OtpFieldInput:focus {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.OtpFieldSeparator {
+  align-self: center;
+  width: 0.75rem;
+  height: 1px;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* ========================= NumberField ========================= */
+
+.NumberFieldRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.25rem;
+}
+
+.NumberFieldScrubArea {
+  cursor: ew-resize;
+  font-weight: 700;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.NumberFieldScrubAreaCursor {
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 50%));
+}
+
+.NumberFieldGroup {
+  display: flex;
+  height: 2rem;
+}
+
+.NumberFieldInput {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  width: 7ch;
+  height: 100%;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (any-pointer: coarse) {
+  .NumberFieldInput {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.NumberFieldInput:focus {
+  z-index: 1;
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.NumberFieldDecrement,
+.NumberFieldIncrement {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  background-clip: padding-box;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.NumberFieldDecrement[data-disabled],
+.NumberFieldIncrement[data-disabled] {
+  color: var(--ds-color-text-hint);
+  border-color: var(--ds-color-border-subtle);
+}
+
+.NumberFieldDecrement {
+  border-right: 0;
+}
+
+.NumberFieldIncrement {
+  border-left: 0;
+}
+
+/* ========================= Form ========================= */
+
+.FormRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 16rem;
+}
+
+/* ========================= Field (additions) ========================= */
+
+.FieldTextarea {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  outline: none;
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-sm);
+  height: auto;
+  min-height: 4rem;
+  resize: vertical;
+  transition: box-shadow var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.FieldTextarea::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.FieldTextarea:hover,
+.FieldTextarea:focus,
+.FieldTextarea[data-focused] {
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.FieldTextarea[data-invalid] {
+  border-color: var(--ds-color-text-error);
+}
+
+/* Fades in on entry, out on exit via the transition-status attributes. */
+.FieldErrorAnimated {
+  color: var(--ds-color-text-error);
+  font-family: var(--ds-type-family-body);
+  font-size: var(--ds-type-size-2xs);
+  margin-top: 0.25rem;
+  min-height: 1rem;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--ds-motion-fast) var(--ds-motion-ease),
+    translate var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.FieldErrorAnimated[data-starting-style],
+.FieldErrorAnimated[data-ending-style] {
+  opacity: 0;
+  translate: 0 -0.25rem;
+}
+
+/* ========================= PreviewCard ========================= */
+
+.PreviewCardTrigger {
+  outline: 0;
+  color: var(--ds-color-text-primary);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in oklab, var(--ds-color-text-primary), transparent 40%);
+  text-underline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .PreviewCardTrigger:hover {
+    text-decoration-color: var(--ds-color-text-primary);
+  }
+}
+
+.PreviewCardTrigger[data-popup-open] {
+  text-decoration-color: var(--ds-color-text-primary);
+}
+
+.PreviewCardTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  text-decoration-line: none;
+}
+
+.PreviewCardPositioner {
+  height: var(--positioner-height);
+  width: var(--positioner-width);
+  max-width: var(--available-width);
+}
+
+.PreviewCardPopup {
+  box-sizing: border-box;
+  position: relative;
+  width: var(--popup-width, auto);
+  height: var(--popup-height, auto);
+  border-radius: var(--ds-radius-card);
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-lift);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.PreviewCardPopup[data-starting-style],
+.PreviewCardPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.PreviewCardArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.PreviewCardArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.PreviewCardArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.PreviewCardArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.PreviewCardArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.PreviewCardArrow::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+.PreviewCardPopupContent {
+  width: min-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.PreviewCardImage {
+  display: block;
+  max-width: none;
+}
+
+.PreviewCardSummary {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* ========================= Menu ========================= */
+
+.MenuTrigger {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  height: 2rem;
+  padding: 0 0.5rem 0 0.75rem;
+  margin: 0;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .MenuTrigger:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.MenuTrigger:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+  border-color: var(--ds-color-border-subtle);
+}
+
+.MenuTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* Square kebab/ellipsis trigger for row-action menus. */
+.MenuTriggerIcon {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .MenuTriggerIcon:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.MenuTriggerIcon[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuTriggerIcon:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.MenuPositioner {
+  outline: 0;
+}
+
+.MenuPopup {
+  box-sizing: border-box;
+  position: relative;
+  outline: 0;
+  padding-block: 0.25rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.MenuPopup[data-starting-style],
+.MenuPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.MenuItem,
+.MenuLinkItem,
+.MenuSubmenuTrigger {
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: inherit;
+}
+
+.MenuItem[data-popup-open],
+.MenuLinkItem[data-popup-open],
+.MenuSubmenuTrigger[data-popup-open],
+.MenuItem[data-highlighted],
+.MenuLinkItem[data-highlighted],
+.MenuSubmenuTrigger[data-highlighted] {
+  z-index: 0;
+  position: relative;
+}
+
+.MenuItem[data-highlighted],
+.MenuLinkItem[data-highlighted],
+.MenuSubmenuTrigger[data-highlighted] {
+  color: var(--ds-color-text-primary);
+}
+
+.MenuItem[data-popup-open]::before,
+.MenuLinkItem[data-popup-open]::before,
+.MenuSubmenuTrigger[data-popup-open]::before,
+.MenuItem[data-highlighted]::before,
+.MenuLinkItem[data-highlighted]::before,
+.MenuSubmenuTrigger[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0.25rem;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuItem[data-disabled],
+.MenuLinkItem[data-disabled],
+.MenuSubmenuTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.MenuLinkItem {
+  align-items: center;
+  gap: 0.375rem;
+  text-decoration: none;
+}
+
+.MenuSubmenuTrigger {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-right: 0.5rem;
+}
+
+/* Destructive row action. No error-surface token exists in the Mealdrop
+   contract, so the highlighted state falls back to the shared subtle-hover
+   background like every other item; red stays as ink only. */
+.MenuDangerItem {
+  color: var(--ds-color-text-error);
+}
+
+.MenuDangerItem[data-highlighted] {
+  color: var(--ds-color-text-error);
+}
+
+.MenuDangerItem[data-highlighted]::before {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuCheckboxItem,
+.MenuRadioItem {
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 0.625rem;
+  padding-right: 2rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  align-items: center;
+  grid-template-columns: 1rem 1fr;
+}
+
+.MenuCheckboxItem[data-highlighted],
+.MenuRadioItem[data-highlighted] {
+  z-index: 0;
+  position: relative;
+  color: var(--ds-color-text-primary);
+}
+
+.MenuCheckboxItem[data-highlighted]::before,
+.MenuRadioItem[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0.25rem;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenuCheckboxItem[data-disabled],
+.MenuRadioItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.MenuCheckboxItemIndicator,
+.MenuRadioItemIndicator {
+  grid-column-start: 1;
+}
+
+.MenuCheckboxItemText,
+.MenuRadioItemText {
+  grid-column-start: 2;
+}
+
+.MenuGroupLabel {
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 2.125rem;
+  padding-right: 2rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+/* Group label aligned with plain items (no indicator column). */
+.MenuPlainGroupLabel {
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+.MenuSeparator {
+  margin: 0.25rem;
+  height: 1px;
+  background-color: var(--ds-color-border-subtle);
+}
+
+.MenuArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.MenuArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.MenuArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.MenuArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.MenuArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.MenuArrow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  background-color: var(--ds-color-surface-overlay);
+  border: 1px solid var(--ds-color-border-subtle);
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+/*
+ * Multi-trigger content transition (detached-triggers-full recipe): the
+ * Positioner freezes to --positioner-* while the Popup morphs, and the
+ * Viewport clips/slides the previous vs. current content past each other.
+ * Purely mechanical plumbing — ported as chrome, not a redesign.
+ */
+.MenuTransitionPositioner {
+  --easing: var(--ds-motion-ease);
+  --animation-duration: var(--ds-motion-slow);
+
+  width: var(--positioner-width);
+  height: var(--positioner-height);
+  max-width: var(--available-width);
+  transition-property: top, left, right, bottom, transform;
+  transition-timing-function: var(--easing);
+  transition-duration: var(--animation-duration);
+}
+
+.MenuTransitionPositioner[data-instant] {
+  transition: none;
+}
+
+.MenuTransitionPopup {
+  position: relative;
+  width: var(--popup-width, auto);
+  height: var(--popup-height, auto);
+  transition-property: width, height, opacity, transform;
+  transition-timing-function: var(--easing);
+  transition-duration: var(--animation-duration);
+}
+
+.MenuTransitionPopup[data-starting-style],
+.MenuTransitionPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.MenuTransitionPopup[data-instant] {
+  transition: none;
+}
+
+.MenuViewport {
+  box-sizing: border-box;
+  position: relative;
+  overflow: clip;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.MenuViewport [data-previous],
+.MenuViewport [data-current] {
+  width: var(--popup-width);
+  transform: translateX(0);
+  opacity: 1;
+  transition:
+    transform var(--animation-duration) var(--easing),
+    opacity calc(var(--animation-duration) / 2) var(--easing);
+}
+
+.MenuViewport[data-activation-direction~='right'] [data-previous][data-ending-style] {
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.MenuViewport[data-activation-direction~='right'] [data-current][data-starting-style] {
+  transform: translateX(50%);
+  opacity: 0;
+}
+
+.MenuViewport[data-activation-direction~='left'] [data-previous][data-ending-style] {
+  transform: translateX(50%);
+  opacity: 0;
+}
+
+.MenuViewport[data-activation-direction~='left'] [data-current][data-starting-style] {
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+/* ========================= Popover ========================= */
+
+.PopoverPositioner {
+  width: var(--positioner-width);
+  height: var(--positioner-height);
+  max-width: var(--available-width);
+}
+
+.PopoverPopup {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  outline: none;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+  width: var(--popup-width, auto);
+  height: var(--popup-height, auto);
+  max-width: 500px;
+}
+
+.PopoverPopup[data-starting-style],
+.PopoverPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.PopoverArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.PopoverArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.PopoverArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.PopoverArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.PopoverArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.PopoverArrow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  background-color: var(--ds-color-surface-overlay);
+  border: 1px solid var(--ds-color-border-subtle);
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+.PopoverTitle {
+  margin: 0;
+  font-family: var(--ds-type-family-heading);
+  font-size: var(--ds-type-size-xs);
+  line-height: 1.25rem;
+  font-weight: var(--ds-type-weight-bold);
+}
+
+.PopoverDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.PopoverTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .PopoverTrigger:hover:not([data-disabled], :disabled) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.PopoverTrigger:active:not([data-disabled], :disabled) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.PopoverTrigger[data-popup-open]:not([data-disabled], :disabled) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.PopoverTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.PopoverIconTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-style: italic;
+  font-weight: var(--ds-type-weight-bold);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .PopoverIconTrigger:hover:not([data-disabled], :disabled) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.PopoverIconTrigger[data-popup-open]:not([data-disabled], :disabled) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.PopoverIconTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* Visually hidden but focusable — Popover.Close as the modal escape-hatch
+   when no visible close affordance is otherwise rendered (#4084). */
+.PopoverClose {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.PopoverBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 32%);
+  transition: opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.PopoverBackdrop[data-starting-style],
+.PopoverBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+html[data-theme='dark'] .PopoverBackdrop {
+  background-color: rgb(0 0 0 / 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light'], [data-theme='dark']) .PopoverBackdrop {
+    background-color: rgb(0 0 0 / 60%);
+  }
+}
+
+/* detached-triggers-full recipe (same mechanical morph as MenuTransition*,
+   normalized to the "Transition" naming here — source called these
+   Animated*). */
+.PopoverTransitionPositioner {
+  --easing: var(--ds-motion-ease);
+  --animation-duration: var(--ds-motion-slow);
+
+  width: var(--positioner-width);
+  height: var(--positioner-height);
+  max-width: var(--available-width);
+  transition-property: top, left, right, bottom, transform;
+  transition-timing-function: var(--easing);
+  transition-duration: var(--animation-duration);
+}
+
+.PopoverTransitionPositioner[data-instant] {
+  transition: none;
+}
+
+.PopoverTransitionPopup {
+  position: relative;
+  outline: none;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  border: 1px solid var(--ds-color-border-subtle);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  width: var(--popup-width, auto);
+  height: var(--popup-height, auto);
+  max-width: 31.25rem;
+  transition-property: width, height, opacity, transform;
+  transition-timing-function: var(--easing);
+  transition-duration: var(--animation-duration);
+}
+
+.PopoverTransitionPopup[data-starting-style],
+.PopoverTransitionPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.PopoverTransitionPopup[data-instant] {
+  transition: none;
+}
+
+.PopoverViewport {
+  --viewport-inline-padding: 0.75rem;
+
+  box-sizing: border-box;
+  position: relative;
+  overflow: clip;
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem var(--viewport-inline-padding);
+}
+
+.PopoverViewport [data-previous],
+.PopoverViewport [data-current] {
+  width: calc(var(--popup-width) - 2 * var(--viewport-inline-padding));
+  transform: translateX(0);
+  opacity: 1;
+  transition:
+    transform var(--animation-duration) var(--easing),
+    opacity calc(var(--animation-duration) / 2) var(--easing);
+}
+
+.PopoverViewport[data-activation-direction~='right'] [data-previous][data-ending-style] {
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.PopoverViewport[data-activation-direction~='right'] [data-current][data-starting-style] {
+  transform: translateX(50%);
+  opacity: 0;
+}
+
+.PopoverViewport[data-activation-direction~='left'] [data-previous][data-ending-style] {
+  transform: translateX(50%);
+  opacity: 0;
+}
+
+.PopoverViewport[data-activation-direction~='left'] [data-current][data-starting-style] {
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+/* ========================= Select ========================= */
+
+.SelectTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+  margin: 0;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  white-space: nowrap;
+  font-weight: 400;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+  min-width: 10rem;
+}
+
+@media (hover: hover) {
+  .SelectTrigger:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.SelectTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.SelectTrigger:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.SelectTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+  border-color: var(--ds-color-border-subtle);
+  cursor: not-allowed;
+}
+
+.SelectTrigger[data-invalid] {
+  border-color: var(--ds-color-text-error);
+}
+
+.SelectTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.SelectValue[data-placeholder] {
+  color: var(--ds-color-text-hint);
+}
+
+.SelectIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.SelectPositioner {
+  outline: none;
+  z-index: 10;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SelectPopup {
+  box-sizing: border-box;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  background-clip: padding-box;
+  color: var(--ds-color-text-primary);
+  min-width: var(--anchor-width);
+  transform-origin: var(--transform-origin);
+  box-shadow: var(--ds-shadow-overlay);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.SelectPopup[data-starting-style],
+.SelectPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.SelectPopup[data-side='none'] {
+  transition: none;
+  transform: translateY(1px);
+  opacity: 1;
+  min-width: calc(var(--anchor-width) + 1.75rem);
+}
+
+.SelectList {
+  box-sizing: border-box;
+  position: relative;
+  padding-block: 0.25rem;
+  overflow-y: auto;
+  max-height: var(--available-height);
+  scroll-padding-block: 1.5rem;
+}
+
+.SelectItem {
+  box-sizing: border-box;
+  outline: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-block: 0.375rem;
+  padding-left: 0.625rem;
+  padding-right: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  align-items: center;
+  grid-template-columns: 1rem 1fr;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.SelectItem[data-highlighted] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-primary);
+}
+
+.SelectItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.SelectItem[data-disabled][data-highlighted] {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-hint);
+}
+
+.SelectItemIndicator {
+  grid-column-start: 1;
+}
+
+.SelectItemText {
+  grid-column-start: 2;
+}
+
+.SelectItemLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.SelectItemDescription {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.SelectItem[data-highlighted] .SelectItemDescription {
+  color: var(--ds-color-text-secondary);
+}
+
+.SelectValueText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+}
+
+.SelectValuePrimary {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.SelectValueSecondary {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.SelectGroup {
+  display: block;
+  padding-bottom: 0.125rem;
+}
+
+.SelectGroup:last-child {
+  padding-bottom: 0;
+}
+
+.SelectGroupLabel {
+  box-sizing: border-box;
+  padding-block: 0.375rem;
+  padding-left: calc(0.625rem + 1rem + 0.5rem);
+  padding-right: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  -webkit-user-select: none;
+  user-select: none;
+  color: var(--ds-color-text-hint);
+}
+
+.SelectSeparator {
+  height: 1px;
+  margin-block: 0.25rem;
+  margin-inline: 1rem;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* Scroll-up/down arrows: mechanical, needed for a long option list to
+   function visually once it overflows the positioner's available height. */
+.SelectScrollArrow {
+  width: 100%;
+  background-color: var(--ds-color-surface-overlay);
+  z-index: 2;
+  text-align: center;
+  cursor: default;
+  height: 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SelectScrollArrow::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+.SelectScrollArrow[data-direction='up'] {
+  top: 0;
+}
+
+.SelectScrollArrow[data-direction='up'][data-side='none']::before {
+  top: -100%;
+}
+
+.SelectScrollArrow[data-direction='down'] {
+  bottom: 0;
+}
+
+.SelectScrollArrow[data-direction='down'][data-side='none']::before {
+  bottom: -100%;
+}
+
+/* ========================= ScrollArea ========================= */
+
+.ScrollAreaRoot {
+  box-sizing: border-box;
+  width: 24rem;
+  height: 8.5rem;
+  max-width: calc(100vw - 8rem);
+  background-color: var(--ds-color-surface-page);
+}
+
+.ScrollAreaViewport {
+  box-sizing: border-box;
+  height: 100%;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.ScrollAreaViewport:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.ScrollAreaContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 1.25rem;
+}
+
+/* Gradient scroll-fade variant: mask-image driven by scroll-area's own
+   overflow custom properties. Raw black/transparent mask stops kept as-is —
+   alpha-channel luminance keywords, not visual colors (a themed color would
+   invert the mask in dark mode). */
+.ScrollAreaViewportFade {
+  --fade-size: 40px;
+  height: 100%;
+  background: var(--ds-color-surface-page);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black min(var(--fade-size), var(--scroll-area-overflow-y-start, 0)),
+    black calc(100% - min(var(--fade-size), var(--scroll-area-overflow-y-end, var(--fade-size)))),
+    transparent 100%
+  );
+  mask-repeat: no-repeat;
+  outline: none;
+}
+
+/* Track/corner stay a translucent black/white scrim rather than the opaque
+   border-subtle token, as-is: they need to blend over whatever content
+   scrolls beneath, which a flat token color can't do. */
+.ScrollAreaScrollbar {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  background-color: rgb(0 0 0 / 12%);
+  margin: 1px;
+  opacity: 0;
+  transition: opacity var(--ds-motion-fast);
+  pointer-events: none;
+}
+
+:root[data-theme='dark'] .ScrollAreaScrollbar {
+  background-color: rgb(255 255 255 / 12%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaScrollbar {
+    background-color: rgb(255 255 255 / 12%);
+  }
+}
+
+.ScrollAreaScrollbar[data-scrolling] {
+  transition-duration: 0ms;
+}
+
+.ScrollAreaScrollbar[data-hovering],
+.ScrollAreaScrollbar[data-scrolling] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ScrollAreaScrollbar[data-orientation='vertical'] {
+  width: 1rem;
+}
+
+.ScrollAreaScrollbar[data-orientation='horizontal'] {
+  height: 1rem;
+}
+
+.ScrollAreaThumb {
+  width: 100%;
+  background-color: var(--ds-color-border-subtle);
+}
+
+.ScrollAreaCorner {
+  background-color: rgb(0 0 0 / 12%);
+}
+
+:root[data-theme='dark'] .ScrollAreaCorner {
+  background-color: rgb(255 255 255 / 12%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light'], [data-theme='dark']) .ScrollAreaCorner {
+    background-color: rgb(255 255 255 / 12%);
+  }
+}
+
+/* ========================= Dialog (additions) =========================
+   The hero/AlertDialog/menu-recipe modules agree on a richer Popup (flex
+   column, gap, padding, actions row) than the original ported shape —
+   that richer shape wins here, same call as the Fieldset correction above.
+   AlertDialog and the "open a dialog from a menu" recipe explicitly share
+   this Popup/Backdrop, so both reuse these Dialog* keys rather than getting
+   their own. */
+.DialogBackdrop {
+  min-height: 100dvh;
+  background-color: black;
+  opacity: 0.2;
+  transition: opacity var(--ds-motion-fast);
+}
+
+/* iOS 26+: ensure the backdrop covers the entire visible viewport. */
+@supports (-webkit-touch-callout: none) {
+  .DialogBackdrop {
+    position: absolute;
+  }
+}
+
+html[data-theme='dark'] .DialogBackdrop {
+  opacity: 0.5;
+  background-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light'], [data-theme='dark']) .DialogBackdrop {
+    opacity: 0.5;
+    background-color: black;
+  }
+}
+
+.DialogPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 24rem;
+  max-width: calc(100vw - 3rem);
+  margin-top: -2rem;
+  padding: 1rem;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.DialogPopup[data-starting-style],
+.DialogPopup[data-ending-style] {
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+.DialogTitle {
+  font-size: var(--ds-type-size-sm);
+  line-height: 1.5rem;
+}
+
+.DialogDescription {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.DialogActions {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.75rem;
+}
+
+/* ========================= AlertDialog =========================
+   Shares Dialog's Backdrop/Popup/Title/Description/Actions verbatim (see
+   comment above); the only net-new piece is the destructive-action color
+   modifier on the shared Button. */
+.Button[data-color='red'] {
+  color: var(--ds-color-text-error);
+}
+
+/* ========================= Drawer (additions) ========================= */
+
+.DrawerDescription {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.DrawerActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Bottom-sheet drag handle. */
+.DrawerGrabber {
+  width: 3rem;
+  height: 0.25rem;
+  margin: 0 auto 1rem;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* ========================= Tooltip (additions) ========================= */
+
+.TooltipArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.TooltipArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.TooltipArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.TooltipArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.TooltipArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.TooltipArrow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  background-color: var(--ds-color-surface-overlay);
+  border: 1px solid var(--ds-color-border-subtle);
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+/* ========================= ContextMenu =========================
+   Every popup part is a direct visual match for Menu (source comment: "a
+   direct Menu re-export"), differing only in the trigger surface — Popup/
+   Item/CheckboxItem/RadioItem/Separator/GroupLabel below carry the exact
+   Menu* values under ContextMenu's own collision-safe names. */
+
+.ContextMenuTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 16rem;
+  aspect-ratio: 5 / 3;
+  outline: 0;
+  border: 1px dashed var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ContextMenuTrigger[data-pressed] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ContextMenuPositioner {
+  outline: 0;
+}
+
+.ContextMenuPopup {
+  box-sizing: border-box;
+  outline: 0;
+  padding-block: 0.25rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.ContextMenuPopup[data-starting-style],
+.ContextMenuPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.ContextMenuItem,
+.ContextMenuLinkItem,
+.ContextMenuSubmenuTrigger {
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: inherit;
+}
+
+.ContextMenuItem[data-popup-open],
+.ContextMenuLinkItem[data-popup-open],
+.ContextMenuSubmenuTrigger[data-popup-open],
+.ContextMenuItem[data-highlighted],
+.ContextMenuLinkItem[data-highlighted],
+.ContextMenuSubmenuTrigger[data-highlighted] {
+  z-index: 0;
+  position: relative;
+}
+
+.ContextMenuItem[data-highlighted],
+.ContextMenuLinkItem[data-highlighted],
+.ContextMenuSubmenuTrigger[data-highlighted] {
+  color: var(--ds-color-text-primary);
+}
+
+.ContextMenuItem[data-popup-open]::before,
+.ContextMenuLinkItem[data-popup-open]::before,
+.ContextMenuSubmenuTrigger[data-popup-open]::before,
+.ContextMenuItem[data-highlighted]::before,
+.ContextMenuLinkItem[data-highlighted]::before,
+.ContextMenuSubmenuTrigger[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0.25rem;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ContextMenuItem[data-disabled],
+.ContextMenuLinkItem[data-disabled],
+.ContextMenuSubmenuTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.ContextMenuSubmenuTrigger {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-right: 0.5rem;
+}
+
+.ContextMenuLinkItem {
+  align-items: center;
+  gap: 0.375rem;
+  text-decoration: none;
+}
+
+.ContextMenuCheckboxItem,
+.ContextMenuRadioItem {
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 0.625rem;
+  padding-right: 2rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  align-items: center;
+  grid-template-columns: 1rem 1fr;
+}
+
+.ContextMenuCheckboxItem[data-highlighted],
+.ContextMenuRadioItem[data-highlighted] {
+  z-index: 0;
+  position: relative;
+  color: var(--ds-color-text-primary);
+}
+
+.ContextMenuCheckboxItem[data-highlighted]::before,
+.ContextMenuRadioItem[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0.25rem;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ContextMenuCheckboxItem[data-disabled],
+.ContextMenuRadioItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.ContextMenuCheckboxItemIndicator,
+.ContextMenuRadioItemIndicator {
+  grid-column-start: 1;
+}
+
+.ContextMenuCheckboxItemText,
+.ContextMenuRadioItemText {
+  grid-column-start: 2;
+}
+
+.ContextMenuGroupLabel {
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+.ContextMenuSeparator {
+  margin: 0.25rem;
+  height: 1px;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* ========================= Menubar =========================
+   Hosts ordinary Menu.Root instances — MenuPositioner/MenuSeparator/
+   MenuCheckboxItem/MenuRadioItem (and their Indicator/Text parts) above are
+   reused as-is; only the bar itself and its per-item trigger/popup/item
+   shapes differ from a standalone Menu. */
+
+.MenubarRoot {
+  display: flex;
+  align-items: center;
+}
+
+.MenubarRoot[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+  width: 10rem;
+}
+
+.MenubarMenuTrigger {
+  box-sizing: border-box;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1.25rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .MenubarMenuTrigger:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.MenubarMenuTrigger:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenubarMenuTrigger[data-pressed],
+.MenubarMenuTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenubarMenuTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.MenubarMenuTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+  position: relative;
+}
+
+.MenubarMenuPopup {
+  box-sizing: border-box;
+  outline: 0;
+  padding-block: 0.25rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition:
+    transform var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.MenubarMenuPopup[data-starting-style],
+.MenubarMenuPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.MenubarMenuPopup[data-instant] {
+  transition: none;
+}
+
+.MenubarMenuItem,
+.MenubarSubmenuTrigger {
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: var(--ds-type-weight-regular);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.MenubarMenuItem[data-popup-open],
+.MenubarSubmenuTrigger[data-popup-open],
+.MenubarMenuItem[data-highlighted],
+.MenubarSubmenuTrigger[data-highlighted] {
+  z-index: 0;
+  position: relative;
+}
+
+.MenubarMenuItem[data-highlighted],
+.MenubarSubmenuTrigger[data-highlighted] {
+  color: var(--ds-color-text-primary);
+}
+
+.MenubarMenuItem[data-popup-open]::before,
+.MenubarSubmenuTrigger[data-popup-open]::before,
+.MenubarMenuItem[data-highlighted]::before,
+.MenubarSubmenuTrigger[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0.25rem;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.MenubarMenuItem[data-disabled],
+.MenubarSubmenuTrigger[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.MenubarSubmenuTrigger {
+  padding-right: 0.5rem;
+}
+
+/* ========================= Autocomplete ========================= */
+
+.AutocompleteInput {
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  margin: 0;
+  border-radius: var(--ds-radius-control);
+  border: 1px solid var(--ds-color-border-subtle);
+  width: 16rem;
+  height: 2rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  outline: none;
+}
+
+@media (any-pointer: coarse) {
+  .AutocompleteInput {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.AutocompleteInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteInput:focus {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* Input + trailing Clear/Trigger buttons composition. */
+.AutocompleteInputGroup {
+  box-sizing: border-box;
+  position: relative;
+  width: 16rem;
+  height: 2rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.AutocompleteInputGroup:focus-within {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.AutocompleteGroupedInput {
+  box-sizing: border-box;
+  padding: 0 calc(0.5rem + 3rem) 0 0.5rem;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  outline: none;
+}
+
+@media (any-pointer: coarse) {
+  .AutocompleteGroupedInput {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.AutocompleteGroupedInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteActionButtons {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.AutocompleteActionButton {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 100%;
+  color: var(--ds-color-text-primary);
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.AutocompletePositioner {
+  outline: 0;
+}
+
+.AutocompletePopup {
+  box-sizing: border-box;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  width: var(--anchor-width);
+  max-width: var(--available-width);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  box-shadow: var(--ds-shadow-overlay);
+}
+
+.AutocompleteList {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block: 0.25rem;
+  scroll-padding-block: 0.25rem;
+  outline: 0;
+  max-height: min(22.5rem, var(--available-height));
+}
+
+.AutocompleteList[data-empty] {
+  padding: 0;
+}
+
+.AutocompleteItem {
+  box-sizing: border-box;
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+
+.AutocompleteItem[data-highlighted] {
+  z-index: 0;
+  position: relative;
+  color: var(--ds-color-text-primary);
+}
+
+.AutocompleteItem[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.AutocompleteItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteEmpty {
+  box-sizing: border-box;
+  padding: 1rem 1rem 1rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+.AutocompleteStatus {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+  border-top: 1px solid var(--ds-color-border-subtle);
+}
+
+.AutocompleteGroup {
+  display: block;
+}
+
+.AutocompleteGroup:not(:last-child) {
+  margin-block-end: 0.25rem;
+}
+
+.AutocompleteGroupLabel {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Two-line items (fuzzy matching) and label+meta rows (async, palette). */
+.AutocompleteItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.AutocompleteItemTitle {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.AutocompleteItemDescription {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.AutocompleteItemRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.AutocompleteItemMeta {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+  white-space: nowrap;
+}
+
+/* ========================= NavigationMenu =========================
+   Positioner/Popup consume --positioner-* and --popup-* vars — the signature
+   viewport-morph plumbing the popup needs to travel and resize between
+   triggers (#2269); kept as mechanical chrome, not a redesign. */
+
+.NavigationMenuRoot {
+  box-sizing: border-box;
+  color: var(--ds-color-text-primary);
+  min-width: max-content;
+}
+
+.NavigationMenuList {
+  display: flex;
+  position: relative;
+  gap: 1px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.NavigationMenuList[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+  width: 12rem;
+}
+
+.NavigationMenuTrigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1.25rem;
+  color: var(--ds-color-text-primary);
+  -webkit-user-select: none;
+  user-select: none;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .NavigationMenuTrigger:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.NavigationMenuTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.NavigationMenuTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+/* Compact chevron-only trigger for the split link+trigger pattern (#4186). */
+.NavigationMenuChevronTrigger {
+  padding: 0 0.375rem;
+}
+
+.NavigationMenuIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+.NavigationMenuIcon[data-popup-open] {
+  transform: rotate(180deg);
+}
+
+.NavigationMenuPositioner {
+  --easing: var(--ds-motion-ease);
+  --duration: var(--ds-motion-slow);
+
+  box-sizing: border-box;
+  transition-property: top, left, right, bottom;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--easing);
+  width: var(--positioner-width);
+  height: var(--positioner-height);
+  max-width: var(--available-width);
+}
+
+.NavigationMenuPositioner::before {
+  content: '';
+  position: absolute;
+}
+
+.NavigationMenuPositioner[data-side='top']::before {
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 10px;
+}
+
+.NavigationMenuPositioner[data-side='bottom']::before {
+  left: 0;
+  right: 0;
+  top: -10px;
+  height: 10px;
+}
+
+.NavigationMenuPositioner[data-side='left']::before {
+  top: 0;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+}
+
+.NavigationMenuPositioner[data-side='right']::before {
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+}
+
+.NavigationMenuPositioner[data-instant] {
+  transition: none;
+}
+
+.NavigationMenuPopup {
+  position: relative;
+  overflow: visible;
+  box-sizing: border-box;
+  outline: 0;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition-property: opacity, transform, width, height;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--easing);
+  width: var(--popup-width);
+  height: var(--popup-height);
+}
+
+.NavigationMenuPopup[data-starting-style],
+.NavigationMenuPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.NavigationMenuPopup[data-ending-style] {
+  transition-timing-function: var(--ds-motion-ease);
+  transition-duration: var(--ds-motion-fast);
+}
+
+.NavigationMenuContent {
+  box-sizing: border-box;
+  transition:
+    opacity calc(var(--duration) * 0.5) var(--ds-motion-ease),
+    transform var(--duration) var(--easing);
+  padding: 0.5rem;
+  width: calc(100vw - 40px);
+  height: 100%;
+}
+
+@media (min-width: 500px) {
+  .NavigationMenuContent {
+    width: max-content;
+    max-width: 400px;
+  }
+}
+
+.NavigationMenuContent[data-starting-style],
+.NavigationMenuContent[data-ending-style] {
+  opacity: 0;
+}
+
+.NavigationMenuContent[data-starting-style][data-activation-direction='left'] {
+  transform: translateX(-50%);
+}
+
+.NavigationMenuContent[data-starting-style][data-activation-direction='right'] {
+  transform: translateX(50%);
+}
+
+.NavigationMenuContent[data-ending-style][data-activation-direction='left'] {
+  transform: translateX(50%);
+}
+
+.NavigationMenuContent[data-ending-style][data-activation-direction='right'] {
+  transform: translateX(-50%);
+}
+
+.NavigationMenuViewport {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.NavigationMenuGridLinkList {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 500px) {
+  .NavigationMenuGridLinkList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.NavigationMenuFlexLinkList {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.NavigationMenuLinkCard {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  text-align: left;
+  border: 0;
+  background-color: transparent;
+  font-family: inherit;
+}
+
+.NavigationMenuLinkCard[data-popup-open],
+.NavigationMenuLinkCard[data-active] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+@media (hover: hover) {
+  .NavigationMenuLinkCard:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.NavigationMenuLinkCard:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.NavigationMenuLinkTitle {
+  margin: 0 0 4px;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1rem;
+}
+
+.NavigationMenuLinkDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Purely visual dimming layer — NavigationMenu is never modal, so this is
+   cosmetic only, no focus trap. */
+.NavigationMenuBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 10%);
+  transition: opacity var(--duration, var(--ds-motion-slow)) var(--ds-motion-ease);
+}
+
+html[data-theme='dark'] .NavigationMenuBackdrop {
+  background-color: rgb(0 0 0 / 40%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light'], [data-theme='dark']) .NavigationMenuBackdrop {
+    background-color: rgb(0 0 0 / 40%);
+  }
+}
+
+.NavigationMenuBackdrop[data-starting-style],
+.NavigationMenuBackdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.NavigationMenuArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+  transition:
+    left var(--duration) var(--easing),
+    right var(--duration) var(--easing);
+}
+
+.NavigationMenuArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.NavigationMenuArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.NavigationMenuArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.NavigationMenuArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.NavigationMenuArrow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+/* ========================= Combobox =========================
+   Select-like trigger reuses the Select family's SelectTrigger/SelectIcon
+   (same "select-like trigger for input-inside-popup pattern" shape, source
+   comment in both modules). */
+
+.ComboboxInputGroup {
+  box-sizing: border-box;
+  position: relative;
+  width: 14rem;
+  height: 2rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+}
+
+.ComboboxInputGroup:focus-within {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.ComboboxInputGroup:has(.ComboboxClear) .ComboboxInput {
+  padding: 0 calc(0.5rem + 2rem * 2) 0 0.5rem;
+}
+
+.ComboboxInputGroup:has([data-invalid]) {
+  border-color: var(--ds-color-text-error);
+}
+
+.ComboboxInput {
+  box-sizing: border-box;
+  padding: 0 calc(0.5rem + 2rem) 0 0.5rem;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+}
+
+@media (any-pointer: coarse) {
+  .ComboboxInput {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.ComboboxInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxInput:disabled,
+.ComboboxInput[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxActionButtons {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  height: 100%;
+  right: 0;
+  border: none;
+  color: var(--ds-color-text-hint);
+  padding: 0;
+}
+
+.ComboboxTrigger,
+.ComboboxClear {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 100%;
+  color: var(--ds-color-text-primary);
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.ComboboxTriggerIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--ds-color-text-primary);
+}
+
+.ComboboxPositioner {
+  outline: 0;
+}
+
+.ComboboxPopup {
+  box-sizing: border-box;
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  width: var(--anchor-width);
+  max-width: var(--available-width);
+  transition:
+    opacity var(--ds-motion-fast),
+    transform var(--ds-motion-fast);
+  transform-origin: var(--transform-origin);
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  box-shadow: var(--ds-shadow-overlay);
+}
+
+.ComboboxPopup[data-starting-style],
+.ComboboxPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Popup hosting the input (searchable-select pattern). */
+.ComboboxPopupInput {
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  min-width: 12rem;
+  height: 2rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  outline: none;
+}
+
+.ComboboxPopupInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxList {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block: 0.25rem;
+  scroll-padding-block: 0.25rem;
+  outline: 0;
+  max-height: min(22.5rem, var(--available-height));
+}
+
+.ComboboxList[data-empty] {
+  padding: 0;
+}
+
+.ComboboxItem {
+  box-sizing: border-box;
+  outline: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-block: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
+  align-items: center;
+  grid-template-columns: 1rem 1fr;
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+
+.ComboboxItem[data-highlighted] {
+  z-index: 0;
+  position: relative;
+  color: var(--ds-color-text-primary);
+}
+
+.ComboboxItem[data-highlighted]::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ComboboxItem[data-disabled] {
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxItemText {
+  grid-column-start: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.ComboboxItemIndicator {
+  grid-column-start: 1;
+}
+
+.ComboboxItemLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.ComboboxItemDescription {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.ComboboxEmpty {
+  box-sizing: border-box;
+  padding: 1rem 1rem 1rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxStatus {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxSpinner {
+  box-sizing: border-box;
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+  border: 2px solid var(--ds-color-border-subtle);
+  border-top-color: var(--ds-color-icon-default);
+  border-radius: var(--ds-radius-round);
+  animation: droppy-combobox-spin var(--ds-motion-slow) linear infinite;
+}
+
+@keyframes droppy-combobox-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ComboboxGroup {
+  display: block;
+}
+
+.ComboboxGroup:last-child {
+  padding-bottom: 0;
+}
+
+.ComboboxGroupLabel {
+  box-sizing: border-box;
+  padding-block: 0.375rem;
+  padding-left: calc(0.5rem + 1rem + 0.5rem);
+  padding-right: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: var(--ds-type-weight-regular);
+  -webkit-user-select: none;
+  user-select: none;
+  color: var(--ds-color-text-hint);
+}
+
+.ComboboxSeparator {
+  height: 1px;
+  margin-block: 0.25rem;
+  margin-inline: 1rem;
+  background-color: var(--ds-color-border-subtle);
+}
+
+/* Multiple selection with chips. */
+.ComboboxChipsInputGroup {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.125rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: var(--ds-color-surface-sunken);
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  width: 20rem;
+  cursor: text;
+}
+
+.ComboboxChipsInputGroup:has(.ComboboxChip) {
+  padding-inline: 0.25rem;
+}
+
+.ComboboxChipsInputGroup:focus-within {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.ComboboxChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.ComboboxChip {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: calc(1.5rem - 2px);
+  background-color: var(--ds-color-surface-card);
+  color: var(--ds-color-text-primary);
+  font-size: 0.875rem;
+  line-height: 1;
+  padding: 0 0.2rem 0 0.4rem;
+  overflow: hidden;
+  gap: 0.25rem;
+  outline: 0;
+  cursor: default;
+}
+
+.ComboboxChip:focus-within {
+  background-color: var(--ds-color-action-subtle-hover);
+  color: var(--ds-color-text-primary);
+}
+
+@media (hover: hover) {
+  .ComboboxChip[data-highlighted] {
+    background-color: var(--ds-color-action-subtle-hover);
+    color: var(--ds-color-text-primary);
+  }
+}
+
+.ComboboxChipRemove {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .ComboboxChipRemove:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.ComboboxChipsInput {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: var(--ds-radius-control);
+  height: calc(1.5rem - 2px);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  min-width: 3rem;
+}
+
+.ComboboxChipsInput::placeholder {
+  color: var(--ds-color-text-hint);
+}
+
+/* Inline (in-flow, no popup). */
+.ComboboxInlineListBox {
+  box-sizing: border-box;
+  width: 14rem;
+  margin-top: 0.25rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-card);
+  color: var(--ds-color-text-primary);
+}
+
+.ComboboxInlineList {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-block: 0.25rem;
+  scroll-padding-block: 0.25rem;
+  outline: 0;
+  max-height: 12rem;
+}
+
+.ComboboxInlineList[data-empty] {
+  padding: 0;
+}
+
+/* ========================= Toast =========================
+   The stacking model is mechanical, driven by the --toast-* variables Toast.Root
+   and Toast.Viewport provide (--toast-index, --toast-offset-y, --toast-height,
+   --toast-frontmost-height, --toast-swipe-movement-x/-y); --gap/--peek are
+   user-space conventions carried over from the source demo. */
+
+.ToastViewport {
+  position: fixed;
+  z-index: 1;
+  width: calc(100vw - 2rem);
+  margin: 0 auto;
+  bottom: 1rem;
+  right: 1rem;
+  left: auto;
+  top: auto;
+}
+
+@media (min-width: 500px) {
+  .ToastViewport {
+    bottom: 2rem;
+    right: 2rem;
+    width: 22.5rem;
+  }
+}
+
+.ToastRoot {
+  --gap: 0.75rem;
+  --peek: 0.75rem;
+  --scale: calc(max(0, 1 - (var(--toast-index) * 0.1)));
+  --shrink: calc(1 - var(--scale));
+  --height: var(--toast-frontmost-height, var(--toast-height));
+  --offset-y: calc(
+    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
+      var(--toast-swipe-movement-y)
+  );
+
+  position: absolute;
+  right: 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: bottom center;
+  bottom: 0;
+  left: auto;
+  margin-right: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    transform var(--ds-motion-slow) var(--ds-motion-ease),
+    opacity var(--ds-motion-slow),
+    height var(--ds-motion-fast);
+  cursor: default;
+  z-index: calc(1000 - var(--toast-index));
+  height: var(--height);
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(
+      calc(
+        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
+          (var(--shrink) * var(--height))
+      )
+    )
+    scale(var(--scale));
+}
+
+.ToastRoot[data-expanded] {
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
+  height: var(--toast-height);
+}
+
+.ToastRoot[data-starting-style],
+.ToastRoot[data-ending-style] {
+  transform: translateY(150%);
+}
+
+.ToastRoot[data-limited] {
+  opacity: 0;
+}
+
+.ToastRoot[data-ending-style] {
+  opacity: 0;
+}
+
+.ToastRoot[data-ending-style][data-swipe-direction='up'] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
+}
+
+.ToastRoot[data-ending-style][data-swipe-direction='left'] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
+}
+
+.ToastRoot[data-ending-style][data-swipe-direction='right'] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
+}
+
+.ToastRoot[data-ending-style][data-swipe-direction='down'] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
+}
+
+.ToastRoot[data-type='success'] .ToastText {
+  color: var(--ds-color-text-primary);
+}
+
+.ToastRoot[data-type='error'] .ToastText {
+  color: var(--ds-color-text-error);
+}
+
+.ToastRoot[data-type='info'] .ToastText {
+  color: var(--ds-color-text-primary);
+}
+
+/* Bridges the hover area between stacked toasts so the expanded state
+   doesn't flicker while the pointer crosses the gap. */
+.ToastRoot::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0;
+  height: calc(var(--gap) + 1px);
+}
+
+.ToastRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
+}
+
+.ToastContent {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 0.75rem;
+  overflow: hidden;
+  transition: opacity var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+.ToastContent[data-behind] {
+  opacity: 0;
+}
+
+.ToastContent[data-expanded] {
+  opacity: 1;
+}
+
+.ToastText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Variant of ToastText for toasts that carry an action button (undo demo). */
+.ToastActionText {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.ToastMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ToastTitle {
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0;
+}
+
+.ToastDescription {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0;
+}
+
+.ToastClose,
+.ToastActionButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .ToastClose:hover:not([data-disabled]),
+  .ToastActionButton:hover:not([data-disabled]) {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.ToastClose:active:not([data-disabled]),
+.ToastActionButton:active:not([data-disabled]) {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.ToastClose[data-disabled],
+.ToastActionButton[data-disabled] {
+  color: var(--ds-color-text-hint);
+  border-color: var(--ds-color-border-subtle);
+}
+
+.ToastClose:focus-visible,
+.ToastActionButton:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.ToastActionButton {
+  display: inline-flex;
+}
+
+/* Anchored toast parts (anchored demo: a Toast pinned to a trigger instead
+   of stacked in a corner viewport). */
+.ToastAnchoredViewport {
+  outline: 0;
+}
+
+.ToastAnchoredPositioner {
+  z-index: calc(1000 - var(--toast-index));
+}
+
+.ToastAnchoredRoot {
+  box-sizing: border-box;
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-card);
+  background-color: var(--ds-color-surface-overlay);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-overlay);
+  transform-origin: var(--transform-origin);
+  transition:
+    scale var(--ds-motion-fast) var(--ds-motion-ease),
+    opacity var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.ToastAnchoredRoot[data-starting-style],
+.ToastAnchoredRoot[data-ending-style] {
+  opacity: 0;
+  scale: 0.98;
+}
+
+.ToastAnchoredRoot[data-instant] {
+  transition: none;
+}
+
+.ToastAnchoredRoot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus), var(--ds-shadow-overlay);
+}
+
+.ToastAnchoredDescription {
+  margin: 0;
+}
+
+/* Visually hidden but still announced — gives the anchored toast's dialog
+   role an accessible name without duplicating text in the compact layout. */
+.ToastSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ToastArrow {
+  display: block;
+  position: relative;
+  width: 12px;
+  height: 6px;
+  overflow: clip;
+}
+
+.ToastArrow[data-side='top'] {
+  bottom: -6px;
+  rotate: 180deg;
+}
+
+.ToastArrow[data-side='bottom'] {
+  top: -6px;
+  rotate: 0deg;
+}
+
+.ToastArrow[data-side='left'] {
+  right: -9px;
+  rotate: 90deg;
+}
+
+.ToastArrow[data-side='right'] {
+  left: -9px;
+  rotate: -90deg;
+}
+
+.ToastArrow::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: calc(6px * sqrt(2));
+  height: calc(6px * sqrt(2));
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-overlay);
+  transform: translate(-50%, 50%) rotate(45deg);
+}

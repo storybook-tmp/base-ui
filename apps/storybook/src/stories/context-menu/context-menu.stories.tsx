@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, waitFor, within } from 'storybook/test';
 import { ContextMenu } from '@base-ui/react/context-menu';
 import { Menu } from '@base-ui/react/menu';
-import styles from './context-menu.module.css';
+import theme from '@droppy/theme';
+import './context-menu.demo.css';
 
 /**
  * Stories follow research/c-components/context-menu (Tier 2): Context Menu is
@@ -14,7 +15,8 @@ import styles from './context-menu.module.css';
  * exact `fireEvent.contextMenu(trigger, { clientX, clientY, button: 2 })`
  * pattern the source test suite uses), a nested submenu, and checkbox/radio
  * items — since every popup part is a direct Menu re-export, styling matches
- * ../menu/menu.module.css closely.
+ * the Menu family's `theme.Menu*` bindings closely (via the ContextMenu*-prefixed
+ * theme keys).
  *
  * Portal note: the popup subtree mounts on document.body — plays query via
  * `within(canvasElement.ownerDocument.body)`.
@@ -46,17 +48,17 @@ type Story = StoryObj<typeof meta>;
 function HeroExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this card
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.Item className={styles.Item}>Add to Library</ContextMenu.Item>
-            <ContextMenu.Item className={styles.Item}>Add to Playlist</ContextMenu.Item>
-            <ContextMenu.Separator className={styles.Separator} />
-            <ContextMenu.Item className={styles.Item}>Play Next</ContextMenu.Item>
-            <ContextMenu.Item className={styles.Item}>Favorite</ContextMenu.Item>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Add to Library</ContextMenu.Item>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Add to Playlist</ContextMenu.Item>
+            <ContextMenu.Separator className={theme.ContextMenuSeparator} />
+            <ContextMenu.Item className={theme.ContextMenuItem}>Play Next</ContextMenu.Item>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Favorite</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>
@@ -93,34 +95,38 @@ export const Hero: Story = {
 function NestedSubmenuExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this song row
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.Item className={styles.Item}>Add to Library</ContextMenu.Item>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Add to Library</ContextMenu.Item>
             <ContextMenu.SubmenuRoot>
-              <ContextMenu.SubmenuTrigger className={styles.SubmenuTrigger}>
+              <ContextMenu.SubmenuTrigger className={theme.ContextMenuSubmenuTrigger}>
                 Add to Playlist
                 <CaretRightIcon />
               </ContextMenu.SubmenuTrigger>
               <ContextMenu.Portal>
                 <ContextMenu.Positioner
-                  className={styles.Positioner}
+                  className={theme.ContextMenuPositioner}
                   alignOffset={-4}
                   sideOffset={-4}
                 >
-                  <ContextMenu.Popup className={styles.Popup}>
-                    <ContextMenu.Item className={styles.Item}>Get Up!</ContextMenu.Item>
-                    <ContextMenu.Item className={styles.Item}>Inside Out</ContextMenu.Item>
-                    <ContextMenu.Item className={styles.Item}>Night Beats</ContextMenu.Item>
+                  <ContextMenu.Popup className={theme.ContextMenuPopup}>
+                    <ContextMenu.Item className={theme.ContextMenuItem}>Get Up!</ContextMenu.Item>
+                    <ContextMenu.Item className={theme.ContextMenuItem}>
+                      Inside Out
+                    </ContextMenu.Item>
+                    <ContextMenu.Item className={theme.ContextMenuItem}>
+                      Night Beats
+                    </ContextMenu.Item>
                   </ContextMenu.Popup>
                 </ContextMenu.Positioner>
               </ContextMenu.Portal>
             </ContextMenu.SubmenuRoot>
-            <ContextMenu.Separator className={styles.Separator} />
-            <ContextMenu.Item className={styles.Item}>Play Next</ContextMenu.Item>
+            <ContextMenu.Separator className={theme.ContextMenuSeparator} />
+            <ContextMenu.Item className={theme.ContextMenuItem}>Play Next</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>
@@ -168,30 +174,34 @@ function CheckboxAndRadioItemsExample() {
   const [sort, setSort] = React.useState('date');
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this document
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
             <ContextMenu.CheckboxItem
               checked={showMinimap}
               onCheckedChange={setShowMinimap}
-              className={styles.CheckboxItem}
+              className={theme.ContextMenuCheckboxItem}
             >
-              <ContextMenu.CheckboxItemIndicator className={styles.CheckboxItemIndicator}>
+              <ContextMenu.CheckboxItemIndicator className={theme.ContextMenuCheckboxItemIndicator}>
                 <CheckIcon />
               </ContextMenu.CheckboxItemIndicator>
-              <span className={styles.CheckboxItemText}>Show Minimap</span>
+              <span className={theme.ContextMenuCheckboxItemText}>Show Minimap</span>
             </ContextMenu.CheckboxItem>
-            <ContextMenu.Separator className={styles.Separator} />
+            <ContextMenu.Separator className={theme.ContextMenuSeparator} />
             <ContextMenu.RadioGroup value={sort} onValueChange={setSort}>
               {['date', 'name', 'type'].map((option) => (
-                <ContextMenu.RadioItem key={option} className={styles.RadioItem} value={option}>
-                  <ContextMenu.RadioItemIndicator className={styles.RadioItemIndicator}>
+                <ContextMenu.RadioItem
+                  key={option}
+                  className={theme.ContextMenuRadioItem}
+                  value={option}
+                >
+                  <ContextMenu.RadioItemIndicator className={theme.ContextMenuRadioItemIndicator}>
                     <CheckIcon />
                   </ContextMenu.RadioItemIndicator>
-                  <span className={styles.RadioItemText}>
+                  <span className={theme.ContextMenuRadioItemText}>
                     Sort by {option[0].toUpperCase() + option.slice(1)}
                   </span>
                 </ContextMenu.RadioItem>
@@ -245,19 +255,23 @@ function CustomAnchorOverrideExample() {
   return (
     <React.Fragment>
       <ContextMenu.Root>
-        <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+        <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
           Right-click anywhere here
         </ContextMenu.Trigger>
         <ContextMenu.Portal>
-          <ContextMenu.Positioner className={styles.Positioner} anchor={markerRef} side="top">
-            <ContextMenu.Popup className={styles.Popup} data-testid="popup">
-              <ContextMenu.Item className={styles.Item}>Add to Library</ContextMenu.Item>
-              <ContextMenu.Item className={styles.Item}>Favorite</ContextMenu.Item>
+          <ContextMenu.Positioner
+            className={theme.ContextMenuPositioner}
+            anchor={markerRef}
+            side="top"
+          >
+            <ContextMenu.Popup className={theme.ContextMenuPopup} data-testid="popup">
+              <ContextMenu.Item className={theme.ContextMenuItem}>Add to Library</ContextMenu.Item>
+              <ContextMenu.Item className={theme.ContextMenuItem}>Favorite</ContextMenu.Item>
             </ContextMenu.Popup>
           </ContextMenu.Positioner>
         </ContextMenu.Portal>
       </ContextMenu.Root>
-      <div ref={markerRef} className={styles.Marker} data-testid="marker">
+      <div ref={markerRef} className="ContextMenuDemoMarker" data-testid="marker">
         anchor
       </div>
     </React.Fragment>
@@ -302,13 +316,13 @@ export const CustomAnchorOverride: Story = {
 function DisabledTriggerExample() {
   return (
     <ContextMenu.Root disabled>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this disabled surface
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.Item className={styles.Item}>Add to Library</ContextMenu.Item>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Add to Library</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>
@@ -346,15 +360,15 @@ export const DisabledTrigger: Story = {
 function LongPressDescriptionExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Long-press this on touch (500ms, cancels on &gt;10px movement)
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.Item className={styles.Item}>Reply</ContextMenu.Item>
-            <ContextMenu.Item className={styles.Item}>Copy</ContextMenu.Item>
-            <ContextMenu.Item className={styles.Item}>Delete</ContextMenu.Item>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Reply</ContextMenu.Item>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Copy</ContextMenu.Item>
+            <ContextMenu.Item className={theme.ContextMenuItem}>Delete</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>
@@ -386,21 +400,25 @@ export const LongPressDescription: Story = {
 function GroupLabelsExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this file
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
             <ContextMenu.Group>
-              <ContextMenu.GroupLabel className={styles.GroupLabel}>File</ContextMenu.GroupLabel>
-              <ContextMenu.Item className={styles.Item}>Rename</ContextMenu.Item>
-              <ContextMenu.Item className={styles.Item}>Duplicate</ContextMenu.Item>
+              <ContextMenu.GroupLabel className={theme.ContextMenuGroupLabel}>
+                File
+              </ContextMenu.GroupLabel>
+              <ContextMenu.Item className={theme.ContextMenuItem}>Rename</ContextMenu.Item>
+              <ContextMenu.Item className={theme.ContextMenuItem}>Duplicate</ContextMenu.Item>
             </ContextMenu.Group>
-            <ContextMenu.Separator className={styles.Separator} />
+            <ContextMenu.Separator className={theme.ContextMenuSeparator} />
             <ContextMenu.Group>
-              <ContextMenu.GroupLabel className={styles.GroupLabel}>Danger</ContextMenu.GroupLabel>
-              <ContextMenu.Item className={styles.Item}>Delete</ContextMenu.Item>
+              <ContextMenu.GroupLabel className={theme.ContextMenuGroupLabel}>
+                Danger
+              </ContextMenu.GroupLabel>
+              <ContextMenu.Item className={theme.ContextMenuItem}>Delete</ContextMenu.Item>
             </ContextMenu.Group>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
@@ -436,20 +454,20 @@ export const GroupLabels: Story = {
 function LinkItemsExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this article
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.LinkItem className={styles.LinkItem} href="#documentation">
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.LinkItem className={theme.ContextMenuLinkItem} href="#documentation">
               Open documentation
             </ContextMenu.LinkItem>
-            <ContextMenu.LinkItem className={styles.LinkItem} href="#shortcuts">
+            <ContextMenu.LinkItem className={theme.ContextMenuLinkItem} href="#shortcuts">
               Keyboard shortcuts
             </ContextMenu.LinkItem>
-            <ContextMenu.Separator className={styles.Separator} />
-            <ContextMenu.Item className={styles.Item}>Copy link</ContextMenu.Item>
+            <ContextMenu.Separator className={theme.ContextMenuSeparator} />
+            <ContextMenu.Item className={theme.ContextMenuItem}>Copy link</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>
@@ -486,26 +504,26 @@ export const LinkItems: Story = {
 function MixedMenuPartsCompositionExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this canvas
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
           {/* Bare Menu.* parts nested directly inside a ContextMenu.Popup — proof the
               re-exported parts genuinely interchange (in-repo scenario per #3365). */}
-          <ContextMenu.Popup className={styles.Popup}>
-            <Menu.Item className={styles.Item}>Copy</Menu.Item>
-            <Menu.Item className={styles.Item}>Paste</Menu.Item>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <Menu.Item className={theme.MenuItem}>Copy</Menu.Item>
+            <Menu.Item className={theme.MenuItem}>Paste</Menu.Item>
             <Menu.SubmenuRoot>
-              <Menu.SubmenuTrigger className={styles.SubmenuTrigger}>
+              <Menu.SubmenuTrigger className={theme.MenuSubmenuTrigger}>
                 Transform
                 <CaretRightIcon />
               </Menu.SubmenuTrigger>
               <Menu.Portal>
-                <Menu.Positioner className={styles.Positioner} alignOffset={-4} sideOffset={-4}>
-                  <Menu.Popup className={styles.Popup}>
-                    <Menu.Item className={styles.Item}>Rotate</Menu.Item>
-                    <Menu.Item className={styles.Item}>Flip</Menu.Item>
+                <Menu.Positioner className={theme.MenuPositioner} alignOffset={-4} sideOffset={-4}>
+                  <Menu.Popup className={theme.MenuPopup}>
+                    <Menu.Item className={theme.MenuItem}>Rotate</Menu.Item>
+                    <Menu.Item className={theme.MenuItem}>Flip</Menu.Item>
                   </Menu.Popup>
                 </Menu.Positioner>
               </Menu.Portal>
@@ -554,16 +572,18 @@ export const MixedMenuPartsComposition: Story = {
 function CloseOnClickConfigurationExample() {
   return (
     <ContextMenu.Root>
-      <ContextMenu.Trigger className={styles.Trigger} data-testid="trigger">
+      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
         Right-click this feed item
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
-        <ContextMenu.Positioner className={styles.Positioner}>
-          <ContextMenu.Popup className={styles.Popup}>
-            <ContextMenu.Item className={styles.Item} closeOnClick={false}>
+        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
+          <ContextMenu.Popup className={theme.ContextMenuPopup}>
+            <ContextMenu.Item className={theme.ContextMenuItem} closeOnClick={false}>
               Refresh now (stays open)
             </ContextMenu.Item>
-            <ContextMenu.Item className={styles.Item}>Mark as read (closes)</ContextMenu.Item>
+            <ContextMenu.Item className={theme.ContextMenuItem}>
+              Mark as read (closes)
+            </ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>

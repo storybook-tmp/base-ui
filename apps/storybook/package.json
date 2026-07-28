@@ -5,13 +5,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "prestorybook": "pnpm -w --filter @droppy/theme build",
     "storybook": "storybook dev -p 6006",
+    "prebuild-storybook": "pnpm -w --filter @droppy/theme build",
     "build-storybook": "storybook build",
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@base-ui/react": "workspace:*",
     "@base-ui/utils": "workspace:*",
+    "@droppy/theme": "workspace:*",
     "@date-fns/tz": "^1.2.0",
     "date-fns": "^4.1.0",
     "react": "19.2.5",

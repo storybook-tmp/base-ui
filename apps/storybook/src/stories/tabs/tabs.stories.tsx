@@ -2,7 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor } from 'storybook/test';
 import { Tabs } from '@base-ui/react/tabs';
-import styles from './tabs.module.css';
+import theme from '@droppy/theme';
+import './tabs.demo.css';
 
 /**
  * Stories follow research/c-components/tabs (Tier 2): the hero Overview/
@@ -44,28 +45,28 @@ function TabsDemo({
   orientation?: 'horizontal' | 'vertical';
 }) {
   return (
-    <Tabs.Root className={styles.Root} defaultValue="overview" orientation={orientation}>
-      <Tabs.List className={styles.List} activateOnFocus={activateOnFocus}>
-        <Tabs.Tab className={styles.Tab} value="overview">
+    <Tabs.Root className={theme.TabsRoot} defaultValue="overview" orientation={orientation}>
+      <Tabs.List className={theme.TabsList} activateOnFocus={activateOnFocus}>
+        <Tabs.Tab className={theme.TabsTab} value="overview">
           Overview
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="projects">
+        <Tabs.Tab className={theme.TabsTab} value="projects">
           Projects
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="account">
+        <Tabs.Tab className={theme.TabsTab} value="account">
           Account
         </Tabs.Tab>
-        <Tabs.Indicator className={styles.Indicator} data-testid="indicator" />
+        <Tabs.Indicator className={theme.TabsIndicator} data-testid="indicator" />
       </Tabs.List>
-      <div className={styles.PanelViewport}>
-        <Tabs.Panel className={styles.Panel} value="overview">
-          <p className={styles.Paragraph}>{panelCopy.overview}</p>
+      <div className={theme.TabsPanelViewport}>
+        <Tabs.Panel className={theme.TabsPanel} value="overview">
+          <p className="TabsDemoParagraph">{panelCopy.overview}</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="projects">
-          <p className={styles.Paragraph}>{panelCopy.projects}</p>
+        <Tabs.Panel className={theme.TabsPanel} value="projects">
+          <p className="TabsDemoParagraph">{panelCopy.projects}</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="account">
-          <p className={styles.Paragraph}>{panelCopy.account}</p>
+        <Tabs.Panel className={theme.TabsPanel} value="account">
+          <p className="TabsDemoParagraph">{panelCopy.account}</p>
         </Tabs.Panel>
       </div>
     </Tabs.Root>
@@ -212,28 +213,28 @@ export const AnimatedIndicatorUnderline: Story = {
 export const DisabledTabs: Story = {
   tags: ['api-ref'],
   render: () => (
-    <Tabs.Root className={styles.Root}>
-      <Tabs.List className={styles.List}>
-        <Tabs.Tab className={styles.Tab} value="overview" disabled>
+    <Tabs.Root className={theme.TabsRoot}>
+      <Tabs.List className={theme.TabsList}>
+        <Tabs.Tab className={theme.TabsTab} value="overview" disabled>
           Overview
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="projects">
+        <Tabs.Tab className={theme.TabsTab} value="projects">
           Projects
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="account">
+        <Tabs.Tab className={theme.TabsTab} value="account">
           Account
         </Tabs.Tab>
-        <Tabs.Indicator className={styles.Indicator} />
+        <Tabs.Indicator className={theme.TabsIndicator} />
       </Tabs.List>
-      <div className={styles.PanelViewport}>
-        <Tabs.Panel className={styles.Panel} value="overview">
-          <p className={styles.Paragraph}>{panelCopy.overview}</p>
+      <div className={theme.TabsPanelViewport}>
+        <Tabs.Panel className={theme.TabsPanel} value="overview">
+          <p className="TabsDemoParagraph">{panelCopy.overview}</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="projects">
-          <p className={styles.Paragraph}>{panelCopy.projects}</p>
+        <Tabs.Panel className={theme.TabsPanel} value="projects">
+          <p className="TabsDemoParagraph">{panelCopy.projects}</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="account">
-          <p className={styles.Paragraph}>{panelCopy.account}</p>
+        <Tabs.Panel className={theme.TabsPanel} value="account">
+          <p className="TabsDemoParagraph">{panelCopy.account}</p>
         </Tabs.Panel>
       </div>
     </Tabs.Root>
@@ -263,51 +264,55 @@ function ControlledTabsDemo() {
 
   return (
     <div>
-      <div className={styles.ExternalControls}>
+      <div className="TabsDemoExternalControls">
         <button
           type="button"
-          className={styles.ExternalButton}
+          className="TabsDemoExternalButton"
           onClick={() => setValue('overview')}
         >
           Show overview
         </button>
         <button
           type="button"
-          className={styles.ExternalButton}
+          className="TabsDemoExternalButton"
           onClick={() => setValue('projects')}
         >
           Show projects
         </button>
-        <button type="button" className={styles.ExternalButton} onClick={() => setValue('account')}>
+        <button
+          type="button"
+          className="TabsDemoExternalButton"
+          onClick={() => setValue('account')}
+        >
           Show account
         </button>
       </div>
       <Tabs.Root
-        className={styles.Root}
+        className={theme.TabsRoot}
         value={value}
         onValueChange={(next) => setValue(next as string)}
       >
-        <Tabs.List className={styles.List}>
-          <Tabs.Tab className={styles.Tab} value="overview">
+        <Tabs.List className={theme.TabsList}>
+          <Tabs.Tab className={theme.TabsTab} value="overview">
             Overview
           </Tabs.Tab>
-          <Tabs.Tab className={styles.Tab} value="projects">
+          <Tabs.Tab className={theme.TabsTab} value="projects">
             Projects
           </Tabs.Tab>
-          <Tabs.Tab className={styles.Tab} value="account">
+          <Tabs.Tab className={theme.TabsTab} value="account">
             Account
           </Tabs.Tab>
-          <Tabs.Indicator className={styles.Indicator} />
+          <Tabs.Indicator className={theme.TabsIndicator} />
         </Tabs.List>
-        <div className={styles.PanelViewport}>
-          <Tabs.Panel className={styles.Panel} value="overview">
-            <p className={styles.Paragraph}>{panelCopy.overview}</p>
+        <div className={theme.TabsPanelViewport}>
+          <Tabs.Panel className={theme.TabsPanel} value="overview">
+            <p className="TabsDemoParagraph">{panelCopy.overview}</p>
           </Tabs.Panel>
-          <Tabs.Panel className={styles.Panel} value="projects">
-            <p className={styles.Paragraph}>{panelCopy.projects}</p>
+          <Tabs.Panel className={theme.TabsPanel} value="projects">
+            <p className="TabsDemoParagraph">{panelCopy.projects}</p>
           </Tabs.Panel>
-          <Tabs.Panel className={styles.Panel} value="account">
-            <p className={styles.Paragraph}>{panelCopy.account}</p>
+          <Tabs.Panel className={theme.TabsPanel} value="account">
+            <p className="TabsDemoParagraph">{panelCopy.account}</p>
           </Tabs.Panel>
         </div>
       </Tabs.Root>
@@ -348,19 +353,19 @@ export const ControlledValue: Story = {
 export const ManyTabsOverflow: Story = {
   tags: ['highlight'],
   render: () => (
-    <Tabs.Root className={`${styles.Root} ${styles.OverflowRoot}`} defaultValue="tab-1">
-      <Tabs.List className={`${styles.List} ${styles.OverflowList}`}>
+    <Tabs.Root className={`${theme.TabsRoot} TabsDemoOverflowRoot`} defaultValue="tab-1">
+      <Tabs.List className={`${theme.TabsList} TabsDemoOverflowList`}>
         {Array.from({ length: 8 }, (_, index) => (
-          <Tabs.Tab className={styles.Tab} value={`tab-${index + 1}`} key={index}>
+          <Tabs.Tab className={theme.TabsTab} value={`tab-${index + 1}`} key={index}>
             Tab {index + 1}
           </Tabs.Tab>
         ))}
-        <Tabs.Indicator className={styles.Indicator} />
+        <Tabs.Indicator className={theme.TabsIndicator} />
       </Tabs.List>
-      <div className={styles.PanelViewport}>
+      <div className={theme.TabsPanelViewport}>
         {Array.from({ length: 8 }, (_, index) => (
-          <Tabs.Panel className={styles.Panel} value={`tab-${index + 1}`} key={index}>
-            <p className={styles.Paragraph}>Panel {index + 1} content.</p>
+          <Tabs.Panel className={theme.TabsPanel} value={`tab-${index + 1}`} key={index}>
+            <p className="TabsDemoParagraph">Panel {index + 1} content.</p>
           </Tabs.Panel>
         ))}
       </div>
@@ -421,24 +426,24 @@ function GearIcon(props: React.ComponentProps<'svg'>) {
 export const TabsWithIcons: Story = {
   tags: ['highlight'],
   render: () => (
-    <Tabs.Root className={styles.Root} defaultValue="alerts">
-      <Tabs.List className={styles.List}>
-        <Tabs.Tab className={styles.Tab} value="alerts">
-          <BellIcon className={styles.TabIcon} />
+    <Tabs.Root className={theme.TabsRoot} defaultValue="alerts">
+      <Tabs.List className={theme.TabsList}>
+        <Tabs.Tab className={theme.TabsTab} value="alerts">
+          <BellIcon className="TabsDemoTabIcon" />
           Alerts
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="settings">
-          <GearIcon className={styles.TabIcon} />
+        <Tabs.Tab className={theme.TabsTab} value="settings">
+          <GearIcon className="TabsDemoTabIcon" />
           Settings
         </Tabs.Tab>
-        <Tabs.Indicator className={styles.Indicator} />
+        <Tabs.Indicator className={theme.TabsIndicator} />
       </Tabs.List>
-      <div className={styles.PanelViewport}>
-        <Tabs.Panel className={styles.Panel} value="alerts">
-          <p className={styles.Paragraph}>No new alerts.</p>
+      <div className={theme.TabsPanelViewport}>
+        <Tabs.Panel className={theme.TabsPanel} value="alerts">
+          <p className="TabsDemoParagraph">No new alerts.</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="settings">
-          <p className={styles.Paragraph}>Notification preferences.</p>
+        <Tabs.Panel className={theme.TabsPanel} value="settings">
+          <p className="TabsDemoParagraph">Notification preferences.</p>
         </Tabs.Panel>
       </div>
     </Tabs.Root>
@@ -460,39 +465,39 @@ export const TabsWithIcons: Story = {
 export const NestedContent: Story = {
   tags: ['highlight'],
   render: () => (
-    <Tabs.Root className={styles.Root} defaultValue="overview">
-      <Tabs.List className={styles.List}>
-        <Tabs.Tab className={styles.Tab} value="overview">
+    <Tabs.Root className={theme.TabsRoot} defaultValue="overview">
+      <Tabs.List className={theme.TabsList}>
+        <Tabs.Tab className={theme.TabsTab} value="overview">
           Overview
         </Tabs.Tab>
-        <Tabs.Tab className={styles.Tab} value="settings">
+        <Tabs.Tab className={theme.TabsTab} value="settings">
           Settings
         </Tabs.Tab>
-        <Tabs.Indicator className={styles.Indicator} />
+        <Tabs.Indicator className={theme.TabsIndicator} />
       </Tabs.List>
-      <div className={styles.PanelViewport}>
-        <Tabs.Panel className={styles.Panel} value="overview">
-          <p className={styles.Paragraph}>{panelCopy.overview}</p>
+      <div className={theme.TabsPanelViewport}>
+        <Tabs.Panel className={theme.TabsPanel} value="overview">
+          <p className="TabsDemoParagraph">{panelCopy.overview}</p>
         </Tabs.Panel>
-        <Tabs.Panel className={styles.Panel} value="settings">
+        <Tabs.Panel className={theme.TabsPanel} value="settings">
           <div>
-            <p className={styles.Paragraph}>Notification settings, by channel:</p>
-            <Tabs.Root className={styles.NestedRoot} defaultValue="email">
-              <Tabs.List className={styles.List}>
-                <Tabs.Tab className={styles.Tab} value="email">
+            <p className="TabsDemoParagraph">Notification settings, by channel:</p>
+            <Tabs.Root className={`${theme.TabsRoot} TabsDemoNestedRoot`} defaultValue="email">
+              <Tabs.List className={theme.TabsList}>
+                <Tabs.Tab className={theme.TabsTab} value="email">
                   Email
                 </Tabs.Tab>
-                <Tabs.Tab className={styles.Tab} value="sms">
+                <Tabs.Tab className={theme.TabsTab} value="sms">
                   SMS
                 </Tabs.Tab>
-                <Tabs.Indicator className={styles.Indicator} />
+                <Tabs.Indicator className={theme.TabsIndicator} />
               </Tabs.List>
-              <div className={styles.PanelViewport}>
-                <Tabs.Panel className={styles.Panel} value="email">
-                  <p className={styles.Paragraph}>Email notification settings.</p>
+              <div className={theme.TabsPanelViewport}>
+                <Tabs.Panel className={theme.TabsPanel} value="email">
+                  <p className="TabsDemoParagraph">Email notification settings.</p>
                 </Tabs.Panel>
-                <Tabs.Panel className={styles.Panel} value="sms">
-                  <p className={styles.Paragraph}>SMS notification settings.</p>
+                <Tabs.Panel className={theme.TabsPanel} value="sms">
+                  <p className="TabsDemoParagraph">SMS notification settings.</p>
                 </Tabs.Panel>
               </div>
             </Tabs.Root>

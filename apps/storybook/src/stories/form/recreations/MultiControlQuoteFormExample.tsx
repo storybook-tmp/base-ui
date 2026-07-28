@@ -3,8 +3,8 @@ import { Form } from '@base-ui/react/form';
 import { Field } from '@base-ui/react/field';
 import { Autocomplete } from '@base-ui/react/autocomplete';
 import { NumberField } from '@base-ui/react/number-field';
-import styles from '../form.module.css';
-import rw from '../form-real-world.module.css';
+import theme from '@droppy/theme';
+import '../form.demo.css';
 
 const projectTypes = ['Marketing site', 'Web app', 'Mobile app', 'Internal tool', 'API service'];
 
@@ -24,24 +24,26 @@ export function MultiControlQuoteFormExample() {
 
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onFormSubmit={(formValues) => {
         setPayload(JSON.stringify(formValues));
       }}
     >
-      <Field.Root name="projectType" className={styles.Field}>
+      <Field.Root name="projectType" className={theme.FieldRoot}>
         <Autocomplete.Root items={projectTypes} required>
-          <Field.Label className={styles.Label}>
+          <Field.Label className={theme.FieldLabel}>
             Project type
-            <Autocomplete.Input placeholder="e.g. Web app" className={rw.Input} />
+            <Autocomplete.Input placeholder="e.g. Web app" className={theme.AutocompleteInput} />
           </Field.Label>
           <Autocomplete.Portal>
-            <Autocomplete.Positioner className={rw.Positioner} sideOffset={4}>
-              <Autocomplete.Popup className={rw.Popup}>
-                <Autocomplete.Empty className={rw.Empty}>No matches.</Autocomplete.Empty>
-                <Autocomplete.List className={rw.List}>
+            <Autocomplete.Positioner className={theme.AutocompletePositioner} sideOffset={4}>
+              <Autocomplete.Popup className={theme.AutocompletePopup}>
+                <Autocomplete.Empty className={theme.AutocompleteEmpty}>
+                  No matches.
+                </Autocomplete.Empty>
+                <Autocomplete.List className={theme.AutocompleteList}>
                   {(item: string) => (
-                    <Autocomplete.Item key={item} value={item} className={rw.Item}>
+                    <Autocomplete.Item key={item} value={item} className={theme.AutocompleteItem}>
                       {item}
                     </Autocomplete.Item>
                   )}
@@ -50,36 +52,36 @@ export function MultiControlQuoteFormExample() {
             </Autocomplete.Positioner>
           </Autocomplete.Portal>
         </Autocomplete.Root>
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please enter a project type.
         </Field.Error>
       </Field.Root>
 
-      <Field.Root name="budget" className={styles.Field}>
-        <NumberField.Root defaultValue={5000} min={0} step={500} className={styles.Field}>
-          <Field.Label className={styles.Label}>Budget (USD)</Field.Label>
-          <NumberField.Group className={rw.NumberGroup}>
-            <NumberField.Decrement className={rw.NumberButton}>−</NumberField.Decrement>
-            <NumberField.Input className={styles.Input} />
-            <NumberField.Increment className={rw.NumberButton}>+</NumberField.Increment>
+      <Field.Root name="budget" className={theme.FieldRoot}>
+        <NumberField.Root defaultValue={5000} min={0} step={500} className={theme.NumberFieldRoot}>
+          <Field.Label className={theme.FieldLabel}>Budget (USD)</Field.Label>
+          <NumberField.Group className={theme.NumberFieldGroup}>
+            <NumberField.Decrement className={theme.NumberFieldDecrement}>−</NumberField.Decrement>
+            <NumberField.Input className={theme.NumberFieldInput} />
+            <NumberField.Increment className={theme.NumberFieldIncrement}>+</NumberField.Increment>
           </NumberField.Group>
         </NumberField.Root>
       </Field.Root>
 
-      <Field.Root name="email" className={styles.Field}>
-        <Field.Label className={styles.Label}>Contact email</Field.Label>
+      <Field.Root name="email" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Contact email</Field.Label>
         <Field.Control
           type="email"
           required
           placeholder="you@company.com"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please enter your email.
         </Field.Error>
       </Field.Root>
 
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Request quote
       </button>
       {payload ? (
@@ -91,7 +93,7 @@ export function MultiControlQuoteFormExample() {
           tabIndex={0}
           role="region"
           aria-label="Submitted quote request"
-          className={styles.Pre}
+          className="FormDemoPre"
         >
           {payload}
         </pre>

@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, waitFor, within } from 'storybook/test';
 import { OTPField } from '@base-ui/react/otp-field';
 import { Field } from '@base-ui/react/field';
-import styles from './otp-field.module.css';
+import theme from '@droppy/theme';
+import './otp-field.demo.css';
 
 const OTP_LENGTH = 6;
 
@@ -31,25 +32,25 @@ function HeroExample() {
   const id = React.useId();
   const descriptionId = `${id}-description`;
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Verification code
       </label>
       <OTPField.Root
         id={id}
         length={OTP_LENGTH}
         aria-describedby={descriptionId}
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
       >
         {Array.from({ length: OTP_LENGTH }, (_, index) => (
           <OTPField.Input
             key={index}
-            className={styles.Input}
+            className={theme.OtpFieldInput}
             aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
           />
         ))}
       </OTPField.Root>
-      <p id={descriptionId} className={styles.Description}>
+      <p id={descriptionId} className={theme.FieldDescription}>
         Enter the 6-character code we sent to your device.
       </p>
     </div>
@@ -80,25 +81,25 @@ function TypeToCompleteExample() {
   const id = React.useId();
   const [complete, setComplete] = React.useState<string | null>(null);
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Verification code
       </label>
       <OTPField.Root
         id={id}
         length={OTP_LENGTH}
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
         onValueComplete={(value) => setComplete(value)}
       >
         {Array.from({ length: OTP_LENGTH }, (_, index) => (
           <OTPField.Input
             key={index}
-            className={styles.Input}
+            className={theme.OtpFieldInput}
             aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
           />
         ))}
       </OTPField.Root>
-      <output className={styles.Output}>
+      <output className="OtpFieldDemoOutput">
         {complete !== null ? `complete=${complete}` : 'incomplete'}
       </output>
     </div>
@@ -130,25 +131,25 @@ function PasteCompletesCodeExample() {
   const id = React.useId();
   const [complete, setComplete] = React.useState<string | null>(null);
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Verification code
       </label>
       <OTPField.Root
         id={id}
         length={OTP_LENGTH}
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
         onValueComplete={(value) => setComplete(value)}
       >
         {Array.from({ length: OTP_LENGTH }, (_, index) => (
           <OTPField.Input
             key={index}
-            className={styles.Input}
+            className={theme.OtpFieldInput}
             aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
           />
         ))}
       </OTPField.Root>
-      <output className={styles.Output}>
+      <output className="OtpFieldDemoOutput">
         {complete !== null ? `complete=${complete}` : 'incomplete'}
       </output>
     </div>
@@ -187,9 +188,9 @@ function BackspaceNavigationExample() {
   const cascadeId = React.useId();
   const deleteId = React.useId();
   return (
-    <div className={styles.Field}>
-      <div className={styles.Field}>
-        <label htmlFor={cascadeId} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={cascadeId} className={theme.FieldLabel}>
           Backspace cascades to the nearest filled slot
         </label>
         <OTPField.Root
@@ -197,19 +198,19 @@ function BackspaceNavigationExample() {
           defaultValue="123"
           length={OTP_LENGTH}
           aria-label="Backspace demo code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {Array.from({ length: OTP_LENGTH }, (_, index) => (
             <OTPField.Input
               key={index}
-              className={styles.Input}
+              className={theme.OtpFieldInput}
               aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
             />
           ))}
         </OTPField.Root>
       </div>
-      <div className={styles.Field}>
-        <label htmlFor={deleteId} className={styles.Label}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={deleteId} className={theme.FieldLabel}>
           Delete shifts later characters, focus stays put
         </label>
         <OTPField.Root
@@ -217,12 +218,12 @@ function BackspaceNavigationExample() {
           defaultValue="1234"
           length={OTP_LENGTH}
           aria-label="Delete demo code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {Array.from({ length: OTP_LENGTH }, (_, index) => (
             <OTPField.Input
               key={index}
-              className={styles.Input}
+              className={theme.OtpFieldInput}
               aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
             />
           ))}
@@ -264,31 +265,31 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(String(data.get('otp')));
       }}
     >
-      <div className={styles.Field}>
-        <label htmlFor={id} className={styles.Label}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={id} className={theme.FieldLabel}>
           Verification code
         </label>
-        <OTPField.Root id={id} name="otp" length={OTP_LENGTH} className={styles.Root}>
+        <OTPField.Root id={id} name="otp" length={OTP_LENGTH} className={theme.OtpFieldRoot}>
           {Array.from({ length: OTP_LENGTH }, (_, index) => (
             <OTPField.Input
               key={index}
-              className={styles.Input}
+              className={theme.OtpFieldInput}
               aria-label={index === 0 ? undefined : `Character ${index + 1} of ${OTP_LENGTH}`}
             />
           ))}
         </OTPField.Root>
       </div>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Verify
       </button>
-      {submitted !== null ? <output className={styles.Output}>otp={submitted}</output> : null}
+      {submitted !== null ? <output className="OtpFieldDemoOutput">otp={submitted}</output> : null}
     </form>
   );
 }
@@ -316,7 +317,7 @@ function otpInputs(count: number, total: number = count, offset = 0) {
   return Array.from({ length: count }, (_, index) => (
     <OTPField.Input
       key={index + offset}
-      className={styles.Input}
+      className={theme.OtpFieldInput}
       aria-label={index + offset === 0 ? undefined : `Character ${index + offset + 1} of ${total}`}
     />
   ));
@@ -334,9 +335,9 @@ function MaskedVariantExample() {
   const maskedId = React.useId();
   const unmaskedId = React.useId();
   return (
-    <div className={styles.Row}>
-      <div className={styles.Field}>
-        <label htmlFor={maskedId} className={styles.Label}>
+    <div className="OtpFieldDemoRow">
+      <div className={theme.FieldRoot}>
+        <label htmlFor={maskedId} className={theme.FieldLabel}>
           Masked
         </label>
         <OTPField.Root
@@ -344,20 +345,20 @@ function MaskedVariantExample() {
           length={OTP_LENGTH}
           mask
           aria-label="Masked code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {otpInputs(OTP_LENGTH)}
         </OTPField.Root>
       </div>
-      <div className={styles.Field}>
-        <label htmlFor={unmaskedId} className={styles.Label}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={unmaskedId} className={theme.FieldLabel}>
           Unmasked
         </label>
         <OTPField.Root
           id={unmaskedId}
           length={OTP_LENGTH}
           aria-label="Unmasked code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {otpInputs(OTP_LENGTH)}
         </OTPField.Root>
@@ -393,29 +394,35 @@ function AutoSubmitExample() {
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(String(data.get('otp')));
       }}
     >
-      <div className={styles.Field}>
-        <label htmlFor={id} className={styles.Label}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={id} className={theme.FieldLabel}>
           Verification code
         </label>
-        <OTPField.Root id={id} autoSubmit name="otp" length={OTP_LENGTH} className={styles.Root}>
+        <OTPField.Root
+          id={id}
+          autoSubmit
+          name="otp"
+          length={OTP_LENGTH}
+          className={theme.OtpFieldRoot}
+        >
           {otpInputs(OTP_LENGTH)}
         </OTPField.Root>
       </div>
-      <label className={styles.CheckboxLabel}>
+      <label className={theme.CheckboxLabel}>
         <input type="checkbox" required />
         Accept the terms
       </label>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Verify
       </button>
-      {submitted !== null ? <output className={styles.Output}>otp={submitted}</output> : null}
+      {submitted !== null ? <output className="OtpFieldDemoOutput">otp={submitted}</output> : null}
     </form>
   );
 }
@@ -466,20 +473,20 @@ function InvalidCharacterFeedbackExample() {
   const id = React.useId();
   const [message, setMessage] = React.useState('');
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Verification code (digits only)
       </label>
       <OTPField.Root
         id={id}
         length={OTP_LENGTH}
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
         onValueChange={() => setMessage('')}
         onValueInvalid={(value) => setMessage(`"${value}" contains unsupported characters.`)}
       >
         {otpInputs(OTP_LENGTH)}
       </OTPField.Root>
-      <p role="alert" className={styles.Error}>
+      <p role="alert" className={theme.FieldError}>
         {message}
       </p>
     </div>
@@ -526,13 +533,13 @@ export const FieldValidation: Story = {
       validate={(value) =>
         typeof value === 'string' && value.length === OTP_LENGTH ? null : 'Enter all 6 digits.'
       }
-      className={styles.Field}
+      className={theme.FieldRoot}
     >
-      <Field.Label className={styles.Label}>Verification code</Field.Label>
-      <OTPField.Root length={OTP_LENGTH} className={styles.Root}>
+      <Field.Label className={theme.FieldLabel}>Verification code</Field.Label>
+      <OTPField.Root length={OTP_LENGTH} className={theme.OtpFieldRoot}>
         {otpInputs(OTP_LENGTH)}
       </OTPField.Root>
-      <Field.Error className={styles.Error} />
+      <Field.Error className={theme.FieldError} />
     </Field.Root>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -567,9 +574,9 @@ function DisabledAndReadOnlyExample() {
   const disabledId = React.useId();
   const readOnlyId = React.useId();
   return (
-    <div className={styles.Row}>
-      <div className={styles.Field}>
-        <label htmlFor={disabledId} className={styles.Label}>
+    <div className="OtpFieldDemoRow">
+      <div className={theme.FieldRoot}>
+        <label htmlFor={disabledId} className={theme.FieldLabel}>
           Disabled
         </label>
         <OTPField.Root
@@ -578,13 +585,13 @@ function DisabledAndReadOnlyExample() {
           length={OTP_LENGTH}
           disabled
           aria-label="Disabled code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {otpInputs(OTP_LENGTH)}
         </OTPField.Root>
       </div>
-      <div className={styles.Field}>
-        <label htmlFor={readOnlyId} className={styles.Label}>
+      <div className={theme.FieldRoot}>
+        <label htmlFor={readOnlyId} className={theme.FieldLabel}>
           Read-only
         </label>
         <OTPField.Root
@@ -593,7 +600,7 @@ function DisabledAndReadOnlyExample() {
           length={OTP_LENGTH}
           readOnly
           aria-label="Read-only code"
-          className={styles.Root}
+          className={theme.OtpFieldRoot}
         >
           {otpInputs(OTP_LENGTH)}
         </OTPField.Root>
@@ -634,14 +641,14 @@ export const DisabledAndReadOnly: Story = {
 function GroupedWithSeparatorExample() {
   const id = React.useId();
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Verification code
       </label>
-      <OTPField.Root id={id} length={OTP_LENGTH} className={styles.Root}>
-        <div className={styles.Group}>{otpInputs(3, OTP_LENGTH)}</div>
-        <OTPField.Separator className={styles.Separator} />
-        <div className={styles.Group}>{otpInputs(3, OTP_LENGTH, 3)}</div>
+      <OTPField.Root id={id} length={OTP_LENGTH} className={theme.OtpFieldRoot}>
+        <div className="OtpFieldDemoGroup">{otpInputs(3, OTP_LENGTH)}</div>
+        <OTPField.Separator className={theme.OtpFieldSeparator} />
+        <div className="OtpFieldDemoGroup">{otpInputs(3, OTP_LENGTH, 3)}</div>
       </OTPField.Root>
     </div>
   );
@@ -666,15 +673,15 @@ export const GroupedWithSeparator: Story = {
 function AlphanumericExample() {
   const id = React.useId();
   return (
-    <div className={styles.Field}>
-      <label htmlFor={id} className={styles.Label}>
+    <div className={theme.FieldRoot}>
+      <label htmlFor={id} className={theme.FieldLabel}>
         Recovery code
       </label>
       <OTPField.Root
         id={id}
         length={OTP_LENGTH}
         validationType="alphanumeric"
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
       >
         {otpInputs(OTP_LENGTH)}
       </OTPField.Root>
@@ -706,14 +713,19 @@ export const CustomLength: Story = {
       const id = React.useId();
       const [complete, setComplete] = React.useState<string | null>(null);
       return (
-        <div className={styles.Field}>
-          <label htmlFor={id} className={styles.Label}>
+        <div className={theme.FieldRoot}>
+          <label htmlFor={id} className={theme.FieldLabel}>
             PIN
           </label>
-          <OTPField.Root id={id} length={4} className={styles.Root} onValueComplete={setComplete}>
+          <OTPField.Root
+            id={id}
+            length={4}
+            className={theme.OtpFieldRoot}
+            onValueComplete={setComplete}
+          >
             {otpInputs(4)}
           </OTPField.Root>
-          <output className={styles.Output}>
+          <output className="OtpFieldDemoOutput">
             {complete !== null ? `complete=${complete}` : 'incomplete'}
           </output>
         </div>
@@ -748,19 +760,19 @@ export const FocusedPlaceholder: Story = {
   tags: ['api-ref', 'base'],
   args: { length: PLACEHOLDER_LENGTH },
   render: () => (
-    <div className={styles.Field}>
-      <span className={styles.Label}>Verification code</span>
-      <OTPField.Root length={PLACEHOLDER_LENGTH} className={styles.Root}>
+    <div className={theme.FieldRoot}>
+      <span className={theme.FieldLabel}>Verification code</span>
+      <OTPField.Root length={PLACEHOLDER_LENGTH} className={theme.OtpFieldRoot}>
         {Array.from({ length: PLACEHOLDER_LENGTH }, (_, index) => (
           <OTPField.Input
             key={index}
-            className={styles.Input}
+            className={theme.OtpFieldInput}
             placeholder="•"
             aria-label={`Character ${index + 1} of ${PLACEHOLDER_LENGTH}`}
           />
         ))}
       </OTPField.Root>
-      <p className={styles.Description}>
+      <p className={theme.FieldDescription}>
         Placeholder hints stay visible until each slot receives a character.
       </p>
     </div>
@@ -790,23 +802,23 @@ export const CustomSanitize: Story = {
   tags: ['api-ref', 'base'],
   args: { length: SANITIZE_LENGTH },
   render: () => (
-    <div className={styles.Field}>
-      <span className={styles.Label}>Recovery code</span>
+    <div className={theme.FieldRoot}>
+      <span className={theme.FieldLabel}>Recovery code</span>
       <OTPField.Root
         length={SANITIZE_LENGTH}
         validationType="alphanumeric"
         normalizeValue={(value: string) => value.toUpperCase()}
-        className={styles.Root}
+        className={theme.OtpFieldRoot}
       >
         {Array.from({ length: SANITIZE_LENGTH }, (_, index) => (
           <OTPField.Input
             key={index}
-            className={styles.Input}
+            className={theme.OtpFieldInput}
             aria-label={`Character ${index + 1} of ${SANITIZE_LENGTH}`}
           />
         ))}
       </OTPField.Root>
-      <p className={styles.Description}>
+      <p className={theme.FieldDescription}>
         Letters and digits only. Letters are converted to uppercase.
       </p>
     </div>

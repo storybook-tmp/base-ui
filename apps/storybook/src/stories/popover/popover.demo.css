@@ -1,0 +1,259 @@
+/* Story-only demo glue for the Popover stories — layout scaffolding and
+ * story-specific compositions with no Droppy theme equivalent. Themed parts
+ * (Trigger, IconTrigger, Popup, Arrow, Title, Description, Close, Backdrop,
+ * Positioner, the transition/viewport morph parts, Checkbox*, Toolbar*,
+ * Field*) bind classes straight from @droppy/theme instead of living here. */
+
+.PopoverContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.PopoverRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.PopoverStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.PopoverArrowGrid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8rem 10rem;
+  padding: 6rem;
+}
+
+.PopoverOutput {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Form bits (filter panel, link editor, focus stories) */
+
+.PopoverForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+/* Plain layout label — used both as a stray text label and as a field label
+ * wrapper; kept distinct from theme.CheckboxLabel, which is bound directly
+ * where a Checkbox.Root is actually being labeled. */
+.PopoverLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: var(--ds-type-weight-regular);
+  color: var(--ds-color-text-primary);
+}
+
+/* Custom anchor story */
+
+.PopoverAnchorTarget {
+  padding: 0.125rem 0.375rem;
+  border: 1px dashed var(--ds-color-border-subtle);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* Sticky-header story */
+
+.PopoverScrollArea {
+  box-sizing: border-box;
+  width: 20rem;
+  height: 14rem;
+  overflow-y: auto;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.PopoverStickyHeader {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--ds-color-surface-sunken);
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+}
+
+.PopoverFiller {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+/* Table-row shared popover story */
+
+.PopoverTable {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.PopoverTable th,
+.PopoverTable td {
+  border: 1px solid var(--ds-color-border-subtle);
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+/* Detached-triggers-full / Viewport morphing profile card */
+
+.PopoverProfilePanel {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: max-content;
+  column-gap: 0.5rem;
+}
+
+.PopoverProfilePanel .PopoverTitle {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.PopoverProfilePanel .PopoverPlan {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.PopoverProfilePanel .PopoverAvatar {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  font-weight: var(--ds-type-weight-bold);
+  color: var(--ds-color-text-primary);
+  background-color: var(--ds-color-action-subtle-hover);
+  font-size: 0.875rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 3rem;
+  width: 3rem;
+}
+
+.PopoverProfilePanel .PopoverProfileActions {
+  grid-column: 1 / span 2;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.PopoverProfilePanel .PopoverProfileActions a {
+  color: var(--ds-color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+/* Recreation stories */
+
+.PopoverQueueHeader {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 22rem;
+  padding: 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+}
+
+.PopoverQueueList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.PopoverQueueList li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--ds-color-border-subtle);
+}
+
+.PopoverQueueList li:last-child {
+  border-bottom: none;
+}
+
+/* Mention-autocomplete recreation */
+
+.PopoverTextarea {
+  box-sizing: border-box;
+  width: 18rem;
+  padding: 0.5rem;
+  border: 1px solid var(--ds-color-border-subtle);
+  background-color: var(--ds-color-surface-sunken);
+  color: var(--ds-color-text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  resize: none;
+}
+
+.PopoverTextarea:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.PopoverMentionItem {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.375rem;
+  margin: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: left;
+}
+
+.PopoverMentionItem:hover {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+/* Pronounced enter/exit transition for the animation story, layered on top
+ * of theme.PopoverPopup: scales from the side the popup opened from. */
+.PopoverTransitionExtra {
+  transition:
+    transform var(--ds-motion-base) var(--ds-motion-ease),
+    opacity var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+.PopoverTransitionExtra[data-starting-style],
+.PopoverTransitionExtra[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.8) translateY(-0.5rem);
+}
+
+.PopoverTransitionExtra[data-instant] {
+  transition: none;
+}

@@ -5,7 +5,7 @@ import { Fieldset } from '@base-ui/react/fieldset';
 import { Field } from '@base-ui/react/field';
 import { Radio } from '@base-ui/react/radio';
 import { RadioGroup } from '@base-ui/react/radio-group';
-import styles from './fieldset.module.css';
+import theme from '@droppy/theme';
 
 /**
  * Stories follow research/c-components/fieldset (Tier 3): Fieldset is a
@@ -27,15 +27,15 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <Fieldset.Root className={styles.Fieldset}>
-      <Fieldset.Legend className={styles.Legend}>Billing details</Fieldset.Legend>
-      <Field.Root className={styles.Field}>
-        <Field.Label className={styles.Label}>Company</Field.Label>
-        <Field.Control placeholder="Enter company name" className={styles.Input} />
+    <Fieldset.Root className={theme.FieldsetRoot}>
+      <Fieldset.Legend className={theme.FieldsetLegend}>Billing details</Fieldset.Legend>
+      <Field.Root className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Company</Field.Label>
+        <Field.Control placeholder="Enter company name" className={theme.Input} />
       </Field.Root>
-      <Field.Root className={styles.Field}>
-        <Field.Label className={styles.Label}>Tax ID</Field.Label>
-        <Field.Control placeholder="Enter fiscal number" className={styles.Input} />
+      <Field.Root className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Tax ID</Field.Label>
+        <Field.Control placeholder="Enter fiscal number" className={theme.Input} />
       </Field.Root>
     </Fieldset.Root>
   ),
@@ -49,26 +49,26 @@ export const Hero: Story = {
 
 function GroupedRadioExample() {
   return (
-    <Field.Root name="storage" className={styles.FieldRoot}>
-      <Fieldset.Root className={styles.Fieldset} render={<RadioGroup defaultValue="ssd" />}>
-        <Fieldset.Legend className={styles.Legend}>Storage type</Fieldset.Legend>
-        <Field.Item className={styles.FieldItem}>
-          <Radio.Root value="ssd" className={styles.Radio}>
-            <Radio.Indicator className={styles.RadioIndicator} />
+    <Field.Root name="storage" className={theme.FieldRoot}>
+      <Fieldset.Root className={theme.FieldsetRoot} render={<RadioGroup defaultValue="ssd" />}>
+        <Fieldset.Legend className={theme.FieldsetLegend}>Storage type</Fieldset.Legend>
+        <Field.Item className={theme.FieldItem}>
+          <Radio.Root value="ssd" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
-          <Field.Label className={styles.ItemLabel}>SSD</Field.Label>
+          <Field.Label className={theme.FieldItemLabel}>SSD</Field.Label>
         </Field.Item>
-        <Field.Item className={styles.FieldItem}>
-          <Radio.Root value="hdd" className={styles.Radio}>
-            <Radio.Indicator className={styles.RadioIndicator} />
+        <Field.Item className={theme.FieldItem}>
+          <Radio.Root value="hdd" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
-          <Field.Label className={styles.ItemLabel}>HDD</Field.Label>
+          <Field.Label className={theme.FieldItemLabel}>HDD</Field.Label>
         </Field.Item>
-        <Field.Item className={styles.FieldItem}>
-          <Radio.Root value="network" className={styles.Radio}>
-            <Radio.Indicator className={styles.RadioIndicator} />
+        <Field.Item className={theme.FieldItem}>
+          <Radio.Root value="network" className={theme.RadioRoot}>
+            <Radio.Indicator className={theme.RadioIndicator} />
           </Radio.Root>
-          <Field.Label className={styles.ItemLabel}>Network volume</Field.Label>
+          <Field.Label className={theme.FieldItemLabel}>Network volume</Field.Label>
         </Field.Item>
       </Fieldset.Root>
     </Field.Root>
@@ -108,17 +108,19 @@ export const GroupedRadio: Story = {
 export const DisabledCascade: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.FieldRoot}>
-      <Fieldset.Root disabled className={styles.Fieldset}>
-        <Fieldset.Legend className={styles.Legend}>Outer (disabled)</Fieldset.Legend>
-        <Fieldset.Root className={styles.Fieldset}>
-          <Fieldset.Legend className={styles.Legend}>Inner (not disabled directly)</Fieldset.Legend>
-          <Field.Root className={styles.Field}>
-            <Field.Label className={styles.Label}>Company</Field.Label>
+    <div className={theme.FieldRoot}>
+      <Fieldset.Root disabled className={theme.FieldsetRoot}>
+        <Fieldset.Legend className={theme.FieldsetLegend}>Outer (disabled)</Fieldset.Legend>
+        <Fieldset.Root className={theme.FieldsetRoot}>
+          <Fieldset.Legend className={theme.FieldsetLegend}>
+            Inner (not disabled directly)
+          </Fieldset.Legend>
+          <Field.Root className={theme.FieldRoot}>
+            <Field.Label className={theme.FieldLabel}>Company</Field.Label>
             <Field.Control
               data-testid="nested-control"
               placeholder="Enter company name"
-              className={styles.Input}
+              className={theme.Input}
             />
           </Field.Root>
         </Fieldset.Root>
@@ -127,15 +129,17 @@ export const DisabledCascade: Story = {
       <Field.Root name="storage2">
         <Fieldset.Root
           disabled
-          className={styles.Fieldset}
+          className={theme.FieldsetRoot}
           render={<RadioGroup data-testid="composed-radio-group" defaultValue="ssd" />}
         >
-          <Fieldset.Legend className={styles.Legend}>Storage type (composed-over)</Fieldset.Legend>
-          <Field.Item className={styles.FieldItem}>
-            <Radio.Root value="ssd" className={styles.Radio}>
-              <Radio.Indicator className={styles.RadioIndicator} />
+          <Fieldset.Legend className={theme.FieldsetLegend}>
+            Storage type (composed-over)
+          </Fieldset.Legend>
+          <Field.Item className={theme.FieldItem}>
+            <Radio.Root value="ssd" className={theme.RadioRoot}>
+              <Radio.Indicator className={theme.RadioIndicator} />
             </Radio.Root>
-            <Field.Label className={styles.ItemLabel}>SSD</Field.Label>
+            <Field.Label className={theme.FieldItemLabel}>SSD</Field.Label>
           </Field.Item>
         </Fieldset.Root>
       </Field.Root>

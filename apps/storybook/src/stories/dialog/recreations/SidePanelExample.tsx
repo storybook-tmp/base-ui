@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dialog } from '@base-ui/react/dialog';
-import styles from '../dialog.module.css';
+import theme from '@droppy/theme';
+import '../dialog.demo.css';
 
 /**
  * Recreation of an edge-docked side panel: a fully controlled Dialog with no Trigger
@@ -14,23 +15,23 @@ export function SidePanelExample() {
   const [saved, setSaved] = React.useState<string | null>(null);
   const nameId = React.useId();
   return (
-    <div className={styles.Stack}>
+    <div className="DialogStack">
       {/* No Dialog.Trigger: app state opens the panel, oxide-console style. */}
-      <button type="button" className={styles.Button} onClick={() => setOpen(true)}>
+      <button type="button" className={theme.Button} onClick={() => setOpen(true)}>
         Edit instance
       </button>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal>
-          <Dialog.Backdrop className={styles.Backdrop} />
-          <Dialog.Popup className={styles.SheetPopup}>
-            <div className={styles.Intro}>
-              <Dialog.Title className={styles.Title}>Edit instance</Dialog.Title>
-              <Dialog.Description className={styles.Description}>
+          <Dialog.Backdrop className={theme.DialogBackdrop} />
+          <Dialog.Popup className="DialogSheetPopup">
+            <div className="DialogIntro">
+              <Dialog.Title className={theme.DialogTitle}>Edit instance</Dialog.Title>
+              <Dialog.Description className={theme.DialogDescription}>
                 db-primary · us-east-1
               </Dialog.Description>
             </div>
             <form
-              className={styles.SheetForm}
+              className="DialogSheetForm"
               onSubmit={(event) => {
                 event.preventDefault();
                 const data = new FormData(event.currentTarget);
@@ -38,15 +39,15 @@ export function SidePanelExample() {
                 setOpen(false);
               }}
             >
-              <div className={styles.Field}>
-                <label className={styles.Label} htmlFor={nameId}>
+              <div className={theme.FieldRoot}>
+                <label className={theme.FieldLabel} htmlFor={nameId}>
                   Instance name
                 </label>
-                <input id={nameId} name="name" defaultValue="db-primary" className={styles.Input} />
+                <input id={nameId} name="name" defaultValue="db-primary" className={theme.Input} />
               </div>
-              <div className={styles.SheetFooter}>
-                <Dialog.Close className={styles.GhostButton}>Cancel</Dialog.Close>
-                <button type="submit" className={styles.Button}>
+              <div className="DialogSheetFooter">
+                <Dialog.Close className="DialogGhostButton">Cancel</Dialog.Close>
+                <button type="submit" className={theme.Button}>
                   Save changes
                 </button>
               </div>
@@ -54,7 +55,7 @@ export function SidePanelExample() {
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
-      {saved !== null ? <output className={styles.Output}>Saved: {saved}</output> : null}
+      {saved !== null ? <output className="DialogOutput">Saved: {saved}</output> : null}
     </div>
   );
 }

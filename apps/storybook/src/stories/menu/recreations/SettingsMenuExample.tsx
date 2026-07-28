@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Menu } from '@base-ui/react/menu';
-import styles from '../menu.module.css';
+import droppyTheme from '@droppy/theme';
+import '../menu.demo.css';
 import { CaretDownIcon, CheckIcon } from '../icons';
 
 /**
@@ -24,16 +25,18 @@ export function SettingsMenuExample() {
   const [phase, setPhase] = React.useState('idle');
   const visibleCount = Object.values(frames).filter(Boolean).length;
   return (
-    <div className={styles.Stack}>
+    <div className="MenuDemoStack">
       <Menu.Root onOpenChangeComplete={(open) => setPhase(open ? 'open settled' : 'close settled')}>
-        <Menu.Trigger className={styles.Button}>
+        <Menu.Trigger className={droppyTheme.Button}>
           Settings <CaretDownIcon />
         </Menu.Trigger>
         <Menu.Portal>
-          <Menu.Positioner className={styles.Positioner} sideOffset={8}>
-            <Menu.Popup className={styles.Popup}>
+          <Menu.Positioner className={droppyTheme.MenuPositioner} sideOffset={8}>
+            <Menu.Popup className={droppyTheme.MenuPopup}>
               <Menu.Group>
-                <Menu.GroupLabel className={styles.GroupLabel}>Visible frames</Menu.GroupLabel>
+                <Menu.GroupLabel className={droppyTheme.MenuGroupLabel}>
+                  Visible frames
+                </Menu.GroupLabel>
                 {settingsFrames.map((frame) => (
                   <Menu.CheckboxItem
                     key={frame}
@@ -41,24 +44,26 @@ export function SettingsMenuExample() {
                     onCheckedChange={(checked) =>
                       setFrames((previous) => ({ ...previous, [frame]: checked }))
                     }
-                    className={styles.CheckboxItem}
+                    className={droppyTheme.MenuCheckboxItem}
                   >
-                    <Menu.CheckboxItemIndicator className={styles.CheckboxItemIndicator}>
+                    <Menu.CheckboxItemIndicator className={droppyTheme.MenuCheckboxItemIndicator}>
                       <CheckIcon />
                     </Menu.CheckboxItemIndicator>
-                    <span className={styles.CheckboxItemText}>{frame}</span>
+                    <span className={droppyTheme.MenuCheckboxItemText}>{frame}</span>
                   </Menu.CheckboxItem>
                 ))}
               </Menu.Group>
-              <Menu.Separator className={styles.Separator} />
+              <Menu.Separator className={droppyTheme.MenuSeparator} />
               <Menu.RadioGroup value={theme} onValueChange={setTheme}>
-                <Menu.GroupLabel className={styles.GroupLabel}>Editor theme</Menu.GroupLabel>
+                <Menu.GroupLabel className={droppyTheme.MenuGroupLabel}>
+                  Editor theme
+                </Menu.GroupLabel>
                 {['system', 'light', 'dark'].map((option) => (
-                  <Menu.RadioItem key={option} className={styles.RadioItem} value={option}>
-                    <Menu.RadioItemIndicator className={styles.RadioItemIndicator}>
+                  <Menu.RadioItem key={option} className={droppyTheme.MenuRadioItem} value={option}>
+                    <Menu.RadioItemIndicator className={droppyTheme.MenuRadioItemIndicator}>
                       <CheckIcon />
                     </Menu.RadioItemIndicator>
-                    <span className={styles.RadioItemText}>
+                    <span className={droppyTheme.MenuRadioItemText}>
                       {option[0].toUpperCase() + option.slice(1)}
                     </span>
                   </Menu.RadioItem>
@@ -68,7 +73,7 @@ export function SettingsMenuExample() {
           </Menu.Positioner>
         </Menu.Portal>
       </Menu.Root>
-      <output className={styles.Output}>
+      <output className="MenuDemoOutput">
         {visibleCount} frames visible · theme: {theme} · {phase}
       </output>
     </div>

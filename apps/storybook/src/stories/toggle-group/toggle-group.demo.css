@@ -1,0 +1,7 @@
+/* Demo-only glue for toggle-group stories — not part of the Droppy theme. */
+
+.ToggleGroupDemoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}

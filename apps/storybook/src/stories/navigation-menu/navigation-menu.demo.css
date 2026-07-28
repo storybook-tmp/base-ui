@@ -1,0 +1,209 @@
+/* Demo-only glue for navigation-menu stories — not part of the Droppy theme. */
+
+/* Vertical side-rail variant (orientation="vertical"). Combine with theme.NavigationMenuList. */
+.NavDemoVerticalList {
+  flex-direction: column;
+  align-items: stretch;
+  width: 12rem;
+}
+
+/* Right-pointing icon inside a nested vertical submenu trigger — a static
+   "there's more" marker, not the open/close rotating theme.NavigationMenuIcon. */
+.NavDemoNestedIcon {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Differently sized panels so the morph has a visible size delta to animate.
+   Combine with theme.NavigationMenuContent. */
+.NavDemoContentNarrow {
+  @media (min-width: 500px) {
+    width: 16rem;
+  }
+}
+
+.NavDemoContentWide {
+  @media (min-width: 500px) {
+    width: 24rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Inline nested submenu (nested-inline demo) — a fully separate visual
+   system from the flyout chrome above, ported faithfully as its own layout. */
+/* ------------------------------------------------------------------ */
+
+/* Combine with theme.NavigationMenuContent. */
+.NavDemoInlineContent {
+  padding: 0;
+
+  @media (min-width: 500px) {
+    width: min(560px, calc(100vw - 40px));
+    max-width: none;
+  }
+}
+
+.NavDemoSubmenuLayout {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  overflow: hidden;
+  overflow: clip;
+}
+
+.NavDemoSubmenuList {
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-right: 1px solid var(--ds-color-border-subtle);
+}
+
+.NavDemoSubmenuTrigger {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+@media (hover: hover) {
+  .NavDemoSubmenuTrigger:hover {
+    background-color: var(--ds-color-action-subtle-hover);
+  }
+}
+
+.NavDemoSubmenuTrigger[data-popup-open] {
+  background-color: var(--ds-color-action-subtle-hover);
+}
+
+.NavDemoSubmenuTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.NavDemoSubmenuLabel {
+  font-size: 0.875rem;
+  font-weight: var(--ds-type-weight-regular);
+  line-height: 1rem;
+}
+
+.NavDemoSubmenuHint {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  /* text-secondary (darker than text-hint) for contrast: this text sits over
+     the trigger's pressed/highlighted background. */
+  color: var(--ds-color-text-secondary);
+}
+
+.NavDemoSubmenuViewport {
+  position: relative;
+  overflow: hidden;
+  min-height: 10rem;
+}
+
+.NavDemoSubmenuContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 0.75rem;
+  transition:
+    opacity var(--duration) var(--easing),
+    transform var(--duration) var(--easing);
+}
+
+.NavDemoSubmenuContent[data-starting-style],
+.NavDemoSubmenuContent[data-ending-style] {
+  opacity: 0;
+}
+
+.NavDemoSubmenuContent[data-starting-style][data-activation-direction='up'] {
+  transform: translateY(-2rem);
+}
+
+.NavDemoSubmenuContent[data-starting-style][data-activation-direction='down'] {
+  transform: translateY(2rem);
+}
+
+.NavDemoSubmenuContent[data-ending-style][data-activation-direction='up'] {
+  transform: translateY(2rem);
+}
+
+.NavDemoSubmenuContent[data-ending-style][data-activation-direction='down'] {
+  transform: translateY(-2rem);
+}
+
+.NavDemoSubmenuTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: var(--ds-type-weight-medium);
+}
+
+.NavDemoLinkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------------ */
+/* Story scaffolding utilities (menu pilot conventions)                */
+/* ------------------------------------------------------------------ */
+
+.NavDemoStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.NavDemoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.NavDemoPlainButton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.75rem;
+  margin: 0;
+  outline: 0;
+  border: 1px dashed var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: inherit;
+}
+
+.NavDemoPlainButton:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus);
+}
+
+.NavDemoOutput {
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--ds-color-text-hint);
+}

@@ -1,0 +1,6 @@
+/* Demo-only glue for input stories — not part of the Droppy theme. */
+
+.InputDemoOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}

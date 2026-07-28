@@ -1,0 +1,38 @@
+/* Story-only demo glue for the Alert Dialog stories — layout scaffolding with
+ * no Droppy theme equivalent. Themed parts (Button, Backdrop, Popup, Title,
+ * Description, Actions, Form, Field, Label, Input, Menu*) bind classes
+ * straight from @droppy/theme instead of living here. */
+
+.AlertDialogIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.AlertDialogStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.AlertDialogRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.AlertDialogOutput {
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.AlertDialogList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

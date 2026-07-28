@@ -5,7 +5,8 @@ import { Checkbox } from '@base-ui/react/checkbox';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
-import styles from './checkbox.module.css';
+import theme from '@droppy/theme';
+import './checkbox.demo.css';
 
 function CheckIcon(props: React.ComponentProps<'svg'>) {
   return (
@@ -65,9 +66,9 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <label className={styles.Label}>
-      <Checkbox.Root defaultChecked className={styles.Checkbox}>
-        <Checkbox.Indicator className={styles.Indicator}>
+    <label className={theme.CheckboxLabel}>
+      <Checkbox.Root defaultChecked className={theme.CheckboxRoot}>
+        <Checkbox.Indicator className={theme.CheckboxIndicator}>
           <CheckIcon />
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -86,9 +87,9 @@ export const Basic: Story = {
 export const ToggleWithClick: Story = {
   tags: ['highlight'],
   render: () => (
-    <label className={styles.Label}>
-      <Checkbox.Root className={styles.Checkbox}>
-        <Checkbox.Indicator className={styles.Indicator}>
+    <label className={theme.CheckboxLabel}>
+      <Checkbox.Root className={theme.CheckboxRoot}>
+        <Checkbox.Indicator className={theme.CheckboxIndicator}>
           <CheckIcon />
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -111,9 +112,9 @@ export const ToggleWithClick: Story = {
 export const Indeterminate: Story = {
   tags: ['api-ref'],
   render: () => (
-    <label className={styles.Label}>
-      <Checkbox.Root indeterminate className={styles.Checkbox}>
-        <Checkbox.Indicator className={styles.Indicator}>
+    <label className={theme.CheckboxLabel}>
+      <Checkbox.Root indeterminate className={theme.CheckboxRoot}>
+        <Checkbox.Indicator className={theme.CheckboxIndicator}>
           <HorizontalRuleIcon />
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -132,26 +133,26 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null | undefined>(undefined);
   return (
     <form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(data.get('newsletter') as string | null);
       }}
     >
-      <label className={styles.Label}>
-        <Checkbox.Root name="newsletter" uncheckedValue="off" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel}>
+        <Checkbox.Root name="newsletter" uncheckedValue="off" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Subscribe to the newsletter
       </label>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
       {submitted !== undefined ? (
-        <output className={styles.Output}>newsletter={submitted}</output>
+        <output className="CheckboxDemoOutput">newsletter={submitted}</output>
       ) : null}
     </form>
   );
@@ -174,19 +175,23 @@ export const FormWithUncheckedValue: Story = {
 function ControlledCheckedExample() {
   const [checked, setChecked] = React.useState(false);
   return (
-    <div className={styles.Form}>
-      <label className={styles.Label}>
-        <Checkbox.Root checked={checked} onCheckedChange={setChecked} className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+    <div className={theme.FormRoot}>
+      <label className={theme.CheckboxLabel}>
+        <Checkbox.Root
+          checked={checked}
+          onCheckedChange={setChecked}
+          className={theme.CheckboxRoot}
+        >
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Accept terms and conditions
       </label>
-      <button type="button" className={styles.Button} onClick={() => setChecked((prev) => !prev)}>
+      <button type="button" className={theme.Button} onClick={() => setChecked((prev) => !prev)}>
         Toggle externally
       </button>
-      <output className={styles.Output}>checked={String(checked)}</output>
+      <output className="CheckboxDemoOutput">checked={String(checked)}</output>
     </div>
   );
 }
@@ -210,21 +215,21 @@ export const ControlledChecked: Story = {
 
 function InFieldWithValidationExample() {
   return (
-    <Form className={styles.Form}>
-      <Field.Root name="terms" className={styles.Form}>
-        <label className={styles.Label}>
-          <Checkbox.Root required className={styles.Checkbox}>
-            <Checkbox.Indicator className={styles.Indicator}>
+    <Form className={theme.FormRoot}>
+      <Field.Root name="terms" className={theme.FormRoot}>
+        <label className={theme.CheckboxLabel}>
+          <Checkbox.Root required className={theme.CheckboxRoot}>
+            <Checkbox.Indicator className={theme.CheckboxIndicator}>
               <CheckIcon />
             </Checkbox.Indicator>
           </Checkbox.Root>
           I agree to the terms of service
         </label>
-        <Field.Error className={styles.Output} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           You must agree before continuing.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
     </Form>
@@ -265,35 +270,35 @@ export const ParentCheckboxPreview: Story = {
       aria-label="Fruits"
       defaultValue={['apple']}
       allValues={['apple', 'banana', 'cherry']}
-      className={styles.Form}
+      className={theme.FormRoot}
     >
-      <label className={styles.Label}>
-        <Checkbox.Root parent className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel}>
+        <Checkbox.Root parent className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         All fruits
       </label>
-      <label className={styles.Label} style={{ paddingLeft: '1.5rem' }}>
-        <Checkbox.Root value="apple" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel} style={{ paddingLeft: '1.5rem' }}>
+        <Checkbox.Root value="apple" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Apple
       </label>
-      <label className={styles.Label} style={{ paddingLeft: '1.5rem' }}>
-        <Checkbox.Root value="banana" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel} style={{ paddingLeft: '1.5rem' }}>
+        <Checkbox.Root value="banana" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Banana
       </label>
-      <label className={styles.Label} style={{ paddingLeft: '1.5rem' }}>
-        <Checkbox.Root value="cherry" className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel} style={{ paddingLeft: '1.5rem' }}>
+        <Checkbox.Root value="cherry" className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
@@ -313,14 +318,14 @@ export const ParentCheckboxPreview: Story = {
 export const NativeButtonSiblingLabel: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Label}>
+    <div className={theme.CheckboxLabel}>
       <Checkbox.Root
         id="marketing-emails"
         nativeButton
         render={<button type="button" />}
-        className={styles.Checkbox}
+        className={theme.CheckboxRoot}
       >
-        <Checkbox.Indicator className={styles.Indicator}>
+        <Checkbox.Indicator className={theme.CheckboxIndicator}>
           <CheckIcon />
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -340,18 +345,18 @@ export const NativeButtonSiblingLabel: Story = {
 export const ReadOnlyBlocksToggle: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Form}>
-      <label className={styles.Label}>
-        <Checkbox.Root defaultChecked readOnly className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+    <div className={theme.FormRoot}>
+      <label className={theme.CheckboxLabel}>
+        <Checkbox.Root defaultChecked readOnly className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>
         Read-only (checked)
       </label>
-      <label className={styles.Label}>
-        <Checkbox.Root disabled className={styles.Checkbox}>
-          <Checkbox.Indicator className={styles.Indicator}>
+      <label className={theme.CheckboxLabel}>
+        <Checkbox.Root disabled className={theme.CheckboxRoot}>
+          <Checkbox.Indicator className={theme.CheckboxIndicator}>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox.Root>

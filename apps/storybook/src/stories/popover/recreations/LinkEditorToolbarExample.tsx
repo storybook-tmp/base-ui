@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Popover } from '@base-ui/react/popover';
 import { Toolbar } from '@base-ui/react/toolbar';
-import styles from '../popover.module.css';
+import theme from '@droppy/theme';
+import '../popover.demo.css';
 
 /**
  * Recreation of the link editor in the flashtype markdown editor's formatting
@@ -17,34 +18,34 @@ export function LinkEditorToolbarExample() {
   const [href, setHref] = React.useState('https://example.com/docs');
   const [draft, setDraft] = React.useState(href);
   return (
-    <div className={styles.Stack}>
-      <Toolbar.Root className={styles.Toolbar}>
-        <Toolbar.Button className={styles.IconButton} aria-label="Bold">
+    <div className="PopoverStack">
+      <Toolbar.Root className={theme.ToolbarRoot}>
+        <Toolbar.Button className={theme.ToolbarButton} aria-label="Bold">
           B
         </Toolbar.Button>
-        <Toolbar.Button className={styles.IconButton} aria-label="Italic">
+        <Toolbar.Button className={theme.ToolbarButton} aria-label="Italic">
           I
         </Toolbar.Button>
         <Popover.Root>
-          <Toolbar.Button className={styles.Button} render={<Popover.Trigger />}>
+          <Toolbar.Button className={theme.ToolbarButton} render={<Popover.Trigger />}>
             Edit link
           </Toolbar.Button>
           <Popover.Portal>
             <Popover.Positioner sideOffset={8}>
-              <Popover.Popup className={styles.Popup} initialFocus={urlInputRef}>
-                <Popover.Close className={styles.Button} onClick={() => setHref('')}>
+              <Popover.Popup className={theme.PopoverPopup} initialFocus={urlInputRef}>
+                <Popover.Close className={theme.PopoverTrigger} onClick={() => setHref('')}>
                   Remove link
                 </Popover.Close>
-                <label className={styles.Label}>
+                <label className="PopoverLabel">
                   URL
                   <input
                     ref={urlInputRef}
-                    className={styles.Input}
+                    className={theme.Input}
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
                   />
                 </label>
-                <Popover.Close className={styles.Button} onClick={() => setHref(draft)}>
+                <Popover.Close className={theme.PopoverTrigger} onClick={() => setHref(draft)}>
                   Save
                 </Popover.Close>
               </Popover.Popup>
@@ -52,7 +53,7 @@ export function LinkEditorToolbarExample() {
           </Popover.Portal>
         </Popover.Root>
       </Toolbar.Root>
-      <output className={styles.Output}>href: {href || 'none'}</output>
+      <output className="PopoverOutput">href: {href || 'none'}</output>
     </div>
   );
 }

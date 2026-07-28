@@ -9,13 +9,9 @@ import { FlatPropFieldExample } from './recreations/FlatPropFieldExample';
 import { GridLayoutFieldExample } from './recreations/GridLayoutFieldExample';
 import flatPropFieldSource from './recreations/FlatPropFieldExample.tsx?raw';
 import gridLayoutFieldSource from './recreations/GridLayoutFieldExample.tsx?raw';
-import fieldRealWorldCss from './field-real-world.module.css?raw';
-import fieldCss from './field.module.css?raw';
+import fieldCss from './field.demo.css?raw';
 
-export const fieldFiles = [
-  { path: '../field.module.css', code: fieldCss },
-  { path: '../field-real-world.module.css', code: fieldRealWorldCss },
-];
+export const fieldFiles = [{ path: '../field.demo.css', code: fieldCss }];
 
 <Meta of={FieldStories} />
 
@@ -239,6 +235,19 @@ Field itself adds only one keyboard binding. Everything else belongs to whatever
 
 {/* END: do-dont */}
 
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Write labels and descriptions in sentence case. (BR-08)
+- Reserve color for the error message — `text.error` is the one color-based emphasis. (BR-07)
+
+**Don't**
+
+- Don't mark the valid state green — green is never ink; valid stays neutral. (BR-02)
+{/* END: brand */}
+
 {/* BEGIN: examples */}
 ## In the wild
 
@@ -311,7 +320,7 @@ Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-la
   }}
   code={flatPropFieldSource}
   css={fieldCss}
-  dependencies={[{ path: '../field.module.css', code: fieldCss }]}
+  dependencies={fieldFiles}
 >
   <FlatPropFieldExample />
 </MiniPlayground>
@@ -324,7 +333,7 @@ Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-la
     license: 'MIT',
   }}
   code={gridLayoutFieldSource}
-  css={fieldRealWorldCss}
+  css={fieldCss}
   dependencies={fieldFiles}
 >
   <GridLayoutFieldExample />

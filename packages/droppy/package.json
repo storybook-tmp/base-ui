@@ -1,0 +1,47 @@
+{
+  "name": "@droppy/theme",
+  "version": "0.1.0",
+  "author": "MUI Team",
+  "description": "Droppy theme for @base-ui/react: a stylesheet plus a class-name lookup object, bound at each call site.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mui/base-ui.git",
+    "directory": "packages/droppy"
+  },
+  "scripts": {
+    "prebuild": "rimraf --glob build \"*.tsbuildinfo\"",
+    "build": "code-infra build --copy .npmignore --copy \"src/styles.css:.\" --tsgo",
+    "typescript": "tsgo -b tsconfig.json"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "@base-ui/react": "workspace:*",
+    "@types/react": "^17 || ^18 || ^19",
+    "react": "^17 || ^18 || ^19",
+    "react-dom": "^17 || ^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@base-ui/react": "workspace:*",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "typescript": "6.0.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.29.2"
+  }
+}

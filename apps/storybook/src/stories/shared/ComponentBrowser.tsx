@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ComponentBrowser.module.css';
+import './ComponentBrowser.demo.css';
 
 /**
  * A browsable, searchable index of every documented Base UI component — a "component
@@ -547,42 +547,44 @@ export function ComponentBrowser() {
   })).filter((g) => g.items.length > 0);
 
   return (
-    <div className={styles.Root}>
-      <div className={styles.SearchRow}>
+    <div className="ComponentBrowserRoot">
+      <div className="ComponentBrowserSearchRow">
         <input
-          className={styles.Search}
+          className="ComponentBrowserSearch"
           type="search"
           placeholder="Search components…"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           aria-label="Search components"
         />
-        <span className={styles.Count}>
+        <span className="ComponentBrowserCount">
           {filtered.length} of {COMPONENTS.length}
         </span>
       </div>
 
-      {groups.length === 0 ? <p className={styles.Empty}>No components match “{query}”.</p> : null}
+      {groups.length === 0 ? (
+        <p className="ComponentBrowserEmpty">No components match “{query}”.</p>
+      ) : null}
 
       {groups.map((group) => (
-        <section key={group.category} className={styles.Section}>
-          <h2 className={styles.CategoryHeading}>{group.category}</h2>
-          <div className={styles.Grid}>
+        <section key={group.category} className="ComponentBrowserSection">
+          <h2 className="ComponentBrowserCategoryHeading">{group.category}</h2>
+          <div className="ComponentBrowserGrid">
             {group.items.map((component) => (
               <a
                 key={component.id}
-                className={styles.Card}
+                className="ComponentBrowserCard"
                 href={`${base}?path=/docs/${component.id}--docs`}
                 target="_top"
               >
-                <div className={styles.CardHead}>
-                  <span className={styles.CardName}>{component.name}</span>
-                  <span className={styles.CardArrow} aria-hidden>
+                <div className="ComponentBrowserCardHead">
+                  <span className="ComponentBrowserCardName">{component.name}</span>
+                  <span className="ComponentBrowserCardArrow" aria-hidden>
                     →
                   </span>
                 </div>
-                <p className={styles.CardDesc}>{component.description}</p>
-                <div className={styles.Preview}>
+                <p className="ComponentBrowserCardDesc">{component.description}</p>
+                <div className="ComponentBrowserPreview">
                   <GlyphArt glyph={component.glyph} />
                 </div>
               </a>

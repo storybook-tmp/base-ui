@@ -5,7 +5,8 @@ import { Form } from '@base-ui/react/form';
 import { Field } from '@base-ui/react/field';
 import { NumberField } from '@base-ui/react/number-field';
 import { Button } from '@base-ui/react/button';
-import styles from './form.module.css';
+import theme from '@droppy/theme';
+import './form.demo.css';
 import { MultiControlQuoteFormExample } from './recreations/MultiControlQuoteFormExample';
 import { ZeroJSFieldsetFormExample } from './recreations/ZeroJSFieldsetFormExample';
 
@@ -55,7 +56,7 @@ function HeroExample() {
 
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       errors={errors}
       onSubmit={async (event) => {
         event.preventDefault();
@@ -68,19 +69,19 @@ function HeroExample() {
         setLoading(false);
       }}
     >
-      <Field.Root name="url" className={styles.Field}>
-        <Field.Label className={styles.Label}>Homepage</Field.Label>
+      <Field.Root name="url" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Homepage</Field.Label>
         <Field.Control
           type="url"
           required
           defaultValue="https://example.com"
           placeholder="https://example.com"
           pattern="https?://.*"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} />
+        <Field.Error className={theme.FieldError} />
       </Field.Root>
-      <Button type="submit" disabled={loading} focusableWhenDisabled className={styles.Button}>
+      <Button type="submit" disabled={loading} focusableWhenDisabled className={theme.Button}>
         Submit
       </Button>
     </Form>
@@ -118,40 +119,40 @@ function SubmitGateExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onFormSubmit={(formValues: { email: string; password: string }) => {
         setPayload(JSON.stringify(formValues));
       }}
     >
-      <Field.Root name="email" className={styles.Field}>
-        <Field.Label className={styles.Label}>Email</Field.Label>
+      <Field.Root name="email" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Email</Field.Label>
         <Field.Control
           type="email"
           required
           placeholder="e.g. alice@example.com"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please enter your email.
         </Field.Error>
-        <Field.Error className={styles.Error} match="typeMismatch">
+        <Field.Error className={theme.FieldError} match="typeMismatch">
           Enter a valid email address.
         </Field.Error>
       </Field.Root>
-      <Field.Root name="password" className={styles.Field}>
-        <Field.Label className={styles.Label}>Password</Field.Label>
-        <Field.Control type="password" required pattern=".{8,}" className={styles.Input} />
-        <Field.Error className={styles.Error} match="valueMissing">
+      <Field.Root name="password" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Password</Field.Label>
+        <Field.Control type="password" required pattern=".{8,}" className={theme.Input} />
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Please enter a password.
         </Field.Error>
-        <Field.Error className={styles.Error} match="patternMismatch">
+        <Field.Error className={theme.FieldError} match="patternMismatch">
           Password must be at least 8 characters.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Sign in
       </button>
-      {payload ? <output className={styles.Output}>{payload}</output> : null}
+      {payload ? <output className="FormDemoOutput">{payload}</output> : null}
     </Form>
   );
 }
@@ -210,15 +211,15 @@ function ServerErrorsExample() {
     username: 'This username is already taken',
   });
   return (
-    <Form className={styles.Form} errors={errors}>
-      <Field.Root name="username" className={styles.Field}>
-        <Field.Label className={styles.Label}>Username</Field.Label>
-        <Field.Control defaultValue="admin" className={styles.Input} />
-        <Field.Error className={styles.Error} />
+    <Form className={theme.FormRoot} errors={errors}>
+      <Field.Root name="username" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Username</Field.Label>
+        <Field.Control defaultValue="admin" className={theme.Input} />
+        <Field.Error className={theme.FieldError} />
       </Field.Root>
       <button
         type="button"
-        className={styles.Button}
+        className={theme.Button}
         onClick={() => setErrors({ username: 'This username is already taken' })}
       >
         Simulate server response
@@ -285,20 +286,20 @@ function ServerFunctionExample() {
   );
 
   return (
-    <Form errors={state.serverErrors} action={formAction} className={styles.Form}>
-      <Field.Root name="username" className={styles.Field}>
-        <Field.Label className={styles.Label}>Username</Field.Label>
+    <Form errors={state.serverErrors} action={formAction} className={theme.FormRoot}>
+      <Field.Root name="username" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Username</Field.Label>
         <Field.Control
           type="text"
           autoComplete="username"
           required
           defaultValue="admin"
           placeholder="e.g. alice132"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} />
+        <Field.Error className={theme.FieldError} />
       </Field.Root>
-      <Button type="submit" disabled={loading} focusableWhenDisabled className={styles.Button}>
+      <Button type="submit" disabled={loading} focusableWhenDisabled className={theme.Button}>
         Submit
       </Button>
     </Form>
@@ -366,7 +367,7 @@ function SchemaMappingExample() {
 
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       errors={errors}
       onFormSubmit={(formValues) => {
         const parsed = safeParseProfile(formValues);
@@ -374,20 +375,20 @@ function SchemaMappingExample() {
         setResult(parsed.success ? `Valid: ${JSON.stringify(formValues)}` : null);
       }}
     >
-      <Field.Root name="name" className={styles.Field}>
-        <Field.Label className={styles.Label}>Name</Field.Label>
-        <Field.Control placeholder="Enter name" className={styles.Input} />
-        <Field.Error className={styles.Error} />
+      <Field.Root name="name" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Name</Field.Label>
+        <Field.Control placeholder="Enter name" className={theme.Input} />
+        <Field.Error className={theme.FieldError} />
       </Field.Root>
-      <Field.Root name="age" className={styles.Field}>
-        <Field.Label className={styles.Label}>Age</Field.Label>
-        <Field.Control placeholder="Enter age" className={styles.Input} />
-        <Field.Error className={styles.Error} />
+      <Field.Root name="age" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Age</Field.Label>
+        <Field.Control placeholder="Enter age" className={theme.Input} />
+        <Field.Error className={theme.FieldError} />
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Submit
       </button>
-      {result ? <output className={styles.Output}>{result}</output> : null}
+      {result ? <output className="FormDemoOutput">{result}</output> : null}
     </Form>
   );
 }
@@ -422,25 +423,25 @@ function PayloadExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onFormSubmit={(formValues: { id: string; quantity: number }) => {
         setPayload(JSON.stringify(formValues, null, 2));
       }}
     >
-      <Field.Root name="id" className={styles.Field}>
-        <Field.Label className={styles.Label}>Product ID</Field.Label>
-        <Field.Control required placeholder="e.g. A-1042" className={styles.Input} />
-        <Field.Error className={styles.Error} match="valueMissing">
+      <Field.Root name="id" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Product ID</Field.Label>
+        <Field.Control required placeholder="e.g. A-1042" className={theme.Input} />
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Enter a product ID.
         </Field.Error>
       </Field.Root>
-      <Field.Root name="quantity" className={styles.Field}>
-        <NumberField.Root defaultValue={1000} locale="en-US" className={styles.Field}>
-          <Field.Label className={styles.Label}>Quantity</Field.Label>
-          <NumberField.Input className={styles.Input} />
+      <Field.Root name="quantity" className={theme.FieldRoot}>
+        <NumberField.Root defaultValue={1000} locale="en-US" className={theme.NumberFieldRoot}>
+          <Field.Label className={theme.FieldLabel}>Quantity</Field.Label>
+          <NumberField.Input className={theme.NumberFieldInput} />
         </NumberField.Root>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Create order
       </button>
       {payload ? (
@@ -448,7 +449,7 @@ function PayloadExample() {
         // `scrollable-region-focusable`, technique SCR29) is exactly `tabindex="0"` +
         // `role="region"` on the region itself.
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        <pre tabIndex={0} role="region" aria-label="Submitted payload" className={styles.Pre}>
+        <pre tabIndex={0} role="region" aria-label="Submitted payload" className="FormDemoPre">
           {payload}
         </pre>
       ) : null}
@@ -485,30 +486,30 @@ export const OnFormSubmitPayload: Story = {
 
 function ValidationModeExample() {
   return (
-    <Form className={styles.Form} validationMode="onChange">
-      <Field.Root name="nickname" className={styles.Field}>
-        <Field.Label className={styles.Label}>Nickname</Field.Label>
+    <Form className={theme.FormRoot} validationMode="onChange">
+      <Field.Root name="nickname" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Nickname</Field.Label>
         <Field.Control
           required
           placeholder="Validates on change (inherited)"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Nickname is required.
         </Field.Error>
       </Field.Root>
-      <Field.Root name="city" validationMode="onBlur" className={styles.Field}>
-        <Field.Label className={styles.Label}>City</Field.Label>
+      <Field.Root name="city" validationMode="onBlur" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>City</Field.Label>
         <Field.Control
           required
           placeholder="Validates on blur (own mode)"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           City is required.
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save profile
       </button>
     </Form>
@@ -550,37 +551,37 @@ export const ValidationModeCascade: Story = {
 function ImperativeValidationExample() {
   const actionsRef = React.useRef<Form.Actions>(null);
   return (
-    <Form className={styles.Form} actionsRef={actionsRef}>
-      <Field.Root name="email" className={styles.Field}>
-        <Field.Label className={styles.Label}>Email</Field.Label>
+    <Form className={theme.FormRoot} actionsRef={actionsRef}>
+      <Field.Root name="email" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Email</Field.Label>
         <Field.Control
           type="email"
           required
           placeholder="e.g. alice@example.com"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match="valueMissing">
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Email is required.
         </Field.Error>
       </Field.Root>
-      <Field.Root name="fullName" className={styles.Field}>
-        <Field.Label className={styles.Label}>Full name</Field.Label>
-        <Field.Control required placeholder="e.g. Alice Cooper" className={styles.Input} />
-        <Field.Error className={styles.Error} match="valueMissing">
+      <Field.Root name="fullName" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Full name</Field.Label>
+        <Field.Control required placeholder="e.g. Alice Cooper" className={theme.Input} />
+        <Field.Error className={theme.FieldError} match="valueMissing">
           Full name is required.
         </Field.Error>
       </Field.Root>
-      <div className={styles.Row}>
+      <div className="FormDemoRow">
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => actionsRef.current?.validate('email')}
         >
           Validate email
         </button>
         <button
           type="button"
-          className={styles.Button}
+          className={theme.Button}
           onClick={() => actionsRef.current?.validate()}
         >
           Validate all
@@ -620,27 +621,27 @@ export const ImperativeValidation: Story = {
 export const NoValidateBoundary: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
-      <Form aria-label="Base UI form" className={styles.Form}>
-        <Field.Root name="email" className={styles.Field}>
-          <Field.Label className={styles.Label}>Email (Base UI Form)</Field.Label>
+    <div className="FormDemoRow">
+      <Form aria-label="Base UI form" className={theme.FormRoot}>
+        <Field.Root name="email" className={theme.FieldRoot}>
+          <Field.Label className={theme.FieldLabel}>Email (Base UI Form)</Field.Label>
           <Field.Control
             type="email"
             required
             placeholder="Field.Error renders the message"
-            className={styles.Input}
+            className={theme.Input}
           />
-          <Field.Error className={styles.Error} match="valueMissing">
+          <Field.Error className={theme.FieldError} match="valueMissing">
             Email is required.
           </Field.Error>
         </Field.Root>
-        <button type="submit" className={styles.Button}>
+        <button type="submit" className={theme.Button}>
           Subscribe
         </button>
       </Form>
-      <form aria-label="Plain form" className={styles.Form}>
-        <div className={styles.Field}>
-          <label className={styles.Label} htmlFor="plain-email">
+      <form aria-label="Plain form" className={theme.FormRoot}>
+        <div className={theme.FieldRoot}>
+          <label className={theme.FieldLabel} htmlFor="plain-email">
             Email (plain form)
           </label>
           <input
@@ -649,10 +650,10 @@ export const NoValidateBoundary: Story = {
             type="email"
             required
             placeholder="Browser bubble on submit"
-            className={styles.Input}
+            className={theme.Input}
           />
         </div>
-        <button type="submit" className={styles.Button} onClick={(event) => event.preventDefault()}>
+        <button type="submit" className={theme.Button} onClick={(event) => event.preventDefault()}>
           Subscribe
         </button>
       </form>
@@ -803,7 +804,7 @@ function ReactHookFormStyleExample() {
 
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       aria-label="Launch new cloud server"
       onSubmit={handleSubmit((data) => {
         setResult(`Launching ${data.serverName} in ${data.region}`);
@@ -814,21 +815,21 @@ function ReactHookFormStyleExample() {
         invalid={serverName.fieldState.invalid}
         touched={serverName.fieldState.isTouched}
         dirty={serverName.fieldState.isDirty}
-        className={styles.Field}
+        className={theme.FieldRoot}
       >
-        <Field.Label className={styles.Label}>Server name</Field.Label>
+        <Field.Label className={theme.FieldLabel}>Server name</Field.Label>
         <Field.Control
           ref={serverName.field.ref}
           value={serverName.field.value}
           onValueChange={serverName.field.onChange}
           onBlur={serverName.field.onBlur}
           placeholder="e.g. api-server-01"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Description className={styles.Description}>
+        <Field.Description className={theme.FieldDescription}>
           Must be 3 or more characters long
         </Field.Description>
-        <Field.Error className={styles.Error} match={Boolean(serverName.fieldState.error)}>
+        <Field.Error className={theme.FieldError} match={Boolean(serverName.fieldState.error)}>
           {serverName.fieldState.error?.message}
         </Field.Error>
       </Field.Root>
@@ -837,25 +838,25 @@ function ReactHookFormStyleExample() {
         invalid={region.fieldState.invalid}
         touched={region.fieldState.isTouched}
         dirty={region.fieldState.isDirty}
-        className={styles.Field}
+        className={theme.FieldRoot}
       >
-        <Field.Label className={styles.Label}>Region</Field.Label>
+        <Field.Label className={theme.FieldLabel}>Region</Field.Label>
         <Field.Control
           ref={region.field.ref}
           value={region.field.value}
           onValueChange={region.field.onChange}
           onBlur={region.field.onBlur}
           placeholder="e.g. eu-central-1"
-          className={styles.Input}
+          className={theme.Input}
         />
-        <Field.Error className={styles.Error} match={Boolean(region.fieldState.error)}>
+        <Field.Error className={theme.FieldError} match={Boolean(region.fieldState.error)}>
           {region.fieldState.error?.message}
         </Field.Error>
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Launch server
       </button>
-      {result ? <output className={styles.Output}>{result}</output> : null}
+      {result ? <output className="FormDemoOutput">{result}</output> : null}
     </Form>
   );
 }

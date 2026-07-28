@@ -2,7 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, waitFor, within } from 'storybook/test';
 import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import styles from './navigation-menu.module.css';
+import theme from '@droppy/theme';
+import './navigation-menu.demo.css';
 
 /**
  * Stories follow research/c-components/navigation-menu (Tier 1): the kept docs
@@ -47,15 +48,15 @@ function Flyout(props: NavigationMenu.Positioner.Props) {
   return (
     <NavigationMenu.Portal>
       <NavigationMenu.Positioner
-        className={styles.Positioner}
+        className={theme.NavigationMenuPositioner}
         sideOffset={10}
         collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
         collisionAvoidance={{ side: 'none' }}
         {...props}
       >
-        <NavigationMenu.Popup className={styles.Popup}>
-          <NavigationMenu.Arrow className={styles.Arrow} />
-          <NavigationMenu.Viewport className={styles.Viewport} />
+        <NavigationMenu.Popup className={theme.NavigationMenuPopup}>
+          <NavigationMenu.Arrow className={theme.NavigationMenuArrow} />
+          <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
         </NavigationMenu.Popup>
       </NavigationMenu.Positioner>
     </NavigationMenu.Portal>
@@ -124,12 +125,12 @@ function LinkCards({
   links: ReadonlyArray<{ href: string; title: string; description: string }>;
 }) {
   return (
-    <ul className={styles.FlexLinkList}>
+    <ul className={theme.NavigationMenuFlexLinkList}>
       {links.map((item) => (
         <li key={item.href}>
-          <Link className={styles.LinkCard} href={item.href}>
-            <h3 className={styles.LinkTitle}>{item.title}</h3>
-            <p className={styles.LinkDescription}>{item.description}</p>
+          <Link className={theme.NavigationMenuLinkCard} href={item.href}>
+            <h3 className={theme.NavigationMenuLinkTitle}>{item.title}</h3>
+            <p className={theme.NavigationMenuLinkDescription}>{item.description}</p>
           </Link>
         </li>
       ))}
@@ -145,22 +146,22 @@ function LinkCards({
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <NavigationMenu.Root className={styles.Root}>
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot}>
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Overview
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
-            <ul className={styles.GridLinkList}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
+            <ul className={theme.NavigationMenuGridLinkList}>
               {overviewLinks.map((item) => (
                 <li key={item.href}>
-                  <Link className={styles.LinkCard} href={item.href}>
-                    <h3 className={styles.LinkTitle}>{item.title}</h3>
-                    <p className={styles.LinkDescription}>{item.description}</p>
+                  <Link className={theme.NavigationMenuLinkCard} href={item.href}>
+                    <h3 className={theme.NavigationMenuLinkTitle}>{item.title}</h3>
+                    <p className={theme.NavigationMenuLinkDescription}>{item.description}</p>
                   </Link>
                 </li>
               ))}
@@ -169,20 +170,20 @@ export const Hero: Story = {
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Handbook
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={handbookLinks} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
           <Link
-            className={styles.Trigger}
+            className={theme.NavigationMenuTrigger}
             href="#github"
             onClick={(event) => event.preventDefault()}
           >
@@ -198,22 +199,22 @@ export const Hero: Story = {
 
 function NestedPopupSubmenuExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Overview
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
-            <ul className={styles.FlexLinkList}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
+            <ul className={theme.NavigationMenuFlexLinkList}>
               {overviewLinks.slice(0, 2).map((item) => (
                 <li key={item.href}>
-                  <Link className={styles.LinkCard} href={item.href}>
-                    <h3 className={styles.LinkTitle}>{item.title}</h3>
-                    <p className={styles.LinkDescription}>{item.description}</p>
+                  <Link className={theme.NavigationMenuLinkCard} href={item.href}>
+                    <h3 className={theme.NavigationMenuLinkTitle}>{item.title}</h3>
+                    <p className={theme.NavigationMenuLinkDescription}>{item.description}</p>
                   </Link>
                 </li>
               ))}
@@ -223,16 +224,16 @@ function NestedPopupSubmenuExample() {
                 <NavigationMenu.Root orientation="vertical">
                   <NavigationMenu.List>
                     <NavigationMenu.Item>
-                      <NavigationMenu.Trigger className={styles.LinkCard}>
-                        <span className={styles.LinkTitle}>Handbook</span>
-                        <p className={styles.LinkDescription}>
+                      <NavigationMenu.Trigger className={theme.NavigationMenuLinkCard}>
+                        <span className={theme.NavigationMenuLinkTitle}>Handbook</span>
+                        <p className={theme.NavigationMenuLinkDescription}>
                           How to use the library effectively.
                         </p>
-                        <NavigationMenu.Icon className={styles.NestedIcon}>
+                        <NavigationMenu.Icon className="NavDemoNestedIcon">
                           <CaretRightIcon />
                         </NavigationMenu.Icon>
                       </NavigationMenu.Trigger>
-                      <NavigationMenu.Content className={styles.Content}>
+                      <NavigationMenu.Content className={theme.NavigationMenuContent}>
                         <LinkCards links={handbookLinks} />
                       </NavigationMenu.Content>
                     </NavigationMenu.Item>
@@ -240,7 +241,7 @@ function NestedPopupSubmenuExample() {
 
                   <NavigationMenu.Portal>
                     <NavigationMenu.Positioner
-                      className={styles.Positioner}
+                      className={theme.NavigationMenuPositioner}
                       sideOffset={8}
                       alignOffset={-8}
                       align="end"
@@ -248,8 +249,11 @@ function NestedPopupSubmenuExample() {
                     >
                       {/* Distinguishes this nested flyout's <nav> landmark from the
                           outer Flyout's (both render <nav> with no other differentiator). */}
-                      <NavigationMenu.Popup className={styles.Popup} aria-label="Handbook">
-                        <NavigationMenu.Viewport className={styles.Viewport} />
+                      <NavigationMenu.Popup
+                        className={theme.NavigationMenuPopup}
+                        aria-label="Handbook"
+                      >
+                        <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
                       </NavigationMenu.Popup>
                     </NavigationMenu.Positioner>
                   </NavigationMenu.Portal>
@@ -311,36 +315,38 @@ const audienceMenus = [
 
 function NestedInlineSubmenuExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Product
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={`${styles.Content} ${styles.InlineContent}`}>
+          <NavigationMenu.Content className={`${theme.NavigationMenuContent} NavDemoInlineContent`}>
             {/* Inline mode: the nested Root renders only List + Viewport with a
                 defaultValue — content swaps inside the parent's panel with no
                 new Portal/Positioner/Popup (#2269). */}
             <NavigationMenu.Root orientation="vertical" defaultValue="developers">
-              <div className={styles.SubmenuLayout}>
-                <NavigationMenu.List className={styles.SubmenuList}>
+              <div className="NavDemoSubmenuLayout">
+                <NavigationMenu.List className="NavDemoSubmenuList">
                   {audienceMenus.map((menu) => (
                     <NavigationMenu.Item key={menu.value} value={menu.value}>
-                      <NavigationMenu.Trigger className={styles.SubmenuTrigger}>
-                        <span className={styles.SubmenuLabel}>{menu.label}</span>
-                        <span className={styles.SubmenuHint}>{menu.hint}</span>
+                      <NavigationMenu.Trigger className="NavDemoSubmenuTrigger">
+                        <span className="NavDemoSubmenuLabel">{menu.label}</span>
+                        <span className="NavDemoSubmenuHint">{menu.hint}</span>
                       </NavigationMenu.Trigger>
-                      <NavigationMenu.Content className={styles.SubmenuContent}>
-                        <h4 className={styles.SubmenuTitle}>{menu.title}</h4>
-                        <ul className={styles.LinkList}>
+                      <NavigationMenu.Content className="NavDemoSubmenuContent">
+                        <h4 className="NavDemoSubmenuTitle">{menu.title}</h4>
+                        <ul className="NavDemoLinkList">
                           {menu.links.map((link) => (
                             <li key={link.href}>
-                              <Link className={styles.LinkCard} href={link.href}>
-                                <h5 className={styles.LinkTitle}>{link.title}</h5>
-                                <p className={styles.LinkDescription}>{link.description}</p>
+                              <Link className={theme.NavigationMenuLinkCard} href={link.href}>
+                                <h5 className={theme.NavigationMenuLinkTitle}>{link.title}</h5>
+                                <p className={theme.NavigationMenuLinkDescription}>
+                                  {link.description}
+                                </p>
                               </Link>
                             </li>
                           ))}
@@ -350,14 +356,14 @@ function NestedInlineSubmenuExample() {
                   ))}
                 </NavigationMenu.List>
 
-                <NavigationMenu.Viewport className={styles.SubmenuViewport} />
+                <NavigationMenu.Viewport className="NavDemoSubmenuViewport" />
               </div>
             </NavigationMenu.Root>
           </NavigationMenu.Content>
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <Link className={styles.Trigger} href="#releases">
+          <Link className={theme.NavigationMenuTrigger} href="#releases">
             Releases
           </Link>
         </NavigationMenu.Item>
@@ -401,28 +407,28 @@ export const NestedInlineSubmenu: Story = {
 
 function MorphExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Overview
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={`${styles.Content} ${styles.ContentNarrow}`}>
+          <NavigationMenu.Content className={`${theme.NavigationMenuContent} NavDemoContentNarrow`}>
             <LinkCards links={overviewLinks.slice(0, 2)} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Handbook
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={`${styles.Content} ${styles.ContentWide}`}>
+          <NavigationMenu.Content className={`${theme.NavigationMenuContent} NavDemoContentWide`}>
             <LinkCards links={handbookLinks} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -430,13 +436,13 @@ function MorphExample() {
 
       <NavigationMenu.Portal>
         <NavigationMenu.Positioner
-          className={styles.Positioner}
+          className={theme.NavigationMenuPositioner}
           sideOffset={10}
           collisionAvoidance={{ side: 'none' }}
         >
-          <NavigationMenu.Popup className={styles.Popup} data-testid="morph-popup">
-            <NavigationMenu.Arrow className={styles.Arrow} />
-            <NavigationMenu.Viewport className={styles.Viewport} />
+          <NavigationMenu.Popup className={theme.NavigationMenuPopup} data-testid="morph-popup">
+            <NavigationMenu.Arrow className={theme.NavigationMenuArrow} />
+            <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
           </NavigationMenu.Popup>
         </NavigationMenu.Positioner>
       </NavigationMenu.Portal>
@@ -490,35 +496,35 @@ export const FlyoutViewportMorph: Story = {
 
 function KeyboardExample() {
   return (
-    <div className={styles.Stack}>
-      <NavigationMenu.Root className={styles.Root} aria-label="Main">
-        <NavigationMenu.List className={styles.List}>
+    <div className="NavDemoStack">
+      <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+        <NavigationMenu.List className={theme.NavigationMenuList}>
           <NavigationMenu.Item>
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Overview
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={styles.Content}>
+            <NavigationMenu.Content className={theme.NavigationMenuContent}>
               <LinkCards links={overviewLinks.slice(0, 2)} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
           <NavigationMenu.Item>
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Handbook
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={styles.Content}>
+            <NavigationMenu.Content className={theme.NavigationMenuContent}>
               <LinkCards links={handbookLinks} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
         </NavigationMenu.List>
         <Flyout />
       </NavigationMenu.Root>
-      <button type="button" className={styles.PlainButton}>
+      <button type="button" className="NavDemoPlainButton">
         After the nav
       </button>
     </div>
@@ -605,12 +611,12 @@ function ClientRouterExample() {
   const context = React.useMemo(() => ({ route, navigate: setRoute }), [route]);
   return (
     <RouterContext.Provider value={context}>
-      <div className={styles.Stack}>
-        <NavigationMenu.Root className={styles.Root} aria-label="Main">
-          <NavigationMenu.List className={styles.List}>
+      <div className="NavDemoStack">
+        <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+          <NavigationMenu.List className={theme.NavigationMenuList}>
             <NavigationMenu.Item>
               <NavigationMenu.Link
-                className={styles.Trigger}
+                className={theme.NavigationMenuTrigger}
                 active={route === '#/home'}
                 {...routerLinkProps(setRoute, '#/home')}
               >
@@ -618,23 +624,23 @@ function ClientRouterExample() {
               </NavigationMenu.Link>
             </NavigationMenu.Item>
             <NavigationMenu.Item>
-              <NavigationMenu.Trigger className={styles.Trigger}>
+              <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
                 Product
-                <NavigationMenu.Icon className={styles.Icon}>
+                <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                   <CaretDownIcon />
                 </NavigationMenu.Icon>
               </NavigationMenu.Trigger>
-              <NavigationMenu.Content className={styles.Content}>
-                <ul className={styles.FlexLinkList}>
+              <NavigationMenu.Content className={theme.NavigationMenuContent}>
+                <ul className={theme.NavigationMenuFlexLinkList}>
                   {productRoutes.map((item) => (
                     <li key={item.to}>
                       <NavigationMenu.Link
-                        className={styles.LinkCard}
+                        className={theme.NavigationMenuLinkCard}
                         active={route === item.to}
                         {...routerLinkProps(setRoute, item.to)}
                       >
-                        <h3 className={styles.LinkTitle}>{item.label}</h3>
-                        <p className={styles.LinkDescription}>{item.description}</p>
+                        <h3 className={theme.NavigationMenuLinkTitle}>{item.label}</h3>
+                        <p className={theme.NavigationMenuLinkDescription}>{item.description}</p>
                       </NavigationMenu.Link>
                     </li>
                   ))}
@@ -643,7 +649,7 @@ function ClientRouterExample() {
             </NavigationMenu.Item>
             <NavigationMenu.Item>
               <NavigationMenu.Link
-                className={styles.Trigger}
+                className={theme.NavigationMenuTrigger}
                 active={route === '#/pricing'}
                 {...routerLinkProps(setRoute, '#/pricing')}
               >
@@ -653,7 +659,7 @@ function ClientRouterExample() {
           </NavigationMenu.List>
           <Flyout />
         </NavigationMenu.Root>
-        <output className={styles.Output}>current route: {route}</output>
+        <output className="NavDemoOutput">current route: {route}</output>
       </div>
     </RouterContext.Provider>
   );
@@ -694,16 +700,16 @@ export const LinkWithRenderClientRouter: Story = {
 export const PositioningSideAlign: Story = {
   tags: ['highlight'],
   render: () => (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Resources
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={handbookLinks} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -711,15 +717,18 @@ export const PositioningSideAlign: Story = {
 
       <NavigationMenu.Portal>
         <NavigationMenu.Positioner
-          className={styles.Positioner}
+          className={theme.NavigationMenuPositioner}
           side="bottom"
           align="start"
           sideOffset={12}
           collisionPadding={5}
         >
-          <NavigationMenu.Popup className={styles.Popup} data-testid="positioned-popup">
-            <NavigationMenu.Arrow className={styles.Arrow} />
-            <NavigationMenu.Viewport className={styles.Viewport} />
+          <NavigationMenu.Popup
+            className={theme.NavigationMenuPopup}
+            data-testid="positioned-popup"
+          >
+            <NavigationMenu.Arrow className={theme.NavigationMenuArrow} />
+            <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
           </NavigationMenu.Popup>
         </NavigationMenu.Positioner>
       </NavigationMenu.Portal>
@@ -805,48 +814,48 @@ function ControlledExample() {
   };
 
   return (
-    <div className={styles.Stack}>
-      <div className={styles.Row}>
-        <button type="button" className={styles.PlainButton} onClick={() => setValue('handbook')}>
+    <div className="NavDemoStack">
+      <div className="NavDemoRow">
+        <button type="button" className="NavDemoPlainButton" onClick={() => setValue('handbook')}>
           Open handbook panel
         </button>
-        <button type="button" className={styles.PlainButton} onClick={() => setValue(null)}>
+        <button type="button" className="NavDemoPlainButton" onClick={() => setValue(null)}>
           Close
         </button>
       </div>
       <NavigationMenu.Root
-        className={styles.Root}
+        className={theme.NavigationMenuRoot}
         aria-label="Main"
         value={value}
         onValueChange={handleValueChange}
       >
-        <NavigationMenu.List className={styles.List}>
+        <NavigationMenu.List className={theme.NavigationMenuList}>
           <NavigationMenu.Item value="overview">
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Overview
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={styles.Content}>
+            <NavigationMenu.Content className={theme.NavigationMenuContent}>
               <LinkCards links={overviewLinks.slice(0, 2)} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
           <NavigationMenu.Item value="handbook">
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Handbook
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={styles.Content}>
+            <NavigationMenu.Content className={theme.NavigationMenuContent}>
               <LinkCards links={handbookLinks} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
         </NavigationMenu.List>
         <Flyout />
       </NavigationMenu.Root>
-      <output className={styles.Output}>
+      <output className="NavDemoOutput">
         value: {value ?? 'null'} · reasons: {reasons.length > 0 ? reasons.join(', ') : 'none'}
       </output>
     </div>
@@ -885,39 +894,43 @@ export const ControlledValueWithEventDetails: Story = {
 
 function CloseOnClickExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Docs
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
-            <ul className={styles.FlexLinkList}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
+            <ul className={theme.NavigationMenuFlexLinkList}>
               <li>
                 {/* preventDefault: a real click in the Chromium test runner
                     would otherwise follow the hash href and navigate the
                     preview document, which the play below doesn't want. */}
                 <Link
-                  className={styles.LinkCard}
+                  className={theme.NavigationMenuLinkCard}
                   href="#getting-started"
                   closeOnClick
                   onClick={(event) => event.preventDefault()}
                 >
-                  <h3 className={styles.LinkTitle}>Getting started</h3>
-                  <p className={styles.LinkDescription}>Soft-navigates and closes the menu.</p>
+                  <h3 className={theme.NavigationMenuLinkTitle}>Getting started</h3>
+                  <p className={theme.NavigationMenuLinkDescription}>
+                    Soft-navigates and closes the menu.
+                  </p>
                 </Link>
               </li>
               <li>
                 <Link
-                  className={styles.LinkCard}
+                  className={theme.NavigationMenuLinkCard}
                   href="#community"
                   onClick={(event) => event.preventDefault()}
                 >
-                  <h3 className={styles.LinkTitle}>Community</h3>
-                  <p className={styles.LinkDescription}>External link — menu stays open.</p>
+                  <h3 className={theme.NavigationMenuLinkTitle}>Community</h3>
+                  <p className={theme.NavigationMenuLinkDescription}>
+                    External link — menu stays open.
+                  </p>
                 </Link>
               </li>
             </ul>
@@ -958,37 +971,45 @@ export const CloseOnClickLinks: Story = {
 
 function VerticalExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main" orientation="vertical">
-      <NavigationMenu.List className={`${styles.List} ${styles.VerticalList}`}>
+    <NavigationMenu.Root
+      className={theme.NavigationMenuRoot}
+      aria-label="Main"
+      orientation="vertical"
+    >
+      <NavigationMenu.List className={`${theme.NavigationMenuList} NavDemoVerticalList`}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Dashboards
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon style={{ transform: 'rotate(-90deg)' }} />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={overviewLinks.slice(0, 2)} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Reports
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon style={{ transform: 'rotate(-90deg)' }} />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={handbookLinks} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
       </NavigationMenu.List>
 
       <NavigationMenu.Portal>
-        <NavigationMenu.Positioner className={styles.Positioner} side="right" sideOffset={10}>
-          <NavigationMenu.Popup className={styles.Popup}>
-            <NavigationMenu.Arrow className={styles.Arrow} />
-            <NavigationMenu.Viewport className={styles.Viewport} />
+        <NavigationMenu.Positioner
+          className={theme.NavigationMenuPositioner}
+          side="right"
+          sideOffset={10}
+        >
+          <NavigationMenu.Popup className={theme.NavigationMenuPopup}>
+            <NavigationMenu.Arrow className={theme.NavigationMenuArrow} />
+            <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
           </NavigationMenu.Popup>
         </NavigationMenu.Positioner>
       </NavigationMenu.Portal>
@@ -1021,16 +1042,16 @@ export const VerticalOrientation: Story = {
 export const DelayTuningClickOnlyApprox: Story = {
   tags: ['api-ref'],
   render: () => (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main" delay={600000}>
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main" delay={600000}>
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Overview
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={overviewLinks.slice(0, 2)} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -1056,16 +1077,20 @@ export const DelayTuningClickOnlyApprox: Story = {
 export const KeepMountedSEOContent: Story = {
   tags: ['api-ref'],
   render: () => (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Overview
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content} keepMounted data-testid="seo-content">
+          <NavigationMenu.Content
+            className={theme.NavigationMenuContent}
+            keepMounted
+            data-testid="seo-content"
+          >
             <LinkCards links={overviewLinks.slice(0, 2)} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
@@ -1093,9 +1118,9 @@ export const KeepMountedSEOContent: Story = {
 export const TouchTapToOpen: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Stack}>
+    <div className="NavDemoStack">
       <MorphExample />
-      <p className={styles.Output}>Outside content</p>
+      <p className="NavDemoOutput">Outside content</p>
     </div>
   ),
   play: async ({ canvas, canvasElement, userEvent }) => {
@@ -1117,42 +1142,44 @@ export const TouchTapToOpen: Story = {
 function AnimatedExample() {
   const [exitCount, setExitCount] = React.useState(0);
   return (
-    <div className={styles.Stack}>
+    <div className="NavDemoStack">
       <NavigationMenu.Root
-        className={styles.Root}
+        className={theme.NavigationMenuRoot}
         onOpenChangeComplete={(open) => {
           if (!open) {
             setExitCount((count) => count + 1);
           }
         }}
       >
-        <NavigationMenu.List className={styles.List}>
+        <NavigationMenu.List className={theme.NavigationMenuList}>
           <NavigationMenu.Item>
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Overview
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={`${styles.Content} ${styles.ContentNarrow}`}>
+            <NavigationMenu.Content
+              className={`${theme.NavigationMenuContent} NavDemoContentNarrow`}
+            >
               <LinkCards links={overviewLinks.slice(0, 2)} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
           <NavigationMenu.Item>
-            <NavigationMenu.Trigger className={styles.Trigger}>
+            <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
               Handbook
-              <NavigationMenu.Icon className={styles.Icon}>
+              <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                 <CaretDownIcon />
               </NavigationMenu.Icon>
             </NavigationMenu.Trigger>
-            <NavigationMenu.Content className={`${styles.Content} ${styles.ContentWide}`}>
+            <NavigationMenu.Content className={`${theme.NavigationMenuContent} NavDemoContentWide`}>
               <LinkCards links={handbookLinks} />
             </NavigationMenu.Content>
           </NavigationMenu.Item>
         </NavigationMenu.List>
         <Flyout />
       </NavigationMenu.Root>
-      <output className={styles.Output}>exit transitions completed: {exitCount}</output>
+      <output className="NavDemoOutput">exit transitions completed: {exitCount}</output>
     </div>
   );
 }
@@ -1184,50 +1211,52 @@ function SplitPatternExample() {
   const context = React.useMemo(() => ({ route, navigate: setRoute }), [route]);
   return (
     <RouterContext.Provider value={context}>
-      <div className={styles.Stack}>
-        <NavigationMenu.Root className={styles.Root} aria-label="Main">
-          <NavigationMenu.List className={styles.List}>
+      <div className="NavDemoStack">
+        <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+          <NavigationMenu.List className={theme.NavigationMenuList}>
             <NavigationMenu.Item>
               {/* Apple.com split pattern: the label is a plain Link that
                   navigates; a separate, keyboard-visible chevron Trigger
                   opens the panel. Never overload one element with both. */}
-              <div className={styles.Row}>
+              <div className="NavDemoRow">
                 <NavigationMenu.Link
-                  className={styles.Trigger}
+                  className={theme.NavigationMenuTrigger}
                   active={route === '#/analytics'}
                   {...routerLinkProps(setRoute, '#/analytics')}
                 >
                   Analytics
                 </NavigationMenu.Link>
                 <NavigationMenu.Trigger
-                  className={`${styles.Trigger} ${styles.ChevronTrigger}`}
+                  className={`${theme.NavigationMenuTrigger} ${theme.NavigationMenuChevronTrigger}`}
                   aria-label="Analytics submenu"
                 >
-                  <NavigationMenu.Icon className={styles.Icon}>
+                  <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                     <CaretDownIcon />
                   </NavigationMenu.Icon>
                 </NavigationMenu.Trigger>
               </div>
-              <NavigationMenu.Content className={styles.Content}>
-                <ul className={styles.FlexLinkList}>
+              <NavigationMenu.Content className={theme.NavigationMenuContent}>
+                <ul className={theme.NavigationMenuFlexLinkList}>
                   <li>
                     <NavigationMenu.Link
-                      className={styles.LinkCard}
+                      className={theme.NavigationMenuLinkCard}
                       active={route === '#/analytics/funnels'}
                       {...routerLinkProps(setRoute, '#/analytics/funnels')}
                     >
-                      <h3 className={styles.LinkTitle}>Funnels</h3>
-                      <p className={styles.LinkDescription}>Conversion steps over time.</p>
+                      <h3 className={theme.NavigationMenuLinkTitle}>Funnels</h3>
+                      <p className={theme.NavigationMenuLinkDescription}>
+                        Conversion steps over time.
+                      </p>
                     </NavigationMenu.Link>
                   </li>
                   <li>
                     <NavigationMenu.Link
-                      className={styles.LinkCard}
+                      className={theme.NavigationMenuLinkCard}
                       active={route === '#/analytics/retention'}
                       {...routerLinkProps(setRoute, '#/analytics/retention')}
                     >
-                      <h3 className={styles.LinkTitle}>Retention</h3>
-                      <p className={styles.LinkDescription}>Cohorts that come back.</p>
+                      <h3 className={theme.NavigationMenuLinkTitle}>Retention</h3>
+                      <p className={theme.NavigationMenuLinkDescription}>Cohorts that come back.</p>
                     </NavigationMenu.Link>
                   </li>
                 </ul>
@@ -1236,7 +1265,7 @@ function SplitPatternExample() {
           </NavigationMenu.List>
           <Flyout />
         </NavigationMenu.Root>
-        <output className={styles.Output}>current route: {route}</output>
+        <output className="NavDemoOutput">current route: {route}</output>
       </div>
     </RouterContext.Provider>
   );
@@ -1275,17 +1304,20 @@ export const TriggerAndLinkSplitPattern: Story = {
 function FlyoutWithBackdrop(props: NavigationMenu.Positioner.Props) {
   return (
     <NavigationMenu.Portal>
-      <NavigationMenu.Backdrop className={styles.Backdrop} data-testid="nav-backdrop" />
+      <NavigationMenu.Backdrop
+        className={theme.NavigationMenuBackdrop}
+        data-testid="nav-backdrop"
+      />
       <NavigationMenu.Positioner
-        className={styles.Positioner}
+        className={theme.NavigationMenuPositioner}
         sideOffset={10}
         collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
         collisionAvoidance={{ side: 'none' }}
         {...props}
       >
-        <NavigationMenu.Popup className={styles.Popup}>
-          <NavigationMenu.Arrow className={styles.Arrow} />
-          <NavigationMenu.Viewport className={styles.Viewport} />
+        <NavigationMenu.Popup className={theme.NavigationMenuPopup}>
+          <NavigationMenu.Arrow className={theme.NavigationMenuArrow} />
+          <NavigationMenu.Viewport className={theme.NavigationMenuViewport} />
         </NavigationMenu.Popup>
       </NavigationMenu.Positioner>
     </NavigationMenu.Portal>
@@ -1294,22 +1326,22 @@ function FlyoutWithBackdrop(props: NavigationMenu.Positioner.Props) {
 
 function AnatomyTourExample() {
   return (
-    <NavigationMenu.Root className={styles.Root}>
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot}>
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={styles.Trigger}>
+          <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
             Products
-            <NavigationMenu.Icon className={styles.Icon}>
+            <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
               <CaretDownIcon />
             </NavigationMenu.Icon>
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={styles.Content}>
+          <NavigationMenu.Content className={theme.NavigationMenuContent}>
             <LinkCards links={overviewLinks} />
           </NavigationMenu.Content>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
           <Link
-            className={styles.Trigger}
+            className={theme.NavigationMenuTrigger}
             href="#pricing"
             onClick={(event) => event.preventDefault()}
           >
@@ -1375,13 +1407,13 @@ const cmsNavEntries: readonly CmsNavEntry[] = [
 
 function CmsDrivenNavExample() {
   return (
-    <NavigationMenu.Root className={styles.Root} aria-label="Main">
-      <NavigationMenu.List className={styles.List}>
+    <NavigationMenu.Root className={theme.NavigationMenuRoot} aria-label="Main">
+      <NavigationMenu.List className={theme.NavigationMenuList}>
         {cmsNavEntries.map((entry) =>
           entry.type === 'link' ? (
             <NavigationMenu.Item key={entry.href}>
               <Link
-                className={styles.Trigger}
+                className={theme.NavigationMenuTrigger}
                 href={entry.href}
                 onClick={(event) => event.preventDefault()}
               >
@@ -1390,13 +1422,13 @@ function CmsDrivenNavExample() {
             </NavigationMenu.Item>
           ) : (
             <NavigationMenu.Item key={entry.label}>
-              <NavigationMenu.Trigger className={styles.Trigger}>
+              <NavigationMenu.Trigger className={theme.NavigationMenuTrigger}>
                 {entry.label}
-                <NavigationMenu.Icon className={styles.Icon}>
+                <NavigationMenu.Icon className={theme.NavigationMenuIcon}>
                   <CaretDownIcon />
                 </NavigationMenu.Icon>
               </NavigationMenu.Trigger>
-              <NavigationMenu.Content className={styles.Content}>
+              <NavigationMenu.Content className={theme.NavigationMenuContent}>
                 <LinkCards links={entry.items} />
               </NavigationMenu.Content>
             </NavigationMenu.Item>

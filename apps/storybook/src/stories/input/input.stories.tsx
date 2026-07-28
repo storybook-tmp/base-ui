@@ -5,7 +5,8 @@ import { Field } from '@base-ui/react/field';
 import { Fieldset } from '@base-ui/react/fieldset';
 import { Form } from '@base-ui/react/form';
 import { Input } from '@base-ui/react/input';
-import styles from './input.module.css';
+import theme from '@droppy/theme';
+import './input.demo.css';
 
 /**
  * Stories follow research/c-components/input (Tier 3, lean brief): `Input.tsx`
@@ -26,9 +27,9 @@ type Story = StoryObj<typeof meta>;
 export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
-    <Field.Root className={styles.Field}>
-      <Field.Label className={styles.Label}>Name</Field.Label>
-      <Input placeholder="e.g. Colm Tuite" className={styles.Input} />
+    <Field.Root className={theme.FieldRoot}>
+      <Field.Label className={theme.FieldLabel}>Name</Field.Label>
+      <Input placeholder="e.g. Colm Tuite" className={theme.Input} />
     </Field.Root>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -45,10 +46,10 @@ export const Hero: Story = {
 export const ValidationStates: Story = {
   tags: ['highlight'],
   render: () => (
-    <Field.Root name="email" validationMode="onBlur" className={styles.Field}>
-      <Field.Label className={styles.Label}>Work email</Field.Label>
-      <Input required type="email" placeholder="you@company.com" className={styles.Input} />
-      <Field.Error className={styles.Error} match="valueMissing">
+    <Field.Root name="email" validationMode="onBlur" className={theme.FieldRoot}>
+      <Field.Label className={theme.FieldLabel}>Work email</Field.Label>
+      <Input required type="email" placeholder="you@company.com" className={theme.Input} />
+      <Field.Error className={theme.FieldError} match="valueMissing">
         Please enter your email.
       </Field.Error>
     </Field.Root>
@@ -79,21 +80,21 @@ function FormExample() {
   const [submitted, setSubmitted] = React.useState<string | null>(null);
   return (
     <Form
-      className={styles.Form}
+      className={theme.FormRoot}
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         setSubmitted(String(data.get('displayName')));
       }}
     >
-      <Field.Root name="displayName" className={styles.Field}>
-        <Field.Label className={styles.Label}>Display name</Field.Label>
-        <Input required placeholder="e.g. Ada Lovelace" className={styles.Input} />
+      <Field.Root name="displayName" className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Display name</Field.Label>
+        <Input required placeholder="e.g. Ada Lovelace" className={theme.Input} />
       </Field.Root>
-      <button type="submit" className={styles.Button}>
+      <button type="submit" className={theme.Button}>
         Save
       </button>
-      {submitted !== null ? <output className={styles.Output}>saved: {submitted}</output> : null}
+      {submitted !== null ? <output className="InputDemoOutput">saved: {submitted}</output> : null}
     </Form>
   );
 }
@@ -120,9 +121,9 @@ export const FormIntegration: Story = {
 export const StandaloneNoField: Story = {
   tags: ['highlight'],
   render: () => (
-    <label className={styles.Field}>
-      <span className={styles.Label}>Search</span>
-      <Input placeholder="Type to search…" className={styles.Input} />
+    <label className={theme.FieldRoot}>
+      <span className={theme.FieldLabel}>Search</span>
+      <Input placeholder="Type to search…" className={theme.Input} />
     </label>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -148,11 +149,11 @@ export const StandaloneNoField: Story = {
 export const DisabledFromFieldset: Story = {
   tags: ['highlight'],
   render: () => (
-    <Fieldset.Root disabled className={styles.Field}>
-      <Fieldset.Legend className={styles.Label}>Account details</Fieldset.Legend>
-      <Field.Root className={styles.Field}>
-        <Field.Label className={styles.Label}>Display name</Field.Label>
-        <Input placeholder="e.g. Ada Lovelace" className={styles.Input} />
+    <Fieldset.Root disabled className={theme.FieldRoot}>
+      <Fieldset.Legend className={theme.FieldLabel}>Account details</Fieldset.Legend>
+      <Field.Root className={theme.FieldRoot}>
+        <Field.Label className={theme.FieldLabel}>Display name</Field.Label>
+        <Input placeholder="e.g. Ada Lovelace" className={theme.Input} />
       </Field.Root>
     </Fieldset.Root>
   ),

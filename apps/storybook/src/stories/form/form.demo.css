@@ -1,0 +1,28 @@
+/* Demo-only glue for form stories (incl. the real-world recreations) —
+   not part of the Droppy theme. */
+
+.FormDemoOutput {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--ds-color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.FormDemoPre {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.5rem;
+  border: 1px dashed var(--ds-color-border-subtle);
+  width: 100%;
+  overflow-x: auto;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--ds-color-text-secondary);
+}
+
+.FormDemoRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+}

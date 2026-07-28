@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react-vite';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
-import '../src/styles/theme.css';
+import '@droppy/theme/styles.css';
+import '../src/styles/app.css';
 
 /**
  * Workaround for Storybook 10.5.x crashing Docs (MDX) pages with an uncaught
@@ -107,7 +108,7 @@ const preview: Preview = {
 
   decorators: [
     // Toolbar theme picker + `theme` global. Stamps data-theme on <html>, which
-    // src/styles/theme.css keys the semantic --ds-color-* vars on.
+    // @droppy/theme's styles.css keys the semantic --ds-color-* vars on.
     withThemeByDataAttribute({
       themes: {
         light: 'light',
@@ -148,7 +149,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Overview',
-          ['Introduction', 'Principles', 'Choosing components', 'Brand principles'],
+          ['Introduction', 'Principles', 'Brand guidelines', 'Choosing components'],
           'BaseUI Patterns',
           [
             'Build a validated form',

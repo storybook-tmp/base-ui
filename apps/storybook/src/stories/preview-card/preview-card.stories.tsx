@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { PreviewCard } from '@base-ui/react/preview-card';
 import { Tooltip } from '@base-ui/react/tooltip';
-import styles from './preview-card.module.css';
+import theme from '@droppy/theme';
+import './preview-card.demo.css';
 
 /**
  * Stories follow research/c-components/preview-card (Tier 2, floor coverage):
@@ -32,10 +33,10 @@ export const Hero: Story = {
   tags: ['showcase', 'base'],
   render: () => (
     <PreviewCard.Root>
-      <p className={styles.Paragraph}>
+      <p className="PreviewCardParagraph">
         The principles of good{' '}
         <PreviewCard.Trigger
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Typography"
         >
           typography
@@ -44,18 +45,18 @@ export const Hero: Story = {
       </p>
 
       <PreviewCard.Portal>
-        <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-          <PreviewCard.Popup className={styles.Popup}>
-            <PreviewCard.Arrow className={styles.Arrow} />
-            <div className={styles.PopupContent}>
+        <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+          <PreviewCard.Popup className={theme.PreviewCardPopup}>
+            <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+            <div className={theme.PreviewCardPopupContent}>
               <img
                 width="224"
                 height="150"
-                className={styles.Image}
+                className={theme.PreviewCardImage}
                 src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
                 alt="Station Hofplein signage in Rotterdam, Netherlands"
               />
-              <p className={styles.Summary}>
+              <p className={theme.PreviewCardSummary}>
                 <strong>Typography</strong> is the art and science of arranging type to make written
                 language clear, visually appealing, and effective in communication.
               </p>
@@ -72,10 +73,10 @@ export const KeyboardFocusOpen: Story = {
   tags: ['tests'],
   render: () => (
     <PreviewCard.Root>
-      <p className={styles.Paragraph}>
+      <p className="PreviewCardParagraph">
         Read more about{' '}
         <PreviewCard.Trigger
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Typography"
         >
           typography
@@ -83,11 +84,11 @@ export const KeyboardFocusOpen: Story = {
         before you start.
       </p>
       <PreviewCard.Portal>
-        <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-          <PreviewCard.Popup className={styles.Popup}>
-            <PreviewCard.Arrow className={styles.Arrow} />
-            <div className={styles.PopupContent}>
-              <p className={styles.Summary}>
+        <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+          <PreviewCard.Popup className={theme.PreviewCardPopup}>
+            <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+            <div className={theme.PreviewCardPopupContent}>
+              <p className={theme.PreviewCardSummary}>
                 <strong>Typography</strong> is the art of arranging type.
               </p>
             </div>
@@ -124,21 +125,25 @@ const arrowSides = ['top', 'right', 'bottom', 'left'] as const;
 export const PositioningWithArrow: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Container}>
+    <div className="PreviewCardContainer">
       {arrowSides.map((side) => (
         <PreviewCard.Root key={side} defaultOpen>
           <PreviewCard.Trigger
-            className={styles.Link}
+            className={theme.PreviewCardTrigger}
             href="https://en.wikipedia.org/wiki/Typography"
           >
             {side}
           </PreviewCard.Trigger>
           <PreviewCard.Portal>
-            <PreviewCard.Positioner className={styles.Positioner} side={side} sideOffset={8}>
-              <PreviewCard.Popup className={styles.Popup}>
-                <PreviewCard.Arrow className={styles.Arrow} />
-                <div className={styles.PopupContent}>
-                  <p className={styles.Summary}>{`side="${side}"`}</p>
+            <PreviewCard.Positioner
+              className={theme.PreviewCardPositioner}
+              side={side}
+              sideOffset={8}
+            >
+              <PreviewCard.Popup className={theme.PreviewCardPopup}>
+                <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+                <div className={theme.PreviewCardPopupContent}>
+                  <p className={theme.PreviewCardSummary}>{`side="${side}"`}</p>
                 </div>
               </PreviewCard.Popup>
             </PreviewCard.Positioner>
@@ -154,7 +159,7 @@ function ControlledOpenExample() {
   const [reason, setReason] = React.useState<string | null>(null);
 
   return (
-    <div className={styles.Stack}>
+    <div className="PreviewCardStack">
       <PreviewCard.Root
         open={open}
         onOpenChange={(nextOpen, eventDetails) => {
@@ -162,10 +167,10 @@ function ControlledOpenExample() {
           setReason(eventDetails.reason ?? null);
         }}
       >
-        <p className={styles.Paragraph}>
+        <p className="PreviewCardParagraph">
           Focus{' '}
           <PreviewCard.Trigger
-            className={styles.Link}
+            className={theme.PreviewCardTrigger}
             href="https://en.wikipedia.org/wiki/Typography"
           >
             this link
@@ -173,17 +178,17 @@ function ControlledOpenExample() {
           to open it.
         </p>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
-                <p className={styles.Summary}>Controlled preview card</p>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
+                <p className={theme.PreviewCardSummary}>Controlled preview card</p>
               </div>
             </PreviewCard.Popup>
           </PreviewCard.Positioner>
         </PreviewCard.Portal>
       </PreviewCard.Root>
-      <output className={styles.Output}>
+      <output className="PreviewCardOutput">
         open={String(open)} reason={String(reason)}
       </output>
     </div>
@@ -217,11 +222,11 @@ export const ControlledOpen: Story = {
 export const DelayTuning: Story = {
   tags: ['api-ref'],
   render: () => (
-    <div className={styles.Container}>
+    <div className="PreviewCardContainer">
       <PreviewCard.Root>
-        <p className={styles.Paragraph}>
+        <p className="PreviewCardParagraph">
           <PreviewCard.Trigger
-            className={styles.Link}
+            className={theme.PreviewCardTrigger}
             delay={0}
             href="https://en.wikipedia.org/wiki/Typography"
           >
@@ -229,11 +234,11 @@ export const DelayTuning: Story = {
           </PreviewCard.Trigger>
         </p>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
-                <p className={styles.Summary}>Opens with delay=0</p>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
+                <p className={theme.PreviewCardSummary}>Opens with delay=0</p>
               </div>
             </PreviewCard.Popup>
           </PreviewCard.Positioner>
@@ -241,20 +246,20 @@ export const DelayTuning: Story = {
       </PreviewCard.Root>
 
       <PreviewCard.Root>
-        <p className={styles.Paragraph}>
+        <p className="PreviewCardParagraph">
           <PreviewCard.Trigger
-            className={styles.Link}
+            className={theme.PreviewCardTrigger}
             href="https://en.wikipedia.org/wiki/Typography"
           >
             default delay
           </PreviewCard.Trigger>
         </p>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
-                <p className={styles.Summary}>Opens after the default 600ms delay</p>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
+                <p className={theme.PreviewCardSummary}>Opens after the default 600ms delay</p>
               </div>
             </PreviewCard.Popup>
           </PreviewCard.Positioner>
@@ -289,39 +294,39 @@ export const DelayTuning: Story = {
 export const TooltipVsPreviewCardDistinction: Story = {
   tags: ['highlight'],
   render: () => (
-    <p className={styles.Paragraph}>
+    <p className="PreviewCardParagraph">
       Click{' '}
       <Tooltip.Root>
-        <Tooltip.Trigger render={<button type="button" />} className={styles.Button}>
+        <Tooltip.Trigger render={<button type="button" />} className="PreviewCardPlainButton">
           Copy
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Positioner sideOffset={8}>
-            <Tooltip.Popup className={styles.Popup}>Copy to clipboard</Tooltip.Popup>
+            <Tooltip.Popup className={theme.TooltipPopup}>Copy to clipboard</Tooltip.Popup>
           </Tooltip.Positioner>
         </Tooltip.Portal>
       </Tooltip.Root>{' '}
       to copy this snippet, or read more about{' '}
       <PreviewCard.Root>
         <PreviewCard.Trigger
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Typography"
         >
           typography
         </PreviewCard.Trigger>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
                 <img
                   width="224"
                   height="150"
-                  className={styles.Image}
+                  className={theme.PreviewCardImage}
                   src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
                   alt="Station Hofplein signage in Rotterdam, Netherlands"
                 />
-                <p className={styles.Summary}>
+                <p className={theme.PreviewCardSummary}>
                   <strong>Typography</strong> is the art of arranging type.
                 </p>
               </div>
@@ -356,13 +361,13 @@ const detachedHandle = PreviewCard.createHandle();
 export const DetachedTriggerWithHandle: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Stack}>
-      <p className={styles.Paragraph}>
+    <div className="PreviewCardStack">
+      <p className="PreviewCardParagraph">
         See the{' '}
         <PreviewCard.Trigger
           handle={detachedHandle}
           id="detached-trigger"
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Typography"
         >
           detached trigger
@@ -371,22 +376,26 @@ export const DetachedTriggerWithHandle: Story = {
       </p>
       <button
         type="button"
-        className={styles.Button}
+        className="PreviewCardPlainButton"
         onClick={() => detachedHandle.open('detached-trigger')}
       >
         Open programmatically
       </button>
-      <button type="button" className={styles.Button} onClick={() => detachedHandle.close()}>
+      <button
+        type="button"
+        className="PreviewCardPlainButton"
+        onClick={() => detachedHandle.close()}
+      >
         Close
       </button>
 
       <PreviewCard.Root handle={detachedHandle}>
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
-                <p className={styles.Summary}>Declared elsewhere in the tree</p>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
+                <p className={theme.PreviewCardSummary}>Declared elsewhere in the tree</p>
               </div>
             </PreviewCard.Popup>
           </PreviewCard.Positioner>
@@ -418,13 +427,13 @@ function DetachedTriggersControlledExample() {
   const [triggerId, setTriggerId] = React.useState<string | null>(null);
 
   return (
-    <div className={styles.Stack}>
-      <p className={styles.Paragraph}>
+    <div className="PreviewCardStack">
+      <p className="PreviewCardParagraph">
         Read about{' '}
         <PreviewCard.Trigger
           handle={controlledPreviewHandle}
           id="controlled-typography"
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Typography"
         >
           typography
@@ -433,7 +442,7 @@ function DetachedTriggersControlledExample() {
         <PreviewCard.Trigger
           handle={controlledPreviewHandle}
           id="controlled-design"
-          className={styles.Link}
+          className={theme.PreviewCardTrigger}
           href="https://en.wikipedia.org/wiki/Design"
         >
           design
@@ -442,7 +451,7 @@ function DetachedTriggersControlledExample() {
       </p>
       <button
         type="button"
-        className={styles.Button}
+        className="PreviewCardPlainButton"
         onClick={() => {
           setTriggerId('controlled-design');
           setOpen(true);
@@ -461,11 +470,11 @@ function DetachedTriggersControlledExample() {
         triggerId={triggerId}
       >
         <PreviewCard.Portal>
-          <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-            <PreviewCard.Popup className={styles.Popup}>
-              <PreviewCard.Arrow className={styles.Arrow} />
-              <div className={styles.PopupContent}>
-                <p className={styles.Summary}>Controlled preview card</p>
+          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+            <PreviewCard.Popup className={theme.PreviewCardPopup}>
+              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+              <div className={theme.PreviewCardPopupContent}>
+                <p className={theme.PreviewCardSummary}>Controlled preview card</p>
               </div>
             </PreviewCard.Popup>
           </PreviewCard.Positioner>
@@ -509,15 +518,15 @@ const PREVIEW_LINKS: Array<[string, string, string]> = [
 export const DetachedTriggersFull: Story = {
   tags: ['highlight', 'base'],
   render: () => (
-    <div className={styles.Stack}>
-      <p className={styles.Paragraph}>
+    <div className="PreviewCardStack">
+      <p className="PreviewCardParagraph">
         {PREVIEW_LINKS.map(([id, label, summary], index) => (
           <React.Fragment key={id}>
             {index > 0 && ' and '}
             <PreviewCard.Trigger
               handle={payloadPreviewHandle}
               id={id}
-              className={styles.Link}
+              className={theme.PreviewCardTrigger}
               href={`https://en.wikipedia.org/wiki/${label}`}
               payload={summary}
             >
@@ -531,11 +540,11 @@ export const DetachedTriggersFull: Story = {
       <PreviewCard.Root handle={payloadPreviewHandle}>
         {({ payload }) => (
           <PreviewCard.Portal>
-            <PreviewCard.Positioner className={styles.Positioner} sideOffset={8}>
-              <PreviewCard.Popup className={styles.Popup}>
-                <PreviewCard.Arrow className={styles.Arrow} />
-                <div className={styles.PopupContent}>
-                  <p className={styles.Summary}>{payload}</p>
+            <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
+              <PreviewCard.Popup className={theme.PreviewCardPopup}>
+                <PreviewCard.Arrow className={theme.PreviewCardArrow} />
+                <div className={theme.PreviewCardPopupContent}>
+                  <p className={theme.PreviewCardSummary}>{payload}</p>
                 </div>
               </PreviewCard.Popup>
             </PreviewCard.Positioner>

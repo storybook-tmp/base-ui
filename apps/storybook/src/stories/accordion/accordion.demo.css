@@ -1,0 +1,28 @@
+/* Demo-only glue for accordion.stories.tsx — not part of the Droppy theme. */
+
+/* ControlledValue story: external buttons that set `value` from outside. */
+.ExternalControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ExternalButton {
+  box-sizing: border-box;
+  padding: 0.25rem 0.625rem;
+  border: none;
+  background-color: var(--ds-color-action-primary);
+  color: var(--ds-color-action-on-primary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+
+  &:hover {
+    background-color: var(--ds-color-action-primary-hover);
+  }
+}
+
+/* NestedAccordion story: an inner Accordion.Root embedded in an outer panel. */
+.NestedAccordion {
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--ds-color-border-subtle);
+}

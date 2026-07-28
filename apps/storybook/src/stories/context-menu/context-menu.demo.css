@@ -1,0 +1,16 @@
+/* Demo-only glue for context-menu stories — not part of the Droppy theme. */
+
+.ContextMenuDemoMarker {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px dashed var(--ds-color-border-subtle);
+  font-size: 0.75rem;
+  color: var(--ds-color-text-hint);
+}

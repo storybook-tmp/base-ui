@@ -161,6 +161,9 @@ importers:
       '@date-fns/tz':
         specifier: ^1.2.0
         version: 1.4.1
+      '@droppy/theme':
+        specifier: workspace:*
+        version: link:../../packages/droppy/build
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -412,6 +415,32 @@ importers:
       zod:
         specifier: 4.4.3
         version: 4.4.3
+
+  packages/droppy:
+    dependencies:
+      '@babel/runtime':
+        specifier: ^7.29.2
+        version: 7.29.2
+    devDependencies:
+      '@base-ui/react':
+        specifier: workspace:*
+        version: link:../react/build
+      '@types/react':
+        specifier: 19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      react:
+        specifier: 19.2.5
+        version: 19.2.5
+      react-dom:
+        specifier: 19.2.5
+        version: 19.2.5(react@19.2.5)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+    publishDirectory: build
 
   packages/react:
     dependencies:

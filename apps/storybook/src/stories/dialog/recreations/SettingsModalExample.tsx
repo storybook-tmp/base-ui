@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dialog } from '@base-ui/react/dialog';
-import styles from '../dialog.module.css';
+import theme from '@droppy/theme';
+import '../dialog.demo.css';
 import { XIcon } from '../icons';
 
 /**
@@ -25,16 +26,18 @@ function AppDialogContent({
 }) {
   return (
     <Dialog.Portal>
-      <Dialog.Backdrop className={styles.Backdrop} />
-      <Dialog.Popup className={styles.Popup}>
-        <div className={styles.Intro}>
-          <Dialog.Title className={styles.Title}>{title}</Dialog.Title>
+      <Dialog.Backdrop className={theme.DialogBackdrop} />
+      <Dialog.Popup className={theme.DialogPopup}>
+        <div className="DialogIntro">
+          <Dialog.Title className={theme.DialogTitle}>{title}</Dialog.Title>
           {description ? (
-            <Dialog.Description className={styles.Description}>{description}</Dialog.Description>
+            <Dialog.Description className={theme.DialogDescription}>
+              {description}
+            </Dialog.Description>
           ) : null}
         </div>
         {children}
-        <Dialog.Close className={styles.CornerClose} aria-label="Close">
+        <Dialog.Close className="DialogCornerClose" aria-label="Close">
           <XIcon />
         </Dialog.Close>
       </Dialog.Popup>
@@ -45,18 +48,18 @@ function AppDialogContent({
 export function SettingsModalExample() {
   return (
     <Dialog.Root>
-      <Dialog.Trigger className={styles.Button}>Open settings</Dialog.Trigger>
+      <Dialog.Trigger className={theme.Button}>Open settings</Dialog.Trigger>
       <AppDialogContent title="Workspace settings" description="Changes apply immediately.">
-        <div className={styles.Section}>
-          <h3 className={styles.SectionTitle}>Appearance</h3>
-          <p className={styles.SectionBody}>Theme, density, and accent color.</p>
+        <div className="DialogSection">
+          <h3 className="DialogSectionTitle">Appearance</h3>
+          <p className="DialogSectionBody">Theme, density, and accent color.</p>
         </div>
-        <div className={styles.Section}>
-          <h3 className={styles.SectionTitle}>Notifications</h3>
-          <p className={styles.SectionBody}>Mentions, replies, and weekly digests.</p>
+        <div className="DialogSection">
+          <h3 className="DialogSectionTitle">Notifications</h3>
+          <p className="DialogSectionBody">Mentions, replies, and weekly digests.</p>
         </div>
-        <div className={styles.EndActions}>
-          <Dialog.Close className={styles.Button}>Done</Dialog.Close>
+        <div className={theme.DialogActions}>
+          <Dialog.Close className={theme.Button}>Done</Dialog.Close>
         </div>
       </AppDialogContent>
     </Dialog.Root>

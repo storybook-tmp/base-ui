@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
-import styles from './toggle.module.css';
+import theme from '@droppy/theme';
+import './toggle.demo.css';
 
 function HeartFilledIcon(props: React.ComponentProps<'svg'>) {
   return (
@@ -61,7 +62,7 @@ export const Hero: Story = {
   render: () => (
     <Toggle
       aria-label="Favorite"
-      className={styles.Button}
+      className={theme.ToggleRoot}
       render={(props, state) => {
         if (state.pressed) {
           return (
@@ -84,8 +85,8 @@ export const Hero: Story = {
 export const UncontrolledPressed: Story = {
   tags: ['highlight'],
   render: () => (
-    <div className={styles.Row}>
-      <Toggle aria-label="Bold" defaultPressed={false} className={styles.Button}>
+    <div className="ToggleDemoRow">
+      <Toggle aria-label="Bold" defaultPressed={false} className={theme.ToggleRoot}>
         B
       </Toggle>
     </div>
@@ -106,7 +107,7 @@ export const UncontrolledPressed: Story = {
 function ControlledPressedExample() {
   const [pressed, setPressed] = React.useState(false);
   return (
-    <div className={styles.Row}>
+    <div className="ToggleDemoRow">
       <label>
         <input
           type="checkbox"
@@ -115,7 +116,7 @@ function ControlledPressedExample() {
         />{' '}
         Bold externally
       </label>
-      <Toggle aria-label="Bold" pressed={pressed} className={styles.Button}>
+      <Toggle aria-label="Bold" pressed={pressed} className={theme.ToggleRoot}>
         B
       </Toggle>
     </div>
@@ -154,16 +155,16 @@ export const Disabled: Story = {
     function DisabledExample() {
       const [pressedCount, setPressedCount] = React.useState(0);
       return (
-        <div className={styles.Row}>
+        <div className="ToggleDemoRow">
           <Toggle
             aria-label="Bold"
             disabled
-            className={styles.Button}
+            className={theme.ToggleRoot}
             onPressedChange={() => setPressedCount((count) => count + 1)}
           >
             B
           </Toggle>
-          <span className={styles.Output}>Changes: {pressedCount}</span>
+          <span className="ToggleDemoOutput">Changes: {pressedCount}</span>
         </div>
       );
     }
@@ -186,7 +187,7 @@ function CancelPressChangeExample() {
     <Toggle
       aria-label="Locked toggle"
       defaultPressed={false}
-      className={styles.Button}
+      className={theme.ToggleRoot}
       onPressedChange={(_pressed, eventDetails) => {
         eventDetails.cancel();
       }}
@@ -216,28 +217,28 @@ export const CancelPressChange: Story = {
 function InsideToggleGroupExample() {
   const [changeCount, setChangeCount] = React.useState(0);
   return (
-    <div className={styles.Row}>
+    <div className="ToggleDemoRow">
       <ToggleGroup
         multiple
         aria-label="Formatting"
-        className={styles.Row}
+        className={theme.ToggleGroupRoot}
         onValueChange={() => setChangeCount((count) => count + 1)}
       >
         <Toggle
           aria-label="Bold (vetoes the group)"
           value="bold"
-          className={styles.Button}
+          className={theme.ToggleRoot}
           onPressedChange={(_pressed, eventDetails) => {
             eventDetails.cancel();
           }}
         >
           B
         </Toggle>
-        <Toggle aria-label="Italic" value="italic" className={styles.Button}>
+        <Toggle aria-label="Italic" value="italic" className={theme.ToggleRoot}>
           I
         </Toggle>
       </ToggleGroup>
-      <span className={styles.Output}>Group changes: {changeCount}</span>
+      <span className="ToggleDemoOutput">Group changes: {changeCount}</span>
     </div>
   );
 }

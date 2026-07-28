@@ -9,14 +9,14 @@ import { DashboardFilterExample } from './recreations/DashboardFilterExample';
 import themePickerSource from './recreations/ThemePickerExample.tsx?raw';
 import registrySelectSource from './recreations/RegistrySelectExample.tsx?raw';
 import dashboardFilterSource from './recreations/DashboardFilterExample.tsx?raw';
-import selectRealWorldCss from './select-real-world.module.css?raw';
-import selectCss from './select.module.css?raw';
+import selectRealWorldCss from './select-real-world.demo.css?raw';
+import selectCss from './select.demo.css?raw';
 import demoSelectSource from './DemoSelect.tsx?raw';
 import kumoUiComOpenShot from '../../../../../research/d-real-world-usage/_captures/kumo-ui-com-open.png';
 
 export const selectFiles = [
-  { path: '../select.module.css', code: selectCss },
-  { path: '../select-real-world.module.css', code: selectRealWorldCss },
+  { path: '../select.demo.css', code: selectCss },
+  { path: '../select-real-world.demo.css', code: selectRealWorldCss },
   { path: '../DemoSelect', code: demoSelectSource },
 ];
 import wordpressOrgGutenbergOpenShot from '../../../../../research/d-real-world-usage/_captures/wordpress-org-gutenberg-open.png';
@@ -344,6 +344,19 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 - Don't push the popup away with a large `sideOffset` to "fix" the default overlap: that's `alignItemWithTrigger` working as designed; set it to `false` instead (a common misuse, [#15](https://github.com/mui/base-ui/issues/15)).
 
 {/* END: do-dont */}
+
+{/* BEGIN: brand */}
+## Brand guidelines
+
+**Do**
+
+- Trigger sits on the sunken surface token with the control radius; focus is the single ring. (BR-09, BR-11, DS-01)
+- Float the popup: overlay shadow, card radius (8px). (BR-06)
+
+**Don't**
+
+- Don't color the selected or highlighted option — selection is a neutral surface shift. (BR-02)
+{/* END: brand */}
 
 {/* BEGIN: examples */}
 ## In the wild
