@@ -41,7 +41,6 @@
     "showcase": "One primary example that shows the most relevant use case of the component with realistic input data",
     "highlight": "Stories that clarify a specific point made in documentation (e.g. compares two components, shows a tricky combo of props to achieve a goal)",
     "examples": "Real-world combinations of components extracted from products that use Base UI",
-    "playground": "One fully configurable story per component with handcrafted argTypes",
     "tests": "Play-function stories for specific behaviors",
     "animation": "Stories demonstrating the transition/animation contract (parked pending a decision on how to treat them)",
     "infra": "Storybook-internal stories for the docs' own tooling, not for a Base UI component"
