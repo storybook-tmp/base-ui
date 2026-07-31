@@ -45,3 +45,16 @@ export async function commitAll(git: SimpleGit, message: string): Promise<void> 
   await git.add(['-A']);
   await git.commit(message);
 }
+
+/**
+ * Force-push `branch` to the same-named ref on `remote`, without checking it out.
+ * Regenerated experiment branches rewrite history on every freeze, so they never
+ * fast-forward; the remote refs are disposable build artifacts.
+ */
+export async function forcePushBranch(
+  git: SimpleGit,
+  remote: string,
+  branch: string,
+): Promise<void> {
+  await git.push([remote, `${branch}:${branch}`, '--force']);
+}

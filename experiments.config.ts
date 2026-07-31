@@ -8,6 +8,10 @@
  *
  * `story.base` marks the 1:1 base-ui.com doc stories; include it in every experiment to keep
  * that baseline across all branches.
+ *
+ * After regenerating, `pnpm storybook:publish-branches` force-pushes the branches to origin;
+ * each push triggers the storybook-mcp-preview workflow, which publishes the branch's
+ * @storybook-tmp/baseui-mcp package (MCP server + baked manifests) to pkg.pr.new.
  */
 interface Experiment {
   branchName: string;

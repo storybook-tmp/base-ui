@@ -11,6 +11,7 @@ import {
   currentRef,
   checkoutRef,
   resetBranchToHead,
+  forcePushBranch,
 } from './git';
 
 let dir: string;
@@ -61,5 +62,30 @@ describe('git module', () => {
     await commitAll(git, 'add b');
     const log = await git.log();
     expect(log.latest?.message).toContain('add b');
+  });
+
+  it('forcePushBranch overwrites the remote branch after a history rewrite', async () => {
+    const git = createGit(dir);
+    // The bare remote lives outside the working repo so its refs never show up
+    // as working-tree changes there.
+    const remoteDir = await mkdtemp(path.join(tmpdir(), 'freeze-git-remote-'));
+    try {
+      await createGit(remoteDir).init(true);
+      await git.addRemote('origin', remoteDir);
+
+      await resetBranchToHead(git, 'experiment/exp-1');
+      await forcePushBranch(git, 'origin', 'experiment/exp-1');
+
+      // Regeneration rewrites the branch: same name, diverged history.
+      await writeFile(path.join(dir, 'a.txt'), 'regenerated\n');
+      await git.add(['-A']);
+      await git.raw(['commit', '--amend', '-m', 'regenerated']);
+      await forcePushBranch(git, 'origin', 'experiment/exp-1');
+
+      const remote = createGit(remoteDir);
+      expect((await remote.revparse(['experiment/exp-1'])).trim()).toBe(await headSha(git));
+    } finally {
+      await rm(remoteDir, { recursive: true, force: true });
+    }
   });
 });
