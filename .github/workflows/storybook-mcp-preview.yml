@@ -1,0 +1,66 @@
+name: Storybook MCP preview
+
+# Publishes @storybook-tmp/baseui-mcp — the repo's Storybook MCP server with the
+# branch's freshly built manifests baked in — to pkg.pr.new, so agentic reference
+# experiments can install and serve the design-system MCP locally instead of
+# hitting a shared hosted endpoint. Install URLs (long form; not on npm):
+#   https://pkg.pr.new/storybook-tmp/base-ui/@storybook-tmp/baseui-mcp@<sha|branch>
+
+on:
+  push:
+    branches:
+      - research
+      - 'experiment/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+      - name: Set up pnpm
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '22.18'
+          cache: 'pnpm'
+      - run: pnpm install
+      - name: Build Storybook (generates the MCP manifests)
+        run: pnpm --filter base-ui-storybook build-storybook
+      - name: Assemble the MCP package (manifests, provenance, version)
+        run: pnpm --filter @storybook-tmp/baseui-mcp prepare-publish
+      - name: Build the MCP server bundle
+        run: pnpm --filter @storybook-tmp/baseui-mcp build
+      - name: Publish to pkg.pr.new
+        run: |
+          set +e
+          for i in 1 2 3; do
+            echo "Attempt $i to publish the MCP preview package..."
+            pnpm exec pkg-pr-new publish ./apps/mcp-server --pnpm --packageManager=pnpm --comment=off --compact false
+            exit_code=$?
+            if [ $exit_code -eq 0 ]; then
+              break
+            elif [ $i -eq 3 ]; then
+              echo "Command failed after $i attempts with exit code $exit_code."
+              exit $exit_code
+            else
+              echo "Attempt $i failed (exit code $exit_code), retrying after 30 seconds..."
+              sleep 30
+            fi
+          done
+      - name: Record install URLs
+        run: |
+          {
+            echo "### MCP preview package install URLs"
+            echo ""
+            echo '```'
+            echo "https://pkg.pr.new/${GITHUB_REPOSITORY}/@storybook-tmp/baseui-mcp@${GITHUB_SHA}"
+            echo "https://pkg.pr.new/${GITHUB_REPOSITORY}/@storybook-tmp/baseui-mcp@${GITHUB_REF_NAME}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
