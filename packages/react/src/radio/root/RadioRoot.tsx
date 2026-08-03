@@ -26,12 +26,6 @@ import { useRadioGroupContext } from '../../radio-group/RadioGroupContext';
 import { serializeValue } from '../../internals/serializeValue';
 import { RadioRootContext } from './RadioRootContext';
 
-/**
- * Represents the radio button itself.
- * Renders a `<span>` element and a hidden `<input>` beside.
- *
- * Documentation: [Base UI Radio](https://base-ui.com/react/components/radio)
- */
 export const RadioRoot = React.forwardRef(function RadioRoot<Value>(
   componentProps: RadioRoot.Props<Value>,
   forwardedRef: React.ForwardedRef<HTMLElement>,
@@ -324,25 +318,10 @@ export interface RadioRootState extends FieldRootState {
 
 export interface RadioRootProps<Value = any>
   extends NonNativeButtonProps, Omit<BaseUIComponentProps<'span', RadioRootState>, 'value'> {
-  /**
-   * The unique identifying value of the radio in a group.
-   */
   value: Value;
-  /**
-   * Whether the component should ignore user interaction.
-   */
   disabled?: boolean | undefined;
-  /**
-   * Whether the user must choose a value before submitting a form.
-   */
   required?: boolean | undefined;
-  /**
-   * Whether the user should be unable to select the radio button.
-   */
   readOnly?: boolean | undefined;
-  /**
-   * A ref to access the hidden input element.
-   */
   inputRef?: React.Ref<HTMLInputElement> | undefined;
 }
 

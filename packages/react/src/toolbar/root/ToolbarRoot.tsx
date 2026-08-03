@@ -9,12 +9,6 @@ import { CompositeRoot } from '../../internals/composite/root/CompositeRoot';
 import type { CompositeMetadata } from '../../internals/composite/list/CompositeList';
 import { ToolbarRootContext } from './ToolbarRootContext';
 
-/**
- * A container for grouping a set of controls, such as buttons, toggle groups, or menus.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Toolbar](https://base-ui.com/react/components/toolbar)
- */
 export const ToolbarRoot = React.forwardRef(function ToolbarRoot(
   componentProps: ToolbarRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -103,16 +97,7 @@ export interface ToolbarRootState {
 
 export interface ToolbarRootProps extends BaseUIComponentProps<'div', ToolbarRootState> {
   disabled?: boolean | undefined;
-  /**
-   * The orientation of the toolbar.
-   * @default 'horizontal'
-   */
   orientation?: ToolbarRoot.Orientation | undefined;
-  /**
-   * If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.
-   *
-   * @default true
-   */
   loopFocus?: boolean | undefined;
 }
 

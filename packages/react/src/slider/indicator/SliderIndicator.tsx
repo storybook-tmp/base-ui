@@ -76,12 +76,6 @@ function getCenteredStyles(
   return styles;
 }
 
-/**
- * Visualizes the current value of the slider.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Slider](https://base-ui.com/react/components/slider)
- */
 export const SliderIndicator = React.forwardRef(function SliderIndicator(
   componentProps: SliderIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

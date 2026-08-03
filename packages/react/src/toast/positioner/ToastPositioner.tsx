@@ -18,12 +18,6 @@ import { ToastRootCssVars } from '../root/ToastRootCssVars';
 import { useToastProviderContext } from '../provider/ToastProviderContext';
 import { usePositioner } from '../../utils/usePositioner';
 
-/**
- * Positions the toast against the anchor.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Toast](https://base-ui.com/react/components/toast)
- */
 export const ToastPositioner = React.forwardRef(function ToastPositioner(
   componentProps: ToastPositioner.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -133,19 +127,8 @@ export interface ToastPositionerProps
   extends
     BaseUIComponentProps<'div', ToastPositionerState>,
     Omit<UseAnchorPositioningSharedParameters, 'side' | 'anchor'> {
-  /**
-   * An element to position the toast against.
-   */
   anchor?: Element | null | undefined;
-  /**
-   * Which side of the anchor element to align the toast against.
-   * May automatically change to avoid collisions.
-   * @default 'top'
-   */
   side?: Side | undefined;
-  /**
-   * The toast object associated with the positioner.
-   */
   toast: ToastObject<any>;
 }
 

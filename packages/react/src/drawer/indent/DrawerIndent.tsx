@@ -17,13 +17,6 @@ const stateAttributesMapping: StateAttributesMapping<DrawerIndentState> = {
   },
 };
 
-/**
- * A wrapper element intended to contain your app's main UI.
- * Applies `data-active` when any drawer within the nearest `<Drawer.Provider>` is open.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Drawer](https://base-ui.com/react/components/drawer)
- */
 export const DrawerIndent = React.forwardRef(function DrawerIndent(
   componentProps: DrawerIndent.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

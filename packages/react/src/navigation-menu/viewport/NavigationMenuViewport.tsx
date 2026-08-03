@@ -63,12 +63,6 @@ function Guards({ children }: { children: React.ReactNode }) {
   );
 }
 
-/**
- * The clipping viewport of the navigation menu's current content.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuViewport = React.forwardRef(function NavigationMenuViewport(
   componentProps: NavigationMenuViewport.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

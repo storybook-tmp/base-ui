@@ -7,12 +7,6 @@ import { useToolbarRootContext } from '../root/ToolbarRootContext';
 import { useToolbarGroupContext } from '../group/ToolbarGroupContext';
 import { CompositeItem } from '../../internals/composite/item/CompositeItem';
 
-/**
- * A native input element that integrates with Toolbar keyboard navigation.
- * Renders an `<input>` element.
- *
- * Documentation: [Base UI Toolbar](https://base-ui.com/react/components/toolbar)
- */
 export const ToolbarInput = React.forwardRef(function ToolbarInput(
   componentProps: ToolbarInput.Props,
   forwardedRef: React.ForwardedRef<HTMLInputElement>,
@@ -89,15 +83,7 @@ export interface ToolbarInputState extends ToolbarRootState {
 }
 
 export interface ToolbarInputProps extends BaseUIComponentProps<'input', ToolbarInputState> {
-  /**
-   * When `true` the item is disabled.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * When `true` the item remains focusable when disabled.
-   * @default true
-   */
   focusableWhenDisabled?: boolean | undefined;
   defaultValue?: React.ComponentProps<'input'>['defaultValue'] | undefined;
 }

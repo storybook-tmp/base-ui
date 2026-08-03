@@ -70,9 +70,6 @@ export interface ContextMenuRootProps extends Omit<
   // render-function form of `children` (which receives the active trigger's payload) is not applicable.
   | 'children'
 > {
-  /**
-   * Event handler called when the menu is opened or closed.
-   */
   onOpenChange?:
     | ((open: boolean, eventDetails: ContextMenuRoot.ChangeEventDetails) => void)
     | undefined;

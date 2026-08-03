@@ -72,12 +72,6 @@ function resolveTouchAction(direction: DrawerSwipeDirection) {
   return direction === 'left' || direction === 'right' ? 'pan-y' : 'pan-x';
 }
 
-/**
- * An invisible area that listens for swipe gestures to open the drawer.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Drawer](https://base-ui.com/react/components/drawer)
- */
 export const DrawerSwipeArea = React.forwardRef(function DrawerSwipeArea(
   componentProps: DrawerSwipeArea.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -482,15 +476,7 @@ export const DrawerSwipeArea = React.forwardRef(function DrawerSwipeArea(
 });
 
 export interface DrawerSwipeAreaProps extends BaseUIComponentProps<'div', DrawerSwipeAreaState> {
-  /**
-   * Whether the swipe area is disabled.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * The swipe direction that opens the drawer.
-   * Defaults to the opposite of `Drawer.Root` `swipeDirection`.
-   */
   swipeDirection?: DrawerSwipeDirection | undefined;
 }
 

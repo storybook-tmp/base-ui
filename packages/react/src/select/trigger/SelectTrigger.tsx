@@ -35,12 +35,6 @@ const stateAttributesMapping: StateAttributesMapping<SelectTriggerState> = {
   value: () => null,
 };
 
-/**
- * A button that opens the select popup.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectTrigger = React.forwardRef(function SelectTrigger(
   componentProps: SelectTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,
@@ -275,9 +269,6 @@ export interface SelectTriggerState extends FieldRootState {
 export interface SelectTriggerProps
   extends NativeButtonProps, BaseUIComponentProps<'button', SelectTriggerState> {
   children?: React.ReactNode;
-  /**
-   * Whether the component should ignore user interaction.
-   */
   disabled?: boolean | undefined;
 }
 

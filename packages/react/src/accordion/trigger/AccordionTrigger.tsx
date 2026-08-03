@@ -9,13 +9,6 @@ import type { AccordionItemState } from '../item/AccordionItem';
 import { useAccordionItemContext } from '../item/AccordionItemContext';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * A button that opens and closes the corresponding panel.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Accordion](https://base-ui.com/react/components/accordion)
- */
-
 export const AccordionTrigger = React.forwardRef(function AccordionTrigger(
   componentProps: AccordionTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

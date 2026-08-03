@@ -14,12 +14,6 @@ import { NavigationMenuDismissContext } from './NavigationMenuDismissContext';
 import { getEmptyRootContext } from '../../floating-ui-react/utils/getEmptyRootContext';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Contains a list of navigation menu items.
- * Renders a `<ul>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuList = React.forwardRef(function NavigationMenuList(
   componentProps: NavigationMenuList.Props,
   forwardedRef: React.ForwardedRef<HTMLUListElement>,

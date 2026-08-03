@@ -5,11 +5,6 @@ import {
   type TextDirection,
 } from '../internals/direction-context/DirectionContext';
 
-/**
- * Enables RTL behavior for Base UI components.
- *
- * Documentation: [Base UI Direction Provider](https://base-ui.com/react/utils/direction-provider)
- */
 export const DirectionProvider: React.FC<DirectionProvider.Props> = function DirectionProvider(
   props,
 ) {
@@ -24,10 +19,6 @@ export interface DirectionProviderState {}
 
 export interface DirectionProviderProps {
   children?: React.ReactNode;
-  /**
-   * The reading direction of the text
-   * @default 'ltr'
-   */
   direction?: TextDirection | undefined;
 }
 

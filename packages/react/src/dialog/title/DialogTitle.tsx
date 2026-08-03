@@ -5,12 +5,6 @@ import { useRenderElement } from '../../internals/useRenderElement';
 import { useBaseUiId } from '../../internals/useBaseUiId';
 import { type BaseUIComponentProps } from '../../internals/types';
 
-/**
- * A heading that labels the dialog.
- * Renders an `<h2>` element.
- *
- * Documentation: [Base UI Dialog](https://base-ui.com/react/components/dialog)
- */
 export const DialogTitle = React.forwardRef(function DialogTitle(
   componentProps: DialogTitle.Props,
   forwardedRef: React.ForwardedRef<HTMLHeadingElement>,

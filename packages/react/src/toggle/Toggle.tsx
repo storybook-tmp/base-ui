@@ -16,12 +16,6 @@ import {
 } from '../internals/createBaseUIEventDetails';
 import { REASONS } from '../internals/reasons';
 
-/**
- * A two-state button that can be on or off.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Toggle](https://base-ui.com/react/components/toggle)
- */
 export const Toggle = React.forwardRef(function Toggle<Value extends string>(
   componentProps: Toggle.Props<Value>,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,
@@ -160,32 +154,12 @@ export interface ToggleState {
 
 export interface ToggleProps<Value extends string>
   extends NativeButtonProps, BaseUIComponentProps<'button', ToggleState> {
-  /**
-   * Whether the toggle button is currently pressed.
-   * This is the controlled counterpart of `defaultPressed`.
-   */
   pressed?: boolean | undefined;
-  /**
-   * Whether the toggle button is currently pressed.
-   * This is the uncontrolled counterpart of `pressed`.
-   * @default false
-   */
   defaultPressed?: boolean | undefined;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * Callback fired when the pressed state is changed.
-   */
   onPressedChange?:
     | ((pressed: boolean, eventDetails: Toggle.ChangeEventDetails) => void)
     | undefined;
-  /**
-   * A unique string that identifies the toggle when used
-   * inside a toggle group.
-   */
   value?: Value | undefined;
 }
 

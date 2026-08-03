@@ -13,12 +13,6 @@ const stateAttributesMapping: StateAttributesMapping<PreviewCardBackdropState> =
   ...transitionStatusMapping,
 };
 
-/**
- * A presentational overlay displayed beneath the popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Preview Card](https://base-ui.com/react/components/preview-card)
- */
 export const PreviewCardBackdrop = React.forwardRef(function PreviewCardBackdrop(
   componentProps: PreviewCardBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

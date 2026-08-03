@@ -24,12 +24,6 @@ const stateAttributesMapping: StateAttributesMapping<MenuPopupState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the menu items.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuPopup = React.forwardRef(function MenuPopup(
   componentProps: MenuPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -157,19 +151,7 @@ export const MenuPopup = React.forwardRef(function MenuPopup(
 
 export interface MenuPopupProps extends BaseUIComponentProps<'div', MenuPopupState> {
   children?: React.ReactNode;
-  /**
-   * @ignore
-   */
   id?: string | undefined;
-  /**
-   * Determines the element to focus when the menu is closed.
-   *
-   * - `false`: Do not move focus.
-   * - `true`: Move focus based on the default behavior (trigger or previously focused element).
-   * - `RefObject`: Move focus to the ref element.
-   * - `function`: Called with the interaction type (`mouse`, `touch`, `pen`, or `keyboard`).
-   *   Return an element to focus, `true` to use the default behavior, or `false`/`undefined` to do nothing.
-   */
   finalFocus?:
     | boolean
     | React.RefObject<HTMLElement | null>

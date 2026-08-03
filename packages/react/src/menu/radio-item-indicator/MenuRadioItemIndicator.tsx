@@ -7,12 +7,6 @@ import { itemMapping } from '../utils/stateAttributesMapping';
 import { TransitionStatus, useTransitionStatus } from '../../internals/useTransitionStatus';
 import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 
-/**
- * Indicates whether the radio item is selected.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuRadioItemIndicator = React.forwardRef(function MenuRadioItemIndicator(
   componentProps: MenuRadioItemIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -60,10 +54,6 @@ export interface MenuRadioItemIndicatorProps extends BaseUIComponentProps<
   'span',
   MenuRadioItemIndicatorState
 > {
-  /**
-   * Whether to keep the HTML element in the DOM when the radio item is inactive.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

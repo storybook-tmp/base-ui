@@ -18,12 +18,6 @@ const stateAttributesMapping: StateAttributesMapping<AvatarImageState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * The image to be displayed in the avatar.
- * Renders an `<img>` element.
- *
- * Documentation: [Base UI Avatar](https://base-ui.com/react/components/avatar)
- */
 export const AvatarImage = React.forwardRef(function AvatarImage(
   componentProps: AvatarImage.Props,
   forwardedRef: React.ForwardedRef<HTMLImageElement>,
@@ -100,9 +94,6 @@ export interface AvatarImageProps extends BaseUIComponentProps<
   AvatarImageState,
   React.ComponentPropsWithRef<'img'>
 > {
-  /**
-   * Callback fired when the loading status changes.
-   */
   onLoadingStatusChange?: ((status: ImageLoadingStatus) => void) | undefined;
 }
 

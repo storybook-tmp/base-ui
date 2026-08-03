@@ -7,12 +7,6 @@ import { popupStateMapping } from '../../utils/popupStateMapping';
 import { useRenderElement } from '../../internals/useRenderElement';
 import { useTooltipRootContext } from '../root/TooltipRootContext';
 
-/**
- * Displays an element positioned against the tooltip anchor.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Tooltip](https://base-ui.com/react/components/tooltip)
- */
 export const TooltipArrow = React.forwardRef(function TooltipArrow(
   componentProps: TooltipArrow.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

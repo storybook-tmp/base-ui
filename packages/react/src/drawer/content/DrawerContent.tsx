@@ -5,12 +5,6 @@ import type { BaseUIComponentProps } from '../../internals/types';
 import { useRenderElement } from '../../internals/useRenderElement';
 import { DRAWER_CONTENT_ATTRIBUTE } from './DrawerContentDataAttributes';
 
-/**
- * A container for the drawer contents.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Drawer](https://base-ui.com/react/components/drawer)
- */
 export const DrawerContent = React.forwardRef(function DrawerContent(
   componentProps: DrawerContent.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

@@ -68,12 +68,6 @@ function closestEnabledTooltipTrigger(element: Element | null): Element | null {
   return null;
 }
 
-/**
- * An element to attach the tooltip to.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Tooltip](https://base-ui.com/react/components/tooltip)
- */
 export const TooltipTrigger = fastComponentRef(function TooltipTrigger(
   componentProps: TooltipTrigger.Props,
   forwardedRef: React.ForwardedRef<Element>,
@@ -328,35 +322,11 @@ export interface TooltipTriggerProps<Payload = unknown> extends BaseUIComponentP
   'button',
   TooltipTriggerState
 > {
-  /**
-   * A handle to associate the trigger with a tooltip.
-   */
   handle?: TooltipHandle<Payload> | undefined;
-  /**
-   * A payload to pass to the tooltip when it is opened.
-   */
   payload?: Payload | undefined;
-  /**
-   * How long to wait before opening the tooltip on hover. Specified in milliseconds.
-   * @default 600
-   */
   delay?: number | undefined;
-  /**
-   * Whether the tooltip should close when this trigger is clicked.
-   * @default true
-   */
   closeOnClick?: boolean | undefined;
-  /**
-   * How long to wait before closing the tooltip. Specified in milliseconds.
-   * @default 0
-   */
   closeDelay?: number | undefined;
-  /**
-   * If `true`, the tooltip will not open when interacting with this trigger.
-   * Note that this doesn't apply the `disabled` attribute to the trigger element.
-   * If you want to disable the trigger element itself, you can pass the `disabled` prop to the trigger element via the `render` prop.
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

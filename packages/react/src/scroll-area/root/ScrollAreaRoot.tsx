@@ -25,12 +25,6 @@ export type OverflowEdges = typeof DEFAULT_OVERFLOW_EDGES;
 export type Size = typeof DEFAULT_SIZE;
 export type Coords = typeof DEFAULT_COORDS;
 
-/**
- * Groups all parts of the scroll area.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Scroll Area](https://base-ui.com/react/components/scroll-area)
- */
 export const ScrollAreaRoot = React.forwardRef(function ScrollAreaRoot(
   componentProps: ScrollAreaRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -365,11 +359,6 @@ export interface ScrollAreaRootState {
 }
 
 export interface ScrollAreaRootProps extends BaseUIComponentProps<'div', ScrollAreaRootState> {
-  /**
-   * The threshold in pixels that must be passed before the overflow edge attributes are applied.
-   * Accepts a single number for all edges or an object to configure them individually.
-   * @default 0
-   */
   overflowEdgeThreshold?:
     | number
     | Partial<{

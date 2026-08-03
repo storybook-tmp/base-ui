@@ -5,12 +5,6 @@ import { useToastRootContext } from '../root/ToastRootContext';
 import { useButton } from '../../internals/use-button/useButton';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Performs an action when clicked.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Toast](https://base-ui.com/react/components/toast)
- */
 export const ToastAction = React.forwardRef(function ToastAction(
   componentProps: ToastAction.Props,
   forwardedRef: React.ForwardedRef<HTMLButtonElement>,

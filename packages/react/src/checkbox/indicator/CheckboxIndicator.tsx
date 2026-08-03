@@ -11,12 +11,6 @@ import type { StateAttributesMapping } from '../../internals/getStateAttributesP
 import { transitionStatusMapping } from '../../internals/stateAttributesMapping';
 import { fieldValidityMapping } from '../../internals/field-constants/constants';
 
-/**
- * Indicates whether the checkbox is ticked.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Checkbox](https://base-ui.com/react/components/checkbox)
- */
 export const CheckboxIndicator = React.forwardRef(function CheckboxIndicator(
   componentProps: CheckboxIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -81,10 +75,6 @@ export interface CheckboxIndicatorProps extends BaseUIComponentProps<
   'span',
   CheckboxIndicatorState
 > {
-  /**
-   * Whether to keep the element in the DOM when the checkbox is not checked.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

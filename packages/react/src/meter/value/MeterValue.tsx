@@ -5,12 +5,6 @@ import { useMeterRootContext } from '../root/MeterRootContext';
 import type { MeterRootState } from '../root/MeterRoot';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * A text element displaying the current value.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Meter](https://base-ui.com/react/components/meter)
- */
 export const MeterValue = React.forwardRef(function MeterValue(
   componentProps: MeterValue.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

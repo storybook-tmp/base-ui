@@ -15,12 +15,6 @@ const stateAttributesMapping: StateAttributesMapping<SelectBackdropState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * An overlay displayed beneath the select popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectBackdrop = React.forwardRef(function SelectBackdrop(
   componentProps: SelectBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

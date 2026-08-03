@@ -9,12 +9,6 @@ import { FieldItemContext } from './FieldItemContext';
 import { LabelableProvider } from '../../internals/labelable-provider';
 import { useCheckboxGroupContext } from '../../checkbox-group/CheckboxGroupContext';
 
-/**
- * Groups individual items in a checkbox group or radio group with a label and description.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Field](https://base-ui.com/react/components/field)
- */
 export const FieldItem = React.forwardRef(function FieldItem(
   componentProps: FieldItem.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -55,11 +49,6 @@ export const FieldItem = React.forwardRef(function FieldItem(
 export interface FieldItemState extends FieldRootState {}
 
 export interface FieldItemProps extends BaseUIComponentProps<'div', FieldItemState> {
-  /**
-   * Whether the wrapped control should ignore user interaction.
-   * The `disabled` prop on `<Field.Root>` takes precedence over this.
-   * @default false
-   */
   disabled?: boolean | undefined;
 }
 

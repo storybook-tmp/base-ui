@@ -39,12 +39,6 @@ const stateAttributesMapping: StateAttributesMapping<SelectPopupState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the select list.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectPopup = React.forwardRef(function SelectPopup(
   componentProps: SelectPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -529,15 +523,6 @@ export const SelectPopup = React.forwardRef(function SelectPopup(
 
 export interface SelectPopupProps extends BaseUIComponentProps<'div', SelectPopupState> {
   children?: React.ReactNode;
-  /**
-   * Determines the element to focus when the select popup is closed.
-   *
-   * - `false`: Do not move focus.
-   * - `true`: Move focus based on the default behavior (trigger or previously focused element).
-   * - `RefObject`: Move focus to the ref element.
-   * - `function`: Called with the interaction type (`mouse`, `touch`, `pen`, or `keyboard`).
-   *   Return an element to focus, `true` to use the default behavior, or `false`/`undefined` to do nothing.
-   */
   finalFocus?:
     | boolean
     | React.RefObject<HTMLElement | null>

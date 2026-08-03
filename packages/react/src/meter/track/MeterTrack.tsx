@@ -4,12 +4,6 @@ import type { MeterRootState } from '../root/MeterRoot';
 import { BaseUIComponentProps } from '../../internals/types';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Contains the meter indicator and represents the entire range of the meter.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Meter](https://base-ui.com/react/components/meter)
- */
 export const MeterTrack = React.forwardRef(function MeterTrack(
   componentProps: MeterTrack.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

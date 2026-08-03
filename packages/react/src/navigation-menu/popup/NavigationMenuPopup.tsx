@@ -18,12 +18,6 @@ const stateAttributesMapping: StateAttributesMapping<NavigationMenuPopupState> =
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the navigation menu contents.
- * Renders a `<nav>` element.
- *
- * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
- */
 export const NavigationMenuPopup = React.forwardRef(function NavigationMenuPopup(
   componentProps: NavigationMenuPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,

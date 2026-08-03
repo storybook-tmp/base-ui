@@ -7,12 +7,6 @@ import type { BaseUIComponentProps } from '../../internals/types';
 import { popupStateMapping } from '../../utils/popupStateMapping';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Displays an element positioned against the popover anchor.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Popover](https://base-ui.com/react/components/popover)
- */
 export const PopoverArrow = React.forwardRef(function PopoverArrow(
   componentProps: PopoverArrow.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

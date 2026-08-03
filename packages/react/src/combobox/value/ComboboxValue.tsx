@@ -45,10 +45,6 @@ export interface ComboboxValueState {}
 
 export interface ComboboxValueProps {
   children?: React.ReactNode | ((selectedValue: any) => React.ReactNode);
-  /**
-   * The placeholder value to display when no value is selected.
-   * This is overridden by `children` if specified, or by a null item's label in `items`.
-   */
   placeholder?: React.ReactNode;
 }
 

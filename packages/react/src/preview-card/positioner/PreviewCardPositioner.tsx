@@ -17,12 +17,6 @@ import { adaptiveOrigin } from '../../utils/adaptiveOriginMiddleware';
 import { usePositioner } from '../../utils/usePositioner';
 import { createInlineMiddleware } from '../../utils/popups';
 
-/**
- * Positions the popup against the trigger.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Preview Card](https://base-ui.com/react/components/preview-card)
- */
 export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositioner(
   componentProps: PreviewCardPositioner.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

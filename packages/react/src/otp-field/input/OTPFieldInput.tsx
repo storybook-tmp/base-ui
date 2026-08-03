@@ -20,12 +20,6 @@ import type { OTPFieldRootState } from '../root/OTPFieldRoot';
 import { inputStateAttributesMapping } from '../utils/stateAttributesMapping';
 import { normalizeOTPValueWithDetails, removeOTPCharacter, replaceOTPValue } from '../utils/otp';
 
-/**
- * An individual OTP character input.
- * Renders an `<input>` element.
- *
- * Documentation: [Base UI OTP Field](https://base-ui.com/react/components/otp-field)
- */
 export const OTPFieldInput = React.forwardRef(function OTPFieldInput(
   componentProps: OTPFieldInput.Props,
   forwardedRef: React.ForwardedRef<HTMLInputElement>,

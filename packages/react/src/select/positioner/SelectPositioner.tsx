@@ -26,12 +26,6 @@ import { useAnchoredPopupScrollLock } from '../../utils/useAnchoredPopupScrollLo
 
 const FIXED: React.CSSProperties = { position: 'fixed' };
 
-/**
- * Positions the select popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectPositioner = React.forwardRef(function SelectPositioner(
   componentProps: SelectPositioner.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -270,10 +264,6 @@ export interface SelectPositionerState {
 
 export interface SelectPositionerProps
   extends UseAnchorPositioningSharedParameters, BaseUIComponentProps<'div', SelectPositionerState> {
-  /**
-   * Whether the positioner overlaps the trigger so the selected item's text is aligned with the trigger's value text. This only applies to mouse input and is automatically disabled if there is not enough space.
-   * @default true
-   */
   alignItemWithTrigger?: boolean | undefined;
 }
 

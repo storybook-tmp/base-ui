@@ -5,12 +5,6 @@ import { useRenderElement } from '../../internals/useRenderElement';
 import { AvatarRootContext } from './AvatarRootContext';
 import { avatarStateAttributesMapping } from './stateAttributesMapping';
 
-/**
- * Displays a user's profile picture, initials, or fallback icon.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Avatar](https://base-ui.com/react/components/avatar)
- */
 export const AvatarRoot = React.forwardRef(function AvatarRoot(
   componentProps: AvatarRoot.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
