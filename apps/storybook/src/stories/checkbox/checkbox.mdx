@@ -10,42 +10,8 @@ import reuiIoOpenShot from '../../../../../research/d-real-world-usage/_captures
 
 # Checkbox
 
-{/* BEGIN: general */}
-A single independently-toggleable boolean or tri-state (checked/unchecked/indeterminate) value.
-
-- **Import:** `import { Checkbox } from '@base-ui/react/checkbox';`
-- **Parts:** 2 (`Checkbox.Root`, `Checkbox.Indicator`).
-- **Status:** Stable. Introducing commit `6f74390e8`, "[Checkbox] Component and Hook" (`#159`).
-- **ARIA pattern:** [Checkbox](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/) (dual/mixed variant, given `indeterminate` support).
-
-<Canvas of={CheckboxStories.Basic} />
-
-## Features
-
-- **Three states**: `indeterminate` is a first-class, independently-settable prop, not a derived display trick. `<Checkbox.Root indeterminate checked />` still renders `aria-checked="mixed"`; it is **not overridden by `checked`**. This distinguishes Checkbox from [Switch](?path=/docs/form-inputs-switch--docs), which has no mixed state.
-- **Group coordinator role**: the `parent` boolean prop turns a `Checkbox.Root` into the "select all" control for a sibling `CheckboxGroup` (full algorithm: [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs)).
-- **Native off-state form behavior**: an unchecked checkbox submits nothing by default, matching a native `<input type="checkbox">` (`#3406`).
-- **Enter submits the form; it does not toggle**: a deliberate divergence from `<button>` semantics, hardened with propagation-safe wiring (`#4713`).
-
-{/* END: general */}
-
-{/* BEGIN: when-to-use */}
-## When to use
-
-- A single independently-toggleable option, on its own (agree-to-terms, a single settings flag) or as one member of a set where **each item's state is independent of the others** (the cardinality difference from [Radio](?path=/docs/form-inputs-radio--docs)).
-- Inside forms where the checked state should participate in native submission and validation.
-- When a "select all" / parent-child tri-state relationship is needed over a set of related checkboxes; see [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs).
-
-## When not to use
-
-- **A single on/off setting that should announce as a physical switch, with immediate real-world effect** → [Switch](?path=/docs/form-inputs-switch--docs), not Checkbox. Use Switch when there is no third "mixed" state ever needed; use Checkbox when there might be, or when the agreement/selection metaphor fits the content better than "physical on/off."
-- **An exclusive, always-exactly-one-of-N choice** → [Radio / Radio Group](?path=/docs/form-inputs-radio--docs), not Checkbox. A checkbox's checked state never affects any sibling's state.
-- **Several independent checkboxes that should coordinate as one array-valued form field** → [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs), not several standalone `Checkbox.Root`s wired up by hand.
-- **A UI-state toggle with no need for form submission at all** → Toggle, which has no hidden-input machinery.
-
-{/* END: when-to-use */}
-
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -57,7 +23,7 @@ import { Checkbox } from '@base-ui/react/checkbox';
 ```
 
 | Part                 | Renders                                                | Purpose                                                                                  | Optional?           |
-| :-------------------- | :------------------------------------------------------ | :---------------------------------------------------------------------------------------- | :------------------- |
+| :------------------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------- | :------------------ |
 | `Checkbox.Root`      | `<span>` (or `<button>` via `render` + `nativeButton`) | The control: state, interaction, hidden native input(s)                                  | required            |
 | `Checkbox.Indicator` | `<span>`                                               | The checked/indeterminate visual; conditionally rendered on `checked \|\| indeterminate` | yes (purely visual) |
 
@@ -65,98 +31,8 @@ A third, separate hidden `<input type="hidden">` appears conditionally: when `un
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Uncontrolled vs controlled
-
-`defaultChecked` for uncontrolled use; `checked` + `onCheckedChange(checked, eventDetails)` for external state. `eventDetails.cancel()` vetoes the change.
-
-<Canvas of={CheckboxStories.ControlledChecked} />
-
-### Labeling
-
-Wrap in a `<label>` (hero above) or use `Field.Label` for managed wiring. The default `<span>` shape exists specifically so an enclosing `<label>` doesn't produce invalid HTML wrapping two form controls.
-
-<Canvas of={CheckboxStories.NativeButtonSiblingLabel} />
-
-### Toggling
-
-<Canvas of={CheckboxStories.ToggleWithClick} />
-
-Clicking the label, the visible span, or the hidden input all toggle identically. `Space` toggles. `Enter` does **not** toggle; it submits the owning form instead (`#4713`), matching native `<input type="checkbox">` inside a `<form>`.
-
-### Indeterminate
-
-<Canvas of={CheckboxStories.Indeterminate} />
-
-`indeterminate` is app-controlled, not a self-resolving click-cycle state: clicking an indeterminate checkbox leaves it `mixed`. The app must clear the prop explicitly, or let the Checkbox Group `parent` pattern compute it automatically.
-
-### Form integration
-
-<Canvas of={CheckboxStories.FormWithUncheckedValue} />
-
-By default (no `uncheckedValue`), an unchecked checkbox submits nothing, identical to a native `<input type="checkbox">`. Setting `uncheckedValue` opts into an explicit "off" sentinel instead, matching the same `#3406` fix that [Switch](?path=/docs/form-inputs-switch--docs) received.
-
-<Canvas of={CheckboxStories.InFieldWithValidation} />
-
-### Read-only vs disabled
-
-<Canvas of={CheckboxStories.ReadOnlyBlocksToggle} />
-
-`readOnly` blocks every toggle path (click, Space) while keeping the checkbox in the tab sequence and its current value visible; `disabled` additionally removes it from the tab sequence.
-
-### Parent checkbox ("select all")
-
-<Canvas of={CheckboxStories.ParentCheckboxPreview} />
-
-`parent` is declared on `Checkbox.Root`, but the full tri-state cycle algorithm and its edge cases (disabled-child exclusion, nested groups, form-submission exclusion) belong to [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs), which is where the coordinating logic (`useCheckboxGroupParent`) actually lives.
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-| Key                                  | Context                        | Action                                                                            |
-| :------------------------------------ | :------------------------------ | :--------------------------------------------------------------------------------- |
-| `Tab`                                | anywhere before the control    | Moves focus to the checkbox (one Tab stop, no composite/roving-tabindex behavior) |
-| `Space`                              | a focused checkbox             | Toggles checked ↔ unchecked                                                       |
-| `Enter`                              | a focused checkbox             | **Does not toggle**; submits the owning `<form>` instead (`#4713`)                |
-| Click (label, span, or hidden input) | anywhere in the labeling chain | Toggles checked ↔ unchecked (unless `disabled`/`readOnly`)                        |
-
-- **ARIA**: `role="checkbox"`, `aria-checked` (`"mixed"` when `indeterminate`, else boolean); `aria-labelledby` auto-linked from `Field.Label` (`#4142`, shared fix with Radio/Switch).
-- **You must provide**: an accessible name and visible `:focus-visible` styling.
-- **Known issues**: `disabled` uses `aria-disabled` on the visible span, not the native `disabled` attribute; the hidden input still carries real `disabled` so form-submission exclusion works correctly.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute                                     | Present when                                                              |
-| :--------------------------------------------- | :------------------------------------------------------------------------- |
-| `data-checked` / `data-unchecked`             | mutually exclusive                                                        |
-| `data-indeterminate`                          | the distinguishing attribute vs. Radio/Switch (neither has an equivalent) |
-| `data-disabled`                               | disabled                                                                  |
-| `data-readonly`                               | read-only                                                                 |
-| `data-required`                               | required in a Field                                                       |
-| `data-valid` / `data-invalid`                 | Field validation state                                                    |
-| `data-touched` / `data-dirty` / `data-filled` | Field interaction state                                                   |
-| `data-focused`                                | visibly focused                                                           |
-
-{/* END: styling */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`uncheckedValue`**: use when your backend needs an explicit off/`"false"` sentinel rather than the field being absent from the payload entirely; correctly toggles across repeated check/uncheck cycles in the same submission.
-- **`indeterminate`**: use for parent/summary checkboxes over a partially-selected child set, or any other "some but not all" UI state; independent of and not overridden by `checked`.
-- **`parent`**: declaring it unsets the checkbox's `name` (excluded from submission) and switches its `checked`/`indeterminate` to be driven by the group's computed tri-state; see [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs).
-- **`nativeButton` + `render`**: use for the sibling-label pattern; the default `<span>` avoids the invalid-HTML problem.
-
-{/* END: general */}
-
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -168,95 +44,3 @@ By default (no `uncheckedValue`), an unchecked checkbox submits nothing, identic
 - Don't expect `indeterminate` to clear itself after a click; it's app-controlled, not a third click-cycle state.
 
 {/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Use the control radius rung (4px) and the single two-layer focus ring. (BR-09, BR-11)
-
-**Don't**
-
-- Don't recolor the checked state — the fill follows the neutral action tokens. (BR-01, DS-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="checkbox">
-  <WildCard
-    repo="cloudflare/kumo"
-    title="kumo"
-    href="https://github.com/cloudflare/kumo/blob/HEAD/packages/kumo/src/components/checkbox/checkbox.tsx"
-    live="https://kumo-ui.com"
-    license="MIT"
-    reuse="code-ok"
-    image={kumoUiComShot}
-  >
-    a fully styled wrapper (not a bare re-export) with its own size/variant Tailwind mapping and
-    Figma generator.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/checkbox.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's design system wraps Checkbox with `class-variance-authority` variants, part of a
-    near-complete one-file-per-component Base UI registry.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/checkbox.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    ships side-by-side with a Radix-backed twin of the same component, letting downstream apps swap
-    primitive libraries without changing the public API.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: history */}
-## Decision log
-
-- **Early (`#159`)**: Checkbox ships as one of the three founding components alongside Switch and NumberField.
-- **2025-11 (`#3205`, breaking, shared with radio/switch)**: Root renders `<span role="checkbox">` instead of `<button>`; introduces `nativeButton`.
-- **2025-12 (`#3406`)**: unchecked checkboxes stop submitting a value by default unless `uncheckedValue` is set, matching the native off state in form submission; Switch received the identical fix in the same PR.
-- **2025-12 (`#4142`, closing `#4122`)**: `aria-labelledby` auto-linking fix, shared with Radio/Switch.
-- **2026 (`#4713`)**: Enter submits the associated form instead of toggling; the native-parity behavior is hardened with a propagation-safe implementation.
-
-{/* END: history */}
-
-{/* BEGIN: when-to-use */}
-## Related
-
-- For an exclusive, always-exactly-one choice, use [Radio](?path=/docs/form-inputs-radio--docs).
-- For several independent checkboxes coordinating as one array-valued field (including the "select all" parent pattern), use [Checkbox Group](?path=/docs/form-inputs-checkbox-group--docs).
-- For a boolean with **immediate** effect and no third "mixed" state, use [Switch](?path=/docs/form-inputs-switch--docs).
-- To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
-
-{/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Checkbox.Root
-
-<ArgTypes of={Checkbox.Root} />
-
-### Checkbox.Indicator
-
-<ArgTypes of={Checkbox.Indicator} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/checkbox](https://base-ui.com/react/components/checkbox#api-reference)._
-
-{/* END: props */}
