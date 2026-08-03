@@ -8,10 +8,14 @@ import {
   headSha,
   commitAll,
   localBranches,
+  localBranchShas,
   currentRef,
   checkoutRef,
   resetBranchToHead,
   forcePushBranch,
+  remoteBranchSha,
+  remoteBranchShas,
+  remoteUrl,
 } from './git';
 
 let dir: string;
@@ -64,6 +68,42 @@ describe('git module', () => {
     expect(log.latest?.message).toContain('add b');
   });
 
+  it('localBranchShas maps every local branch to its commit', async () => {
+    const git = createGit(dir);
+    const base = await currentRef(git);
+    await resetBranchToHead(git, 'experiment/exp-1');
+    await checkoutRef(git, base);
+
+    const shas = await localBranchShas(git);
+    expect([...shas.keys()].sort()).toEqual([base, 'experiment/exp-1'].sort());
+    expect(shas.get('experiment/exp-1')).toBe(await headSha(git));
+  });
+
+  it('reads remote branch shas without fetching', async () => {
+    const git = createGit(dir);
+    const remoteDir = await mkdtemp(path.join(tmpdir(), 'freeze-git-remote-'));
+    try {
+      await createGit(remoteDir).init(true);
+      await git.addRemote('origin', remoteDir);
+      expect(await remoteUrl(git, 'origin')).toBe(remoteDir);
+
+      // Nothing published yet: no remote branches, and no sha for the branch.
+      expect((await remoteBranchShas(git, 'origin')).size).toBe(0);
+      expect(await remoteBranchSha(git, 'origin', 'experiment/exp-1')).toBeUndefined();
+
+      await resetBranchToHead(git, 'experiment/exp-1');
+      await forcePushBranch(git, 'origin', 'experiment/exp-1');
+
+      const sha = await headSha(git);
+      expect(await remoteBranchShas(git, 'origin')).toEqual(new Map([['experiment/exp-1', sha]]));
+      expect(await remoteBranchSha(git, 'origin', 'experiment/exp-1')).toBe(sha);
+      // A prefix match must not be mistaken for the branch itself.
+      expect(await remoteBranchSha(git, 'origin', 'experiment/exp')).toBeUndefined();
+    } finally {
+      await rm(remoteDir, { recursive: true, force: true });
+    }
+  });
+
   it('forcePushBranch overwrites the remote branch after a history rewrite', async () => {
     const git = createGit(dir);
     // The bare remote lives outside the working repo so its refs never show up
@@ -82,8 +122,9 @@ describe('git module', () => {
       await git.raw(['commit', '--amend', '-m', 'regenerated']);
       await forcePushBranch(git, 'origin', 'experiment/exp-1');
 
-      const remote = createGit(remoteDir);
-      expect((await remote.revparse(['experiment/exp-1'])).trim()).toBe(await headSha(git));
+      // Read the remote through ls-remote rather than opening the bare repo directly, which
+      // `safe.bareRepository=explicit` refuses to do.
+      expect(await remoteBranchSha(git, 'origin', 'experiment/exp-1')).toBe(await headSha(git));
     } finally {
       await rm(remoteDir, { recursive: true, force: true });
     }
