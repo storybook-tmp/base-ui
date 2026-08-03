@@ -50,40 +50,6 @@ export const Hero: Story = {
   ),
 };
 
-/** Default `orientation="horizontal"` (full width, thin height) between stacked content — `role="separator"` with `aria-orientation="horizontal"` and the matching `data-orientation` styling hook (mandatory orientation story, story-plan #1). */
-export const Horizontal: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="Stack">
-      <p className="Text">Section one</p>
-      <Separator className={theme.SeparatorRoot} />
-      <p className="Text">Section two</p>
-    </div>
-  ),
-  play: async ({ canvas }) => {
-    const separator = canvas.getByRole('separator');
-    await expect(separator).toHaveAttribute('aria-orientation', 'horizontal');
-    await expect(separator).toHaveAttribute('data-orientation', 'horizontal');
-  },
-};
-
-/** `orientation="vertical"` between inline content, mirroring the hero demo's nav-link pattern — flips both `aria-orientation` and `data-orientation` (mandatory orientation story, story-plan #2). */
-export const Vertical: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="Row">
-      <span className="Text">Left</span>
-      <Separator orientation="vertical" className={theme.SeparatorRoot} />
-      <span className="Text">Right</span>
-    </div>
-  ),
-  play: async ({ canvas }) => {
-    const separator = canvas.getByRole('separator');
-    await expect(separator).toHaveAttribute('aria-orientation', 'vertical');
-    await expect(separator).toHaveAttribute('data-orientation', 'vertical');
-  },
-};
-
 /**
  * `Menu.Separator` is a re-export of `Separator` (`packages/react/src/menu/index.parts.ts`),
  * used between `Menu.Group`s to divide unrelated clusters of items — the

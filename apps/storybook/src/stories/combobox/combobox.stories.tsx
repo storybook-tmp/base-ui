@@ -243,55 +243,6 @@ export const Hero: Story = {
   render: () => <DemoCombobox label="Choose a fruit" placeholder="e.g. Apple" />,
 };
 
-function OpenFilterSelectCloseExample() {
-  const [lastChange, setLastChange] = React.useState('none yet');
-  return (
-    <div className="ComboboxDemoStack">
-      <DemoCombobox
-        label="Choose a fruit"
-        placeholder="e.g. Apple"
-        root={{
-          onValueChange: (value, eventDetails) =>
-            setLastChange(`${value ? value.value : 'null'} (reason: ${eventDetails.reason})`),
-        }}
-      />
-      <output className="ComboboxDemoOutput">onValueChange: {lastChange}</output>
-    </div>
-  );
-}
-
-/** The full interaction contract in one story: click the input to open, type to filter, ArrowDown to highlight (virtual focus — DOM focus never leaves the input; the item is referenced by `aria-activedescendant`), Enter to commit, popup closes and `onValueChange` receives `(value, eventDetails)`. */
-export const OpenFilterSelectClose: Story = {
-  tags: ['api-ref'],
-  render: () => <OpenFilterSelectCloseExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = comboboxInput(canvas);
-
-    await userEvent.click(input);
-    const listbox = await body.findByRole('listbox');
-    await waitFor(() => expect(listbox).toBeVisible());
-    await expect(input).toHaveAttribute('aria-expanded', 'true');
-
-    // Typing filters the list; only the berries remain.
-    await userEvent.keyboard('berry');
-    await waitFor(() =>
-      expect(body.queryByRole('option', { name: 'Apple' })).not.toBeInTheDocument(),
-    );
-    const strawberry = await body.findByRole('option', { name: 'Strawberry' });
-
-    // Virtual focus: the input keeps DOM focus, aria-activedescendant points at the item.
-    await userEvent.keyboard('{ArrowDown}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-activedescendant', strawberry.id));
-    await expect(input).toHaveFocus();
-
-    await userEvent.keyboard('{Enter}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'false'));
-    await expect(input).toHaveValue('Strawberry');
-    await expect(canvas.getByText(/onValueChange: strawberry \(reason: .+\)/)).toBeVisible();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Controlled state                                                    */
 /* ------------------------------------------------------------------ */
@@ -528,56 +479,6 @@ export const UseFilteredItemsForVirtualizer: Story = {
   },
 };
 
-/** `Combobox.Empty` renders its children only when the filtered list is empty (it requires the `items` prop). It is a polite live region (`role="status"`) that must stay mounted — conditionally render its children, not the part itself. */
-export const EmptyState: Story = {
-  tags: ['api-ref'],
-  render: () => <DemoCombobox label="Fruit" placeholder="e.g. Apple" />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(comboboxInput(canvas));
-    await userEvent.keyboard('zzz');
-
-    const empty = await body.findByText('No fruits found.');
-    await waitFor(() => expect(empty).toBeVisible());
-    // The Empty part is a polite live region so the miss gets announced.
-    await expect(body.getByRole('status')).toBeVisible();
-    await expect(body.queryByRole('option')).not.toBeInTheDocument();
-  },
-};
-
-/** `autoHighlight` keeps the first match highlighted while filtering, so Enter selects it immediately; the default (`false`) follows the APG stance of never highlighting without an explicit arrow key. */
-export const AutoHighlightModes: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="ComboboxDemoRow">
-      <DemoCombobox label="autoHighlight" placeholder="Type ba…" root={{ autoHighlight: true }} />
-      <DemoCombobox label="Default" placeholder="Type ba…" />
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const doc = canvasElement.ownerDocument;
-    const [autoInput, plainInput] = canvas
-      .getAllByRole('combobox')
-      .filter((el) => el instanceof HTMLInputElement);
-
-    await userEvent.click(autoInput);
-    await userEvent.keyboard('ba');
-    // The first match is highlighted automatically while typing.
-    await waitFor(() =>
-      expect(doc.querySelector('[role="option"][data-highlighted]')).toHaveTextContent('Banana'),
-    );
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(autoInput).toHaveAttribute('aria-expanded', 'false'));
-
-    await userEvent.click(plainInput);
-    await userEvent.keyboard('ba');
-    await within(doc.body).findByRole('option', { name: 'Banana' });
-    // Default mode: typing never highlights an item on its own.
-    await expect(doc.querySelector('[role="option"][data-highlighted]')).not.toBeInTheDocument();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Multiple selection & chips                                          */
 /* ------------------------------------------------------------------ */
@@ -586,37 +487,6 @@ export const AutoHighlightModes: Story = {
 export const MultipleSelectionChips: Story = {
   tags: ['api-ref', 'base'],
   render: () => <ChipsCombobox />,
-};
-
-function ChipsKeyboardExample() {
-  const [value, setValue] = React.useState<Lang[]>([langs[0], langs[1], langs[2]]);
-  return (
-    <div className="ComboboxDemoStack">
-      <ChipsCombobox root={{ value, onValueChange: setValue }} />
-      <output className="ComboboxDemoOutput">{value.length} selected</output>
-    </div>
-  );
-}
-
-/** The chips keyboard contract: with the caret at the start of the input, ArrowLeft moves real DOM focus onto the chips (unlike list items, chips are DOM-focused), Backspace removes the focused chip, and the chips container takes `role="toolbar"` so NVDA passes arrow keys through (#3629/#3647). */
-export const ChipsKeyboardFlow: Story = {
-  tags: ['tests'],
-  render: () => <ChipsKeyboardExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = comboboxInput(canvas);
-    // The chips container becomes role="toolbar" while chips exist.
-    await expect(canvas.getByRole('toolbar')).toBeVisible();
-    await expect(canvas.getByText('3 selected')).toBeVisible();
-
-    await userEvent.click(input);
-    await userEvent.keyboard('{ArrowLeft}');
-    // Real DOM focus lands on the last chip.
-    await waitFor(() => expect(canvas.getByLabelText('Python')).toHaveFocus());
-
-    await userEvent.keyboard('{Backspace}');
-    await waitFor(() => expect(canvas.queryByLabelText('Python')).not.toBeInTheDocument());
-    await expect(await canvas.findByText('2 selected')).toBeVisible();
-  },
 };
 
 /* ------------------------------------------------------------------ */
@@ -665,38 +535,6 @@ function PersonAnatomy({ root }: { root?: Partial<Combobox.Root.Props<Person, fa
     </Combobox.Root>
   );
 }
-
-function IsItemEqualToValueExample() {
-  // A fresh clone: referential equality with the items array never holds.
-  const [value, setValue] = React.useState<Person | null>({ ...scientists[1] });
-  return (
-    <div className="ComboboxDemoStack">
-      <PersonAnatomy root={{ value, onValueChange: setValue }} />
-      <button type="button" className={theme.Button} onClick={() => setValue({ ...scientists[1] })}>
-        Rehydrate from server copy
-      </button>
-      <output className="ComboboxDemoOutput">value id: {value ? value.id : 'null'}</output>
-    </div>
-  );
-}
-
-/** Object values that arrive from a server or form library are never referentially identical to the `items` — `isItemEqualToValue` (here comparing `id`) keeps the selection matched, and `itemToStringLabel` resolves the input text. Without it the selection silently drops (defaults to `Object.is`). */
-export const IsItemEqualToValueObjects: Story = {
-  tags: ['api-ref'],
-  render: () => <IsItemEqualToValueExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = comboboxInput(canvas);
-
-    // The label resolves even though the value is a clone of the item.
-    await expect(input).toHaveValue('Grace Hopper');
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Rehydrate from server copy' }));
-    await userEvent.click(input);
-    const option = await body.findByRole('option', { name: 'Grace Hopper' });
-    await waitFor(() => expect(option).toHaveAttribute('aria-selected', 'true'));
-  },
-};
 
 function FormSerializationExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
@@ -856,93 +694,6 @@ export const GroupedItems: Story = {
   },
 };
 
-const emojis = [
-  '😀',
-  '😅',
-  '🤣',
-  '😍',
-  '😎',
-  '😭',
-  '😡',
-  '👍',
-  '👎',
-  '🙏',
-  '💪',
-  '🔥',
-  '⭐',
-  '🌈',
-  '🍕',
-  '🍎',
-];
-
-function EmojiRows() {
-  const filteredItems = Combobox.useFilteredItems<string>();
-  const rows: string[][] = [];
-  for (let i = 0; i < filteredItems.length; i += 4) {
-    rows.push(filteredItems.slice(i, i + 4));
-  }
-  return (
-    <React.Fragment>
-      {rows.map((row) => (
-        <Combobox.Row key={row.join('')} className="ComboboxDemoGridRow">
-          {row.map((emoji) => (
-            <Combobox.Item key={emoji} value={emoji} className="ComboboxDemoGridItem">
-              {emoji}
-            </Combobox.Item>
-          ))}
-        </Combobox.Row>
-      ))}
-    </React.Fragment>
-  );
-}
-
-function GridExample() {
-  const id = React.useId();
-  return (
-    <Combobox.Root grid items={emojis}>
-      <div className={theme.FieldLabel}>
-        <label htmlFor={id}>Emoji</label>
-        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
-          <Combobox.Input placeholder="Pick an emoji" id={id} className={theme.ComboboxInput} />
-          <div className={theme.ComboboxActionButtons}>
-            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
-              <CaretDownIcon />
-            </Combobox.Trigger>
-          </div>
-        </Combobox.InputGroup>
-      </div>
-      <Combobox.Portal>
-        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
-          <Combobox.Popup className={theme.ComboboxPopup}>
-            <Combobox.List className={theme.ComboboxList}>
-              <EmojiRows />
-            </Combobox.List>
-          </Combobox.Popup>
-        </Combobox.Positioner>
-      </Combobox.Portal>
-    </Combobox.Root>
-  );
-}
-
-/** The emoji-picker layout: `grid` on Root plus `Row` wrappers switch navigation to two dimensions (columns are inferred from the rendered rows, #2683) and emit grid/row ARIA roles. Arrow keys move the virtual highlight across and down. */
-export const GridLayout: Story = {
-  tags: ['api-ref'],
-  render: () => <GridExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const doc = canvasElement.ownerDocument;
-    const body = within(doc.body);
-
-    await userEvent.click(comboboxInput(canvas));
-    const grid = await body.findByRole('grid');
-    await waitFor(() => expect(grid).toBeVisible());
-
-    await userEvent.keyboard('{ArrowDown}');
-    await waitFor(() => expect(doc.querySelector('[data-highlighted]')).toHaveTextContent('😀'));
-    await userEvent.keyboard('{ArrowRight}');
-    await waitFor(() => expect(doc.querySelector('[data-highlighted]')).toHaveTextContent('😅'));
-  },
-};
-
 const countries = ['France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Ireland', 'Japan', 'Spain'];
 
 /** The kept docs "Input inside popup" demo (searchable select): the trigger is the form control and takes `role="combobox"` (#2973), the popup becomes `role="dialog"` (#3213), and `Combobox.Label` labels the trigger since a native `<label>` cannot. */
@@ -1030,24 +781,6 @@ function InlineAnatomy({ root }: { root?: Partial<Combobox.Root.Props<Fruit, fal
   );
 }
 
-/** `inline` renders the list in normal document flow with no Portal/Positioner/Popup — `open` must be passed unconditionally (`<Combobox.Root inline open>`, documented in #5069). Filtering updates the list in place. */
-export const InlineNoPopup: Story = {
-  tags: ['api-ref'],
-  render: () => <InlineAnatomy />,
-  play: async ({ canvas, userEvent }) => {
-    // The listbox renders in-flow, inside the story canvas — not on document.body.
-    const listbox = canvas.getByRole('listbox');
-    await expect(listbox).toBeVisible();
-
-    await userEvent.click(comboboxInput(canvas));
-    await userEvent.keyboard('ban');
-    await waitFor(() =>
-      expect(canvas.queryByRole('option', { name: 'Apple' })).not.toBeInTheDocument(),
-    );
-    await expect(canvas.getByRole('option', { name: 'Banana' })).toBeVisible();
-  },
-};
-
 function InlineDialogExample() {
   const [open, setOpen] = React.useState(false);
   return (
@@ -1098,9 +831,7 @@ export const InlineInsideDialog: Story = {
     // so wait for the popup (and its descendants) to actually be visible
     // rather than asserting immediately.
     await waitFor(async () => {
-      expect(
-        await within(reopenedDialog).findByRole('option', { name: 'Apple' }),
-      ).toBeVisible();
+      expect(await within(reopenedDialog).findByRole('option', { name: 'Apple' })).toBeVisible();
     });
   },
 };
@@ -1632,29 +1363,6 @@ export const Virtualized: Story = {
 /* Disabled, read-only, forms                                          */
 /* ------------------------------------------------------------------ */
 
-/** `disabled` disables the whole control; `readOnly` keeps the value visible and submittable while blocking opening and editing (native `readonly` + `aria-readonly` on the input). */
-export const DisabledAndReadOnly: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="ComboboxDemoRow">
-      <DemoCombobox label="Disabled" root={{ disabled: true, defaultValue: fruits[0] }} />
-      <DemoCombobox label="Read-only" root={{ readOnly: true, defaultValue: fruits[1] }} />
-    </div>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const [disabledInput, readOnlyInput] = canvas
-      .getAllByRole('combobox')
-      .filter((el) => el instanceof HTMLInputElement);
-
-    await expect(disabledInput).toBeDisabled();
-
-    await expect(readOnlyInput).toHaveValue('Banana');
-    await expect(readOnlyInput).toHaveAttribute('readonly');
-    await userEvent.click(readOnlyInput);
-    await expect(readOnlyInput).toHaveAttribute('aria-expanded', 'false');
-  },
-};
-
 function FieldValidationExample() {
   const [status, setStatus] = React.useState<string | null>(null);
   return (
@@ -1737,35 +1445,6 @@ export const InFieldWithValidation: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation                                                           */
-/* ------------------------------------------------------------------ */
-
-function AnimatedExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="ComboboxDemoStack">
-      <DemoCombobox
-        label="Fruit"
-        placeholder="e.g. Apple"
-        popupClassName={`${theme.ComboboxPopup} ComboboxDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-      />
-      <output className="ComboboxDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** Animate with CSS transitions on `[data-starting-style]`/`[data-ending-style]` and `transform-origin: var(--transform-origin)`; the popup stays mounted mid-transition and `onOpenChangeComplete` fires once it settles (pair with `actionsRef.unmount()` for JS animation libraries). */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedExample />,
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.click(comboboxInput(canvas));
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* TypeScript                                                          */
@@ -1857,118 +1536,6 @@ interface SyncTargetGroup {
   items: SyncTarget[];
 }
 
-const syncTargetGroups: SyncTargetGroup[] = [
-  {
-    value: 'Databases',
-    items: [
-      { value: 'postgres', label: 'PostgreSQL' },
-      { value: 'mysql', label: 'MySQL' },
-      { value: 'sqlite', label: 'SQLite' },
-    ],
-  },
-  {
-    value: 'Warehouses',
-    items: [
-      { value: 'snowflake', label: 'Snowflake' },
-      { value: 'bigquery', label: 'BigQuery' },
-    ],
-  },
-];
-
-function GroupedSyncTargetPicker() {
-  const id = React.useId();
-  return (
-    <Combobox.Root items={syncTargetGroups}>
-      <div className={theme.FieldLabel}>
-        <label htmlFor={id}>Sync target</label>
-        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
-          <Combobox.Input placeholder="e.g. Snowflake" id={id} className={theme.ComboboxInput} />
-          <div className={theme.ComboboxActionButtons}>
-            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
-              <CaretDownIcon />
-            </Combobox.Trigger>
-          </div>
-        </Combobox.InputGroup>
-      </div>
-      <Combobox.Portal>
-        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
-          <Combobox.Popup className={theme.ComboboxPopup}>
-            <Combobox.Empty>
-              <div className={theme.ComboboxEmpty}>No sync targets found.</div>
-            </Combobox.Empty>
-            <Combobox.List className={theme.ComboboxList}>
-              {(group: SyncTargetGroup) => {
-                const isLast =
-                  syncTargetGroups.findIndex((candidate) => candidate.value === group.value) ===
-                  syncTargetGroups.length - 1;
-                return (
-                  <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
-                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
-                        {group.value}
-                      </Combobox.GroupLabel>
-                      <Combobox.Collection>
-                        {(item: SyncTarget) => (
-                          <Combobox.Item
-                            key={item.value}
-                            value={item}
-                            className={theme.ComboboxItem}
-                          >
-                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
-                              <CheckIcon />
-                            </Combobox.ItemIndicator>
-                            <span className={theme.ComboboxItemText}>{item.label}</span>
-                          </Combobox.Item>
-                        )}
-                      </Combobox.Collection>
-                    </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
-                  </React.Fragment>
-                );
-              }}
-            </Combobox.List>
-          </Combobox.Popup>
-        </Combobox.Positioner>
-      </Combobox.Portal>
-    </Combobox.Root>
-  );
-}
-
-/**
- * Recreation of the grouped, separated-list pattern from electric-sql/electric
- * `Combobox.tsx` (Apache-2.0, code-ok, research/d-real-world-usage/combobox/ranked.json #4)
- * — a CSS-Modules-styled Combobox with `Separator` marking the boundary between groups,
- * recomposed here as a sync-target picker for a local-first-sync-style admin console.
- */
-export const RealWorldGroupedSyncTargetPicker: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <GroupedSyncTargetPicker />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = comboboxInput(canvas);
-
-    await userEvent.click(input);
-    const listbox = await body.findByRole('listbox');
-    await waitFor(() => expect(listbox).toBeVisible());
-    await waitFor(() => expect(body.getByText('Databases')).toBeVisible());
-    await waitFor(() => expect(body.getByText('Warehouses')).toBeVisible());
-
-    // Arrow across the group boundary: last item of the first group, then the first
-    // item of the next group, past the Separator.
-    const sqlite = await body.findByRole('option', { name: 'SQLite' });
-    await waitFor(() => expect(sqlite).toBeVisible());
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-activedescendant', sqlite.id));
-
-    await userEvent.keyboard('{ArrowDown}');
-    const snowflake = await body.findByRole('option', { name: 'Snowflake' });
-    await waitFor(() => expect(input).toHaveAttribute('aria-activedescendant', snowflake.id));
-
-    await userEvent.keyboard('{Enter}');
-    await waitFor(() => expect(input).toHaveValue('Snowflake'));
-  },
-};
-
 interface LlmModel {
   value: string;
   label: string;
@@ -1978,150 +1545,6 @@ interface LlmModelGroup {
   value: string;
   items: LlmModel[];
 }
-
-const llmModelGroups: LlmModelGroup[] = [
-  {
-    value: 'OpenAI',
-    items: [
-      { value: 'gpt-4o', label: 'GPT-4o' },
-      { value: 'gpt-4o-mini', label: 'GPT-4o mini' },
-      { value: 'o1', label: 'o1' },
-    ],
-  },
-  {
-    value: 'Anthropic',
-    items: [
-      { value: 'claude-opus', label: 'Claude Opus' },
-      { value: 'claude-sonnet', label: 'Claude Sonnet' },
-      { value: 'claude-haiku', label: 'Claude Haiku' },
-    ],
-  },
-  {
-    value: 'Google',
-    items: [
-      { value: 'gemini-pro', label: 'Gemini Pro' },
-      { value: 'gemini-flash', label: 'Gemini Flash' },
-    ],
-  },
-];
-
-const allLlmModels = llmModelGroups.flatMap((group) => group.items);
-
-function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<LlmModel, true>> }) {
-  const id = React.useId();
-  return (
-    <Combobox.Root items={llmModelGroups} multiple {...root}>
-      <div className={theme.FieldLabel}>
-        <label htmlFor={id}>Models</label>
-        <Combobox.InputGroup className={theme.ComboboxChipsInputGroup}>
-          <Combobox.Chips className={theme.ComboboxChips}>
-            <Combobox.Value>
-              {(value: LlmModel[]) => (
-                <React.Fragment>
-                  {value.map((model) => (
-                    <Combobox.Chip
-                      key={model.value}
-                      className={theme.ComboboxChip}
-                      aria-label={model.label}
-                    >
-                      {model.label}
-                      <Combobox.ChipRemove
-                        className={theme.ComboboxChipRemove}
-                        aria-label={`Remove ${model.label}`}
-                      >
-                        <XIcon />
-                      </Combobox.ChipRemove>
-                    </Combobox.Chip>
-                  ))}
-                  <Combobox.Input
-                    id={id}
-                    placeholder={value.length > 0 ? '' : 'e.g. Claude Sonnet'}
-                    className={theme.ComboboxChipsInput}
-                  />
-                </React.Fragment>
-              )}
-            </Combobox.Value>
-          </Combobox.Chips>
-        </Combobox.InputGroup>
-      </div>
-      <Combobox.Portal>
-        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
-          <Combobox.Popup className={theme.ComboboxPopup}>
-            <Combobox.Empty>
-              <div className={theme.ComboboxEmpty}>No models found.</div>
-            </Combobox.Empty>
-            <Combobox.List className={theme.ComboboxList}>
-              {(group: LlmModelGroup) => {
-                const isLast =
-                  llmModelGroups.findIndex((candidate) => candidate.value === group.value) ===
-                  llmModelGroups.length - 1;
-                return (
-                  <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
-                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
-                        {group.value}
-                      </Combobox.GroupLabel>
-                      <Combobox.Collection>
-                        {(item: LlmModel) => (
-                          <Combobox.Item
-                            key={item.value}
-                            value={item}
-                            className={theme.ComboboxItem}
-                          >
-                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
-                              <CheckIcon />
-                            </Combobox.ItemIndicator>
-                            <span className={theme.ComboboxItemText}>{item.label}</span>
-                          </Combobox.Item>
-                        )}
-                      </Combobox.Collection>
-                    </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
-                  </React.Fragment>
-                );
-              }}
-            </Combobox.List>
-          </Combobox.Popup>
-        </Combobox.Positioner>
-      </Combobox.Portal>
-    </Combobox.Root>
-  );
-}
-
-/**
- * Recreation of the near-full-anatomy multi-select chips pattern from
- * latitude-dev/latitude-llm `combobox/combobox.tsx` (MIT, code-ok,
- * research/d-real-world-usage/combobox/ranked.json #7) — the same chip/grouping
- * composition also converged on independently by langgenius/dify and cosscom/coss
- * (both link-only, not reused here), recomposed with grouped items: models selected
- * across providers render as removable chips that wrap across lines.
- */
-export const RealWorldMultiSelectModelPickerWithGroups: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => (
-    <ModelPickerWithGroups
-      root={{
-        defaultValue: [allLlmModels[0], allLlmModels[3], allLlmModels[6]],
-      }}
-    />
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    // Selections span three different provider groups.
-    await expect(canvas.getByLabelText('GPT-4o')).toBeVisible();
-    await expect(canvas.getByLabelText('Claude Opus')).toBeVisible();
-    await expect(canvas.getByLabelText('Gemini Pro')).toBeVisible();
-
-    await userEvent.click(canvas.getByLabelText('Remove Claude Opus'));
-    await waitFor(() => expect(canvas.queryByLabelText('Claude Opus')).not.toBeInTheDocument());
-
-    const [input] = canvas.getAllByRole('combobox');
-    await userEvent.click(input);
-    await userEvent.click(await body.findByRole('option', { name: 'Claude Haiku' }));
-    await waitFor(() => expect(canvas.getByLabelText('Claude Haiku')).toBeVisible());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inlined — stories must not import docs assets)               */

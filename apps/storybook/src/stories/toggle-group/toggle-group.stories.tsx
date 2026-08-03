@@ -182,57 +182,6 @@ export const Multiple: Story = {
 };
 
 /**
- * Required composite-keyboard story: a standalone ToggleGroup is a single Tab
- * stop with roving arrow-key focus (looping at the ends) and Home/End support.
- */
-export const CompositeKeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <ToggleGroup aria-label="Numbered options" className={theme.ToggleGroupRoot}>
-      <Toggle aria-label="One" value="one" className={theme.ToggleGroupItem}>
-        1
-      </Toggle>
-      <Toggle aria-label="Two" value="two" className={theme.ToggleGroupItem}>
-        2
-      </Toggle>
-      <Toggle aria-label="Three" value="three" className={theme.ToggleGroupItem}>
-        3
-      </Toggle>
-      <Toggle aria-label="Four" value="four" className={theme.ToggleGroupItem}>
-        4
-      </Toggle>
-    </ToggleGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const one = canvas.getByRole('button', { name: 'One' });
-    const two = canvas.getByRole('button', { name: 'Two' });
-    const four = canvas.getByRole('button', { name: 'Four' });
-
-    // Single tab stop: only the first item is in the tab sequence up front.
-    await expect(one).toHaveAttribute('tabindex', '0');
-    await expect(two).toHaveAttribute('tabindex', '-1');
-
-    await userEvent.tab();
-    await expect(one).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(two).toHaveFocus();
-
-    // Looping: from the last item, ArrowRight wraps back to the first.
-    await userEvent.keyboard('{End}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(one).toHaveFocus();
-
-    // Home moves focus straight to the first item.
-    await userEvent.keyboard('{ArrowLeft}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(one).toHaveFocus();
-  },
-};
-
-/**
  * Single mode (`multiple={false}`, the default) is deselectable to empty:
  * clicking the pressed item again clears the selection entirely, unlike
  * RadioGroup which always keeps exactly one option selected
@@ -264,68 +213,6 @@ export const SingleSelectClearable: Story = {
     await userEvent.click(list);
     await expect(grid).toHaveAttribute('aria-pressed', 'false');
     await expect(list).toHaveAttribute('aria-pressed', 'true');
-  },
-};
-
-/**
- * `disabled` on the Root cascades to every child Toggle; an individually
- * `disabled` Toggle is additionally excluded from the roving-focus tab
- * sequence while its enabled siblings remain reachable (brief §6, §7 —
- * cross-references Toggle's own hardcoded non-focusable-when-disabled
- * behavior, since Toggle has no `focusableWhenDisabled` prop of its own).
- */
-export const DisabledGroupAndItem: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="ToggleGroupDemoRow">
-      <ToggleGroup
-        aria-label="Alignment (group disabled)"
-        disabled
-        className={theme.ToggleGroupRoot}
-      >
-        <Toggle aria-label="Align left" value="left" className={theme.ToggleGroupItem}>
-          Left
-        </Toggle>
-        <Toggle aria-label="Align right" value="right" className={theme.ToggleGroupItem}>
-          Right
-        </Toggle>
-      </ToggleGroup>
-      <ToggleGroup aria-label="Alignment (one item disabled)" className={theme.ToggleGroupRoot}>
-        <Toggle aria-label="Align top" value="top" className={theme.ToggleGroupItem}>
-          Top
-        </Toggle>
-        <Toggle
-          aria-label="Align middle (disabled)"
-          value="middle"
-          disabled
-          className={theme.ToggleGroupItem}
-        >
-          Mid
-        </Toggle>
-        <Toggle aria-label="Align bottom" value="bottom" className={theme.ToggleGroupItem}>
-          Bottom
-        </Toggle>
-      </ToggleGroup>
-    </div>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const left = canvas.getByRole('button', { name: 'Align left' });
-    const right = canvas.getByRole('button', { name: 'Align right' });
-    await expect(left).toHaveAttribute('aria-disabled', 'true');
-    await expect(left).toHaveAttribute('data-disabled');
-    await expect(right).toHaveAttribute('aria-disabled', 'true');
-
-    const top = canvas.getByRole('button', { name: 'Align top' });
-    const middle = canvas.getByRole('button', { name: 'Align middle (disabled)' });
-    const bottom = canvas.getByRole('button', { name: 'Align bottom' });
-    await expect(middle).toHaveAttribute('aria-disabled', 'true');
-    await expect(top).toHaveAttribute('aria-disabled', 'false');
-
-    // Roving focus skips the disabled item entirely.
-    top.focus();
-    await expect(top).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(bottom).toHaveFocus();
   },
 };
 

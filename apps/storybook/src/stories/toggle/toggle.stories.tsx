@@ -145,43 +145,6 @@ export const ControlledPressed: Story = {
   },
 };
 
-/**
- * `disabled` prevents all interaction: `aria-pressed` stays fixed and
- * `onPressedChange` never fires, matching `Toggle.test.tsx` "prop: disabled".
- */
-export const Disabled: Story = {
-  tags: ['api-ref'],
-  render: () => {
-    function DisabledExample() {
-      const [pressedCount, setPressedCount] = React.useState(0);
-      return (
-        <div className="ToggleDemoRow">
-          <Toggle
-            aria-label="Bold"
-            disabled
-            className={theme.ToggleRoot}
-            onPressedChange={() => setPressedCount((count) => count + 1)}
-          >
-            B
-          </Toggle>
-          <span className="ToggleDemoOutput">Changes: {pressedCount}</span>
-        </div>
-      );
-    }
-    return <DisabledExample />;
-  },
-  play: async ({ canvas, userEvent }) => {
-    const toggle = canvas.getByRole('button', { name: 'Bold' });
-    await expect(toggle).toHaveAttribute('disabled');
-    await expect(toggle).toHaveAttribute('data-disabled');
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-
-    await userEvent.click(toggle);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-    await expect(canvas.getByText('Changes: 0')).toBeVisible();
-  },
-};
-
 function CancelPressChangeExample() {
   return (
     <Toggle

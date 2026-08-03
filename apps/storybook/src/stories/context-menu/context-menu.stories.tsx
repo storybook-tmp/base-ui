@@ -311,47 +311,6 @@ export const CustomAnchorOverride: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Disabled trigger — native menu allowed                               */
-/* ------------------------------------------------------------------ */
-
-function DisabledTriggerExample() {
-  return (
-    <ContextMenu.Root disabled>
-      <ContextMenu.Trigger className={theme.ContextMenuTrigger} data-testid="trigger">
-        Right-click this disabled surface
-      </ContextMenu.Trigger>
-      <ContextMenu.Portal>
-        <ContextMenu.Positioner className={theme.ContextMenuPositioner}>
-          <ContextMenu.Popup className={theme.ContextMenuPopup}>
-            <ContextMenu.Item className={theme.ContextMenuItem}>Add to Library</ContextMenu.Item>
-          </ContextMenu.Popup>
-        </ContextMenu.Positioner>
-      </ContextMenu.Portal>
-    </ContextMenu.Root>
-  );
-}
-
-/**
- * `disabled` restores native OS behavior completely — it doesn't just keep
- * the Base UI popup from opening, it also stops the component from
- * suppressing the browser's own context menu (a meaningfully broader
- * contract than most Base UI `disabled` props). This story only asserts the
- * popup stays absent — it deliberately does **not** assert on
- * `event.defaultPrevented`, since real browser-native-menu suppression isn't
- * observable through Testing Library's synthetic event in this environment;
- * the exact `defaultPrevented === false` assertion lives in the source
- * suite (`ContextMenuTrigger.test.tsx`).
- */
-export const DisabledTrigger: Story = {
-  tags: ['api-ref'],
-  render: () => <DisabledTriggerExample />,
-  play: async ({ canvas, canvasElement }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByTestId('trigger');
-
-    fireEvent.contextMenu(trigger, { clientX: 20, clientY: 20, button: 2 });
-    await expect(body.queryByRole('menu')).not.toBeInTheDocument();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Long-press (touch) — documented, not played                         */

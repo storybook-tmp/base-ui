@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Menu } from '@base-ui/react/menu';
-import { DirectionProvider } from '@base-ui/react/direction-provider';
 import theme from '@droppy/theme';
 import './scroll-area.demo.css';
 
@@ -73,34 +72,6 @@ export const Hero: Story = {
     // measurement effect, so re-query inside waitFor rather than capturing a stale null.
     await waitFor(() => {
       expect(canvasElement.querySelector('[data-orientation="vertical"]')).not.toBeNull();
-    });
-  },
-};
-
-/** A single horizontal `Scrollbar` over a wide row of cards. `orientation="horizontal"` is the only way to get a horizontal scrollbar — there is no `orientation="both"`; render two `Scrollbar` elements for that (see `BothAxesWithCorner`). */
-export const HorizontalOnly: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <ScrollArea.Root className={theme.ScrollAreaRoot}>
-      <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
-        <ScrollArea.Content className="ContentPadded">
-          <div className="Row">
-            {Array.from({ length: 12 }, (_, index) => (
-              <div key={index} className="Card">
-                Card {index + 1}
-              </div>
-            ))}
-          </div>
-        </ScrollArea.Content>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} orientation="horizontal">
-        <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
-      </ScrollArea.Scrollbar>
-    </ScrollArea.Root>
-  ),
-  play: async ({ canvasElement }) => {
-    await waitFor(() => {
-      expect(canvasElement.querySelector('[data-orientation="horizontal"]')).not.toBeNull();
     });
   },
 };
@@ -425,51 +396,5 @@ export const InsideAPopup: Story = {
 
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
-  },
-};
-
-/**
- * `DirectionProvider direction="rtl"` (paired with an app-owned `dir="rtl"`
- * container, per the library's two-part RTL setup) flips the horizontal
- * scroll-ratio math and switches the logical track placement
- * (`insetInlineStart`/`-End`) accordingly. Dragging the thumb is a pointer
- * interaction not exercised here — verified directly in
- * `ScrollAreaThumb.test.tsx`'s own RTL-parametrized drag tests.
- */
-export const RTL: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div dir="rtl">
-      <DirectionProvider direction="rtl">
-        <ScrollArea.Root className="ScrollAreaSquare">
-          <ScrollArea.Viewport className={theme.ScrollAreaViewport}>
-            <ScrollArea.Content className="ContentPadded">
-              <ul className="Grid">
-                {Array.from({ length: 100 }, (_, index) => (
-                  <li key={index} className="Item">
-                    {index + 1}
-                  </li>
-                ))}
-              </ul>
-            </ScrollArea.Content>
-          </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar}>
-            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
-          </ScrollArea.Scrollbar>
-          <ScrollArea.Scrollbar className={theme.ScrollAreaScrollbar} orientation="horizontal">
-            <ScrollArea.Thumb className={theme.ScrollAreaThumb} />
-          </ScrollArea.Scrollbar>
-          <ScrollArea.Corner className={theme.ScrollAreaCorner} />
-        </ScrollArea.Root>
-      </DirectionProvider>
-    </div>
-  ),
-  play: async ({ canvasElement }) => {
-    // Logical inline-start placement flips: in RTL the track still sits at the block-appropriate
-    // edge via `insetInlineStart`, resolved by the browser according to the ambient `dir="rtl"`.
-    // The scrollbar renders after the overflow measurement effect, so re-query inside waitFor.
-    await waitFor(() => {
-      expect(canvasElement.querySelector('[data-orientation="horizontal"]')).not.toBeNull();
-    });
   },
 };

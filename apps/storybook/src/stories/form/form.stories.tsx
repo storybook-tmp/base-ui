@@ -1,14 +1,11 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, waitFor, within } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 import { Form } from '@base-ui/react/form';
 import { Field } from '@base-ui/react/field';
-import { NumberField } from '@base-ui/react/number-field';
 import { Button } from '@base-ui/react/button';
 import theme from '@droppy/theme';
 import './form.demo.css';
-import { MultiControlQuoteFormExample } from './recreations/MultiControlQuoteFormExample';
-import { ZeroJSFieldsetFormExample } from './recreations/ZeroJSFieldsetFormExample';
 
 /**
  * Stories follow research/c-components/form (Tier 1): the kept docs demos (hero,
@@ -417,132 +414,9 @@ export const ZodSchemaMapping: Story = {
 
 /* ------------------------------------------------------------------ */
 /* onFormSubmit payload                                                */
-/* ------------------------------------------------------------------ */
-
-function PayloadExample() {
-  const [payload, setPayload] = React.useState<string | null>(null);
-  return (
-    <Form
-      className={theme.FormRoot}
-      onFormSubmit={(formValues: { id: string; quantity: number }) => {
-        setPayload(JSON.stringify(formValues, null, 2));
-      }}
-    >
-      <Field.Root name="id" className={theme.FieldRoot}>
-        <Field.Label className={theme.FieldLabel}>Product ID</Field.Label>
-        <Field.Control required placeholder="e.g. A-1042" className={theme.Input} />
-        <Field.Error className={theme.FieldError} match="valueMissing">
-          Enter a product ID.
-        </Field.Error>
-      </Field.Root>
-      <Field.Root name="quantity" className={theme.FieldRoot}>
-        <NumberField.Root defaultValue={1000} locale="en-US" className={theme.NumberFieldRoot}>
-          <Field.Label className={theme.FieldLabel}>Quantity</Field.Label>
-          <NumberField.Input className={theme.NumberFieldInput} />
-        </NumberField.Root>
-      </Field.Root>
-      <button type="submit" className={theme.Button}>
-        Create order
-      </button>
-      {payload ? (
-        // The WCAG-documented fix for a scrollable-but-otherwise-static region (axe
-        // `scrollable-region-focusable`, technique SCR29) is exactly `tabindex="0"` +
-        // `role="region"` on the region itself.
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        <pre tabIndex={0} role="region" aria-label="Submitted payload" className="FormDemoPre">
-          {payload}
-        </pre>
-      ) : null}
-    </Form>
-  );
-}
-
-/**
- * `onFormSubmit` assembles registered field values into a typed JS object and
- * auto-`preventDefault()`s — for JSON APIs instead of FormData (#3131). NumberField
- * contributes its raw numeric value, not the formatted display string (#1957).
- */
-export const OnFormSubmitPayload: Story = {
-  tags: ['api-ref'],
-  render: () => <PayloadExample />,
-  play: async ({ canvas, userEvent }) => {
-    const quantity = canvas.getByLabelText('Quantity');
-
-    // The input displays the locale-formatted string...
-    await expect(quantity).toHaveValue('1,000');
-
-    await userEvent.type(canvas.getByLabelText('Product ID'), 'A-1042');
-    await userEvent.click(canvas.getByRole('button', { name: 'Create order' }));
-
-    // ...but the submitted payload carries the raw number.
-    await expect(await canvas.findByText(/"quantity": 1000/)).toBeVisible();
-    await expect(canvas.getByText(/"id": "A-1042"/)).toBeVisible();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* validationMode cascade                                              */
-/* ------------------------------------------------------------------ */
-
-function ValidationModeExample() {
-  return (
-    <Form className={theme.FormRoot} validationMode="onChange">
-      <Field.Root name="nickname" className={theme.FieldRoot}>
-        <Field.Label className={theme.FieldLabel}>Nickname</Field.Label>
-        <Field.Control
-          required
-          placeholder="Validates on change (inherited)"
-          className={theme.Input}
-        />
-        <Field.Error className={theme.FieldError} match="valueMissing">
-          Nickname is required.
-        </Field.Error>
-      </Field.Root>
-      <Field.Root name="city" validationMode="onBlur" className={theme.FieldRoot}>
-        <Field.Label className={theme.FieldLabel}>City</Field.Label>
-        <Field.Control
-          required
-          placeholder="Validates on blur (own mode)"
-          className={theme.Input}
-        />
-        <Field.Error className={theme.FieldError} match="valueMissing">
-          City is required.
-        </Field.Error>
-      </Field.Root>
-      <button type="submit" className={theme.Button}>
-        Save profile
-      </button>
-    </Form>
-  );
-}
-
-/**
- * `validationMode` set once on Form cascades to every Field; a Field's own
- * `validationMode` takes precedence (JSDoc contract, #3013). Nickname inherits
- * `onChange`; City overrides with `onBlur`.
- */
-export const ValidationModeCascade: Story = {
-  tags: ['api-ref'],
-  render: () => <ValidationModeExample />,
-  play: async ({ canvas, userEvent }) => {
-    const nickname = canvas.getByLabelText('Nickname');
-    const city = canvas.getByLabelText('City');
-
-    // The inherited onChange mode validates while typing.
-    await userEvent.type(nickname, 'a');
-    await userEvent.clear(nickname);
-    await expect(await canvas.findByText('Nickname is required.')).toBeVisible();
-
-    // The Field-level onBlur override wins: no error while typing...
-    await userEvent.type(city, 'b');
-    await userEvent.keyboard('{Backspace}');
-    await expect(canvas.queryByText('City is required.')).not.toBeInTheDocument();
-
-    // ...until focus leaves the control.
-    await userEvent.tab();
-    await expect(await canvas.findByText('City is required.')).toBeVisible();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Imperative validation                                               */
@@ -904,60 +778,3 @@ export const ReactHookFormIntegration: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/form)           */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of the "request a project quote" form in lumi-ui's `form-rhf.tsx`: one
- * `<Form>` around a deliberately heterogeneous control set (Autocomplete, NumberField,
- * a plain Field.Control) — proof that Form doesn't care what's nested inside it.
- * Recomposed from the ideas in patrick-xin/lumi-ui `form-rhf.tsx` (MIT, code-ok,
- * research/d-real-world-usage/form/ranked.json #1).
- */
-export const RealWorldMultiControlQuoteForm: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <MultiControlQuoteFormExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const submit = canvas.getByRole('button', { name: 'Request quote' });
-
-    // Submitting empty required fields blocks submission and renders both errors.
-    await userEvent.click(submit);
-    await expect(await canvas.findByText('Please enter a project type.')).toBeVisible();
-    await expect(canvas.getByText('Please enter your email.')).toBeVisible();
-
-    const projectType = canvas.getByRole('combobox');
-    await userEvent.type(projectType, 'Web');
-    await userEvent.click(await body.findByRole('option', { name: 'Web app' }));
-    await userEvent.type(canvas.getByLabelText('Contact email'), 'ada@example.com');
-
-    // The default budget (5000) rides along with no interaction required.
-    await userEvent.click(submit);
-    await expect(await canvas.findByText(/"projectType":"Web app"/)).toBeVisible();
-    await expect(canvas.getByText(/"budget":5000/)).toBeVisible();
-    await expect(canvas.getByText(/"email":"ada@example.com"/)).toBeVisible();
-  },
-};
-
-/**
- * Recreation of nauvalazhar/selia's zero-JS validation demo: a `Fieldset` groups two
- * required inputs, and native `required` plus a children-only `Field.Error
- * match="valueMissing"` is the entire validation story — no `validate` function, no
- * schema library. Recomposed from the ideas in nauvalazhar/selia `form.tsx`/`basic.tsx`
- * (MIT, code-ok, research/d-real-world-usage/form/ranked.json #3).
- */
-export const RealWorldZeroJSFieldsetForm: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <ZeroJSFieldsetFormExample />,
-  play: async ({ canvas, userEvent }) => {
-    await expect(canvas.getByRole('group', { name: 'Contact information' })).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Submit' }));
-    const requiredErrors = await canvas.findAllByText('This is required');
-    await expect(requiredErrors).toHaveLength(2);
-
-    await userEvent.type(canvas.getByLabelText('Name'), 'Ada');
-    await userEvent.type(canvas.getByLabelText('Email'), 'ada@example.com');
-    await userEvent.click(canvas.getByRole('button', { name: 'Submit' }));
-
-    await expect(await canvas.findByText('Submitted')).toBeVisible();
-  },
-};

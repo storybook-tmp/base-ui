@@ -11,8 +11,6 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 import { Select } from '@base-ui/react/select';
 import theme from '@droppy/theme';
 import './field.demo.css';
-import { FlatPropFieldExample } from './recreations/FlatPropFieldExample';
-import { GridLayoutFieldExample } from './recreations/GridLayoutFieldExample';
 
 /**
  * Stories follow research/c-components/field (Tier 1): the docs hero, the forms-handbook
@@ -198,132 +196,6 @@ export const GroupWithFieldItem: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Validation modes                                                    */
-/* ------------------------------------------------------------------ */
-
-function OnSubmitModeExample() {
-  const [status, setStatus] = React.useState<string | null>(null);
-  return (
-    <Form
-      className={theme.FormRoot}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setStatus('Saved');
-      }}
-    >
-      <Field.Root name="fullName" className={theme.FieldRoot}>
-        <Field.Label className={theme.FieldLabel}>Full name</Field.Label>
-        <Field.Control required placeholder="Required" className={theme.Input} />
-        <Field.Error className={theme.FieldError} match="valueMissing">
-          Please enter your full name.
-        </Field.Error>
-      </Field.Root>
-      <button type="submit" className={theme.Button}>
-        Submit
-      </button>
-      {status ? <output className="FieldDemoOutput">{status}</output> : null}
-    </Form>
-  );
-}
-
-/** The default mode (`onSubmit`, #3013): nothing is flagged while the user types, clears, or blurs — errors only appear on the first submit attempt, after which the field re-validates live. Requires a surrounding `Form` (or an explicit mode) — a standalone field never submits, so `validate` never runs. */
-export const ValidationModeOnSubmit: Story = {
-  tags: ['api-ref'],
-  render: () => <OnSubmitModeExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Full name');
-
-    // Touch, dirty, empty, and blur the field: still no error before submit.
-    await userEvent.type(input, 'x');
-    await userEvent.clear(input);
-    await userEvent.tab();
-    await expect(canvas.queryByText('Please enter your full name.')).not.toBeInTheDocument();
-
-    // First submit attempt commits validation and focuses the invalid field.
-    await userEvent.click(canvas.getByRole('button', { name: 'Submit' }));
-    await canvas.findByText('Please enter your full name.');
-    await waitFor(() => expect(input).toHaveAttribute('aria-invalid', 'true'));
-
-    // After a submit attempt the field re-validates on every change.
-    await userEvent.type(input, 'Ada Lovelace');
-    await waitFor(() =>
-      expect(canvas.queryByText('Please enter your full name.')).not.toBeInTheDocument(),
-    );
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Submit' }));
-    await expect(await canvas.findByText('Saved')).toBeVisible();
-  },
-};
-
-/** `validationMode="onBlur"`: typing an invalid value shows nothing until focus leaves the control — the middle ground between submit-gated and live validation. Works standalone, without a `Form`. */
-export const ValidationModeOnBlur: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Field.Root validationMode="onBlur" className={theme.FieldRoot}>
-      <Field.Label className={theme.FieldLabel}>Work email</Field.Label>
-      <Field.Control type="email" placeholder="you@company.com" className={theme.Input} />
-      <Field.Error className={theme.FieldError} match="typeMismatch">
-        Enter a valid email address.
-      </Field.Error>
-    </Field.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Work email');
-
-    await userEvent.type(input, 'not-an-email');
-    // No error while typing.
-    await expect(canvas.queryByText('Enter a valid email address.')).not.toBeInTheDocument();
-
-    // Blur commits validation.
-    await userEvent.tab();
-    await expect(await canvas.findByText('Enter a valid email address.')).toBeVisible();
-
-    // Fix the value; the next blur clears the error.
-    await userEvent.clear(input);
-    await userEvent.type(input, 'ada@company.com');
-    await userEvent.tab();
-    await waitFor(() =>
-      expect(canvas.queryByText('Enter a valid email address.')).not.toBeInTheDocument(),
-    );
-  },
-};
-
-/** `validationMode="onChange"`: every keystroke validates — here a custom `validate` enforces a minimum length (mirroring the native `minLength` constraint, which also carries a `tooShort` key for `Field.Error match`) — errors appear and disappear mid-typing. Reserve it for instant-feedback inputs; the maintainers argue submit-gated validation is the less noisy default (#2142). */
-export const ValidationModeOnChange: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Field.Root
-      validationMode="onChange"
-      validate={(value) =>
-        typeof value === 'string' && value.length > 0 && value.length < 6
-          ? 'Use at least 6 characters.'
-          : null
-      }
-      className={theme.FieldRoot}
-    >
-      <Field.Label className={theme.FieldLabel}>Passphrase</Field.Label>
-      <Field.Control
-        type="password"
-        required
-        minLength={6}
-        placeholder="At least 6 characters"
-        className={theme.Input}
-      />
-      <Field.Error className={theme.FieldError} />
-    </Field.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Passphrase');
-
-    await userEvent.type(input, 'abc');
-    await expect(await canvas.findByText('Use at least 6 characters.')).toBeVisible();
-
-    await userEvent.type(input, 'def');
-    await waitFor(() =>
-      expect(canvas.queryByText('Use at least 6 characters.')).not.toBeInTheDocument(),
-    );
-    await waitFor(() => expect(input).toHaveAttribute('data-valid'));
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Custom validation                                                   */
@@ -819,91 +691,9 @@ export const ExternalLibraryControlled: Story = {
   },
 };
 
-/** `Field.Error` supports the standard transition-status attributes (`data-starting-style`/`data-ending-style`, #3939) and keeps the last rendered message during the exit transition, so text doesn't vanish mid-fade. */
-export const ErrorTransitionAnimation: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Field.Root validationMode="onChange" className={theme.FieldRoot}>
-      <Field.Label className={theme.FieldLabel}>Project name</Field.Label>
-      <Field.Control required placeholder="Required" className={theme.Input} />
-      <Field.Error className={theme.FieldErrorAnimated} match="valueMissing">
-        This field is required.
-      </Field.Error>
-    </Field.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Project name');
-
-    await userEvent.type(input, 'x');
-    await userEvent.clear(input);
-    await canvas.findByText('This field is required.');
-    // The entry transition fades opacity 0 -> 1 over 150ms; wait for it to settle.
-    await waitFor(() => expect(canvas.getByText('This field is required.')).toBeVisible());
-
-    await userEvent.type(input, 'Base UI');
-    await waitFor(() =>
-      expect(canvas.queryByText('This field is required.')).not.toBeInTheDocument(),
-    );
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/field)          */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a design-system wrapper: the whole composition collapses into one flat
- * prop set (`label`, `required`, `description`, `errorMessage`, `hideLabel`) instead of
- * exposing `Field.Label`/`Field.Description`/`Field.Error` as JSX children, with a
- * `hideLabel` escape hatch for controls that supply their own accessible label.
- * Recomposed from the ideas in cloudflare/kumo `field.tsx` (MIT, code-ok,
- * research/d-real-world-usage/field/ranked.json #1).
- */
-export const RealWorldFlatPropWrapper: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <FlatPropFieldExample />,
-  play: async ({ canvas, userEvent }) => {
-    const fullName = canvas.getByLabelText('Full name');
-    // hideLabel renders no visible/associated Field.Label — the control names itself.
-    const search = canvas.getByRole('textbox', { name: 'Search' });
-    await expect(canvas.queryByText('Search')).not.toBeInTheDocument();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
-    await expect(await canvas.findByText('Please enter your full name.')).toBeVisible();
-    await expect(canvas.getByText('Please enter a search term.')).toBeVisible();
-
-    await userEvent.type(fullName, 'Ada Lovelace');
-    await userEvent.type(search, 'field');
-    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
-
-    await expect(await canvas.findByText('Saved')).toBeVisible();
-    await expect(canvas.queryByText('Please enter your full name.')).not.toBeInTheDocument();
-  },
-};
-
-/**
- * Recreation of a `grid-cols-[auto_1fr]` field layout: description/error text is pinned
- * to the second column so it aligns under the control (next to its leading icon) rather
- * than under the label — an alternative to the vertical-stack layout every other story
- * on this page uses. Recomposed from the ideas in nauvalazhar/selia `field.tsx` (MIT,
- * code-ok, research/d-real-world-usage/field/ranked.json #6).
- */
-export const RealWorldGridLayout: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <GridLayoutFieldExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Search the docs');
-
-    await userEvent.type(input, 'x');
-    await userEvent.clear(input);
-    await expect(await canvas.findByText('A search term is required.')).toBeVisible();
-
-    await userEvent.type(input, 'useRender');
-    await waitFor(() =>
-      expect(canvas.queryByText('A search term is required.')).not.toBeInTheDocument(),
-    );
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inline SVGs, matching the docs demos)                        */

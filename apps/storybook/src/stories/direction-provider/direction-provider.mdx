@@ -11,8 +11,6 @@ Enables RTL behavior for Base UI components.
 - **Shape:** a context provider (no DOM of its own) plus a public hook, `useDirection()`.
 - **Status:** Stable, founding-era ([#931](https://github.com/mui/base-ui/pull/931)); `useDirection` made public later ([#3082](https://github.com/mui/base-ui/pull/3082)).
 
-<Canvas of={DirectionProviderStories.Hero} />
-
 ## Behavior only, never visuals
 
 **`<DirectionProvider>` does not set `dir` or any CSS.** This is by design ([#831](https://github.com/mui/base-ui/issues/831)). We decided that RTL setup should have two parts: use a `DirectionProvider` to configure RTL component behavior for an app (or part of an app), and set `dir="rtl"` accordingly in the HTML to affect styling, ideally in the `<html>` tag. We do not set the `dir` attribute on components by default, but you are free to do so.
