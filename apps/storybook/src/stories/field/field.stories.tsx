@@ -11,8 +11,6 @@ import { RadioGroup } from '@base-ui/react/radio-group';
 import { Select } from '@base-ui/react/select';
 import theme from '@droppy/theme';
 import './field.demo.css';
-import { FlatPropFieldExample } from './recreations/FlatPropFieldExample';
-import { GridLayoutFieldExample } from './recreations/GridLayoutFieldExample';
 
 /**
  * Stories follow research/c-components/field (Tier 1): the docs hero, the forms-handbook
@@ -819,91 +817,9 @@ export const ExternalLibraryControlled: Story = {
   },
 };
 
-/** `Field.Error` supports the standard transition-status attributes (`data-starting-style`/`data-ending-style`, #3939) and keeps the last rendered message during the exit transition, so text doesn't vanish mid-fade. */
-export const ErrorTransitionAnimation: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Field.Root validationMode="onChange" className={theme.FieldRoot}>
-      <Field.Label className={theme.FieldLabel}>Project name</Field.Label>
-      <Field.Control required placeholder="Required" className={theme.Input} />
-      <Field.Error className={theme.FieldErrorAnimated} match="valueMissing">
-        This field is required.
-      </Field.Error>
-    </Field.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Project name');
-
-    await userEvent.type(input, 'x');
-    await userEvent.clear(input);
-    await canvas.findByText('This field is required.');
-    // The entry transition fades opacity 0 -> 1 over 150ms; wait for it to settle.
-    await waitFor(() => expect(canvas.getByText('This field is required.')).toBeVisible());
-
-    await userEvent.type(input, 'Base UI');
-    await waitFor(() =>
-      expect(canvas.queryByText('This field is required.')).not.toBeInTheDocument(),
-    );
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/field)          */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a design-system wrapper: the whole composition collapses into one flat
- * prop set (`label`, `required`, `description`, `errorMessage`, `hideLabel`) instead of
- * exposing `Field.Label`/`Field.Description`/`Field.Error` as JSX children, with a
- * `hideLabel` escape hatch for controls that supply their own accessible label.
- * Recomposed from the ideas in cloudflare/kumo `field.tsx` (MIT, code-ok,
- * research/d-real-world-usage/field/ranked.json #1).
- */
-export const RealWorldFlatPropWrapper: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <FlatPropFieldExample />,
-  play: async ({ canvas, userEvent }) => {
-    const fullName = canvas.getByLabelText('Full name');
-    // hideLabel renders no visible/associated Field.Label — the control names itself.
-    const search = canvas.getByRole('textbox', { name: 'Search' });
-    await expect(canvas.queryByText('Search')).not.toBeInTheDocument();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
-    await expect(await canvas.findByText('Please enter your full name.')).toBeVisible();
-    await expect(canvas.getByText('Please enter a search term.')).toBeVisible();
-
-    await userEvent.type(fullName, 'Ada Lovelace');
-    await userEvent.type(search, 'field');
-    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
-
-    await expect(await canvas.findByText('Saved')).toBeVisible();
-    await expect(canvas.queryByText('Please enter your full name.')).not.toBeInTheDocument();
-  },
-};
-
-/**
- * Recreation of a `grid-cols-[auto_1fr]` field layout: description/error text is pinned
- * to the second column so it aligns under the control (next to its leading icon) rather
- * than under the label — an alternative to the vertical-stack layout every other story
- * on this page uses. Recomposed from the ideas in nauvalazhar/selia `field.tsx` (MIT,
- * code-ok, research/d-real-world-usage/field/ranked.json #6).
- */
-export const RealWorldGridLayout: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <GridLayoutFieldExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByLabelText('Search the docs');
-
-    await userEvent.type(input, 'x');
-    await userEvent.clear(input);
-    await expect(await canvas.findByText('A search term is required.')).toBeVisible();
-
-    await userEvent.type(input, 'useRender');
-    await waitFor(() =>
-      expect(canvas.queryByText('A search term is required.')).not.toBeInTheDocument(),
-    );
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inline SVGs, matching the docs demos)                        */

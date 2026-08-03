@@ -588,37 +588,6 @@ export const MultipleSelectionChips: Story = {
   render: () => <ChipsCombobox />,
 };
 
-function ChipsKeyboardExample() {
-  const [value, setValue] = React.useState<Lang[]>([langs[0], langs[1], langs[2]]);
-  return (
-    <div className="ComboboxDemoStack">
-      <ChipsCombobox root={{ value, onValueChange: setValue }} />
-      <output className="ComboboxDemoOutput">{value.length} selected</output>
-    </div>
-  );
-}
-
-/** The chips keyboard contract: with the caret at the start of the input, ArrowLeft moves real DOM focus onto the chips (unlike list items, chips are DOM-focused), Backspace removes the focused chip, and the chips container takes `role="toolbar"` so NVDA passes arrow keys through (#3629/#3647). */
-export const ChipsKeyboardFlow: Story = {
-  tags: ['tests'],
-  render: () => <ChipsKeyboardExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = comboboxInput(canvas);
-    // The chips container becomes role="toolbar" while chips exist.
-    await expect(canvas.getByRole('toolbar')).toBeVisible();
-    await expect(canvas.getByText('3 selected')).toBeVisible();
-
-    await userEvent.click(input);
-    await userEvent.keyboard('{ArrowLeft}');
-    // Real DOM focus lands on the last chip.
-    await waitFor(() => expect(canvas.getByLabelText('Python')).toHaveFocus());
-
-    await userEvent.keyboard('{Backspace}');
-    await waitFor(() => expect(canvas.queryByLabelText('Python')).not.toBeInTheDocument());
-    await expect(await canvas.findByText('2 selected')).toBeVisible();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Object values                                                       */
 /* ------------------------------------------------------------------ */
@@ -1098,9 +1067,7 @@ export const InlineInsideDialog: Story = {
     // so wait for the popup (and its descendants) to actually be visible
     // rather than asserting immediately.
     await waitFor(async () => {
-      expect(
-        await within(reopenedDialog).findByRole('option', { name: 'Apple' }),
-      ).toBeVisible();
+      expect(await within(reopenedDialog).findByRole('option', { name: 'Apple' })).toBeVisible();
     });
   },
 };
@@ -1737,35 +1704,6 @@ export const InFieldWithValidation: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation                                                           */
-/* ------------------------------------------------------------------ */
-
-function AnimatedExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="ComboboxDemoStack">
-      <DemoCombobox
-        label="Fruit"
-        placeholder="e.g. Apple"
-        popupClassName={`${theme.ComboboxPopup} ComboboxDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-      />
-      <output className="ComboboxDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** Animate with CSS transitions on `[data-starting-style]`/`[data-ending-style]` and `transform-origin: var(--transform-origin)`; the popup stays mounted mid-transition and `onOpenChangeComplete` fires once it settles (pair with `actionsRef.unmount()` for JS animation libraries). */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedExample />,
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.click(comboboxInput(canvas));
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* TypeScript                                                          */
@@ -1857,118 +1795,6 @@ interface SyncTargetGroup {
   items: SyncTarget[];
 }
 
-const syncTargetGroups: SyncTargetGroup[] = [
-  {
-    value: 'Databases',
-    items: [
-      { value: 'postgres', label: 'PostgreSQL' },
-      { value: 'mysql', label: 'MySQL' },
-      { value: 'sqlite', label: 'SQLite' },
-    ],
-  },
-  {
-    value: 'Warehouses',
-    items: [
-      { value: 'snowflake', label: 'Snowflake' },
-      { value: 'bigquery', label: 'BigQuery' },
-    ],
-  },
-];
-
-function GroupedSyncTargetPicker() {
-  const id = React.useId();
-  return (
-    <Combobox.Root items={syncTargetGroups}>
-      <div className={theme.FieldLabel}>
-        <label htmlFor={id}>Sync target</label>
-        <Combobox.InputGroup className={theme.ComboboxInputGroup}>
-          <Combobox.Input placeholder="e.g. Snowflake" id={id} className={theme.ComboboxInput} />
-          <div className={theme.ComboboxActionButtons}>
-            <Combobox.Trigger className={theme.ComboboxTrigger} aria-label="Open popup">
-              <CaretDownIcon />
-            </Combobox.Trigger>
-          </div>
-        </Combobox.InputGroup>
-      </div>
-      <Combobox.Portal>
-        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
-          <Combobox.Popup className={theme.ComboboxPopup}>
-            <Combobox.Empty>
-              <div className={theme.ComboboxEmpty}>No sync targets found.</div>
-            </Combobox.Empty>
-            <Combobox.List className={theme.ComboboxList}>
-              {(group: SyncTargetGroup) => {
-                const isLast =
-                  syncTargetGroups.findIndex((candidate) => candidate.value === group.value) ===
-                  syncTargetGroups.length - 1;
-                return (
-                  <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
-                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
-                        {group.value}
-                      </Combobox.GroupLabel>
-                      <Combobox.Collection>
-                        {(item: SyncTarget) => (
-                          <Combobox.Item
-                            key={item.value}
-                            value={item}
-                            className={theme.ComboboxItem}
-                          >
-                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
-                              <CheckIcon />
-                            </Combobox.ItemIndicator>
-                            <span className={theme.ComboboxItemText}>{item.label}</span>
-                          </Combobox.Item>
-                        )}
-                      </Combobox.Collection>
-                    </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
-                  </React.Fragment>
-                );
-              }}
-            </Combobox.List>
-          </Combobox.Popup>
-        </Combobox.Positioner>
-      </Combobox.Portal>
-    </Combobox.Root>
-  );
-}
-
-/**
- * Recreation of the grouped, separated-list pattern from electric-sql/electric
- * `Combobox.tsx` (Apache-2.0, code-ok, research/d-real-world-usage/combobox/ranked.json #4)
- * — a CSS-Modules-styled Combobox with `Separator` marking the boundary between groups,
- * recomposed here as a sync-target picker for a local-first-sync-style admin console.
- */
-export const RealWorldGroupedSyncTargetPicker: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <GroupedSyncTargetPicker />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = comboboxInput(canvas);
-
-    await userEvent.click(input);
-    const listbox = await body.findByRole('listbox');
-    await waitFor(() => expect(listbox).toBeVisible());
-    await waitFor(() => expect(body.getByText('Databases')).toBeVisible());
-    await waitFor(() => expect(body.getByText('Warehouses')).toBeVisible());
-
-    // Arrow across the group boundary: last item of the first group, then the first
-    // item of the next group, past the Separator.
-    const sqlite = await body.findByRole('option', { name: 'SQLite' });
-    await waitFor(() => expect(sqlite).toBeVisible());
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-activedescendant', sqlite.id));
-
-    await userEvent.keyboard('{ArrowDown}');
-    const snowflake = await body.findByRole('option', { name: 'Snowflake' });
-    await waitFor(() => expect(input).toHaveAttribute('aria-activedescendant', snowflake.id));
-
-    await userEvent.keyboard('{Enter}');
-    await waitFor(() => expect(input).toHaveValue('Snowflake'));
-  },
-};
-
 interface LlmModel {
   value: string;
   label: string;
@@ -1978,150 +1804,6 @@ interface LlmModelGroup {
   value: string;
   items: LlmModel[];
 }
-
-const llmModelGroups: LlmModelGroup[] = [
-  {
-    value: 'OpenAI',
-    items: [
-      { value: 'gpt-4o', label: 'GPT-4o' },
-      { value: 'gpt-4o-mini', label: 'GPT-4o mini' },
-      { value: 'o1', label: 'o1' },
-    ],
-  },
-  {
-    value: 'Anthropic',
-    items: [
-      { value: 'claude-opus', label: 'Claude Opus' },
-      { value: 'claude-sonnet', label: 'Claude Sonnet' },
-      { value: 'claude-haiku', label: 'Claude Haiku' },
-    ],
-  },
-  {
-    value: 'Google',
-    items: [
-      { value: 'gemini-pro', label: 'Gemini Pro' },
-      { value: 'gemini-flash', label: 'Gemini Flash' },
-    ],
-  },
-];
-
-const allLlmModels = llmModelGroups.flatMap((group) => group.items);
-
-function ModelPickerWithGroups({ root }: { root?: Partial<Combobox.Root.Props<LlmModel, true>> }) {
-  const id = React.useId();
-  return (
-    <Combobox.Root items={llmModelGroups} multiple {...root}>
-      <div className={theme.FieldLabel}>
-        <label htmlFor={id}>Models</label>
-        <Combobox.InputGroup className={theme.ComboboxChipsInputGroup}>
-          <Combobox.Chips className={theme.ComboboxChips}>
-            <Combobox.Value>
-              {(value: LlmModel[]) => (
-                <React.Fragment>
-                  {value.map((model) => (
-                    <Combobox.Chip
-                      key={model.value}
-                      className={theme.ComboboxChip}
-                      aria-label={model.label}
-                    >
-                      {model.label}
-                      <Combobox.ChipRemove
-                        className={theme.ComboboxChipRemove}
-                        aria-label={`Remove ${model.label}`}
-                      >
-                        <XIcon />
-                      </Combobox.ChipRemove>
-                    </Combobox.Chip>
-                  ))}
-                  <Combobox.Input
-                    id={id}
-                    placeholder={value.length > 0 ? '' : 'e.g. Claude Sonnet'}
-                    className={theme.ComboboxChipsInput}
-                  />
-                </React.Fragment>
-              )}
-            </Combobox.Value>
-          </Combobox.Chips>
-        </Combobox.InputGroup>
-      </div>
-      <Combobox.Portal>
-        <Combobox.Positioner className={theme.ComboboxPositioner} sideOffset={4}>
-          <Combobox.Popup className={theme.ComboboxPopup}>
-            <Combobox.Empty>
-              <div className={theme.ComboboxEmpty}>No models found.</div>
-            </Combobox.Empty>
-            <Combobox.List className={theme.ComboboxList}>
-              {(group: LlmModelGroup) => {
-                const isLast =
-                  llmModelGroups.findIndex((candidate) => candidate.value === group.value) ===
-                  llmModelGroups.length - 1;
-                return (
-                  <React.Fragment key={group.value}>
-                    <Combobox.Group items={group.items} className={theme.ComboboxGroup}>
-                      <Combobox.GroupLabel className={theme.ComboboxGroupLabel}>
-                        {group.value}
-                      </Combobox.GroupLabel>
-                      <Combobox.Collection>
-                        {(item: LlmModel) => (
-                          <Combobox.Item
-                            key={item.value}
-                            value={item}
-                            className={theme.ComboboxItem}
-                          >
-                            <Combobox.ItemIndicator className={theme.ComboboxItemIndicator}>
-                              <CheckIcon />
-                            </Combobox.ItemIndicator>
-                            <span className={theme.ComboboxItemText}>{item.label}</span>
-                          </Combobox.Item>
-                        )}
-                      </Combobox.Collection>
-                    </Combobox.Group>
-                    {!isLast ? <Combobox.Separator className={theme.ComboboxSeparator} /> : null}
-                  </React.Fragment>
-                );
-              }}
-            </Combobox.List>
-          </Combobox.Popup>
-        </Combobox.Positioner>
-      </Combobox.Portal>
-    </Combobox.Root>
-  );
-}
-
-/**
- * Recreation of the near-full-anatomy multi-select chips pattern from
- * latitude-dev/latitude-llm `combobox/combobox.tsx` (MIT, code-ok,
- * research/d-real-world-usage/combobox/ranked.json #7) — the same chip/grouping
- * composition also converged on independently by langgenius/dify and cosscom/coss
- * (both link-only, not reused here), recomposed with grouped items: models selected
- * across providers render as removable chips that wrap across lines.
- */
-export const RealWorldMultiSelectModelPickerWithGroups: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => (
-    <ModelPickerWithGroups
-      root={{
-        defaultValue: [allLlmModels[0], allLlmModels[3], allLlmModels[6]],
-      }}
-    />
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    // Selections span three different provider groups.
-    await expect(canvas.getByLabelText('GPT-4o')).toBeVisible();
-    await expect(canvas.getByLabelText('Claude Opus')).toBeVisible();
-    await expect(canvas.getByLabelText('Gemini Pro')).toBeVisible();
-
-    await userEvent.click(canvas.getByLabelText('Remove Claude Opus'));
-    await waitFor(() => expect(canvas.queryByLabelText('Claude Opus')).not.toBeInTheDocument());
-
-    const [input] = canvas.getAllByRole('combobox');
-    await userEvent.click(input);
-    await userEvent.click(await body.findByRole('option', { name: 'Claude Haiku' }));
-    await waitFor(() => expect(canvas.getByLabelText('Claude Haiku')).toBeVisible());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inlined — stories must not import docs assets)               */

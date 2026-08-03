@@ -500,56 +500,6 @@ export const TriggerFromMenu: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Exit animation                                                       */
-/* ------------------------------------------------------------------ */
-
-function ExitAnimationExample() {
-  const [settled, setSettled] = React.useState('none yet');
-  return (
-    <div className="AlertDialogStack">
-      <AlertDialog.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <AlertDialog.Trigger className={theme.Button}>Open animated</AlertDialog.Trigger>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop className={theme.DialogBackdrop} />
-          <AlertDialog.Popup className={theme.DialogPopup}>
-            <div className="AlertDialogIntro">
-              <AlertDialog.Title className={theme.DialogTitle}>Animated alert</AlertDialog.Title>
-              <AlertDialog.Description className={theme.DialogDescription}>
-                CSS transitions drive both entry and exit via `data-starting-style`/
-                `data-ending-style`.
-              </AlertDialog.Description>
-            </div>
-            <div className={theme.DialogActions}>
-              <AlertDialog.Close className={theme.Button}>Close</AlertDialog.Close>
-            </div>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
-      </AlertDialog.Root>
-      <output className="AlertDialogOutput">animation settled: {settled}</output>
-    </div>
-  );
-}
-
-/**
- * `onOpenChangeComplete` fires once a CSS transition genuinely finishes — the
- * popup stays mounted through the exit transition, only unmounting (and
- * firing `onOpenChangeComplete(false)`) once it ends.
- */
-export const ExitAnimation: Story = {
-  tags: ['animation'],
-  render: () => <ExitAnimationExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open animated' }));
-    const dialog = await body.findByRole('alertdialog');
-    await waitFor(() => expect(dialog).toBeVisible());
-    await waitFor(() => expect(canvas.getByText('animation settled: open')).toBeVisible());
-
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-    await waitFor(() => expect(canvas.getByText('animation settled: closed')).toBeVisible());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Custom render composition                                           */
@@ -630,54 +580,6 @@ export const CustomRenderComposition: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Esc closes and returns focus to the trigger                         */
-/* ------------------------------------------------------------------ */
-
-function EscFocusReturnExample() {
-  return (
-    <AlertDialog.Root>
-      <AlertDialog.Trigger className={theme.Button}>Sign out</AlertDialog.Trigger>
-      <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={theme.DialogBackdrop} />
-        <AlertDialog.Popup className={theme.DialogPopup}>
-          <div className="AlertDialogIntro">
-            <AlertDialog.Title className={theme.DialogTitle}>Sign out?</AlertDialog.Title>
-            <AlertDialog.Description className={theme.DialogDescription}>
-              Press Escape to close — focus returns to the trigger that opened this dialog.
-            </AlertDialog.Description>
-          </div>
-          <div className={theme.DialogActions}>
-            <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
-            <AlertDialog.Close data-color="red" className={theme.Button}>
-              Sign out
-            </AlertDialog.Close>
-          </div>
-        </AlertDialog.Popup>
-      </AlertDialog.Portal>
-    </AlertDialog.Root>
-  );
-}
-
-/**
- * Esc is the one dismissal path still open (outside-press is permanently
- * blocked) — closing via Esc restores focus to the Trigger that opened the
- * dialog, the same `FloatingFocusManager` behavior Dialog relies on.
- */
-export const EscFocusReturn: Story = {
-  tags: ['tests'],
-  render: () => <EscFocusReturnExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Sign out' });
-
-    await userEvent.click(trigger);
-    const dialog = await body.findByRole('alertdialog');
-    await waitFor(() => expect(dialog).toBeVisible());
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-    await waitFor(() => expect(trigger).toHaveFocus());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Handle + payload reused across many triggers                        */

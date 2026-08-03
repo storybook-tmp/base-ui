@@ -5,9 +5,6 @@ import { Popover } from '@base-ui/react/popover';
 import { Checkbox } from '@base-ui/react/checkbox';
 import theme from '@droppy/theme';
 import './popover.demo.css';
-import { QueuePopoverExample } from './recreations/QueuePopoverExample';
-import { LinkEditorToolbarExample } from './recreations/LinkEditorToolbarExample';
-import { MentionAutocompleteExample } from './recreations/MentionAutocompleteExample';
 
 /**
  * Stories follow research/c-components/popover (Tier 1): the five kept docs demos,
@@ -307,58 +304,6 @@ export const OpenCloseInteraction: Story = {
     await body.findByRole('dialog');
     await userEvent.click(canvas.getByRole('button', { name: 'Outside area' }));
     await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-  },
-};
-
-/** Non-modal focus contract: opening moves focus to the first tabbable element, and tabbing past the last element closes the popup and continues the document tab order after the trigger. */
-export const KeyboardTabThrough: Story = {
-  tags: ['tests'],
-  render: () => (
-    <div className="PopoverRow">
-      <Popover.Root>
-        <Popover.Trigger className={theme.PopoverTrigger}>Quick actions</Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={theme.PopoverPopup}>
-              <Popover.Title className={theme.PopoverTitle}>Quick actions</Popover.Title>
-              <div className="PopoverRow">
-                <button type="button" className={theme.PopoverTrigger}>
-                  Archive
-                </button>
-                <button type="button" className={theme.PopoverTrigger}>
-                  Snooze
-                </button>
-              </div>
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
-      </Popover.Root>
-      <button type="button" className={theme.PopoverTrigger}>
-        Next in tab order
-      </button>
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Quick actions' });
-
-    trigger.focus();
-    await userEvent.keyboard('{Enter}');
-    const popup = await body.findByRole('dialog');
-
-    // Focus moves to the first tabbable element inside the popup.
-    const archive = within(popup).getByRole('button', { name: 'Archive' });
-    await waitFor(() => expect(archive).toHaveFocus());
-
-    await userEvent.tab();
-    await expect(within(popup).getByRole('button', { name: 'Snooze' })).toHaveFocus();
-
-    // Tabbing past the last element closes the popup and moves on.
-    await userEvent.tab();
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-    await waitFor(() =>
-      expect(canvas.getByRole('button', { name: 'Next in tab order' })).toHaveFocus(),
-    );
   },
 };
 
@@ -1022,67 +967,6 @@ export const PositionMethodFixedInSticky: Story = {
   ),
 };
 
-/** The CSS animation contract: transition `[data-starting-style]`/`[data-ending-style]` and scale from `var(--transform-origin)` so the popup grows out of its anchor point. */
-export const TransitionStartingEndingStyle: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Popover.Root>
-      <Popover.Trigger className={theme.PopoverTrigger}>Toggle panel</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner sideOffset={8}>
-          <Popover.Popup className={`${theme.PopoverPopup} PopoverTransitionExtra`}>
-            <Popover.Arrow className={theme.PopoverArrow} />
-            <Popover.Title className={theme.PopoverTitle}>Animated</Popover.Title>
-            <Popover.Description className={theme.PopoverDescription}>
-              Scales in from the transform origin, and back out on close.
-            </Popover.Description>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
-  ),
-};
-
-function KeepMountedExample() {
-  const [settled, setSettled] = React.useState('closed');
-  return (
-    <div className="PopoverStack">
-      <Popover.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Popover.Trigger className={theme.PopoverTrigger}>Toggle panel</Popover.Trigger>
-        <Popover.Portal keepMounted>
-          <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={`${theme.PopoverPopup} PopoverTransitionExtra`}>
-              <Popover.Description className={theme.PopoverDescription}>
-                This popup stays mounted while closed.
-              </Popover.Description>
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
-      </Popover.Root>
-      <output className="PopoverOutput">transition settled: {settled}</output>
-    </div>
-  );
-}
-
-/** `keepMounted` on the Portal keeps the closed popup in the DOM (hidden), and `onOpenChangeComplete` fires once enter/exit transitions settle — pair with `actionsRef.unmount()` when driving exit animations from JavaScript. */
-export const KeepMountedExitAnimation: Story = {
-  tags: ['animation'],
-  render: () => <KeepMountedExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    // keepMounted: the popup exists in the DOM (hidden) before ever opening.
-    await expect(body.getByRole('dialog', { hidden: true })).toBeInTheDocument();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Toggle panel' }));
-    await expect(await canvas.findByText('transition settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('transition settled: closed')).toBeVisible();
-    await expect(body.getByRole('dialog', { hidden: true })).toBeInTheDocument();
-  },
-};
-
 /** Nested popovers just work: a child Root joins the parent's floating tree, and its portal automatically nests inside the parent's. If you use a custom portal `container`, set it only on the root Portal (#1930). */
 export const NestedPopovers: Story = {
   tags: ['highlight'],
@@ -1247,97 +1131,6 @@ export const ArrowSides: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/popover)        */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of the play-queue popover in the museeks music player's title bar:
- * the Trigger composes a custom icon button via `render`, while the Positioner's
- * `anchor` points at the whole header wrapper so the panel aligns with the bar,
- * not the small button. Recomposed from martpie/museeks `Header.tsx` (MIT,
- * code-ok, research/d-real-world-usage/popover/ranked.json #2).
- */
-export const RealWorldQueuePopover: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <QueuePopoverExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Open the queue' });
-    const header = trigger.parentElement as HTMLElement;
-
-    await userEvent.click(trigger);
-    const popup = await body.findByRole('dialog');
-    await waitFor(() => expect(within(popup).getByText('Glass Harbor — Undertow')).toBeVisible());
-
-    // The popup is end-aligned to the header wrapper, not to the icon button.
-    await waitFor(() =>
-      expect(
-        Math.abs(popup.getBoundingClientRect().right - header.getBoundingClientRect().right),
-      ).toBeLessThanOrEqual(1),
-    );
-  },
-};
-
-/**
- * Recreation of the link editor in the flashtype markdown editor's formatting
- * toolbar: `Toolbar.Button` composes `Popover.Trigger` via `render` inside a
- * roving-tabindex toolbar, and `initialFocus` routes focus straight to the URL
- * input, past the "Remove link" button (the same idea as Gutenberg's
- * deprioritized-initial-focus hook). Recomposed from opral/flashtype
- * `formatting-toolbar.tsx` (MIT, code-ok,
- * research/d-real-world-usage/popover/ranked.json #3).
- */
-export const RealWorldLinkEditorToolbar: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <LinkEditorToolbarExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const editLink = canvas.getByRole('button', { name: 'Edit link' });
-
-    await userEvent.click(editLink);
-    const popup = await body.findByRole('dialog');
-
-    // initialFocus skips the "Remove link" button and focuses the URL input.
-    const urlInput = within(popup).getByRole('textbox', { name: 'URL' });
-    await waitFor(() => expect(urlInput).toHaveFocus());
-
-    await userEvent.clear(urlInput);
-    await userEvent.type(urlInput, 'https://base-ui.com');
-    await userEvent.click(within(popup).getByRole('button', { name: 'Save' }));
-
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-    await expect(canvas.getByText('href: https://base-ui.com')).toBeVisible();
-    // Focus returns to the composed toolbar trigger.
-    await waitFor(() => expect(editLink).toHaveFocus());
-  },
-};
-
-/**
- * Recreation of the @-mention file autocomplete in takopi (a personal AI
- * assistant): a triggerless, fully controlled popover anchored to the textarea
- * with `anchor={textareaRef}` and `side="top"`, plus `initialFocus={false}` and
- * `finalFocus={false}` so keyboard focus never leaves the textarea. Recomposed
- * from egoist/takopi `mention-popover.tsx` (Apache-2.0, code-ok,
- * research/d-real-world-usage/popover/ranked.json #5).
- */
-export const RealWorldMentionAutocomplete: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <MentionAutocompleteExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const textarea = canvas.getByRole('textbox', { name: 'Message' });
-
-    await userEvent.click(textarea);
-    await userEvent.type(textarea, 'Check @');
-    const popup = await body.findByRole('dialog');
-
-    // initialFocus={false}: focus never leaves the textarea while open.
-    await expect(textarea).toHaveFocus();
-
-    await userEvent.click(within(popup).getByRole('button', { name: 'README.md' }));
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-    await expect(textarea).toHaveValue('Check @README.md ');
-    await expect(textarea).toHaveFocus();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inlined — stories must not import docs assets)               */

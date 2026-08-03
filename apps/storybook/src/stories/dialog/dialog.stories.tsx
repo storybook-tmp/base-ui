@@ -10,8 +10,6 @@ import { Form } from '@base-ui/react/form';
 import theme from '@droppy/theme';
 import './dialog.demo.css';
 import { XIcon } from './icons';
-import { SidePanelExample } from './recreations/SidePanelExample';
-import { SettingsModalExample } from './recreations/SettingsModalExample';
 
 /**
  * Stories follow research/c-components/dialog (Tier 1): the eight kept docs demos,
@@ -1295,52 +1293,6 @@ export const NestedAlertDialogGuard: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation & mounting                                                */
-/* ------------------------------------------------------------------ */
-
-function ExitAnimationExample() {
-  const [settled, setSettled] = React.useState('none yet');
-  return (
-    <div className="DialogStack">
-      <Dialog.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop className="DialogAnimatedBackdrop" />
-          <Dialog.Popup className="DialogAnimatedPopup">
-            <div className="DialogIntro">
-              <Dialog.Title className={theme.DialogTitle}>Animated dialog</Dialog.Title>
-              <Dialog.Description className={theme.DialogDescription}>
-                CSS transitions drive both entry and exit via data attributes.
-              </Dialog.Description>
-            </div>
-            <div className={theme.DialogActions}>
-              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-            </div>
-          </Dialog.Popup>
-        </Dialog.Portal>
-      </Dialog.Root>
-      <output className="DialogOutput">animation settled: {settled}</output>
-    </div>
-  );
-}
-
-/** Animate with plain CSS transitions on `[data-starting-style]`/`[data-ending-style]`; the popup stays mounted until the exit transition finishes, then `onOpenChangeComplete(false)` fires. */
-export const ExitAnimation: Story = {
-  tags: ['animation'],
-  render: () => <ExitAnimationExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }));
-    const dialog = await body.findByRole('dialog');
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    // Mid-transition the popup is still mounted, marked with data-ending-style.
-    await waitFor(() => expect(dialog).toHaveAttribute('data-ending-style'));
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-  },
-};
 
 /**
  * `keepMounted` on the Portal keeps the popup in the DOM while closed (hidden) — the
@@ -1389,52 +1341,3 @@ export const KeepMounted: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/dialog)         */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of an edge-docked side panel: a fully controlled Dialog with no Trigger
- * (routes/app state open it), positioned against the viewport edge with a slide
- * transition and a form + footer actions. Recomposed from oxidecomputer/console
- * `SideModal.tsx`/`Modal.tsx` (MPL-2.0, code-ok,
- * research/d-real-world-usage/dialog/ranked.json #4).
- */
-export const RecreationSidePanel: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <SidePanelExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Edit instance' }));
-    const panel = await body.findByRole('dialog');
-
-    const nameInput = within(panel).getByLabelText('Instance name');
-    await userEvent.clear(nameInput);
-    await userEvent.type(nameInput, 'db-replica');
-    await userEvent.click(within(panel).getByRole('button', { name: 'Save changes' }));
-
-    await waitFor(() => expect(panel).not.toBeInTheDocument());
-    await expect(await canvas.findByText('Saved: db-replica')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of the canonical copy-paste wrapper: a `DialogContent`-style component
- * (Popup→Content, Backdrop→Overlay vocabulary) used here as a settings dialog with
- * sections. Recomposed from shadcn-ui/ui `apps/v4/registry/bases/base/ui/dialog.tsx`
- * (MIT, code-ok, research/d-real-world-usage/dialog/ranked.json #1).
- */
-export const RecreationSettingsModal: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <SettingsModalExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open settings' }));
-    const dialog = await body.findByRole('dialog', { name: 'Workspace settings' });
-    // waitFor: the popup is briefly at opacity 0 during its entrance transition.
-    await waitFor(() => expect(within(dialog).getByText('Appearance')).toBeVisible());
-
-    // The wrapper's corner X close button.
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-  },
-};

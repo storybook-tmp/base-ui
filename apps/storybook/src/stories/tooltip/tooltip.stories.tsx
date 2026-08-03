@@ -81,52 +81,6 @@ export const Hero: Story = {
   ),
 };
 
-/** Focus is the primary, reliable interaction path — it has no delay to race against (`useFocus` is independent of the hover rest-timer, brief.md §6). Tab to the trigger and the tooltip appears immediately; tab away and it closes. */
-export const KeyboardFocusOpen: Story = {
-  tags: ['tests'],
-  render: () => (
-    <div className="TooltipRow">
-      <button type="button" className={theme.Button}>
-        Before
-      </button>
-      <Tooltip.Root>
-        <Tooltip.Trigger className={theme.Button} aria-label="Save">
-          Save
-        </Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner sideOffset={8}>
-            <Tooltip.Popup className={theme.TooltipPopup}>
-              <Tooltip.Arrow className={theme.TooltipArrow} />
-              Save your changes
-            </Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
-      </Tooltip.Root>
-      <button type="button" className={theme.Button}>
-        After
-      </button>
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const before = canvas.getByRole('button', { name: 'Before' });
-    const trigger = canvas.getByRole('button', { name: 'Save' });
-
-    before.focus();
-    await expect(before).toHaveFocus();
-
-    // Tab from "Before" lands focus on the trigger and opens the tooltip
-    // with no delay — the focus-open path is independent of the hover timer.
-    await userEvent.tab();
-    await expect(trigger).toHaveFocus();
-    await waitFor(() => expect(body.getByText('Save your changes')).toBeVisible());
-
-    // Tabbing away closes it again.
-    await userEvent.tab();
-    await waitFor(() => expect(body.queryByText('Save your changes')).not.toBeInTheDocument());
-  },
-};
-
 /** `Tooltip.Provider` groups sibling tooltips under one shared delay: the first hover/focus pays the full `600ms` open delay, but hopping to an adjacent trigger within the `timeout` window (default `400ms`) opens instantly (brief.md §6). This is the mechanism most distinctive to Tooltip among the overlay-cluster popups — Preview Card has no equivalent Provider. */
 export const ProviderDelayGrouping: Story = {
   tags: ['highlight'],

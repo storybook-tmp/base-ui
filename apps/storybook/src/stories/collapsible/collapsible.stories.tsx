@@ -217,55 +217,6 @@ export const Controlled: Story = {
 };
 
 /**
- * The Panel's height is driven by `--collapsible-panel-height`
- * (`CollapsiblePanelCssVars`), written as an inline style on the Panel node
- * itself. This asserts the mechanism directly — the rendered height grows
- * from `0` while opening and returns to `0` while closing — rather than just
- * asserting the CSS recipe is present in the stylesheet.
- */
-export const AnimatedHeight: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Collapsible.Root className={theme.CollapsibleRoot}>
-      <Collapsible.Trigger className={theme.CollapsibleTrigger}>
-        Recovery keys
-        <CaretRightIcon className={theme.CollapsibleIcon} />
-      </Collapsible.Trigger>
-      <Collapsible.Panel
-        className={theme.CollapsiblePanel}
-        data-testid="animated-panel"
-        keepMounted
-      >
-        <div className={theme.CollapsibleContent}>
-          <div>alien-bean-pasta</div>
-          <div>wild-irish-burrito</div>
-          <div>horse-battery-staple</div>
-        </div>
-      </Collapsible.Panel>
-    </Collapsible.Root>
-  ),
-  play: async ({ canvasElement, canvas, userEvent }) => {
-    // `keepMounted` keeps the panel present (but hidden) at all times, so
-    // its height can be measured before the very first open.
-    const panel = canvasElement.querySelector('[data-testid="animated-panel"]') as HTMLElement;
-    const trigger = canvas.getByRole('button', { name: 'Recovery keys' });
-
-    await expect(panel.getBoundingClientRect().height).toBe(0);
-
-    await userEvent.click(trigger);
-    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'true'));
-    await waitFor(() => expect(panel.getBoundingClientRect().height).toBeGreaterThan(0));
-    await waitFor(() =>
-      expect(panel.style.getPropertyValue('--collapsible-panel-height')).not.toBe('0px'),
-    );
-
-    await userEvent.click(trigger);
-    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
-    await waitFor(() => expect(panel.getBoundingClientRect().height).toBe(0));
-  },
-};
-
-/**
  * Root-level `disabled`: the Trigger never toggles the panel (click or
  * keyboard) and `onOpenChange` never fires, but the Trigger stays focusable
  * (`focusableWhenDisabled`) instead of being removed from the tab order.

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor } from 'storybook/test';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
-import { Slider } from '@base-ui/react/slider';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import theme from '@droppy/theme';
@@ -20,25 +19,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-/** The docs hero pattern: `dir="rtl"` on the container (visual direction, owned by the app) paired with `DirectionProvider direction="rtl"` (behavioral direction, owned by Base UI) — the two-part RTL setup decided in #831. */
-export const Hero: Story = {
-  tags: ['showcase'],
-  render: () => (
-    <div dir="rtl">
-      <DirectionProvider direction="rtl">
-        <Slider.Root defaultValue={25}>
-          <Slider.Control className={theme.SliderControl}>
-            <Slider.Track className={theme.SliderTrack}>
-              <Slider.Indicator className={theme.SliderIndicator} />
-              <Slider.Thumb aria-label="Volume" className={theme.SliderThumb} />
-            </Slider.Track>
-          </Slider.Control>
-        </Slider.Root>
-      </DirectionProvider>
-    </div>
-  ),
-};
 
 /** The behavior the provider exists for: composite keyboard navigation flips with direction. `useCompositeRoot` swaps the "forward" arrow key in RTL (`ArrowLeft` instead of `ArrowRight`) — this is a real interaction change, not a visual one, and it only happens because `DirectionProvider` tells the `ToggleGroup` its direction is RTL. */
 export const FlipCompositeRTL: Story = {

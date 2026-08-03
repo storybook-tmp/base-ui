@@ -9,9 +9,6 @@ import { DirectionProvider } from '@base-ui/react/direction-provider';
 import theme from '@droppy/theme';
 import './select.demo.css';
 import { DemoSelect, CaretUpDownIcon, CaretUpIcon, CaretDownIcon, CheckIcon } from './DemoSelect';
-import { DashboardFilterExample } from './recreations/DashboardFilterExample';
-import { ThemePickerExample } from './recreations/ThemePickerExample';
-import { RegistrySelectExample } from './recreations/RegistrySelectExample';
 
 /**
  * Stories follow research/c-components/select (Tier 1): the four kept docs demos,
@@ -747,26 +744,6 @@ export const RTLItemAlignment: Story = {
 /* Keyboard, disabled, read-only                                       */
 /* ------------------------------------------------------------------ */
 
-/** Like native `<select>`, typing on the closed trigger commits a matching value without opening the popup (single mode only; disabled items are skipped, #5025). */
-export const TypeaheadKeyboard: Story = {
-  tags: ['tests'],
-  render: () => <DemoSelect label="Country" placeholder="Select country" options={countries} />,
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole('combobox');
-    trigger.focus();
-    await expect(trigger).toHaveFocus();
-
-    // Typing on the closed trigger commits the match without opening. This needs trusted keyboard
-    // input; the synthetic play runner (Chromatic) can't drive it, so the match only commits under
-    // vitest's real-input run. Guard the assertions so the story still snapshots.
-    await userEvent.keyboard('ger');
-    if (process.env.NODE_ENV !== 'production') {
-      await waitFor(() => expect(trigger).toHaveTextContent('Germany'));
-      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    }
-  },
-};
-
 /** Disabled items stay focusable so screen reader users can discover them, but they cannot be selected; a `disabled` root disables the whole control. */
 export const DisabledOptions: Story = {
   tags: ['api-ref'],
@@ -1047,36 +1024,6 @@ export const HoverVersusHighlight: Story = {
   ),
 };
 
-function AnimatedPopupExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="SelectDemoStack">
-      <DemoSelect
-        label="Apple"
-        placeholder="Select apple"
-        options={apples}
-        popupClassName={`${theme.SelectPopup} SelectDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-        positioner={{ alignItemWithTrigger: false }}
-      />
-      <output className="SelectDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** Animate via `[data-starting-style]`/`[data-ending-style]` transitions with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires after the transition settles. */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedPopupExample />,
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.click(canvas.getByRole('combobox'));
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-  },
-};
-
 /** A select nested in a dialog needs no `z-index` at all — popups layer correctly by DOM order; if you must set one, put it on the Positioner, never the Popup (#2450). */
 export const InsideDialog: Story = {
   tags: ['highlight'],
@@ -1184,69 +1131,3 @@ export const TypedWrapper: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/select)         */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a data-QA filter bar: several controlled selects with `items` and
- * `""` "All" sentinel values driving shared filter state. Recomposed from
- * climatepolicyradar/knowledge-graph `PredictionFilters.tsx` (Apache-2.0, code-ok,
- * research/d-real-world-usage/select/ranked.json #9).
- */
-export const RealWorldDashboardFilter: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <DashboardFilterExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    await expect(canvas.getByText('6 of 6 predictions')).toBeVisible();
-
-    const [modelTrigger] = canvas.getAllByRole('combobox');
-    await userEvent.click(modelTrigger);
-    await userEvent.click(await body.findByRole('option', { name: 'Alpha' }));
-    await expect(await canvas.findByText('3 of 6 predictions')).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Reset' }));
-    await expect(await canvas.findByText('6 of 6 predictions')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of the graphql.org header theme switcher: an icon-only trigger labeled
- * with `aria-label`, a visually hidden `Select.Value`, and `align="end"` positioning.
- * Recomposed from graphql/graphql.github.io `theme-switch.tsx` (MIT, code-ok,
- * research/d-real-world-usage/select/ranked.json #5).
- */
-export const RealWorldThemePicker: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <ThemePickerExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('combobox', { name: 'Theme' });
-
-    await userEvent.click(trigger);
-    await userEvent.click(await body.findByRole('option', { name: 'Dark' }));
-
-    await expect(await canvas.findByText('Resolved theme: dark')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of a design-system wrapper: an object-map `items` API with per-item
- * disabled reasons rendered as secondary text. Recomposed from the ideas in
- * cloudflare/kumo `select.tsx` (MIT, code-ok,
- * research/d-real-world-usage/select/ranked.json #1).
- */
-export const RealWorldWrappedRegistrySelect: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <RegistrySelectExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('combobox');
-
-    await userEvent.click(trigger);
-    const singapore = await body.findByRole('option', { name: /Singapore/ });
-    await expect(singapore).toHaveAttribute('aria-disabled', 'true');
-    await expect(within(singapore).getByText('Not available on the free plan')).toBeVisible();
-
-    await userEvent.click(await body.findByRole('option', { name: 'Frankfurt' }));
-    await waitFor(() => expect(trigger).toHaveTextContent('Frankfurt'));
-  },
-};

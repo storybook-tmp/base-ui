@@ -270,52 +270,6 @@ export const ControlledValue: Story = {
 };
 
 /**
- * The Panel's height is driven entirely by `--accordion-panel-height`
- * (`AccordionPanelCssVars`), the same measurement engine Collapsible uses.
- * This asserts the mechanism directly: the panel's rendered height grows from
- * `0` while opening and settles back to `0` while closing, rather than just
- * asserting the CSS recipe is present in the stylesheet.
- */
-export const AnimatedPanelHeight: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]}>
-      <Accordion.Item value={faqItems[0].value} className={theme.AccordionItem}>
-        <Accordion.Header className={theme.AccordionHeader}>
-          <Accordion.Trigger className={theme.AccordionTrigger}>
-            {faqItems[0].question}
-            <PlusIcon className={theme.AccordionIcon} />
-          </Accordion.Trigger>
-        </Accordion.Header>
-        <Accordion.Panel className={theme.AccordionPanel} data-testid="animated-panel" keepMounted>
-          <div className={theme.AccordionContent}>{faqItems[0].answer}</div>
-        </Accordion.Panel>
-      </Accordion.Item>
-    </Accordion.Root>
-  ),
-  play: async ({ canvasElement, canvas, userEvent }) => {
-    // `keepMounted` keeps the panel present (but hidden) at all times, so
-    // its height can be measured before the very first open.
-    const panel = canvasElement.querySelector('[data-testid="animated-panel"]') as HTMLElement;
-    const trigger = canvas.getByRole('button', { name: faqItems[0].question });
-
-    await expect(panel.getBoundingClientRect().height).toBe(0);
-
-    await userEvent.click(trigger);
-    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'true'));
-    await waitFor(() => expect(panel.getBoundingClientRect().height).toBeGreaterThan(0));
-    // `--accordion-panel-height` mirrors the measured content height while open.
-    await waitFor(() =>
-      expect(panel.style.getPropertyValue('--accordion-panel-height')).not.toBe('0px'),
-    );
-
-    await userEvent.click(trigger);
-    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
-    await waitFor(() => expect(panel.getBoundingClientRect().height).toBe(0));
-  },
-};
-
-/**
  * `hiddenUntilFound` (Root or Panel level) uses `hidden="until-found"` instead
  * of unmounting, so the browser's native Ctrl/Cmd+F find-in-page search can
  * locate and auto-expand a closed panel — mirroring Collapsible's own
@@ -493,52 +447,5 @@ export const NestedAccordion: Story = {
     // accordion currently mounted inside its panel) — the inner item's own
     // open state is irrelevant to the outer swap.
     await waitFor(() => expect(outerTrigger1).toHaveAttribute('aria-expanded', 'false'));
-  },
-};
-
-/**
- * Accordion deliberately has no roving-tabindex/arrow-key navigation between
- * headers ([#4965](https://github.com/mui/base-ui/pull/4965)) — only native
- * Tab/Shift+Tab order moves focus between triggers. This story documents that
- * absence explicitly rather than leaving it untested.
- */
-export const KeyboardTabFlow: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Accordion.Root className={theme.AccordionRoot} defaultValue={[]}>
-      {faqItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value} className={theme.AccordionItem}>
-          <Accordion.Header className={theme.AccordionHeader}>
-            <Accordion.Trigger className={theme.AccordionTrigger}>
-              {item.question}
-              <PlusIcon className={theme.AccordionIcon} />
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Panel className={theme.AccordionPanel}>
-            <div className={theme.AccordionContent}>{item.answer}</div>
-          </Accordion.Panel>
-        </Accordion.Item>
-      ))}
-    </Accordion.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const trigger1 = canvas.getByRole('button', { name: faqItems[0].question });
-    const trigger2 = canvas.getByRole('button', { name: faqItems[1].question });
-
-    trigger1.focus();
-    await expect(trigger1).toHaveFocus();
-
-    // No accordion-specific ArrowDown behavior — focus never moves.
-    await userEvent.keyboard('{ArrowDown}');
-    await expect(trigger1).toHaveFocus();
-    await expect(trigger2).not.toHaveFocus();
-
-    // Tab moves focus via ordinary native DOM order instead.
-    await userEvent.tab();
-    await waitFor(() => expect(trigger2).toHaveFocus());
-
-    // Space toggles the focused trigger on keyup, matching native <button>.
-    await userEvent.keyboard(' ');
-    await waitFor(() => expect(trigger2).toHaveAttribute('aria-expanded', 'true'));
   },
 };

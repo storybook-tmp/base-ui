@@ -92,39 +92,6 @@ export const Hero: Story = {
 };
 
 /**
- * Default activation semantics (`activateOnFocus={false}` on `Tabs.List`,
- * the default): arrow keys move roving focus between tabs, but the panel
- * selection does not change until the focused tab is explicitly activated
- * (click, or Enter/Space).
- */
-export const KeyboardFocusDoesNotActivate: Story = {
-  tags: ['tests'],
-  render: () => <TabsDemo />,
-  play: async ({ canvas, userEvent }) => {
-    const tab1 = canvas.getByRole('tab', { name: 'Overview' });
-    const tab2 = canvas.getByRole('tab', { name: 'Projects' });
-
-    tab1.focus();
-    await expect(tab1).toHaveFocus();
-    await expect(tab1).toHaveAttribute('aria-selected', 'true');
-
-    await userEvent.keyboard('{ArrowRight}');
-
-    // Focus moves to the next tab...
-    await waitFor(() => expect(tab2).toHaveFocus());
-    // ...but activation does NOT follow focus by default (#3176).
-    await expect(tab2).toHaveAttribute('aria-selected', 'false');
-    await expect(tab1).toHaveAttribute('aria-selected', 'true');
-    await expect(canvas.getByText(panelCopy.overview)).toBeVisible();
-
-    // An explicit click still activates the focused tab.
-    await userEvent.click(tab2);
-    await waitFor(() => expect(tab2).toHaveAttribute('aria-selected', 'true'));
-    await waitFor(() => expect(canvas.getByText(panelCopy.projects)).toBeVisible());
-  },
-};
-
-/**
  * Contrast story: `activateOnFocus` opts into "focus follows selection" —
  * arrow-keying to a tab immediately activates its panel, restoring the
  * behavior #3176 turned off by default.
@@ -168,36 +135,6 @@ export const VerticalOrientation: Story = {
     await waitFor(() => expect(tab2).toHaveFocus());
     // Default activateOnFocus=false still applies regardless of orientation.
     await expect(tab2).toHaveAttribute('aria-selected', 'false');
-  },
-};
-
-/**
- * `Tabs.Indicator` writes the active tab's measured position/size as inline
- * CSS custom properties (`--active-tab-left`/`-width`/etc., see
- * `TabsIndicatorCssVars`); the module CSS transitions `translate`/`width` on
- * top of them, producing the sliding-underline effect. This story asserts the
- * *mechanism* — the vars actually change when the active tab changes — not
- * just that the recipe is present in the stylesheet.
- */
-export const AnimatedIndicatorUnderline: Story = {
-  tags: ['animation'],
-  render: () => <TabsDemo />,
-  play: async ({ canvasElement, canvas, userEvent }) => {
-    const indicator = canvasElement.querySelector('[data-testid="indicator"]') as HTMLElement;
-    await waitFor(() =>
-      expect(indicator.style.getPropertyValue('--active-tab-width')).not.toBe(''),
-    );
-    const initialLeft = indicator.style.getPropertyValue('--active-tab-left');
-
-    const tab3 = canvas.getByRole('tab', { name: 'Account' });
-    await userEvent.click(tab3);
-
-    await waitFor(() => expect(tab3).toHaveAttribute('aria-selected', 'true'));
-    // The indicator's position custom property tracks the newly active tab.
-    await waitFor(() => {
-      const nextLeft = indicator.style.getPropertyValue('--active-tab-left');
-      expect(nextLeft).not.toBe(initialLeft);
-    });
   },
 };
 

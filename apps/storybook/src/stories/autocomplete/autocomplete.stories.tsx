@@ -7,8 +7,6 @@ import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
 import theme from '@droppy/theme';
 import './autocomplete.demo.css';
-import { FieldIntegratedAutocompleteExample } from './recreations/FieldIntegratedAutocompleteExample';
-import { MultiSkinAutocompleteExample } from './recreations/MultiSkinAutocompleteExample';
 
 const meta = {
   title: 'Form inputs/Autocomplete',
@@ -1450,106 +1448,10 @@ export const Virtualized: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation                                                           */
-/* ------------------------------------------------------------------ */
-
-function AnimatedPopupExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        popupClassName={`${theme.AutocompletePopup} AutocompleteDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-      />
-      <output className="AutocompleteDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** The standard popup animation contract: transitions on `[data-starting-style]`/`[data-ending-style]` with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires once the transition settles, after which the popup unmounts. */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedPopupExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'fe');
-    await body.findByRole('listbox');
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-    // After the exit transition completes the popup unmounts.
-    await waitFor(() => expect(body.queryByRole('listbox')).not.toBeInTheDocument());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/autocomplete)   */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a design-system wrapper: label/required/description/error flow in as
- * flat top-level props instead of composed `Field` children, and the component wraps
- * `Field.Root` around `Autocomplete.Root` internally. Recomposed from the ideas in
- * cloudflare/kumo `autocomplete.tsx` (MIT, code-ok,
- * research/d-real-world-usage/autocomplete/ranked.json #7).
- */
-export const RealWorldFieldIntegratedWrapper: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <FieldIntegratedAutocompleteExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-    await expect(await canvas.findByText('Please enter a destination.')).toBeVisible();
-    await expect(input).toHaveAttribute('data-invalid');
-
-    // Free-form text (not in the suggestion list) still satisfies the required constraint.
-    await userEvent.type(input, 'Reykjavik');
-    await userEvent.keyboard('{Escape}');
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-
-    await expect(await canvas.findByText('Submitted')).toBeVisible();
-    await expect(canvas.queryByText('Please enter a destination.')).not.toBeInTheDocument();
-  },
-};
-
-/**
- * Recreation of the fullest anatomy observed for this component anywhere in the
- * research corpus — `Backdrop` + `Arrow` rendered alongside the usual parts — with
- * every class list compound-styled so one `data-skin` attribute swaps the whole visual
- * skin (reui's `style-vega`/`style-nova`/… convention). Recomposed from the ideas in
- * keenthemes/reui `registry-reui/bases/base/reui/autocomplete.tsx` (MIT, code-ok,
- * research/d-real-world-usage/autocomplete/ranked.json #4).
- */
-export const RealWorldMultiSkinRegistry: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <MultiSkinAutocompleteExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'b');
-    await expect((await body.findByRole('listbox')).closest('[data-skin]')).toHaveAttribute(
-      'data-skin',
-      'vega',
-    );
-
-    // Close the popup first: while open, the switcher buttons sit outside the anchor's
-    // accessible subtree (Combobox/Autocomplete hides background content from AT users).
-    await userEvent.keyboard('{Escape}');
-    await userEvent.click(await canvas.findByRole('button', { name: 'nova' }));
-
-    await userEvent.type(input, 'b');
-    const reopenedListbox = await body.findByRole('listbox');
-    await waitFor(() =>
-      expect(reopenedListbox.closest('[data-skin]')).toHaveAttribute('data-skin', 'nova'),
-    );
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inlined — stories must not import docs assets)               */

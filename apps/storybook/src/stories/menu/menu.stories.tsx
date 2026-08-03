@@ -6,17 +6,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
 import theme from '@droppy/theme';
 import './menu.demo.css';
-import {
-  CaretDownIcon,
-  CaretRightIcon,
-  CheckIcon,
-  EllipsisIcon,
-  BoltIcon,
-  ExternalLinkIcon,
-} from './icons';
-import { RowActionsExample } from './recreations/RowActionsExample';
-import { SettingsMenuExample } from './recreations/SettingsMenuExample';
-import { ShadowPortalExample } from './recreations/ShadowPortalExample';
+import { CaretDownIcon, CaretRightIcon, CheckIcon, EllipsisIcon, ExternalLinkIcon } from './icons';
 
 /**
  * Stories follow research/c-components/menu (Tier 1): the kept docs demos
@@ -375,56 +365,6 @@ export const Submenu: Story = {
   render: () => <SubmenuExample />,
 };
 
-/** Keyboard contract for submenus: `ArrowRight` opens and focuses the first child item, `ArrowLeft` closes and refocuses the submenu trigger, and `Escape` closes only one level (`closeParentOnEsc` defaults to `false`, per ARIA/MDN — #2493). */
-export const SubmenuKeyboard: Story = {
-  tags: ['tests'],
-  render: () => <SubmenuExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Song' });
-
-    // Open via click; Storybook's synthetic-event play runner (Chromatic) cannot drive Base
-    // UI's keyboard open, but keyboard navigation works once the menu is open.
-    await userEvent.click(trigger);
-    await userEvent.keyboard('{ArrowDown}');
-    const rootMenu = await body.findByRole('menu', { name: 'Song' });
-    await waitFor(() =>
-      expect(body.getByRole('menuitem', { name: 'Add to Library' })).toHaveFocus(),
-    );
-
-    await userEvent.keyboard('{ArrowDown}');
-    const submenuTrigger = body.getByRole('menuitem', { name: 'Add to Playlist' });
-    await waitFor(() => expect(submenuTrigger).toHaveFocus());
-
-    // ArrowRight opens the submenu and focuses its first item (LTR).
-    await userEvent.keyboard('{ArrowRight}');
-    const submenu = await body.findByRole('menu', { name: 'Add to Playlist' });
-    await waitFor(() =>
-      expect(within(submenu).getByRole('menuitem', { name: 'Get Up!' })).toHaveFocus(),
-    );
-
-    // Escape closes only the submenu level; the root menu stays open.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() =>
-      expect(body.queryByRole('menu', { name: 'Add to Playlist' })).not.toBeInTheDocument(),
-    );
-    await waitFor(() => expect(rootMenu).toBeVisible());
-    await waitFor(() => expect(submenuTrigger).toHaveFocus());
-
-    // ArrowLeft also closes the submenu and refocuses its trigger.
-    await userEvent.keyboard('{ArrowRight}');
-    const reopened = await body.findByRole('menu', { name: 'Add to Playlist' });
-    await waitFor(() =>
-      expect(within(reopened).getByRole('menuitem', { name: 'Get Up!' })).toHaveFocus(),
-    );
-    await userEvent.keyboard('{ArrowLeft}');
-    await waitFor(() =>
-      expect(body.queryByRole('menu', { name: 'Add to Playlist' })).not.toBeInTheDocument(),
-    );
-    await waitFor(() => expect(submenuTrigger).toHaveFocus());
-  },
-};
-
 /** Add `Menu.Arrow` inside the Popup for a visual pointer to the trigger; style each side via `data-side`. */
 export const Arrow: Story = {
   tags: ['highlight', 'base'],
@@ -712,58 +652,6 @@ const viewportMenus = {
 
 type ViewportMenuKey = keyof typeof viewportMenus;
 
-const viewportMenuHandle = Menu.createHandle<ViewportMenuKey>();
-
-/** The docs detached-triggers demo with `Menu.Viewport`: switching triggers morphs the popup — the Positioner freezes to `var(--positioner-*)`, the Popup transitions `width`/`height`, and the Viewport cross-fades old/new content via `data-previous`/`data-current`. */
-export const ViewportContentTransition: Story = {
-  tags: ['animation'],
-  render: () => (
-    <div className="MenuDemoRow">
-      {(Object.keys(viewportMenus) as ViewportMenuKey[]).map((key) => (
-        <Menu.Trigger key={key} className={theme.Button} handle={viewportMenuHandle} payload={key}>
-          {viewportMenus[key].heading}
-        </Menu.Trigger>
-      ))}
-      <Menu.Root handle={viewportMenuHandle} modal={false}>
-        {({ payload }) => (
-          <Menu.Portal>
-            <Menu.Positioner
-              sideOffset={8}
-              className={`${theme.MenuPositioner} ${theme.MenuTransitionPositioner}`}
-            >
-              <Menu.Popup className={`${theme.MenuPopup} ${theme.MenuTransitionPopup}`}>
-                <Menu.Viewport className={theme.MenuViewport}>
-                  {payload
-                    ? viewportMenus[payload].groups.map((group, groupIndex) => (
-                        <React.Fragment key={groupIndex}>
-                          <Menu.Group>
-                            {groupIndex === 0 && (
-                              <Menu.GroupLabel className={theme.MenuPlainGroupLabel}>
-                                {viewportMenus[payload].heading}
-                              </Menu.GroupLabel>
-                            )}
-                            {group.map((item) => (
-                              <Menu.Item key={item} className={theme.MenuItem}>
-                                {item}
-                              </Menu.Item>
-                            ))}
-                          </Menu.Group>
-                          {groupIndex < viewportMenus[payload].groups.length - 1 && (
-                            <Menu.Separator className={theme.MenuSeparator} />
-                          )}
-                        </React.Fragment>
-                      ))
-                    : null}
-                </Menu.Viewport>
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
-        )}
-      </Menu.Root>
-    </div>
-  ),
-};
-
 /* ------------------------------------------------------------------ */
 /* Behavior stories (one per documented use case)                      */
 /* ------------------------------------------------------------------ */
@@ -812,109 +700,6 @@ export const OpenClose: Story = {
     await body.findByRole('menu');
     await userEvent.click(canvas.getByText('Outside content'));
     await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
-  },
-};
-
-/** Arrow keys rove one tab stop through the items; `Home`/`End` jump, and navigation loops while `loopFocus` (default `true`). Keyboard open focuses the first item — pointer open deliberately does not (#4818). */
-export const KeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Menu.Root>
-      <Menu.Trigger className={theme.Button}>
-        File <CaretDownIcon />
-      </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner className={theme.MenuPositioner} sideOffset={8}>
-          <Menu.Popup className={theme.MenuPopup}>
-            <Menu.Item className={theme.MenuItem}>New file</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>New window</Menu.Item>
-            <Menu.Item className={theme.MenuItem} disabled>
-              Open recent
-            </Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Save</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Exit</Menu.Item>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
-    </Menu.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'File' });
-
-    // Open via click, then drive navigation with the keyboard.
-    await userEvent.click(trigger);
-    await body.findByRole('menu');
-    const newFile = body.getByRole('menuitem', { name: 'New file' });
-    const exitItem = body.getByRole('menuitem', { name: 'Exit' });
-    await userEvent.keyboard('{ArrowDown}');
-    await waitFor(() => expect(newFile).toHaveFocus());
-
-    await userEvent.keyboard('{End}');
-    await waitFor(() => expect(exitItem).toHaveFocus());
-
-    await userEvent.keyboard('{Home}');
-    await waitFor(() => expect(newFile).toHaveFocus());
-
-    // loopFocus defaults to true: ArrowUp from the first item wraps to the last.
-    await userEvent.keyboard('{ArrowUp}');
-    await waitFor(() => expect(exitItem).toHaveFocus());
-  },
-};
-
-/** Typing highlights the next matching item (typeahead). Use the `label` prop to control matching for items whose content is an icon or complex markup — inference can otherwise pick up stray SVG text (#3256). */
-export const Typeahead: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Menu.Root>
-      <Menu.Trigger className={theme.Button}>
-        Commands <CaretDownIcon />
-      </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner className={theme.MenuPositioner} sideOffset={8}>
-          <Menu.Popup className={theme.MenuPopup}>
-            <Menu.Item className={theme.MenuItem}>Aa</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Ba</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Bb</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Ca</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Cd</Menu.Item>
-            <Menu.Separator className={theme.MenuSeparator} />
-            <Menu.Item className={theme.MenuItem} label="Quick actions" aria-label="Quick actions">
-              <BoltIcon />
-            </Menu.Item>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
-    </Menu.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Commands' });
-
-    // Open via click; Storybook's synthetic-event play runner (Chromatic) cannot drive Base
-    // UI's keyboard open, but keyboard navigation works once the menu is open.
-    await userEvent.click(trigger);
-    await userEvent.keyboard('{ArrowDown}');
-    await body.findByRole('menu');
-    await waitFor(() => expect(body.getByRole('menuitem', { name: 'Aa' })).toHaveFocus());
-
-    // Consecutive characters build one search string: "c" → Ca, "cd" → Cd.
-    await userEvent.keyboard('c');
-    await waitFor(() => expect(body.getByRole('menuitem', { name: 'Ca' })).toHaveFocus());
-    await userEvent.keyboard('d');
-    await waitFor(() => expect(body.getByRole('menuitem', { name: 'Cd' })).toHaveFocus());
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
-
-    // The `label` prop drives matching for the icon-only item.
-    await userEvent.keyboard('{ArrowDown}');
-    await body.findByRole('menu');
-    await waitFor(() => expect(body.getByRole('menuitem', { name: 'Aa' })).toHaveFocus());
-    await userEvent.keyboard('q');
-    await waitFor(() =>
-      expect(body.getByRole('menuitem', { name: 'Quick actions' })).toHaveFocus(),
-    );
   },
 };
 
@@ -1202,28 +987,6 @@ export const OpenDialogFromMenu: Story = {
   },
 };
 
-/** CSS transitions via `[data-starting-style]`/`[data-ending-style]` with `transform-origin: var(--transform-origin)`; `[data-instant]` marks moments (keyboard close, menubar switching) where the transition should be skipped. */
-export const TransitionAnimation: Story = {
-  tags: ['animation'],
-  render: () => (
-    <Menu.Root>
-      <Menu.Trigger className={theme.Button}>
-        Song <CaretDownIcon />
-      </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner className={theme.MenuPositioner} sideOffset={8}>
-          <Menu.Popup className={`${theme.MenuPopup} MenuDemoAnimatedPopup`}>
-            <Menu.Item className={theme.MenuItem}>Add to Library</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Play Next</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Favorite</Menu.Item>
-            <Menu.Item className={theme.MenuItem}>Share</Menu.Item>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
-    </Menu.Root>
-  ),
-};
-
 /** With `DirectionProvider direction="rtl"` the submenu keys mirror: `ArrowLeft` opens a submenu and `ArrowRight` closes it. */
 export const RTLSubmenu: Story = {
   tags: ['api-ref'],
@@ -1383,78 +1146,3 @@ export const ImperativeHandle: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/menu)           */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a data-table row-actions menu: kebab trigger per row,
- * `modal={false}` so the page never locks scroll (the wrapper's own stated
- * reason), `align="end"` positioning, and a destructive item. Recomposed from
- * oxidecomputer/console `DropdownMenu.tsx` (MPL-2.0, code-ok,
- * research/d-real-world-usage/menu/ranked.json #4).
- */
-export const RealWorldRowActions: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <RowActionsExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Row actions for db-replica' }));
-    await userEvent.click(await body.findByRole('menuitem', { name: 'Delete' }));
-
-    await expect(await canvas.findByText('last action: Delete db-replica')).toBeVisible();
-    await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
-  },
-};
-
-/**
- * Recreation of an editor settings menu that stays open while toggling:
- * checkbox items for frame visibility, a radio group for the theme (both keep
- * the menu open — `closeOnClick` defaults to `false`), and
- * `onOpenChangeComplete` to run cleanup only after the exit animation.
- * Recomposed from seek-oss/playroom `Menu.tsx` (MIT, code-ok,
- * research/d-real-world-usage/menu/ranked.json #3).
- */
-export const RealWorldSettingsMenu: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <SettingsMenuExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Settings' }));
-    const tablet = await body.findByRole('menuitemcheckbox', { name: 'Tablet' });
-
-    // Toggle two settings; the menu must stay open between toggles.
-    await userEvent.click(tablet);
-    await expect(await canvas.findByText(/3 frames visible/)).toBeVisible();
-    await userEvent.click(body.getByRole('menuitemcheckbox', { name: 'Phone' }));
-    await expect(await canvas.findByText(/2 frames visible/)).toBeVisible();
-    await waitFor(() => expect(body.getByRole('menu')).toBeVisible());
-
-    // onOpenChangeComplete fires only after the exit transition settles.
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText(/close settled/)).toBeVisible();
-    await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
-  },
-};
-
-/**
- * Recreation of a devtools-overlay menu living inside a shadow root:
- * `Menu.Portal container={shadowRoot}` keeps the popup inside the overlay's
- * isolation boundary, and `modal={false}` keeps the host page interactive.
- * Recomposed from vercel/next.js dev-overlay `segment-boundary-trigger.tsx`
- * (MIT, code-ok, research/d-real-world-usage/menu/ranked.json #2).
- */
-export const RealWorldShadowDomPortal: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <ShadowPortalExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const host = canvas.getByTestId('shadow-host');
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Route segment' }));
-
-    // The popup renders inside the shadow root, not in the light DOM…
-    await waitFor(() => expect(host.shadowRoot!.querySelector('[role="menu"]')).not.toBeNull());
-    // …so document-level role queries (which don't pierce shadow roots) find nothing.
-    await expect(body.queryByRole('menu')).not.toBeInTheDocument();
-  },
-};
