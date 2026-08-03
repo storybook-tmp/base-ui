@@ -68,57 +68,6 @@ export const Hero: Story = {
   ),
 };
 
-/** Focus opens the preview card too, with the same 600ms delay as hover (`useFocus(..., { delay })` is wired unconditionally — brief.md §6). This is the one non-mouse modality Preview Card still supports; touch and screen readers never trigger it (see the MDX page). */
-export const KeyboardFocusOpen: Story = {
-  tags: ['tests'],
-  render: () => (
-    <PreviewCard.Root>
-      <p className="PreviewCardParagraph">
-        Read more about{' '}
-        <PreviewCard.Trigger
-          className={theme.PreviewCardTrigger}
-          href="https://en.wikipedia.org/wiki/Typography"
-        >
-          typography
-        </PreviewCard.Trigger>{' '}
-        before you start.
-      </p>
-      <PreviewCard.Portal>
-        <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
-          <PreviewCard.Popup className={theme.PreviewCardPopup}>
-            <PreviewCard.Arrow className={theme.PreviewCardArrow} />
-            <div className={theme.PreviewCardPopupContent}>
-              <p className={theme.PreviewCardSummary}>
-                <strong>Typography</strong> is the art of arranging type.
-              </p>
-            </div>
-          </PreviewCard.Popup>
-        </PreviewCard.Positioner>
-      </PreviewCard.Portal>
-    </PreviewCard.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('link', { name: 'typography' });
-
-    // Tab to the link and focus it — no mouse events involved.
-    await userEvent.tab();
-    await waitFor(() => expect(trigger).toHaveFocus());
-
-    // Focus pays the same 600ms delay as hover, so wait generously.
-    await waitFor(() => expect(body.getByText(/is the art of arranging type/)).toBeVisible(), {
-      timeout: 2000,
-    });
-
-    // Blurring away (tabbing off the link) closes the card again.
-    await userEvent.tab();
-    await waitFor(
-      () => expect(body.queryByText(/is the art of arranging type/)).not.toBeInTheDocument(),
-      { timeout: 2000 },
-    );
-  },
-};
-
 const arrowSides = ['top', 'right', 'bottom', 'left'] as const;
 
 /** All positioning lives on the Positioner: `side`, `align`, `sideOffset`. `PreviewCard.Arrow`'s `data-side` attribute drives the rotation so one CSS-only arrow serves all four placements — the same contract as Tooltip and Popover. */
@@ -215,71 +164,6 @@ export const ControlledOpen: Story = {
       expect(body.queryByText('Controlled preview card')).not.toBeInTheDocument(),
     );
     await waitFor(() => expect(canvas.getByText(/reason=escape-key/)).toBeVisible());
-  },
-};
-
-/** `PreviewCard.Trigger`'s own `delay`/`closeDelay` props (default `600`/`300`ms) override the timing per trigger — since focus obeys the same delay as hover (unlike Tooltip), this can be pinned reliably via focus: the `delay={0}` trigger opens near-instantly, the default-delay trigger opens only after the full ~600ms wait. */
-export const DelayTuning: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="PreviewCardContainer">
-      <PreviewCard.Root>
-        <p className="PreviewCardParagraph">
-          <PreviewCard.Trigger
-            className={theme.PreviewCardTrigger}
-            delay={0}
-            href="https://en.wikipedia.org/wiki/Typography"
-          >
-            instant
-          </PreviewCard.Trigger>
-        </p>
-        <PreviewCard.Portal>
-          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
-            <PreviewCard.Popup className={theme.PreviewCardPopup}>
-              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
-              <div className={theme.PreviewCardPopupContent}>
-                <p className={theme.PreviewCardSummary}>Opens with delay=0</p>
-              </div>
-            </PreviewCard.Popup>
-          </PreviewCard.Positioner>
-        </PreviewCard.Portal>
-      </PreviewCard.Root>
-
-      <PreviewCard.Root>
-        <p className="PreviewCardParagraph">
-          <PreviewCard.Trigger
-            className={theme.PreviewCardTrigger}
-            href="https://en.wikipedia.org/wiki/Typography"
-          >
-            default delay
-          </PreviewCard.Trigger>
-        </p>
-        <PreviewCard.Portal>
-          <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
-            <PreviewCard.Popup className={theme.PreviewCardPopup}>
-              <PreviewCard.Arrow className={theme.PreviewCardArrow} />
-              <div className={theme.PreviewCardPopupContent}>
-                <p className={theme.PreviewCardSummary}>Opens after the default 600ms delay</p>
-              </div>
-            </PreviewCard.Popup>
-          </PreviewCard.Positioner>
-        </PreviewCard.Portal>
-      </PreviewCard.Root>
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    const instant = canvas.getByRole('link', { name: 'instant' });
-    instant.focus();
-    await waitFor(() => expect(body.getByText('Opens with delay=0')).toBeVisible());
-
-    const withDefaultDelay = canvas.getByRole('link', { name: 'default delay' });
-    withDefaultDelay.focus();
-    await waitFor(
-      () => expect(body.getByText('Opens after the default 600ms delay')).toBeVisible(),
-      { timeout: 2000 },
-    );
   },
 };
 

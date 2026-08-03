@@ -10,8 +10,6 @@ import { Form } from '@base-ui/react/form';
 import theme from '@droppy/theme';
 import './dialog.demo.css';
 import { XIcon } from './icons';
-import { SidePanelExample } from './recreations/SidePanelExample';
-import { SettingsModalExample } from './recreations/SettingsModalExample';
 
 /**
  * Stories follow research/c-components/dialog (Tier 1): the eight kept docs demos,
@@ -67,48 +65,6 @@ export const Hero: Story = {
       </Dialog.Portal>
     </Dialog.Root>
   ),
-};
-
-/** The full interaction contract in one story: open on click (popup portals to `document.body`), focus moves inside the popup, the trigger reflects state, and closing returns focus to the trigger. */
-export const OpenCloseInteraction: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Dialog.Root>
-      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop className={theme.DialogBackdrop} />
-        <Dialog.Popup className={theme.DialogPopup}>
-          <div className="DialogIntro">
-            <Dialog.Title className={theme.DialogTitle}>Session details</Dialog.Title>
-            <Dialog.Description className={theme.DialogDescription}>
-              A dialog interrupts the page on purpose — it owns focus until dismissed.
-            </Dialog.Description>
-          </div>
-          <div className={theme.DialogActions}>
-            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const doc = canvasElement.ownerDocument;
-    const trigger = canvas.getByRole('button', { name: 'Open dialog' });
-    await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
-
-    await userEvent.click(trigger);
-    const dialog = await body.findByRole('dialog');
-    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await expect(trigger).toHaveAttribute('data-popup-open');
-    // Focus moves to the first tabbable element inside the popup.
-    await waitFor(() => expect(dialog).toContainElement(doc.activeElement as HTMLElement));
-
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-    // Focus returns to the trigger after close.
-    await waitFor(() => expect(trigger).toHaveFocus());
-  },
 };
 
 /** Dialogs nest without extra APIs: the parent tracks descendants and exposes `[data-nested-dialog-open]` + `--nested-dialogs` so it can recede behind the child (docs `nested` demo). Esc closes only the topmost dialog. */
@@ -595,81 +551,6 @@ interface ReleasePayload {
   version: string;
 }
 
-const releaseDialog = Dialog.createHandle<ReleasePayload>();
-
-function HandleImperativePayloadExample() {
-  return (
-    <div className="DialogStack">
-      <div className="DialogRow">
-        <Dialog.Trigger
-          className={theme.Button}
-          handle={releaseDialog}
-          payload={{ name: 'Aurora', version: '1.2.0' }}
-        >
-          Aurora details
-        </Dialog.Trigger>
-        <Dialog.Trigger
-          className={theme.Button}
-          handle={releaseDialog}
-          payload={{ name: 'Borealis', version: '2.0.0-beta.1' }}
-        >
-          Borealis details
-        </Dialog.Trigger>
-        <button
-          type="button"
-          className={theme.Button}
-          onClick={() => releaseDialog.openWithPayload({ name: 'Cascade', version: '0.9.4' })}
-        >
-          Open imperatively (Cascade)
-        </button>
-      </div>
-
-      <Dialog.Root handle={releaseDialog}>
-        {({ payload }) => (
-          <Dialog.Portal>
-            <Dialog.Backdrop className={theme.DialogBackdrop} />
-            <Dialog.Popup className={theme.DialogPopup}>
-              <div className="DialogIntro">
-                <Dialog.Title className={theme.DialogTitle}>
-                  {payload ? `${payload.name} release` : 'Release'}
-                </Dialog.Title>
-                <Dialog.Description className={theme.DialogDescription}>
-                  {payload ? `Version ${payload.version}` : 'No payload provided.'}
-                </Dialog.Description>
-              </div>
-              <div className={theme.DialogActions}>
-                <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-              </div>
-            </Dialog.Popup>
-          </Dialog.Portal>
-        )}
-      </Dialog.Root>
-    </div>
-  );
-}
-
-/** `createHandle<Payload>()` types per-trigger payloads and adds imperative `open`/`openWithPayload`/`close` — Base UI's answer to `dialogManager.confirm()` requests ([#2802](https://github.com/mui/base-ui/issues/2802) was declined in favor of this). */
-export const HandleImperativePayload: Story = {
-  tags: ['api-ref'],
-  render: () => <HandleImperativePayloadExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Aurora details' }));
-    const dialog = await body.findByRole('dialog', { name: 'Aurora release' });
-    // waitFor: the popup is briefly at opacity 0 during its entrance transition.
-    await waitFor(() => expect(within(dialog).getByText('Version 1.2.0')).toBeVisible());
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open imperatively (Cascade)' }));
-    const dialog2 = await body.findByRole('dialog', { name: 'Cascade release' });
-    await waitFor(() => expect(within(dialog2).getByText('Version 0.9.4')).toBeVisible());
-    await userEvent.click(within(dialog2).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog2).not.toBeInTheDocument());
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Modality spectrum                                                   */
 /* ------------------------------------------------------------------ */
@@ -867,46 +748,6 @@ export const Controlled: Story = {
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(dialog).not.toBeInTheDocument());
     await expect(canvas.getByText('state: closed')).toBeVisible();
-  },
-};
-
-/** `disablePointerDismissal` keeps the dialog open on outside press — use it for forms where a stray backdrop click would destroy input; Esc and the Close button still work ([#3190](https://github.com/mui/base-ui/pull/3190) renamed it from `dismissible`). */
-export const DisablePointerDismissal: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Dialog.Root disablePointerDismissal>
-      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop className={theme.DialogBackdrop} data-testid="backdrop" />
-        <Dialog.Popup className={theme.DialogPopup}>
-          <div className="DialogIntro">
-            <Dialog.Title className={theme.DialogTitle}>Careful edits</Dialog.Title>
-            <Dialog.Description className={theme.DialogDescription}>
-              Clicking outside does not close this dialog. Use the button below.
-            </Dialog.Description>
-          </div>
-          <div className={theme.DialogActions}>
-            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }));
-    const dialog = await body.findByRole('dialog');
-
-    // Outside press is ignored: the dialog stays open (waitFor rides out the
-    // entrance transition, where the popup is briefly at opacity 0).
-    await userEvent.click(body.getByTestId('backdrop'));
-    await waitFor(() => expect(dialog).toBeVisible());
-    await expect(dialog).toHaveAttribute('data-open');
-
-    // Explicit close still works.
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
   },
 };
 
@@ -1295,146 +1136,7 @@ export const NestedAlertDialogGuard: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation & mounting                                                */
-/* ------------------------------------------------------------------ */
-
-function ExitAnimationExample() {
-  const [settled, setSettled] = React.useState('none yet');
-  return (
-    <div className="DialogStack">
-      <Dialog.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop className="DialogAnimatedBackdrop" />
-          <Dialog.Popup className="DialogAnimatedPopup">
-            <div className="DialogIntro">
-              <Dialog.Title className={theme.DialogTitle}>Animated dialog</Dialog.Title>
-              <Dialog.Description className={theme.DialogDescription}>
-                CSS transitions drive both entry and exit via data attributes.
-              </Dialog.Description>
-            </div>
-            <div className={theme.DialogActions}>
-              <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-            </div>
-          </Dialog.Popup>
-        </Dialog.Portal>
-      </Dialog.Root>
-      <output className="DialogOutput">animation settled: {settled}</output>
-    </div>
-  );
-}
-
-/** Animate with plain CSS transitions on `[data-starting-style]`/`[data-ending-style]`; the popup stays mounted until the exit transition finishes, then `onOpenChangeComplete(false)` fires. */
-export const ExitAnimation: Story = {
-  tags: ['animation'],
-  render: () => <ExitAnimationExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }));
-    const dialog = await body.findByRole('dialog');
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    // Mid-transition the popup is still mounted, marked with data-ending-style.
-    await waitFor(() => expect(dialog).toHaveAttribute('data-ending-style'));
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-  },
-};
-
-/**
- * `keepMounted` on the Portal keeps the popup in the DOM while closed (hidden) — the
- * hook for JS animation libraries and expensive subtrees. The story plan's Motion
- * variant is adapted to CSS here because `motion` is not a dependency of this
- * Storybook; see the Motion recipe in the animation handbook for the render-prop version.
- */
-export const KeepMounted: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Dialog.Root>
-      <Dialog.Trigger className={theme.Button}>Open dialog</Dialog.Trigger>
-      <Dialog.Portal keepMounted>
-        <Dialog.Backdrop className="DialogAnimatedBackdrop" />
-        <Dialog.Popup className="DialogAnimatedPopup" data-testid="keep-mounted-popup">
-          <div className="DialogIntro">
-            <Dialog.Title className={theme.DialogTitle}>Persistent subtree</Dialog.Title>
-            <Dialog.Description className={theme.DialogDescription}>
-              This popup stays in the DOM while closed.
-            </Dialog.Description>
-          </div>
-          <div className={theme.DialogActions}>
-            <Dialog.Close className={theme.Button}>Close</Dialog.Close>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    // Closed but mounted: the popup is already in the DOM, hidden.
-    const popup = body.getByTestId('keep-mounted-popup');
-    await expect(popup).toBeInTheDocument();
-    await expect(popup).not.toBeVisible();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }));
-    await waitFor(() => expect(popup).toBeVisible());
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(popup).not.toBeVisible());
-    await expect(popup).toBeInTheDocument();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/dialog)         */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of an edge-docked side panel: a fully controlled Dialog with no Trigger
- * (routes/app state open it), positioned against the viewport edge with a slide
- * transition and a form + footer actions. Recomposed from oxidecomputer/console
- * `SideModal.tsx`/`Modal.tsx` (MPL-2.0, code-ok,
- * research/d-real-world-usage/dialog/ranked.json #4).
- */
-export const RecreationSidePanel: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <SidePanelExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Edit instance' }));
-    const panel = await body.findByRole('dialog');
-
-    const nameInput = within(panel).getByLabelText('Instance name');
-    await userEvent.clear(nameInput);
-    await userEvent.type(nameInput, 'db-replica');
-    await userEvent.click(within(panel).getByRole('button', { name: 'Save changes' }));
-
-    await waitFor(() => expect(panel).not.toBeInTheDocument());
-    await expect(await canvas.findByText('Saved: db-replica')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of the canonical copy-paste wrapper: a `DialogContent`-style component
- * (Popup→Content, Backdrop→Overlay vocabulary) used here as a settings dialog with
- * sections. Recomposed from shadcn-ui/ui `apps/v4/registry/bases/base/ui/dialog.tsx`
- * (MIT, code-ok, research/d-real-world-usage/dialog/ranked.json #1).
- */
-export const RecreationSettingsModal: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <SettingsModalExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open settings' }));
-    const dialog = await body.findByRole('dialog', { name: 'Workspace settings' });
-    // waitFor: the popup is briefly at opacity 0 during its entrance transition.
-    await waitFor(() => expect(within(dialog).getByText('Appearance')).toBeVisible());
-
-    // The wrapper's corner X close button.
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-  },
-};

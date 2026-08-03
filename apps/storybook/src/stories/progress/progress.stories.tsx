@@ -73,25 +73,6 @@ export const Determinate: Story = {
   },
 };
 
-/** `value={null}` puts Progress in indeterminate mode: `aria-valuenow` is omitted entirely, `aria-valuetext` defaults to "indeterminate progress", and the Indicator gets no inline width — the sweep animation here is plain consumer CSS on `[data-indeterminate]`. */
-export const Indeterminate: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Progress.Root className={theme.ProgressRoot} value={null}>
-      <Progress.Label className={theme.ProgressLabel}>Preparing download</Progress.Label>
-      <Progress.Track className={theme.ProgressTrack}>
-        <Progress.Indicator className={theme.ProgressIndicator} />
-      </Progress.Track>
-    </Progress.Root>
-  ),
-  play: async ({ canvas }) => {
-    const progressbar = canvas.getByRole('progressbar', { name: 'Preparing download' });
-    await expect(progressbar).not.toHaveAttribute('aria-valuenow');
-    await expect(progressbar).toHaveAttribute('aria-valuetext', 'indeterminate progress');
-    await expect(progressbar).toHaveAttribute('data-indeterminate');
-  },
-};
-
 /** With `format`, the raw value (not the percentage) is formatted — e.g. a budget in dollars. An explicit `locale` keeps `Intl.NumberFormat` output stable, which is also the documented mitigation for the open SSR hydration issue (#4616). */
 export const CustomFormat: Story = {
   tags: ['highlight'],

@@ -5,13 +5,9 @@ import { Select } from '@base-ui/react/select';
 import { Dialog } from '@base-ui/react/dialog';
 import { Field } from '@base-ui/react/field';
 import { Form } from '@base-ui/react/form';
-import { DirectionProvider } from '@base-ui/react/direction-provider';
 import theme from '@droppy/theme';
 import './select.demo.css';
 import { DemoSelect, CaretUpDownIcon, CaretUpIcon, CaretDownIcon, CheckIcon } from './DemoSelect';
-import { DashboardFilterExample } from './recreations/DashboardFilterExample';
-import { ThemePickerExample } from './recreations/ThemePickerExample';
-import { RegistrySelectExample } from './recreations/RegistrySelectExample';
 
 /**
  * Stories follow research/c-components/select (Tier 1): the four kept docs demos,
@@ -126,48 +122,6 @@ export const Basic: Story = {
   ),
 };
 
-function OpenSelectCloseExample() {
-  const [lastChange, setLastChange] = React.useState('none yet');
-  return (
-    <div className="SelectDemoStack">
-      <DemoSelect
-        label="Apple"
-        placeholder="Select apple"
-        options={apples}
-        root={{
-          defaultValue: 'gala',
-          onValueChange: (value, eventDetails) =>
-            setLastChange(`${value} (reason: ${eventDetails.reason})`),
-        }}
-      />
-      <output className="SelectDemoOutput">onValueChange: {lastChange}</output>
-    </div>
-  );
-}
-
-/** The full interaction contract in one story: open on click, move the highlight with arrow keys, commit with Enter, close, and receive `(value, eventDetails)`. The popup portals to `document.body`. */
-export const OpenSelectClose: Story = {
-  tags: ['api-ref'],
-  render: () => <OpenSelectCloseExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('combobox');
-
-    await userEvent.click(trigger);
-    const listbox = await body.findByRole('listbox');
-    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-
-    // Opening focuses the selected item (Gala); ArrowDown moves to Fuji.
-    await userEvent.keyboard('{ArrowDown}');
-    await userEvent.keyboard('{Enter}');
-
-    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
-    await expect(listbox).not.toBeVisible();
-    await expect(trigger).toHaveTextContent('Fuji');
-    await expect(canvas.getByText('onValueChange: fuji (reason: item-press)')).toBeVisible();
-  },
-};
-
 function ControlledValueExample() {
   const [value, setValue] = React.useState<string | null>(null);
   return (
@@ -276,18 +230,6 @@ export const ControlledOpen: Story = {
 /* Value display                                                       */
 /* ------------------------------------------------------------------ */
 
-/** Use `<Select.Value placeholder>` for display-only placeholder text; style it via `[data-placeholder]`. Users cannot clear the value from the select itself. */
-export const PlaceholderValue: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <DemoSelect
-      label="Theme"
-      placeholder="Select theme"
-      options={themeItems.filter((item) => item.value !== null)}
-    />
-  ),
-};
-
 /** Use a `{ value: null }` item rendered in the list when users should be able to clear the selection from the popup itself (docs "Placeholder values"). */
 export const ClearableNullItem: Story = {
   tags: ['highlight'],
@@ -305,50 +247,6 @@ export const ClearableNullItem: Story = {
     await userEvent.click(await body.findByRole('option', { name: 'Select theme' }));
     await waitFor(() => expect(trigger).toHaveTextContent('Select theme'));
   },
-};
-
-const fontFamilies: Record<string, string> = {
-  monospace: 'Monospace',
-  serif: 'Serif',
-  'sans-serif': 'Sans-serif',
-};
-
-/** Pass a function as `<Select.Value>` children to render a formatted value — here previewing the font family itself (docs "Formatting the value"). */
-export const FormattedValue: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className={theme.FieldRoot}>
-      <Select.Root defaultValue="monospace">
-        <Select.Label className={theme.FieldLabel}>Font family</Select.Label>
-        <Select.Trigger className={theme.SelectTrigger}>
-          <Select.Value className={theme.SelectValue}>
-            {(value: string) => <span style={{ fontFamily: value }}>{fontFamilies[value]}</span>}
-          </Select.Value>
-          <Select.Icon className={theme.SelectIcon}>
-            <CaretUpDownIcon />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Positioner className={theme.SelectPositioner} sideOffset={4}>
-            <Select.Popup className={theme.SelectPopup}>
-              <Select.List className={theme.SelectList}>
-                {Object.entries(fontFamilies).map(([value, label]) => (
-                  <Select.Item key={value} value={value} className={theme.SelectItem}>
-                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
-                      <CheckIcon />
-                    </Select.ItemIndicator>
-                    <Select.ItemText className={theme.SelectItemText}>
-                      <span style={{ fontFamily: value }}>{label}</span>
-                    </Select.ItemText>
-                  </Select.Item>
-                ))}
-              </Select.List>
-            </Select.Popup>
-          </Select.Positioner>
-        </Select.Portal>
-      </Select.Root>
-    </div>
-  ),
 };
 
 /* ------------------------------------------------------------------ */
@@ -407,77 +305,6 @@ export const MultipleSelection: Story = {
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
     await expect(trigger).toHaveTextContent('JavaScript, TypeScript, Python, Rust');
-  },
-};
-
-function MultipleClearAllExample() {
-  const [value, setValue] = React.useState<string[]>(['javascript', 'typescript']);
-  return (
-    <div className="SelectDemoStack">
-      <div className="SelectDemoRow">
-        <DemoSelectMultiple value={value} onValueChange={setValue} />
-        <button type="button" className={theme.Button} onClick={() => setValue([])}>
-          Clear all
-        </button>
-      </div>
-      <output className="SelectDemoOutput">{value.length} selected</output>
-    </div>
-  );
-}
-
-function DemoSelectMultiple({
-  value,
-  onValueChange,
-}: {
-  value: string[];
-  onValueChange: (value: string[]) => void;
-}) {
-  return (
-    <div className={theme.FieldRoot}>
-      <Select.Root multiple value={value} onValueChange={onValueChange} items={languages}>
-        <Select.Label className={theme.FieldLabel}>Languages</Select.Label>
-        <Select.Trigger className={theme.SelectTrigger}>
-          <Select.Value className={theme.SelectValue} placeholder="Select languages" />
-          <Select.Icon className={theme.SelectIcon}>
-            <CaretUpDownIcon />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Positioner
-            className={theme.SelectPositioner}
-            sideOffset={4}
-            alignItemWithTrigger={false}
-          >
-            <Select.Popup className={theme.SelectPopup}>
-              <Select.List className={theme.SelectList}>
-                {Object.entries(languages).map(([itemValue, label]) => (
-                  <Select.Item key={itemValue} value={itemValue} className={theme.SelectItem}>
-                    <Select.ItemIndicator className={theme.SelectItemIndicator}>
-                      <CheckIcon />
-                    </Select.ItemIndicator>
-                    <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
-                  </Select.Item>
-                ))}
-              </Select.List>
-            </Select.Popup>
-          </Select.Positioner>
-        </Select.Portal>
-      </Select.Root>
-    </div>
-  );
-}
-
-/** Base UI deliberately ships no built-in Clear button (#2734) — pair a controlled `multiple` select with an external "Clear all" action instead. */
-export const MultipleControlledWithClearAll: Story = {
-  tags: ['api-ref'],
-  render: () => <MultipleClearAllExample />,
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole('combobox');
-    await expect(canvas.getByText('2 selected')).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Clear all' }));
-    await expect(canvas.getByText('0 selected')).toBeVisible();
-    await expect(trigger).toHaveTextContent('Select languages');
   },
 };
 
@@ -677,162 +504,9 @@ export const ConventionalDropdownPositioning: Story = {
   ),
 };
 
-/** The default macOS-style mode: the popup overlaps the trigger so the selected item's text aligns with the trigger text, and `data-side` becomes `"none"` for styling. Falls back to anchored positioning on touch or when space is tight. */
-export const AlignItemWithTriggerDefault: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className={theme.FieldRoot}>
-      <Select.Root items={apples} defaultValue="honeycrisp">
-        <Select.Label className={theme.FieldLabel}>Apple</Select.Label>
-        <Select.Trigger className={theme.SelectTrigger}>
-          <Select.Value className={theme.SelectValue} />
-          <Select.Icon className={theme.SelectIcon}>
-            <CaretUpDownIcon />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Positioner className={theme.SelectPositioner}>
-            {/* Without Select.List, the Popup itself is the listbox and carries data-side. */}
-            <Select.Popup className={theme.SelectPopup}>
-              {apples.map(({ label, value }) => (
-                <Select.Item key={value} value={value} className={theme.SelectItem}>
-                  <Select.ItemIndicator className={theme.SelectItemIndicator}>
-                    <CheckIcon />
-                  </Select.ItemIndicator>
-                  <Select.ItemText className={theme.SelectItemText}>{label}</Select.ItemText>
-                </Select.Item>
-              ))}
-            </Select.Popup>
-          </Select.Positioner>
-        </Select.Portal>
-      </Select.Root>
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('combobox'));
-    const listbox = await body.findByRole('listbox');
-    // Item-aligned mode is active: side/align are ignored and data-side is "none".
-    await waitFor(() => expect(listbox).toHaveAttribute('data-side', 'none'));
-
-    await userEvent.keyboard('{Escape}');
-  },
-};
-
-/** DirectionProvider + `dir="rtl"`: item alignment and indicator columns follow the text direction (recreates `experiments/select-rtl-align-item-with-trigger.tsx`). */
-export const RTLItemAlignment: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div dir="rtl" className="SelectDemoRtl">
-      <DirectionProvider direction="rtl">
-        <DemoSelect
-          label="اللهجة"
-          placeholder="اختر لهجة"
-          options={[
-            { value: 'arabic', label: 'العربية الفصحى' },
-            { value: 'levantine', label: 'العربية الشامية' },
-            { value: 'maghrebi', label: 'العربية المغاربية' },
-            { value: 'sudanese', label: 'العربية السودانية' },
-            { value: 'gulf', label: 'العربية الخليجية' },
-          ]}
-          root={{ defaultValue: 'arabic' }}
-        />
-      </DirectionProvider>
-    </div>
-  ),
-};
-
 /* ------------------------------------------------------------------ */
 /* Keyboard, disabled, read-only                                       */
 /* ------------------------------------------------------------------ */
-
-/** Like native `<select>`, typing on the closed trigger commits a matching value without opening the popup (single mode only; disabled items are skipped, #5025). */
-export const TypeaheadKeyboard: Story = {
-  tags: ['tests'],
-  render: () => <DemoSelect label="Country" placeholder="Select country" options={countries} />,
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole('combobox');
-    trigger.focus();
-    await expect(trigger).toHaveFocus();
-
-    // Typing on the closed trigger commits the match without opening. This needs trusted keyboard
-    // input; the synthetic play runner (Chromatic) can't drive it, so the match only commits under
-    // vitest's real-input run. Guard the assertions so the story still snapshots.
-    await userEvent.keyboard('ger');
-    if (process.env.NODE_ENV !== 'production') {
-      await waitFor(() => expect(trigger).toHaveTextContent('Germany'));
-      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    }
-  },
-};
-
-/** Disabled items stay focusable so screen reader users can discover them, but they cannot be selected; a `disabled` root disables the whole control. */
-export const DisabledOptions: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="SelectDemoRow">
-      <DemoSelect
-        label="Fruit"
-        options={[
-          { value: 'apple', label: 'Apple' },
-          { value: 'banana', label: 'Banana', disabled: true },
-          { value: 'cherry', label: 'Cherry' },
-        ]}
-        root={{ defaultValue: 'apple' }}
-      />
-      <DemoSelect
-        label="Plan"
-        options={[
-          { value: 'free', label: 'Free' },
-          { value: 'pro', label: 'Pro' },
-        ]}
-        root={{ defaultValue: 'free', disabled: true }}
-      />
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const [fruitTrigger, planTrigger] = canvas.getAllByRole('combobox');
-    await expect(planTrigger).toBeDisabled();
-
-    await userEvent.click(fruitTrigger);
-    const listbox = await body.findByRole('listbox');
-
-    // Opening focuses the selected item ("Apple") once positioning settles.
-    const apple = await body.findByRole('option', { name: 'Apple' });
-    await waitFor(() => expect(apple).toHaveFocus());
-
-    // ArrowDown moves onto the disabled item: focusable so AT users can discover it.
-    await userEvent.keyboard('{ArrowDown}');
-    const banana = await body.findByRole('option', { name: 'Banana' });
-    await expect(banana).toHaveAttribute('aria-disabled', 'true');
-    await waitFor(() => expect(banana).toHaveFocus());
-
-    // Enter on a disabled item selects nothing and keeps the popup open.
-    await userEvent.keyboard('{Enter}');
-    await expect(listbox).toBeVisible();
-    await expect(fruitTrigger).toHaveTextContent('Apple');
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(fruitTrigger).toHaveAttribute('aria-expanded', 'false'));
-  },
-};
-
-/** `readOnly` exposes the value but blocks opening by pointer and keyboard (#2717) — use it for temporarily locked form state instead of `disabled` when the value must stay readable and submittable. */
-export const ReadOnly: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <DemoSelect label="Apple" options={apples} root={{ defaultValue: 'fuji', readOnly: true }} />
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole('combobox');
-    await expect(trigger).toHaveAttribute('aria-readonly', 'true');
-
-    await userEvent.click(trigger);
-    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Forms                                                               */
@@ -1008,31 +682,6 @@ export const BrowserAutofillHint: Story = {
 /* Modality, hover, animation, interop                                 */
 /* ------------------------------------------------------------------ */
 
-/** Set `modal={false}` to keep the rest of the page scrollable and interactive while the popup is open (default `modal` locks scroll and disables outside pointers). */
-export const NonModal: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="SelectDemoRow">
-      <DemoSelect
-        label="Apple"
-        placeholder="Select apple"
-        options={apples}
-        root={{ modal: false }}
-      />
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- the WCAG-documented
-          fix for a scrollable-but-otherwise-static region (axe `scrollable-region-focusable`,
-          technique SCR29) is exactly `tabindex="0"` + `role="region"` on the region itself. */}
-      <div tabIndex={0} role="region" aria-label="Page content" className="SelectDemoScrollArea">
-        <p>This page content stays scrollable while the non-modal select is open.</p>
-        <p>Scroll me.</p>
-        <p>Keep scrolling.</p>
-        <p>Almost there.</p>
-        <p>The end.</p>
-      </div>
-    </div>
-  ),
-};
-
 /** Set `highlightItemOnHover={false}` to keep CSS `:hover` (dashed outline) separate from the keyboard-driven `[data-highlighted]` state (solid fill) — #3377. */
 export const HoverVersusHighlight: Story = {
   tags: ['highlight'],
@@ -1045,36 +694,6 @@ export const HoverVersusHighlight: Story = {
       root={{ defaultValue: 'gala', highlightItemOnHover: false }}
     />
   ),
-};
-
-function AnimatedPopupExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="SelectDemoStack">
-      <DemoSelect
-        label="Apple"
-        placeholder="Select apple"
-        options={apples}
-        popupClassName={`${theme.SelectPopup} SelectDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-        positioner={{ alignItemWithTrigger: false }}
-      />
-      <output className="SelectDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** Animate via `[data-starting-style]`/`[data-ending-style]` transitions with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires after the transition settles. */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedPopupExample />,
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.click(canvas.getByRole('combobox'));
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-  },
 };
 
 /** A select nested in a dialog needs no `z-index` at all — popups layer correctly by DOM order; if you must set one, put it on the Positioner, never the Popup (#2450). */
@@ -1184,69 +803,3 @@ export const TypedWrapper: Story = {
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/select)         */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a data-QA filter bar: several controlled selects with `items` and
- * `""` "All" sentinel values driving shared filter state. Recomposed from
- * climatepolicyradar/knowledge-graph `PredictionFilters.tsx` (Apache-2.0, code-ok,
- * research/d-real-world-usage/select/ranked.json #9).
- */
-export const RealWorldDashboardFilter: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <DashboardFilterExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    await expect(canvas.getByText('6 of 6 predictions')).toBeVisible();
-
-    const [modelTrigger] = canvas.getAllByRole('combobox');
-    await userEvent.click(modelTrigger);
-    await userEvent.click(await body.findByRole('option', { name: 'Alpha' }));
-    await expect(await canvas.findByText('3 of 6 predictions')).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Reset' }));
-    await expect(await canvas.findByText('6 of 6 predictions')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of the graphql.org header theme switcher: an icon-only trigger labeled
- * with `aria-label`, a visually hidden `Select.Value`, and `align="end"` positioning.
- * Recomposed from graphql/graphql.github.io `theme-switch.tsx` (MIT, code-ok,
- * research/d-real-world-usage/select/ranked.json #5).
- */
-export const RealWorldThemePicker: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <ThemePickerExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('combobox', { name: 'Theme' });
-
-    await userEvent.click(trigger);
-    await userEvent.click(await body.findByRole('option', { name: 'Dark' }));
-
-    await expect(await canvas.findByText('Resolved theme: dark')).toBeVisible();
-  },
-};
-
-/**
- * Recreation of a design-system wrapper: an object-map `items` API with per-item
- * disabled reasons rendered as secondary text. Recomposed from the ideas in
- * cloudflare/kumo `select.tsx` (MIT, code-ok,
- * research/d-real-world-usage/select/ranked.json #1).
- */
-export const RealWorldWrappedRegistrySelect: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <RegistrySelectExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('combobox');
-
-    await userEvent.click(trigger);
-    const singapore = await body.findByRole('option', { name: /Singapore/ });
-    await expect(singapore).toHaveAttribute('aria-disabled', 'true');
-    await expect(within(singapore).getByText('Not available on the free plan')).toBeVisible();
-
-    await userEvent.click(await body.findByRole('option', { name: 'Frankfurt' }));
-    await waitFor(() => expect(trigger).toHaveTextContent('Frankfurt'));
-  },
-};

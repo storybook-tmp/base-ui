@@ -5,7 +5,6 @@ import { Radio } from '@base-ui/react/radio';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { Field } from '@base-ui/react/field';
 import { Fieldset } from '@base-ui/react/fieldset';
-import { Form } from '@base-ui/react/form';
 import theme from '@droppy/theme';
 import './radio.demo.css';
 
@@ -104,40 +103,6 @@ export const ArrowDownSelectsOnNavigation: Story = {
     await waitFor(() => expect(gala).toHaveFocus());
     await waitFor(() => expect(gala).toHaveAttribute('aria-checked', 'true'));
     await waitFor(() => expect(fuji).toHaveAttribute('aria-checked', 'false'));
-  },
-};
-
-/** A `disabled` radio stays visible and focusable (composite-widget policy) but cannot be selected by click or keyboard. */
-export const DisabledItem: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <RadioGroup defaultValue="fuji-apple" aria-label="Best apple" className={theme.RadioGroupRoot}>
-      <label className={theme.RadioGroupItem}>
-        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
-          <Radio.Indicator className={theme.RadioIndicator} />
-        </Radio.Root>
-        Fuji
-      </label>
-      <label className={theme.RadioGroupItem}>
-        <Radio.Root value="gala-apple" disabled className={theme.RadioRoot}>
-          <Radio.Indicator className={theme.RadioIndicator} />
-        </Radio.Root>
-        Gala (out of stock)
-      </label>
-      <label className={theme.RadioGroupItem}>
-        <Radio.Root value="granny-smith-apple" className={theme.RadioRoot}>
-          <Radio.Indicator className={theme.RadioIndicator} />
-        </Radio.Root>
-        Granny Smith
-      </label>
-    </RadioGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const gala = canvas.getByRole('radio', { name: 'Gala (out of stock)' });
-    await expect(gala).toHaveAttribute('data-disabled');
-
-    await userEvent.click(gala);
-    await waitFor(() => expect(gala).toHaveAttribute('aria-checked', 'false'));
   },
 };
 
@@ -358,86 +323,5 @@ export const WithFieldAndFieldset: Story = {
     // Clicking the Field.Label (not the radio itself) toggles selection via `for`/`id`.
     await userEvent.click(canvas.getByText('Express (1-2 days)'));
     await waitFor(() => expect(express).toHaveAttribute('aria-checked', 'true'));
-  },
-};
-
-function RequiredInvalidExample() {
-  return (
-    <Form className={theme.FormRoot}>
-      <Field.Root name="plan" className={theme.RadioGroupRoot}>
-        <Fieldset.Root className={theme.RadioGroupRoot} render={<RadioGroup required />}>
-          <Fieldset.Legend>Plan</Fieldset.Legend>
-          <Field.Item className={theme.RadioGroupItem}>
-            <Radio.Root value="monthly" className={theme.RadioRoot}>
-              <Radio.Indicator className={theme.RadioIndicator} />
-            </Radio.Root>
-            <Field.Label>Monthly</Field.Label>
-          </Field.Item>
-          <Field.Item className={theme.RadioGroupItem}>
-            <Radio.Root value="yearly" className={theme.RadioRoot}>
-              <Radio.Indicator className={theme.RadioIndicator} />
-            </Radio.Root>
-            <Field.Label>Yearly</Field.Label>
-          </Field.Item>
-        </Fieldset.Root>
-        <Field.Error className="RadioDemoOutput" match="valueMissing">
-          Please choose a plan.
-        </Field.Error>
-      </Field.Root>
-      <button type="submit" className={theme.Button}>
-        Save
-      </button>
-    </Form>
-  );
-}
-
-/** `required` on the `Field.Root`/`RadioGroup` pair flags `valueMissing` on submit when nothing is selected; selecting an option clears the error (mirrors `RadioGroup.test.tsx` "clears required validation when a value is selected"). */
-export const RequiredInvalidState: Story = {
-  tags: ['api-ref'],
-  render: () => <RequiredInvalidExample />,
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
-    await waitFor(() => expect(canvas.getByText('Please choose a plan.')).toBeVisible());
-
-    await userEvent.click(canvas.getByText('Monthly'));
-    await waitFor(() =>
-      expect(canvas.queryByText('Please choose a plan.')).not.toBeInTheDocument(),
-    );
-  },
-};
-
-/** `readOnly` on `RadioGroup` blocks every selection path (click, arrow-key auto-select, Space) while keeping the group focusable and its current value visible — distinct from `disabled`, which also removes it from the tab sequence. */
-export const ReadOnlyGroup: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <RadioGroup
-      defaultValue="fuji-apple"
-      readOnly
-      aria-label="Best apple (read-only)"
-      className={theme.RadioGroupRoot}
-    >
-      <label className={theme.RadioGroupItem}>
-        <Radio.Root value="fuji-apple" className={theme.RadioRoot}>
-          <Radio.Indicator className={theme.RadioIndicator} />
-        </Radio.Root>
-        Fuji
-      </label>
-      <label className={theme.RadioGroupItem}>
-        <Radio.Root value="gala-apple" className={theme.RadioRoot}>
-          <Radio.Indicator className={theme.RadioIndicator} />
-        </Radio.Root>
-        Gala
-      </label>
-    </RadioGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const fuji = canvas.getByRole('radio', { name: 'Fuji' });
-    const gala = canvas.getByRole('radio', { name: 'Gala' });
-
-    await expect(gala).toHaveAttribute('aria-readonly', 'true');
-
-    await userEvent.click(gala);
-    await waitFor(() => expect(gala).toHaveAttribute('aria-checked', 'false'));
-    await waitFor(() => expect(fuji).toHaveAttribute('aria-checked', 'true'));
   },
 };

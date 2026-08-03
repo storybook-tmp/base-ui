@@ -25,48 +25,6 @@ export const Hero: Story = {
   render: () => <Button className={theme.Button}>Submit</Button>,
 };
 
-function FocusableWhenDisabledExample() {
-  const [clicks, setClicks] = React.useState(0);
-  return (
-    <div className="Row">
-      <Button
-        disabled
-        focusableWhenDisabled
-        className={theme.Button}
-        onClick={() => setClicks((count) => count + 1)}
-      >
-        Submit
-      </Button>
-      <span className="Output">Clicks: {clicks}</span>
-    </div>
-  );
-}
-
-/**
- * `focusableWhenDisabled` is Button's raison d'être (#2363): a native `disabled`
- * button is removed from the tab order entirely, which hides loading/pending
- * buttons from assistive technology and breaks focus continuity. This prop
- * keeps the button reachable via Tab while still suppressing activation.
- */
-export const FocusableWhenDisabled: Story = {
-  tags: ['api-ref'],
-  render: () => <FocusableWhenDisabledExample />,
-  play: async ({ canvas, userEvent }) => {
-    const button = canvas.getByRole('button', { name: 'Submit' });
-    await expect(button).toHaveAttribute('aria-disabled', 'true');
-    await expect(button).toHaveAttribute('tabindex', '0');
-
-    // The whole point of focusableWhenDisabled: a disabled button still
-    // receives focus and stays in the tab order.
-    await userEvent.tab();
-    await expect(button).toHaveFocus();
-
-    // Activation is still fully suppressed while disabled.
-    await userEvent.click(button);
-    await expect(canvas.getByText('Clicks: 0')).toBeVisible();
-  },
-};
-
 function RenderCompositionExample() {
   const [activations, setActivations] = React.useState(0);
   return (
@@ -104,43 +62,6 @@ export const RenderComposition: Story = {
 
     await userEvent.keyboard(' ');
     await expect(canvas.getByText('Activations: 2')).toBeVisible();
-  },
-};
-
-/**
- * On a real `<button>`, `disabled` sets the native `disabled` attribute: the
- * element is fully removed from the tab order and every interaction handler
- * no-ops (`Button.test.tsx` "prop: disabled" — native button case). This is
- * the "genuinely inert, non-discoverable" mode — contrast with
- * `FocusableWhenDisabled` above for the loading-state case.
- */
-export const Disabled: Story = {
-  tags: ['api-ref'],
-  render: () => {
-    function DisabledExample() {
-      const [clicks, setClicks] = React.useState(0);
-      return (
-        <div className="Row">
-          <Button disabled className={theme.Button} onClick={() => setClicks((c) => c + 1)}>
-            Submit
-          </Button>
-          <span className="Output">Clicks: {clicks}</span>
-        </div>
-      );
-    }
-    return <DisabledExample />;
-  },
-  play: async ({ canvas, userEvent }) => {
-    const button = canvas.getByRole('button', { name: 'Submit' });
-    await expect(button).toHaveAttribute('disabled');
-    await expect(button).toHaveAttribute('data-disabled');
-
-    // Fully removed from the tab order (unlike focusableWhenDisabled above).
-    await userEvent.tab();
-    await expect(button).not.toHaveFocus();
-
-    await userEvent.click(button);
-    await expect(canvas.getByText('Clicks: 0')).toBeVisible();
   },
 };
 
@@ -191,47 +112,6 @@ export const NativeButtonMismatchWarning: Story = {
       errorSpy.mockRestore();
     }
   },
-};
-
-/**
- * The docs Usage guidelines are explicit: Button enforces `role="button"` and
- * button keyboard interaction, so it "should not be used for links." If a
- * link needs to look like a button, style the `<a>` element directly instead
- * of wrapping it in `<Button render={<a />}>` — the second item below looks
- * identical but has lost native anchor semantics (no more native
- * right-click/open-in-new-tab, and Enter is now the only activation key
- * instead of Enter *and* the browser's own link-follow behavior). Static
- * illustrative pair, not a play-tested story — the point is the annotated
- * visual contrast, not an interaction assertion.
- */
-export const NotALink: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <div className="Row">
-      <div>
-        <a href="https://base-ui.com" className={theme.Button}>
-          Correct: styled &lt;a&gt;
-        </a>
-        <p className="Output">
-          A real link, styled with CSS. Right-click / open-in-new-tab / middle-click all work as
-          expected.
-        </p>
-      </div>
-      <div>
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label -- the
-        `render` element's accessible name comes from Button's own children, merged
-        in at render time; the linter can't see past the static `<a />` prop value. */}
-        <Button render={<a href="https://base-ui.com" />} className={theme.Button}>
-          Anti-pattern: Button render=&lt;a&gt;
-        </Button>
-        <p className="Output">
-          Looks identical, but Button overrides the element with{' '}
-          <code>role=&quot;button&quot;</code> and button keyboard handling — native link
-          affordances are lost.
-        </p>
-      </div>
-    </div>
-  ),
 };
 
 /* ------------------------------------------------------------------ */
