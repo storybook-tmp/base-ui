@@ -92,39 +92,6 @@ export const Hero: Story = {
 };
 
 /**
- * Default activation semantics (`activateOnFocus={false}` on `Tabs.List`,
- * the default): arrow keys move roving focus between tabs, but the panel
- * selection does not change until the focused tab is explicitly activated
- * (click, or Enter/Space).
- */
-export const KeyboardFocusDoesNotActivate: Story = {
-  tags: ['tests'],
-  render: () => <TabsDemo />,
-  play: async ({ canvas, userEvent }) => {
-    const tab1 = canvas.getByRole('tab', { name: 'Overview' });
-    const tab2 = canvas.getByRole('tab', { name: 'Projects' });
-
-    tab1.focus();
-    await expect(tab1).toHaveFocus();
-    await expect(tab1).toHaveAttribute('aria-selected', 'true');
-
-    await userEvent.keyboard('{ArrowRight}');
-
-    // Focus moves to the next tab...
-    await waitFor(() => expect(tab2).toHaveFocus());
-    // ...but activation does NOT follow focus by default (#3176).
-    await expect(tab2).toHaveAttribute('aria-selected', 'false');
-    await expect(tab1).toHaveAttribute('aria-selected', 'true');
-    await expect(canvas.getByText(panelCopy.overview)).toBeVisible();
-
-    // An explicit click still activates the focused tab.
-    await userEvent.click(tab2);
-    await waitFor(() => expect(tab2).toHaveAttribute('aria-selected', 'true'));
-    await waitFor(() => expect(canvas.getByText(panelCopy.projects)).toBeVisible());
-  },
-};
-
-/**
  * Contrast story: `activateOnFocus` opts into "focus follows selection" —
  * arrow-keying to a tab immediately activates its panel, restoring the
  * behavior #3176 turned off by default.

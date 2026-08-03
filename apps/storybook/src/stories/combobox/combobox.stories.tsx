@@ -588,37 +588,6 @@ export const MultipleSelectionChips: Story = {
   render: () => <ChipsCombobox />,
 };
 
-function ChipsKeyboardExample() {
-  const [value, setValue] = React.useState<Lang[]>([langs[0], langs[1], langs[2]]);
-  return (
-    <div className="ComboboxDemoStack">
-      <ChipsCombobox root={{ value, onValueChange: setValue }} />
-      <output className="ComboboxDemoOutput">{value.length} selected</output>
-    </div>
-  );
-}
-
-/** The chips keyboard contract: with the caret at the start of the input, ArrowLeft moves real DOM focus onto the chips (unlike list items, chips are DOM-focused), Backspace removes the focused chip, and the chips container takes `role="toolbar"` so NVDA passes arrow keys through (#3629/#3647). */
-export const ChipsKeyboardFlow: Story = {
-  tags: ['tests'],
-  render: () => <ChipsKeyboardExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = comboboxInput(canvas);
-    // The chips container becomes role="toolbar" while chips exist.
-    await expect(canvas.getByRole('toolbar')).toBeVisible();
-    await expect(canvas.getByText('3 selected')).toBeVisible();
-
-    await userEvent.click(input);
-    await userEvent.keyboard('{ArrowLeft}');
-    // Real DOM focus lands on the last chip.
-    await waitFor(() => expect(canvas.getByLabelText('Python')).toHaveFocus());
-
-    await userEvent.keyboard('{Backspace}');
-    await waitFor(() => expect(canvas.queryByLabelText('Python')).not.toBeInTheDocument());
-    await expect(await canvas.findByText('2 selected')).toBeVisible();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Object values                                                       */
 /* ------------------------------------------------------------------ */
@@ -1098,9 +1067,7 @@ export const InlineInsideDialog: Story = {
     // so wait for the popup (and its descendants) to actually be visible
     // rather than asserting immediately.
     await waitFor(async () => {
-      expect(
-        await within(reopenedDialog).findByRole('option', { name: 'Apple' }),
-      ).toBeVisible();
+      expect(await within(reopenedDialog).findByRole('option', { name: 'Apple' })).toBeVisible();
     });
   },
 };

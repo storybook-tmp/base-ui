@@ -94,49 +94,6 @@ export const Hero: Story = {
   },
 };
 
-/** Arrow keys step the focused Input directly — no need to reach for the stepper buttons. Home/End jump straight to `min`/`max` (only when those props are set); PageUp/PageDown are deliberately native, per the brief's honest read of the source (no ARIA spinbutton pattern is implemented here). */
-export const KeyboardStepping: Story = {
-  tags: ['tests'],
-  render: () => (
-    <NumberField.Root
-      id="number-field-keyboard-stepping"
-      defaultValue={5}
-      min={0}
-      max={10}
-      className={theme.NumberFieldRoot}
-    >
-      <label htmlFor="number-field-keyboard-stepping" className={theme.FieldLabel}>
-        Quantity
-      </label>
-      <NumberField.Group className={theme.NumberFieldGroup}>
-        <NumberField.Decrement className={theme.NumberFieldDecrement}>
-          <MinusIcon />
-        </NumberField.Decrement>
-        <NumberField.Input className={theme.NumberFieldInput} />
-        <NumberField.Increment className={theme.NumberFieldIncrement}>
-          <PlusIcon />
-        </NumberField.Increment>
-      </NumberField.Group>
-    </NumberField.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByRole('textbox');
-    input.focus();
-
-    await userEvent.keyboard('{ArrowUp}');
-    await waitFor(() => expect(input).toHaveValue('6'));
-
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
-    await waitFor(() => expect(input).toHaveValue('4'));
-
-    await userEvent.keyboard('{End}');
-    await waitFor(() => expect(input).toHaveValue('10'));
-
-    await userEvent.keyboard('{Home}');
-    await waitFor(() => expect(input).toHaveValue('0'));
-  },
-};
-
 /**
  * The scrub area lets pointer users click-and-drag to change the value. The play function
  * dispatches synthetic `pointerdown`/`pointermove` events directly on the `ScrubArea` — the

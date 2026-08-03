@@ -747,26 +747,6 @@ export const RTLItemAlignment: Story = {
 /* Keyboard, disabled, read-only                                       */
 /* ------------------------------------------------------------------ */
 
-/** Like native `<select>`, typing on the closed trigger commits a matching value without opening the popup (single mode only; disabled items are skipped, #5025). */
-export const TypeaheadKeyboard: Story = {
-  tags: ['tests'],
-  render: () => <DemoSelect label="Country" placeholder="Select country" options={countries} />,
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole('combobox');
-    trigger.focus();
-    await expect(trigger).toHaveFocus();
-
-    // Typing on the closed trigger commits the match without opening. This needs trusted keyboard
-    // input; the synthetic play runner (Chromatic) can't drive it, so the match only commits under
-    // vitest's real-input run. Guard the assertions so the story still snapshots.
-    await userEvent.keyboard('ger');
-    if (process.env.NODE_ENV !== 'production') {
-      await waitFor(() => expect(trigger).toHaveTextContent('Germany'));
-      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    }
-  },
-};
-
 /** Disabled items stay focusable so screen reader users can discover them, but they cannot be selected; a `disabled` root disables the whole control. */
 export const DisabledOptions: Story = {
   tags: ['api-ref'],

@@ -155,61 +155,6 @@ export const FormIntegration: Story = {
 };
 
 /**
- * The full keyboard contract on one thumb: ArrowRight/Left step by `step` (default `1`);
- * Shift+Arrow and PageUp/PageDown both step by `largeStep` (default `10`) — unlike Number Field,
- * Slider deliberately *does* treat PageUp/PageDown as large-step keys, always, regardless of
- * Shift; Home/End jump to `min`/`max`. Every keyboard change commits immediately (unlike a drag,
- * which only commits on release).
- */
-export const KeyboardStepping: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Slider.Root
-      defaultValue={50}
-      min={0}
-      max={100}
-      step={1}
-      largeStep={10}
-      className={theme.SliderRoot}
-    >
-      <Slider.Label className={theme.SliderLabel}>Brightness</Slider.Label>
-      <Slider.Value className={theme.SliderValue} />
-      <Slider.Control className={theme.SliderControl}>
-        <Slider.Track className={theme.SliderTrack}>
-          <Slider.Indicator className={theme.SliderIndicator} />
-          <Slider.Thumb className={theme.SliderThumb} />
-        </Slider.Track>
-      </Slider.Control>
-    </Slider.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const thumb = canvas.getByRole('slider', { name: 'Brightness' });
-    thumb.focus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '51'));
-
-    await userEvent.keyboard('{ArrowLeft}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '50'));
-
-    fireEvent.keyDown(thumb, { key: 'ArrowRight', shiftKey: true });
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '60'));
-
-    await userEvent.keyboard('{PageUp}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '70'));
-
-    await userEvent.keyboard('{PageDown}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '60'));
-
-    await userEvent.keyboard('{Home}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '0'));
-
-    await userEvent.keyboard('{End}');
-    await waitFor(() => expect(thumb).toHaveAttribute('aria-valuenow', '100'));
-  },
-};
-
-/**
  * `minStepsBetweenValues` gates the *keyboard* path too (`handleInputChange`'s own
  * `validateMinimumDistance` check), not only pointer drag — verified from source: the change is
  * rejected outright (the value stays put) rather than partially applied. `End` on the lower

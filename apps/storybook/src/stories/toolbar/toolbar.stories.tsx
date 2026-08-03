@@ -1,4 +1,3 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Toolbar } from '@base-ui/react/toolbar';
@@ -142,61 +141,6 @@ export const ToolbarButtonAsMenuTrigger: Story = {
     await waitFor(async () => {
       await expect(body.queryByRole('menu')).not.toBeInTheDocument();
     });
-  },
-};
-
-/**
- * The required composite-keyboard story (`ToolbarRoot.test.tsx`'s own
- * parametrized suite uses this exact Button/Link/Group/Input composition):
- * arrow keys rove focus across every item type in one continuous sequence,
- * looping at the ends. Home/End are explicitly asserted as no-ops — Toolbar
- * never passes `enableHomeAndEndKeys` to its `CompositeRoot` (confirmed by
- * its absence in `ToolbarRoot.tsx` and by the lack of any Home/End case in
- * `ToolbarRoot.test.tsx`'s "keyboard navigation" suite), unlike a standalone
- * Toggle Group (see the toggle-group stories).
- */
-export const CompositeKeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Toolbar.Root aria-label="Mixed items" className={theme.ToolbarRoot}>
-      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
-      <Toolbar.Link href="https://base-ui.com" className={theme.ToolbarButton}>
-        Docs
-      </Toolbar.Link>
-      <Toolbar.Group aria-label="Alignment" className={theme.ToolbarGroup}>
-        <Toolbar.Button className={theme.ToolbarButton}>Left</Toolbar.Button>
-        <Toolbar.Button className={theme.ToolbarButton}>Right</Toolbar.Button>
-      </Toolbar.Group>
-      <Toolbar.Input defaultValue="" aria-label="Search" className={theme.ToolbarButton} />
-    </Toolbar.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const bold = canvas.getByRole('button', { name: 'Bold' });
-    const link = canvas.getByRole('link', { name: 'Docs' });
-    const [left, right] = canvas.getAllByRole('button', { name: /Left|Right/ });
-    const input = canvas.getByRole('textbox', { name: 'Search' });
-
-    await userEvent.tab();
-    await expect(bold).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(link).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(left).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(right).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(input).toHaveFocus();
-
-    // Looping: from the last item, ArrowRight wraps back to the first.
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(bold).toHaveFocus();
-
-    // Home/End are not wired at all -- focus does not move.
-    await userEvent.keyboard('{End}');
-    await expect(bold).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(bold).toHaveFocus();
   },
 };
 

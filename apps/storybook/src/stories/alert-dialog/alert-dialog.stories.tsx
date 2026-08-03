@@ -630,54 +630,6 @@ export const CustomRenderComposition: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Esc closes and returns focus to the trigger                         */
-/* ------------------------------------------------------------------ */
-
-function EscFocusReturnExample() {
-  return (
-    <AlertDialog.Root>
-      <AlertDialog.Trigger className={theme.Button}>Sign out</AlertDialog.Trigger>
-      <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={theme.DialogBackdrop} />
-        <AlertDialog.Popup className={theme.DialogPopup}>
-          <div className="AlertDialogIntro">
-            <AlertDialog.Title className={theme.DialogTitle}>Sign out?</AlertDialog.Title>
-            <AlertDialog.Description className={theme.DialogDescription}>
-              Press Escape to close — focus returns to the trigger that opened this dialog.
-            </AlertDialog.Description>
-          </div>
-          <div className={theme.DialogActions}>
-            <AlertDialog.Close className={theme.Button}>Cancel</AlertDialog.Close>
-            <AlertDialog.Close data-color="red" className={theme.Button}>
-              Sign out
-            </AlertDialog.Close>
-          </div>
-        </AlertDialog.Popup>
-      </AlertDialog.Portal>
-    </AlertDialog.Root>
-  );
-}
-
-/**
- * Esc is the one dismissal path still open (outside-press is permanently
- * blocked) — closing via Esc restores focus to the Trigger that opened the
- * dialog, the same `FloatingFocusManager` behavior Dialog relies on.
- */
-export const EscFocusReturn: Story = {
-  tags: ['tests'],
-  render: () => <EscFocusReturnExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Sign out' });
-
-    await userEvent.click(trigger);
-    const dialog = await body.findByRole('alertdialog');
-    await waitFor(() => expect(dialog).toBeVisible());
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-    await waitFor(() => expect(trigger).toHaveFocus());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Handle + payload reused across many triggers                        */

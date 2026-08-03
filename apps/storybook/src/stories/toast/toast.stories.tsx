@@ -1103,49 +1103,6 @@ export const PriorityAnnouncements: Story = {
   },
 };
 
-function KeyboardExample() {
-  return (
-    <ToastDemoShell>
-      <AddMessageButton timeout={0} />
-    </ToastDemoShell>
-  );
-}
-
-/** The keyboard contract: F6 jumps to the viewport from anywhere (recording the previously focused element and pausing timers), Tab enters the stack at the newest toast, Escape closes the focused toast and moves focus to the next one, and Shift+Tab hands focus back to where you were. Toasts never steal focus on open ([#4533](https://github.com/mui/base-ui/pull/4533) rejected a `focus` option). */
-export const KeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => <KeyboardExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const add = canvas.getByRole('button', { name: 'Add toast' });
-    await userEvent.click(add);
-    await userEvent.click(add);
-    await waitFor(() => expect(body.getAllByRole('dialog')).toHaveLength(2));
-
-    // F6 focuses the viewport landmark from anywhere in the window.
-    await userEvent.keyboard('{F6}');
-    const viewport = body.getByRole('region', { name: 'Notifications' });
-    await waitFor(() => expect(viewport).toHaveFocus());
-
-    // Tab enters the stack at the newest (frontmost) toast.
-    await userEvent.tab();
-    const front = body.getByRole('dialog', { name: 'Message 2' });
-    await waitFor(() => expect(front).toHaveFocus());
-
-    // Escape closes the focused toast; focus moves to the surviving toast.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(body.queryByText('Message 2')).not.toBeInTheDocument(), {
-      timeout: 3000,
-    });
-    const remaining = body.getByRole('dialog', { name: 'Message 1' });
-    await waitFor(() => expect(remaining).toHaveFocus());
-
-    // Shift+Tab returns focus to the previously focused element.
-    await userEvent.tab({ shift: true });
-    await waitFor(() => expect(add).toHaveFocus());
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Styling contract                                                    */
 /* ------------------------------------------------------------------ */

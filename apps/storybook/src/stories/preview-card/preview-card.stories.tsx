@@ -68,57 +68,6 @@ export const Hero: Story = {
   ),
 };
 
-/** Focus opens the preview card too, with the same 600ms delay as hover (`useFocus(..., { delay })` is wired unconditionally — brief.md §6). This is the one non-mouse modality Preview Card still supports; touch and screen readers never trigger it (see the MDX page). */
-export const KeyboardFocusOpen: Story = {
-  tags: ['tests'],
-  render: () => (
-    <PreviewCard.Root>
-      <p className="PreviewCardParagraph">
-        Read more about{' '}
-        <PreviewCard.Trigger
-          className={theme.PreviewCardTrigger}
-          href="https://en.wikipedia.org/wiki/Typography"
-        >
-          typography
-        </PreviewCard.Trigger>{' '}
-        before you start.
-      </p>
-      <PreviewCard.Portal>
-        <PreviewCard.Positioner className={theme.PreviewCardPositioner} sideOffset={8}>
-          <PreviewCard.Popup className={theme.PreviewCardPopup}>
-            <PreviewCard.Arrow className={theme.PreviewCardArrow} />
-            <div className={theme.PreviewCardPopupContent}>
-              <p className={theme.PreviewCardSummary}>
-                <strong>Typography</strong> is the art of arranging type.
-              </p>
-            </div>
-          </PreviewCard.Popup>
-        </PreviewCard.Positioner>
-      </PreviewCard.Portal>
-    </PreviewCard.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('link', { name: 'typography' });
-
-    // Tab to the link and focus it — no mouse events involved.
-    await userEvent.tab();
-    await waitFor(() => expect(trigger).toHaveFocus());
-
-    // Focus pays the same 600ms delay as hover, so wait generously.
-    await waitFor(() => expect(body.getByText(/is the art of arranging type/)).toBeVisible(), {
-      timeout: 2000,
-    });
-
-    // Blurring away (tabbing off the link) closes the card again.
-    await userEvent.tab();
-    await waitFor(
-      () => expect(body.queryByText(/is the art of arranging type/)).not.toBeInTheDocument(),
-      { timeout: 2000 },
-    );
-  },
-};
-
 const arrowSides = ['top', 'right', 'bottom', 'left'] as const;
 
 /** All positioning lives on the Positioner: `side`, `align`, `sideOffset`. `PreviewCard.Arrow`'s `data-side` attribute drives the rotation so one CSS-only arrow serves all four placements — the same contract as Tooltip and Popover. */

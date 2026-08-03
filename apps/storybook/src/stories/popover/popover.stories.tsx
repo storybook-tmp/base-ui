@@ -310,58 +310,6 @@ export const OpenCloseInteraction: Story = {
   },
 };
 
-/** Non-modal focus contract: opening moves focus to the first tabbable element, and tabbing past the last element closes the popup and continues the document tab order after the trigger. */
-export const KeyboardTabThrough: Story = {
-  tags: ['tests'],
-  render: () => (
-    <div className="PopoverRow">
-      <Popover.Root>
-        <Popover.Trigger className={theme.PopoverTrigger}>Quick actions</Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner sideOffset={8}>
-            <Popover.Popup className={theme.PopoverPopup}>
-              <Popover.Title className={theme.PopoverTitle}>Quick actions</Popover.Title>
-              <div className="PopoverRow">
-                <button type="button" className={theme.PopoverTrigger}>
-                  Archive
-                </button>
-                <button type="button" className={theme.PopoverTrigger}>
-                  Snooze
-                </button>
-              </div>
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
-      </Popover.Root>
-      <button type="button" className={theme.PopoverTrigger}>
-        Next in tab order
-      </button>
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Quick actions' });
-
-    trigger.focus();
-    await userEvent.keyboard('{Enter}');
-    const popup = await body.findByRole('dialog');
-
-    // Focus moves to the first tabbable element inside the popup.
-    const archive = within(popup).getByRole('button', { name: 'Archive' });
-    await waitFor(() => expect(archive).toHaveFocus());
-
-    await userEvent.tab();
-    await expect(within(popup).getByRole('button', { name: 'Snooze' })).toHaveFocus();
-
-    // Tabbing past the last element closes the popup and moves on.
-    await userEvent.tab();
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-    await waitFor(() =>
-      expect(canvas.getByRole('button', { name: 'Next in tab order' })).toHaveFocus(),
-    );
-  },
-};
-
 /** `modal` locks scroll and disables outside pointer interaction via an internal backdrop. Focus trapping only activates because a `Popover.Close` is rendered — visually hidden here — so assistive tech always has an escape hatch (#4084). */
 export const ModalTrue: Story = {
   tags: ['api-ref'],

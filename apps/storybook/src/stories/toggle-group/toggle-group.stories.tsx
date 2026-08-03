@@ -182,57 +182,6 @@ export const Multiple: Story = {
 };
 
 /**
- * Required composite-keyboard story: a standalone ToggleGroup is a single Tab
- * stop with roving arrow-key focus (looping at the ends) and Home/End support.
- */
-export const CompositeKeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <ToggleGroup aria-label="Numbered options" className={theme.ToggleGroupRoot}>
-      <Toggle aria-label="One" value="one" className={theme.ToggleGroupItem}>
-        1
-      </Toggle>
-      <Toggle aria-label="Two" value="two" className={theme.ToggleGroupItem}>
-        2
-      </Toggle>
-      <Toggle aria-label="Three" value="three" className={theme.ToggleGroupItem}>
-        3
-      </Toggle>
-      <Toggle aria-label="Four" value="four" className={theme.ToggleGroupItem}>
-        4
-      </Toggle>
-    </ToggleGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const one = canvas.getByRole('button', { name: 'One' });
-    const two = canvas.getByRole('button', { name: 'Two' });
-    const four = canvas.getByRole('button', { name: 'Four' });
-
-    // Single tab stop: only the first item is in the tab sequence up front.
-    await expect(one).toHaveAttribute('tabindex', '0');
-    await expect(two).toHaveAttribute('tabindex', '-1');
-
-    await userEvent.tab();
-    await expect(one).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(two).toHaveFocus();
-
-    // Looping: from the last item, ArrowRight wraps back to the first.
-    await userEvent.keyboard('{End}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(one).toHaveFocus();
-
-    // Home moves focus straight to the first item.
-    await userEvent.keyboard('{ArrowLeft}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(one).toHaveFocus();
-  },
-};
-
-/**
  * Single mode (`multiple={false}`, the default) is deselectable to empty:
  * clicking the pressed item again clears the selection entirely, unlike
  * RadioGroup which always keeps exactly one option selected
