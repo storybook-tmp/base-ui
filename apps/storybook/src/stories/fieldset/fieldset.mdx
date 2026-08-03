@@ -9,43 +9,8 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Fieldset
 
-{/* BEGIN: general */}
-A native fieldset element with an easily stylable legend.
-
-- **Import:** `import { Fieldset } from '@base-ui/react/fieldset';`
-- **Parts:** 2 (`Fieldset.Root`, `Fieldset.Legend`).
-- **Status:** Stable, founding-era. Created in the same PR as Field (`c51fb490a`, 2024-08-20, [#477](https://github.com/mui/base-ui/pull/477)).
-- **ARIA pattern:** none of its own. Fieldset is grouping/labeling machinery for the platform's native `<fieldset>` element, not a widget.
-
-<Canvas of={FieldsetStories.Hero} />
-
-## Features
-
-- **Native `<fieldset>` disabled cascade**: `disabled` sets the real DOM `disabled` attribute; descendant native controls are disabled by the _browser_, independent of any React wiring (pinned by `FieldsetRoot.test.tsx`: an inner `<input>` is disabled with zero Base UI wiring).
-- **Ancestor-disabled always wins**: an outer `disabled` Fieldset forces every nested Fieldset disabled regardless of its own `disabled` prop.
-- **Composes over other Base UI roots via `render`**: `<Fieldset.Root render={<RadioGroup />}>` makes `Fieldset.Root` _become_ the literal element the composed-over Root renders as, rather than adding an extra wrapping node (standard Base UI `render` grammar). For RadioGroup that's its own `<div role="radiogroup">`, not a native `<fieldset>`. The composed-over component's element type wins, and Fieldset's `aria-labelledby`/`disabled` still land on it. Works with `RadioGroup`, `CheckboxGroup`, and `Slider.Root`.
-- **No state machine of its own**: `FieldsetRootState`/`FieldsetLegendState` contain exactly one field, `disabled: boolean`. All validity/interaction state belongs to `Field.Root`.
-
-<Canvas of={FieldsetStories.DisabledCascade} />
-
-{/* END: general */}
-
-{/* BEGIN: when-to-use */}
-## When to use
-
-- **One label, several controls**: compose `Fieldset` when a single label applies to multiple controls, such as a range slider with multiple thumbs or a section that combines several inputs.
-- **Checkbox/radio groups**: keep the group label in `Fieldset.Legend`, and wrap each option in `Field.Item` so it gets its own label/description.
-
-<Canvas of={FieldsetStories.GroupedRadio} />
-
-## When not to use
-
-- **A single control needing a label**: use `Field.Label` (or a plain `<label>`), not Fieldset; wrapping one control in a `Fieldset.Root` for no grouping benefit gains nothing.
-- **A group of non-identical controls needing shared validation**: the boundary is unsettled today (see Known issues below); don't assume a definitive answer exists yet.
-
-{/* END: when-to-use */}
-
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -57,119 +22,8 @@ import { Fieldset } from '@base-ui/react/fieldset';
 ```
 
 | Part              | Renders      | Purpose                                                  |
-| :----------------- | :------------ | :-------------------------------------------------------- |
+| :---------------- | :----------- | :------------------------------------------------------- |
 | `Fieldset.Root`   | `<fieldset>` | The native grouping boundary; carries `disabled` cascade |
 | `Fieldset.Legend` | `<div>`      | The stylable label, auto-linked via `aria-labelledby`    |
 
 {/* END: anatomy */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-Neither part exposes CSS variables; the only styling hook is `data-disabled`, derived from `state.disabled`.
-
-{/* END: styling */}
-
-{/* BEGIN: history */}
-## Decision log
-
-- **`Fieldset.Legend` renders a `<div>`, not a native `<legend>`** ([#3044](https://github.com/mui/base-ui/issues/3044), closed): `<legend>` elements are hard to style and position and don't act like regular flow elements. Using `div` + `aria-labelledby` avoids the styling issues and minimizes the a11y issues (see [adrianroselli.com's `<legend>` bug research](https://adrianroselli.com/2022/07/use-legend-and-fieldset.html#Bugs)).
-
-{/* END: history */}
-
-{/* BEGIN: known-issues */}
-## Known issues & open questions
-
-- **[#3930](https://github.com/mui/base-ui/issues/3930)** ("Investigate `Fieldset`s as validation boundaries", open): today, a group of _non-identical_ controls gets its validation boundary from an outer `Field.Root` wrapping the whole `Fieldset.Root` (`<Field.Root><Fieldset.Root>...</Fieldset.Root></Field.Root>`), while _identical_ repeated controls (radio/checkbox groups) each get their own `Field.Item` inside the Fieldset. We flagged this asymmetry as worth reconsidering: possibly making `Fieldset.Root` itself the validation boundary directly, with one `Field.Root` per repeated control nested _inside_ it instead. **Treat this as unresolved, not settled behavior.**
-- **[#3260](https://github.com/mui/base-ui/issues/3260)** (open): `Fieldset.Description`/`Fieldset.Error` parts requested; Fieldset ships with exactly 2 parts today. Group-level description/error text has no dedicated part; author it manually or rely on per-item `Field.Description`/`Field.Error`.
-- **[#3262](https://github.com/mui/base-ui/issues/3262)** (open): `useFieldsetRootContext` is not publicly exported; consumers can't read Fieldset's `disabled` state the sanctioned way. `data-disabled` is the escape hatch today.
-
-{/* END: known-issues */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Keep `Fieldset.Root` a real `<fieldset>` in your mental model: its native `disabled` cascade and grouping semantics are the whole point of not reinventing it.
-- Compose `Fieldset.Root` via `render` over a Base UI group root (RadioGroup, CheckboxGroup, Slider.Root) instead of wrapping it in an extra element.
-
-**Don't**
-
-- Don't expect `Fieldset.Legend` to be a native `<legend>`: it's a `<div>` by design ([#3044](https://github.com/mui/base-ui/issues/3044)).
-- Don't assume a single right answer for validation boundaries around heterogeneous grouped controls. [#3930](https://github.com/mui/base-ui/issues/3930) is open and unresolved.
-
-{/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Legend hierarchy comes from size and weight, not color. (BR-07)
-- Write the legend in sentence case. (BR-08)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="fieldset">
-  <WildCard
-    repo="WordPress/gutenberg"
-    title="WordPress Gutenberg"
-    href="https://github.com/WordPress/gutenberg/blob/HEAD/packages/ui/src/form/primitives/fieldset/root.tsx"
-    live="https://github.com/WordPress/gutenberg"
-    license="no SPDX license detected"
-    reuse="link-only, do not copy"
-  >
-    one file per part (root/legend/description/details/context) in the form-primitives package, an
-    unusually complete Fieldset breakdown.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/fieldset.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevShot}
-  >
-    a Tailwind wrapper distributed both as an installable registry item and a package export.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/fieldset.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's design system also treats Fieldset as its own registry file rather than folding it
-    into Field.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: when-to-use */}
-## Related
-
-- [Field](?path=/docs/form-inputs-field--docs): the single-control labeling/validation counterpart; `Field.Item` labels each option inside a Fieldset-grouped control.
-
-{/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Fieldset.Root
-
-<ArgTypes of={Fieldset.Root} />
-
-### Fieldset.Legend
-
-<ArgTypes of={Fieldset.Legend} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/fieldset](https://base-ui.com/react/components/fieldset#api-reference)._
-
-{/* END: props */}
