@@ -51,3 +51,7 @@ test/performance/benchmarks/results.json
 # Build folders
 apps/storybook/storybook-static
 apps/mcp-server/dist
+# Baked in by apps/mcp-server/scripts/prepare-publish.mjs for pkg.pr.new publishes
+apps/mcp-server/manifests
+apps/mcp-server/services
+apps/mcp-server/provenance.json

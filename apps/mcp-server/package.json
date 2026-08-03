@@ -1,16 +1,33 @@
 {
-  "name": "base-ui-mcp",
+  "name": "@storybook-tmp/baseui-mcp",
+  "version": "0.0.0",
   "private": true,
+  "description": "Base UI design-system Storybook MCP server with the Storybook build's manifests baked in",
   "type": "module",
-  "scripts": {
-    "dev": "node --watch src/server.ts",
-    "build": "tsc -b && vite build",
-    "serve": "node dist/server.js"
+  "bin": {
+    "baseui-mcp": "./dist/cli.js"
   },
-  "dependencies": {
+  "files": [
+    "dist",
+    "manifests",
+    "services",
+    "provenance.json"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/cli.ts --manifests ../storybook/storybook-static/manifests",
+    "build": "tsc -b && vite build",
+    "serve": "node dist/cli.js --manifests ../storybook/storybook-static/manifests",
+    "prepare-publish": "node scripts/prepare-publish.mjs",
+    "test": "vitest run",
+    "typescript": "tsc -b"
+  },
+  "devDependencies": {
     "@storybook/mcp": "=0.8.0",
+    "simple-git": "3.36.0",
     "srvx": "0.11.22",
+    "tsx": "4.21.0",
     "typescript": "6.0.3",
-    "vite": "8.0.11"
+    "vite": "8.0.11",
+    "vitest": "4.1.8"
   }
 }

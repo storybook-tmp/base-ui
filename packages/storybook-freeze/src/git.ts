@@ -23,6 +23,62 @@ export async function localBranches(git: SimpleGit): Promise<string[]> {
   return (await git.branchLocal()).all;
 }
 
+/** Every local branch name mapped to the commit it points at. */
+export async function localBranchShas(git: SimpleGit): Promise<Map<string, string>> {
+  const raw = await git.raw([
+    'for-each-ref',
+    '--format=%(objectname) %(refname:short)',
+    'refs/heads/',
+  ]);
+  const shas = new Map<string, string>();
+  for (const line of raw.split('\n')) {
+    const [sha, ...rest] = line.trim().split(/\s+/);
+    if (sha && rest.length > 0) {
+      shas.set(rest.join(' '), sha);
+    }
+  }
+  return shas;
+}
+
+/**
+ * Every branch on `remote` mapped to the commit it points at, read with `ls-remote` so no
+ * objects are fetched. Used to skip pushes that would be no-ops.
+ */
+export async function remoteBranchShas(
+  git: SimpleGit,
+  remote: string,
+): Promise<Map<string, string>> {
+  const raw = await git.listRemote(['--heads', remote]);
+  const shas = new Map<string, string>();
+  for (const line of raw.split('\n')) {
+    const [sha, ref] = line.trim().split(/\s+/);
+    if (sha && ref?.startsWith('refs/heads/')) {
+      shas.set(ref.slice('refs/heads/'.length), sha);
+    }
+  }
+  return shas;
+}
+
+/** The commit `branch` points at on `remote`, or undefined if the remote has no such branch. */
+export async function remoteBranchSha(
+  git: SimpleGit,
+  remote: string,
+  branch: string,
+): Promise<string | undefined> {
+  const raw = await git.listRemote(['--heads', remote, `refs/heads/${branch}`]);
+  const [sha, ref] = raw.trim().split(/\s+/);
+  return ref === `refs/heads/${branch}` ? sha : undefined;
+}
+
+export async function remoteUrl(git: SimpleGit, remote: string): Promise<string | undefined> {
+  try {
+    const url = await git.remote(['get-url', remote]);
+    return typeof url === 'string' ? url.trim() || undefined : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** The ref to return to after regenerating: the current branch name, or the SHA if detached. */
 export async function currentRef(git: SimpleGit): Promise<string> {
   const name = (await git.revparse(['--abbrev-ref', 'HEAD'])).trim();
@@ -44,4 +100,17 @@ export async function resetBranchToHead(git: SimpleGit, branch: string): Promise
 export async function commitAll(git: SimpleGit, message: string): Promise<void> {
   await git.add(['-A']);
   await git.commit(message);
+}
+
+/**
+ * Force-push `branch` to the same-named ref on `remote`, without checking it out.
+ * Regenerated experiment branches rewrite history on every freeze, so they never
+ * fast-forward; the remote refs are disposable build artifacts.
+ */
+export async function forcePushBranch(
+  git: SimpleGit,
+  remote: string,
+  branch: string,
+): Promise<void> {
+  await git.push([remote, `${branch}:${branch}`, '--force']);
 }

@@ -24,6 +24,7 @@
     "docs:infra": "pnpm --filter docs run docs-infra",
     "docs:validate": "pnpm --filter docs run internal-validate --command 'pnpm docs:validate'",
     "experiment:freeze": "tsx packages/storybook-freeze/src/cli.ts",
+    "experiment:publish-branches": "tsx packages/storybook-freeze/src/publish-branches.ts",
     "extract-error-codes": "code-infra extract-error-codes --errorCodesPath docs/src/error-codes.json --detection opt-out",
     "eslint": "pnpm -r --if-present lint && eslint . --cache --report-unused-disable-directives --max-warnings 0",
     "eslint:ci": "pnpm -r --if-present lint && eslint . --report-unused-disable-directives --max-warnings 0",
