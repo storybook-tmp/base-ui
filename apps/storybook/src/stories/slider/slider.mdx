@@ -10,26 +10,8 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Slider
 
-{/* BEGIN: general */}
-An easily stylable range input.
-
-- **Import:** `import { Slider } from '@base-ui/react/slider';`
-- **Parts:** 7 (`Slider.Root`, `Label`, `Value`, `Control`, `Track`, `Indicator`, `Thumb`).
-- **Status:** Stable, no `[New]`/`[Preview]` tag. Current API shipped via PR [#373](https://github.com/mui/base-ui/issues/373) (2024-07-02), a ground-up rewrite of a legacy `@mui/base` lineage tracing back to 2023.
-- **ARIA pattern:** [Slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/), implemented through the browser's own native `<input type="range">` semantics rather than a custom ARIA widget (see below).
-
-<Canvas of={SliderStories.Hero} />
-
-## Features
-
-- **Behaves like a native range input, with every visual layer stylable**: each `Slider.Thumb` nests a real `<input type="range">`, so assistive technology that only understands native range-input semantics works automatically.
-- **`Control` vs `Track` is a semantics-vs-visuals split**: `Control` is the tracked, clickable/draggable hit area; `Track` is purely visual and can carry its own padding for an inset look without desyncing pointer tracking (mui/base-ui#981).
-- **Range (multi-thumb) support built in**: pass an array `value`/`defaultValue`; `thumbCollisionBehavior` (`'push'` / `'swap'` / `'none'`) controls what happens when thumbs meet.
-- **RTL and vertical orientation are first-class**: both have dedicated test matrices crossing arrow-key direction × orientation.
-
-{/* END: general */}
-
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - A continuous or discretely-stepped numeric range where the current position **relative to its bounds** is the primary thing being communicated: volume, brightness, price-range filtering.
@@ -46,6 +28,7 @@ An easily stylable range input.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -64,7 +47,7 @@ import { Slider } from '@base-ui/react/slider';
 ```
 
 | Part               | Renders                                 | Purpose                                            | Optional?           |
-| :------------------ | :--------------------------------------- | :-------------------------------------------------- | :------------------- |
+| :----------------- | :-------------------------------------- | :------------------------------------------------- | :------------------ |
 | `Slider.Root`      | `<div>`, `role="group"`                 | Manages state                                      | required            |
 | `Slider.Label`     | `<div>`                                 | Accessible label, auto-associated with every thumb | yes                 |
 | `Slider.Value`     | `<output>`                              | Text readout of the current value(s)               | yes                 |
@@ -77,227 +60,13 @@ Minimal composition is `Root > Control > Track > (Indicator, Thumb)`. `Label` an
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Keyboard-driven stepping
-
-<Canvas of={SliderStories.Hero} />
-
-ArrowRight/ArrowUp increment by `step` (default `1`); ArrowLeft/ArrowDown decrement. Shift+Arrow steps by `largeStep` (default `10`); **PageUp/PageDown also step by `largeStep`, always**, unlike Number Field, which does _not_ implement PageUp/PageDown as stepping keys (`?path=/docs/form-inputs-number-field--docs`). Home/End jump to `min`/`max` (or the adjacent thumb's value, offset by `minStepsBetweenValues`, on range sliders). Keyboard changes commit immediately: `onValueCommitted` fires on the same keypress, unlike a drag, which only commits on pointer release.
-
-### Range sliders
-
-<Canvas of={SliderStories.RangeTwoThumb} />
-
-Passing an array `value`/`defaultValue` puts the slider into range mode, with one `Slider.Thumb` per array entry, each carrying its own `index` and **its own `aria-label`**: a single `Slider.Label` only names the group, not any individual thumb, so multi-thumb sliders need per-thumb labels to be individually announced. Range sliders submit **one form value per thumb under the same `name`** (`formData.getAll(name)` returns an array), not a single delimited string.
-
-### Vertical orientation
-
-<Canvas of={SliderStories.Vertical} />
-
-`orientation="vertical"` flips the geometry calculations; vertical sliders need an explicit height set via CSS since there's no default intrinsic vertical size the way horizontal sliders get from block-level width.
-
-### Form integration
-
-<Canvas of={SliderStories.FormIntegration} />
-
-Each Thumb's nested native `<input type="range">` carries `name`/`form`/`min`/`max`/`step` directly, so a single-thumb slider participates in native form submission with no extra wiring.
-
-### Keyboard stepping, the full contract
-
-<Canvas of={SliderStories.KeyboardStepping} />
-
-ArrowRight/Left step by `step`; Shift+Arrow and PageUp/PageDown both step by `largeStep`, always; Home/End jump to `min`/`max`. Every keyboard change commits immediately.
-
-### `minStepsBetweenValues` also gates the keyboard path
-
-<Canvas of={SliderStories.MinStepsBetweenValues} />
-
-`minStepsBetweenValues` is enforced by `handleInputChange`'s own `validateMinimumDistance` check, so it applies to keyboard stepping too, not only pointer drag. A rejected change leaves the value untouched rather than partially applying it.
-
-### RTL: the physical direction flip
-
-<Canvas of={SliderStories.RTL} />
-
-In RTL, ArrowRight still visually advances the thumb rightward, but the _underlying numeric value decreases_: `getNewValue` is called with a flipped direction sign. This is the easy-to-miss half of the RTL contract (the purely visual `dir="rtl"` + `DirectionProvider` pairing is shown without a play in `direction-provider.stories.tsx`).
-
-### Controlled value, with `onValueCommitted` tracked separately
-
-<Canvas of={SliderStories.ControlledValueWithCommit} />
-
-A fully controlled slider (`value` + `onValueChange`) with `onValueCommitted` tracked in a separate counter. For keyboard interactions the two fire 1:1; a drag would fire `onValueChange` continuously but `onValueCommitted` only once, on release.
-
-### `Field` integration
-
-<Canvas of={SliderStories.FieldIntegration} />
-
-The slider registers with a surrounding `Field.Root` the same way Number Field does. `data-valid`/`data-invalid` land on every part's own host element, including Thumb's outer `<div>`, not the nested `role="slider"` `<input>` itself.
-
-### Marks (a hand-composed recipe, not a built-in feature)
-
-<Canvas of={SliderStories.CustomMarks} />
-
-Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: plain `<span>` marks as flex children of `Track`, laid out with `justify-content: space-between`. `Indicator`/`Thumb` stay absolutely positioned by the library, so they layer over the marks without conflict.
-
-### Formatted value and a custom `aria-valuetext`
-
-<Canvas of={SliderStories.FormattedValueWithGetAriaValueText} />
-
-`Slider.Value`'s `format`/`locale` (read from `Slider.Root`) drive the visible readout; `Slider.Thumb`'s `getAriaValueText` can produce a more meaningful screen-reader announcement than the raw formatted number.
-
-### Disabled
-
-<Canvas of={SliderStories.DisabledState} />
-
-`data-disabled` lands on every part, and the nested `<input type="range">` gets a real native `disabled` attribute, so it is excluded from the Tab order, unlike Number Field's stepper buttons, which use `aria-disabled` to stay focusable.
-
-**Not demonstrated here**: `thumbCollisionBehavior` (`push`/`swap`/`none`) and the track-press-vs-drag `data-dragging` contrast both require a real, multi-step pointer-drag sequence with precise coordinate math to exercise meaningfully. `thumbCollisionBehavior`'s `resolveThumbCollision` is only invoked from `SliderControl`'s pointer path, never from the keyboard path (`handleInputChange` only calls `validateMinimumDistance`, so keyboard stepping behaves like `"none"` regardless of the prop). Same for `thumbAlignment="edge"`'s real layout-measurement (`getBoundingClientRect`) contrast. All three require real pointer drags, which aren't reliably simulated.
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-| Key                                    | Context       | Action                                                                     |
-| :-------------------------------------- | :------------- | :-------------------------------------------------------------------------- |
-| ArrowUp / ArrowRight (flipped in RTL)  | Thumb focused | Increments by `step`; commits immediately                                  |
-| ArrowDown / ArrowLeft (flipped in RTL) | Thumb focused | Decrements by `step`, symmetric                                            |
-| Shift + arrow                          | Thumb focused | Steps by `largeStep`                                                       |
-| Home / End                             | Thumb focused | Jumps to `min`/`max` (or adjacent thumb's value ± offset on range sliders) |
-| PageUp / PageDown                      | Thumb focused | Steps by `largeStep` always, regardless of Shift                           |
-| Tab / Shift+Tab                        | Thumb focused | Moves focus to the next/previous thumb, or out of the slider               |
-
-- **The rendered role is the native, implicit `role="slider"` of `<input type="range">`, not a custom `div role="slider"` ARIA widget.** `getByRole('slider')` resolves to an `<input>` element throughout our test suite; `Root` itself renders `role="group"`, never `role="slider"`.
-- **We chose the native input deliberately** (see the comment in `SliderThumb.test.tsx`): Android TalkBack's increase/decrease actions work on `input type="range"` via native change events, but not on pure ARIA implementations using `div role="slider"` (see the Chromium issue and mui/material-ui#23506 cited there). **The input element(s) must be the only focusable element(s).** A consumer inspecting the DOM expecting a styled `div[role=slider]` (as many other headless-slider libraries implement) will instead find a visually-hidden native `<input type="range">` doing the real work.
-- `Slider.Value` renders `aria-live="off"` by default because a drag interaction would otherwise cause continuous, unhelpful announcements mid-gesture.
-- **Known issues**: no open accessibility issues are known.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute                                                                      | Present when                                                                  |
-| :------------------------------------------------------------------------------ | :----------------------------------------------------------------------------- |
-| `data-dragging`                                                                | actively dragging; explicitly **not** present for a simple click/track-press  |
-| `data-orientation`                                                             | `"horizontal"` / `"vertical"`                                                 |
-| `data-disabled`                                                                | disabled                                                                      |
-| `data-index`                                                                   | Thumb only: its position in the value array                                   |
-| `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-focused` | Field integration only                                                        |
-
-**No CSS custom properties are part of the documented styling contract**: unlike Select/Popover's `--anchor-width`, Slider's internal `--position`/`--start-position`/`--relative-size` are inline-style implementation plumbing, not a consumer-facing theming API.
-
-**`.Thumb:has(:focus-visible)`, not `.Thumb:focus-visible`**: focus never lands on the visible Thumb `<div>` itself; it lives on the nested input. Styling `:focus-visible` directly on a custom Thumb class does nothing (a breaking change from beta.3's TalkBack fix, [#2578](https://github.com/mui/base-ui/issues/2578)). The hero demo's own CSS uses `:has(:focus-visible)`.
-
-{/* END: styling */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Style focus rings with `.Thumb:has(:focus-visible)`, matching where focus actually lives.
-- Give every thumb in a multi-thumb slider its own `aria-label`.
-
-**Don't**
-
-- Don't expect `div[role="slider"]` in the DOM; query the native `<input>` instead.
-- Don't turn on `aria-live` for `Slider.Value` expecting more helpful announcements: it's off by default for a documented reason.
-
-{/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Track on the sunken surface token; focus is the single two-layer ring. (BR-09, DS-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="slider">
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/slider.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    a Tailwind-styled Slider registry item, copy-paste distributed like the rest of the 9ui set.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/slider.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    the same wrapper pattern, published as both a package export and an installable registry file.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/slider.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's design system also ships a dedicated Slider wrapper as part of its near-complete
-    registry.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For typed, formatted, or locale-sensitive numeric precision, use [Number Field](?path=/docs/form-inputs-number-field--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Slider.Root
-
-<ArgTypes of={Slider.Root} />
-
-### Slider.Label
-
-<ArgTypes of={Slider.Label} />
-
-### Slider.Value
-
-<ArgTypes of={Slider.Value} />
-
-### Slider.Control
-
-<ArgTypes of={Slider.Control} />
-
-### Slider.Track
-
-<ArgTypes of={Slider.Track} />
-
-### Slider.Indicator
-
-<ArgTypes of={Slider.Indicator} />
-
-### Slider.Thumb
-
-<ArgTypes of={Slider.Thumb} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/slider](https://base-ui.com/react/components/slider#api-reference)._
-
-{/* END: props */}
 
 ---

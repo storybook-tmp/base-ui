@@ -10,27 +10,8 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Progress
 
-{/* BEGIN: general */}
-Displays the status of a task that takes a long time.
-
-- **Import:** `import { Progress } from '@base-ui/react/progress';`
-- **Parts:** 5 (`Progress.Root`, `Progress.Label`, `Progress.Track`, `Progress.Indicator`, `Progress.Value`).
-- **Status:** Stable. Shipped 2024-07 ([#470](https://github.com/mui/base-ui/pull/470)).
-- **ARIA pattern:** none exists. The W3C APG has no Progressbar pattern page; role semantics live in the core [WAI-ARIA spec](https://www.w3.org/TR/wai-aria-1.2/#progressbar).
-
-<Canvas of={ProgressStories.Hero} />
-
-## Features
-
-- **One value drives everything**: a single `value: number | null` keeps completion status, `aria-valuenow`, the formatted text, and the indicator width in sync for any `min`/`max` (source comment in `ProgressRoot.tsx`).
-- **Accessible indeterminate mode**: `value={null}` still renders `role="progressbar"` with `aria-valuetext="indeterminate progress"`, a stronger contract than a decorative spinner (Base UI ships no Spinner component).
-- **`Intl.NumberFormat` formatting**: percentage-of-range by default; currency, units, or any `Intl` format of the raw value via `format` + `locale`.
-- **Clamping guarantees**: out-of-range and degenerate values (`value > max`, `min === max`) clamp safely instead of overflowing (pinned by `ProgressRoot.test.tsx`).
-- **Screen-reader label workaround built in**: Root injects a hidden span so NVDA announces the label ([#4184](https://github.com/mui/base-ui/issues/4184) / [#4200](https://github.com/mui/base-ui/pull/4200)).
-
-{/* END: general */}
-
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Long-running async tasks where completion is knowable or trackable: uploads, downloads, exports, multi-step processing (the docs hero simulates "Export data").
@@ -45,6 +26,7 @@ Displays the status of a task that takes a long time.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -60,7 +42,7 @@ import { Progress } from '@base-ui/react/progress';
 ```
 
 | Part                 | Renders                      | Purpose                                                      | Optional? |
-| :-------------------- | :---------------------------- | :------------------------------------------------------------ | :--------- |
+| :------------------- | :--------------------------- | :----------------------------------------------------------- | :-------- |
 | `Progress.Root`      | `<div role="progressbar">`   | Owns all `aria-value*` attributes and context                | required  |
 | `Progress.Label`     | `<span role="presentation">` | Visible label, auto-wired to Root's `aria-labelledby`        | yes       |
 | `Progress.Track`     | `<div>`                      | Positioning/overflow context for the indicator               | yes       |
@@ -71,192 +53,11 @@ Root also renders a visually hidden `<span role="presentation">` sibling, the NV
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Determinate values, clamping, and status
-
-Progress is **controlled only**: `value` is required with no internal state, a departure from our uncontrolled-by-default norm because Progress has no lifecycle of its own. The value is clamped to `[min, max]` for `aria-valuenow`, percentage, and indicator width, and `status` becomes `'complete'` once the clamped value reaches `max`:
-
-<Canvas of={ProgressStories.Determinate} />
-
-<Canvas of={ProgressStories.CustomRange} />
-
-Since Progress has no uncontrolled mode, live updates are the consumer bumping `value` directly. `aria-valuenow` tracks every step:
-
-<Canvas of={ProgressStories.LiveValueUpdates} />
-
-### Indeterminate mode
-
-`value={null}` (or any non-finite number) switches status to `indeterminate`: `aria-valuenow` is omitted entirely (the WAI-ARIA-sanctioned signal), `aria-valuetext` defaults to `"indeterminate progress"`, and the Indicator receives **no inline style**. Any sweep animation is entirely consumer CSS keyed off `data-indeterminate`:
-
-<Canvas of={ProgressStories.Indeterminate} />
-
-### Formatting and locale
-
-Default text is the percentage of the range via `Intl.NumberFormat(locale, { style: 'percent' })`. With `format`, the **raw value** is formatted instead (currency, bytes, units). `getAriaValueText` can fully replace the spoken text independently of the visible `Value`:
-
-<Canvas of={ProgressStories.CustomFormat} />
-
-`getAriaValueText` can enrich the spoken text on its own, independent of `format`, without touching the visible `Value`:
-
-<Canvas of={ProgressStories.WithLabelAndCustomAriaValueText} />
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-**Keyboard:** none. Progress is not interactive or focusable by design (it renders no key handlers or `tabIndex`).
-
-- **ARIA**: `role="progressbar"`; `aria-valuemin`/`aria-valuemax` always set; `aria-valuenow` = clamped value (omitted when indeterminate); `aria-valuetext` = formatted value or `"indeterminate progress"`, overridable via `getAriaValueText`; `aria-labelledby` auto-wired from `Progress.Label`.
-- **You must provide**: a label (`Progress.Label` or `aria-label`), and sufficient track/indicator contrast.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-State attributes are identical on **every** part (shared `progressStateAttributesMapping`):
-
-| Attribute            | Present when                     |
-| :-------------------- | :-------------------------------- |
-| `data-progressing`   | value is between `min` and `max` |
-| `data-complete`      | clamped value has reached `max`  |
-| `data-indeterminate` | `value` is `null` or non-finite  |
-
-**No CSS variables.** The fill percentage is applied as plain inline `style.width` on the Indicator, an exception to our usual principle that CSS variables carry dynamic numeric values. You cannot key `calc()`/`transform` styling off a `--progress-percentage` variable; accept the width-based fill or replace `style`/`className` entirely.
-
-{/* END: styling */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`value`**: the only state-driving prop; `null` means indeterminate. There is no `defaultValue`/`onValueChange`; you always own the state.
-- **`min` / `max`**: use for non-0–100 scales (byte counts, item counts); percentage and clamping stay correct.
-- **`format`**: use when the raw value is what users should read (currency, sizes); without it, text mirrors the fill percentage.
-- **`locale`**: pass explicitly in SSR apps. `Intl.NumberFormat(undefined, …)` resolves the runtime locale on each side, which can hydration-mismatch `aria-valuetext` (open [#4616](https://github.com/mui/base-ui/issues/4616)).
-- **`getAriaValueText`**: use for enriched spoken text ("3 of 10 files uploaded") without changing the visible `Value`.
-
-{/* END: general */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Label every progress bar via `Progress.Label` (or `aria-label`): Root wires `aria-labelledby` and ships the NVDA workaround for this path.
-- Pass an explicit `locale` (or a locale-independent `format`) in SSR apps ([#4616](https://github.com/mui/base-ui/issues/4616)).
-
-**Don't**
-
-- Don't rely on `Progress.Value` for accessible text: it is always `aria-hidden`; the accessible path is exclusively `aria-valuetext`/`aria-labelledby` on Root.
-
-{/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Fill with the progress action token — neutral ink in light, green in dark: progress is a good-news moment. (BR-01, BR-05)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="progress">
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/progress.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    a Tailwind-styled Progress registry item, copy-paste distributed like the rest of the 9ui set.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/progress.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    the same wrapper pattern, published as both a package export and an installable registry file.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/progress.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's design system also ships a dedicated Progress wrapper as part of its near-complete
-    registry.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: history */}
-## Decision log
-
-- **2024-07**: Progress ships with Root/Track/Indicator only ([#470](https://github.com/mui/base-ui/pull/470)).
-- **~2024-12**: zero-width bug fixed; the Indicator now explicitly sets `width: 0%` at `value === 0` ([#1204](https://github.com/mui/base-ui/pull/1204), closing [#1201](https://github.com/mui/base-ui/issues/1201)).
-- **2025-02**: `format` prop and `Progress.Value` part added ([#1355](https://github.com/mui/base-ui/pull/1355)).
-- **2025-04**: `Progress.Label` and `locale` added; `getAriaLabel` removed in favor of the Label part ([#1666](https://github.com/mui/base-ui/pull/1666)).
-- **2026-01**: formatting logic de-duplicated with Meter ([#3805](https://github.com/mui/base-ui/pull/3805)).
-- **2026-02**: NVDA label-announcement workaround lands ([#4200](https://github.com/mui/base-ui/pull/4200)).
-- **2026-04**: native-`<progress>` request declined, design question left open ([#4558](https://github.com/mui/base-ui/issues/4558)).
-
-{/* END: history */}
-
-{/* BEGIN: known-issues */}
-## Known issues & open questions
-
-- [#4184](https://github.com/mui/base-ui/issues/4184) (open): NVDA/JAWS label announcement, partially mitigated by the hidden-span workaround; verify with your target AT combination.
-- [#4616](https://github.com/mui/base-ui/issues/4616) (open): SSR hydration mismatch on `aria-valuetext`; workaround: explicit `locale`.
-- [#4558](https://github.com/mui/base-ui/issues/4558) (closed): we declined the request but left the question of why not to use native `<progress>` in 2026 explicitly unresolved.
-
-{/* END: known-issues */}
-
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - To display a **bounded measurement** that is not a task, use [Meter](?path=/docs/status-display-meter--docs).
 - To show identity/image state (same taxonomy category, different job), see [Avatar](?path=/docs/status-display-avatar--docs).
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Progress.Root
-
-<ArgTypes of={Progress.Root} />
-
-### Progress.Label
-
-<ArgTypes of={Progress.Label} />
-
-### Progress.Track
-
-<ArgTypes of={Progress.Track} />
-
-### Progress.Indicator
-
-<ArgTypes of={Progress.Indicator} />
-
-### Progress.Value
-
-<ArgTypes of={Progress.Value} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/progress](https://base-ui.com/react/components/progress#api-reference)._
-
-{/* END: props */}

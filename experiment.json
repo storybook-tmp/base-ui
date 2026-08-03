@@ -1,0 +1,18 @@
+{
+  "branchName": "experiment/when-to-use",
+  "baseCommit": "e3ba5b5a3c5910e157d5e35e40f99fb6a4a7c046",
+  "keptFacets": [
+    "csf-jsdoc.meta",
+    "csf-jsdoc.story",
+    "general.general-brand",
+    "general.general-setup",
+    "general.general-when-to-use",
+    "mdx.anatomy",
+    "mdx.when-to-use",
+    "source-jsdoc.component",
+    "source-jsdoc.props",
+    "story.base"
+  ],
+  "createdAt": "2026-08-03T09:08:24.059Z",
+  "version": 1
+}

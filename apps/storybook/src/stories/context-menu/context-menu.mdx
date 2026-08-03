@@ -10,25 +10,8 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Context Menu
 
-{/* BEGIN: general */}
-A menu that appears at the pointer on right click or long press. It is the same
-action-list popup as Menu, provoked by a gesture on content instead of a visible
-trigger button.
-
-- **Import:** `import { ContextMenu } from '@base-ui/react/context-menu';`
-- **Parts:** 19, but only **`Root` and `Trigger` are original**. Every other part
-  (`Portal`, `Backdrop`, `Positioner`, `Popup`, `Arrow`, `Group`, `GroupLabel`,
-  `Item`, `CheckboxItem`, `CheckboxItemIndicator`, `LinkItem`, `RadioGroup`,
-  `RadioItem`, `RadioItemIndicator`, `SubmenuRoot`, `SubmenuTrigger`, `Separator`)
-  is a direct re-export of the corresponding `Menu.*` part.
-- **Status:** Stable, introduced by
-  [#1665](https://github.com/mui/base-ui/pull/1665).
-
-<Canvas of={ContextMenuStories.Hero} />
-
-{/* END: general */}
-
 {/* BEGIN: when-to-use */}
+
 ## Usage guideline (read this first)
 
 **Use context menus as an enhancement, never as the only way to perform an action.**
@@ -40,54 +23,13 @@ as the sole affordance for an important action is an anti-pattern our Usage Guid
 call out.
 
 |                     | Do                                                                                           | Don't                                                                                     |
-| :------------------- | :-------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
+| :------------------ | :------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
 | **Discoverability** | Pair the context menu with a visible "⋯" button or toolbar control exposing the same actions | Make right-click/long-press the _only_ way to delete, rename, or otherwise act on an item |
 
 {/* END: when-to-use */}
 
-{/* BEGIN: general */}
-## Features
-
-- **2-of-19 re-export ratio, by design**: all the context menu parts are direct
-  re-exports of regular menu parts so they are interchangeable
-  ([#3365](https://github.com/mui/base-ui/issues/3365)). Context Menu is Menu's
-  engine wearing a different Root/Trigger. The same ratio pattern appears in
-  [Alert Dialog](?path=/docs/overlays-alert-dialog--docs) (2 of 9 parts original).
-- **Positioning reuses Menu's logic with a substituted anchor**: `MenuPositioner`
-  branches on `parent.type === 'context-menu'` and feeds itself a virtual,
-  pointer-derived anchor instead of a trigger element ref, with tuned defaults
-  (`align: 'start'`, `alignOffset: 2`, `sideOffset: -5`) that seat the popup right
-  where the pointer clicked.
-- **Anchor-prop precedence**: an explicit `anchor` prop on `Positioner` always wins
-  over the automatic pointer-derived anchor.
-  [#3202](https://github.com/mui/base-ui/pull/3202) fixed a bug where the explicit
-  prop was silently ignored in favor of the pointer anchor.
-- **Mac-only mouseup drag-release gesture**: hold the right mouse button, drag to an
-  item, release to select it (native-macOS-style). Gated in
-  `useMenuItemCommonProps.ts`, the shared handler every menu item uses:
-
-  ```ts
-  // On non-macOS platforms, this mouseup belongs to the right-click gesture
-  // that opened the context menu, so it must not activate an item.
-  if (isContextMenu && !platform.os.mac && event.button === 2) {
-    return;
-  }
-  ```
-
-  On macOS, releasing the right mouse button over an item after a drag activates it.
-  On every other OS, that same mouseup is treated as the tail end of the gesture
-  that opened the menu and ignored, so it doesn't double-fire an activation. A
-  second, independent guard (±1px of the original click point) catches a plain
-  right-click-then-release-without-dragging on every platform, Mac included.
-
-- **`disabled` restores native OS behavior completely**: disabling doesn't just
-  prevent Base UI's menu from opening, it also stops Base UI from suppressing the
-  OS's own context menu. This is a different `disabled` contract than most Base UI
-  popups: the surface reverts fully to native browser behavior.
-
-{/* END: general */}
-
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Surfacing contextual actions on a specific area/element via right-click (desktop)
@@ -114,6 +56,7 @@ call out.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -136,7 +79,7 @@ import { ContextMenu } from '@base-ui/react/context-menu';
 ```
 
 | Part                                                           | Renders                     | Purpose                                                                                                  | Optional?                |
-| :-------------------------------------------------------------- | :--------------------------- | :-------------------------------------------------------------------------------------------------------- | :------------------------ |
+| :------------------------------------------------------------- | :-------------------------- | :------------------------------------------------------------------------------------------------------- | :----------------------- |
 | `ContextMenu.Root`                                             | no element                  | Holds anchor state (a virtual element); resets `MenuRootContext` so nested Menus detect the right parent | required                 |
 | `ContextMenu.Trigger`                                          | `<div>`                     | The area that opens the menu on right click or long press                                                | required                 |
 | `ContextMenu.Portal`                                           | `<div>`                     | Re-export of `Menu.Portal`                                                                               | required for popup parts |
@@ -148,214 +91,8 @@ import { ContextMenu } from '@base-ui/react/context-menu';
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Right-click open flow
-
-Right-click the trigger area and the popup opens at the pointer position (a virtual
-anchor, not a DOM ref), suppressing the native OS context menu:
-
-<Canvas of={ContextMenuStories.Hero} />
-
-### Nested submenus
-
-Nest menus with `SubmenuRoot` + `SubmenuTrigger`, never a nested `Root` (the same
-rule as Menu):
-
-<Canvas of={ContextMenuStories.NestedSubmenu} />
-
-### Checkbox and radio items
-
-`CheckboxItem`/`RadioItem` are the same components as Menu's. `role`,
-`aria-checked`, and the `closeOnClick={false}` default all carry over unchanged:
-
-<Canvas of={ContextMenuStories.CheckboxAndRadioItems} />
-
-### Custom anchor override
-
-An explicit `anchor` prop on `Positioner` always wins over the automatic
-pointer-derived anchor, a precedence fixed by
-[#3202](https://github.com/mui/base-ui/pull/3202):
-
-<Canvas of={ContextMenuStories.CustomAnchorOverride} />
-
-### Disabled trigger: native menu restored
-
-`disabled` restores native OS behavior completely, bringing back the browser's own
-context menu:
-
-<Canvas of={ContextMenuStories.DisabledTrigger} />
-
-### Long-press on touch
-
-<Canvas of={ContextMenuStories.LongPressDescription} />
-
-### Group labels
-
-`Group` + `GroupLabel` are direct re-exports of the Menu parts:
-
-<Canvas of={ContextMenuStories.GroupLabels} />
-
-### Link items
-
-`LinkItem` is a direct re-export of `Menu.LinkItem`, a real `<a href>` carrying
-`role="menuitem"`:
-
-<Canvas of={ContextMenuStories.LinkItems} />
-
-### Mixed `Menu.*`/`ContextMenu.*` composition
-
-Bare `Menu.*` parts nested directly inside a `ContextMenu.Popup`, showing that the
-re-exported parts interchange:
-
-<Canvas of={ContextMenuStories.MixedMenuPartsComposition} />
-
-### `closeOnClick` configuration
-
-<Canvas of={ContextMenuStories.CloseOnClickConfiguration} />
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & gesture reference
-
-| Key / gesture                                         | Context      | Action                                                                                                                                        |
-| :----------------------------------------------------- | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
-| Right-click (mouse, `button: 2`)                      | trigger area | Opens the popup at the pointer position; suppresses the native OS context menu (unless `disabled`)                                            |
-| Long-press (single touch, ~500ms)                     | trigger area | Opens the popup at the touch point; cancelled by >10px movement                                                                               |
-| Hold right mouse button + drag + release over an item | popup open   | Selects the item on release, except within 1px of the original click point, or on non-Mac when the release is the tail of the opening gesture |
-| ArrowDown/ArrowUp/Home/End, Enter/Space, Escape       | popup open   | Same as Menu (inherited, re-exported Item components)                                                                                         |
-| Right-click again while `disabled`                    | trigger area | No-op **and** the native context menu is restored                                                                                             |
-
-- **ARIA managed by the component**: inherited from Menu since every popup part is
-  the same component. Popup renders `role="menu"`; the Item variants render
-  `role="menuitem"`, `menuitemcheckbox`, and `menuitemradio` respectively.
-- The popup follows Menu's own **Menu Button** APG pattern by direct re-export;
-  our Context Menu docs page does not restate that citation itself.
-
-{/* END: a11y */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`disabled` (Root)**: the most decision-relevant prop, because its effect is
-  broader than preventing opening. It also restores the OS's native context menu
-  on right-click.
-- **`Positioner.anchor`**: explicit override of the automatic pointer-derived
-  anchor; wins over the pointer anchor since [#3202](https://github.com/mui/base-ui/pull/3202).
-- **`Positioner.align`/`alignOffset`/`sideOffset`**: default to `'start'`/`2`/`-5`
-  specifically under context-menu parentage, tuned for pointer-seated placement.
-- **No `openOnHover`/`delay`/`closeDelay`/`handle`/`triggerId`/`defaultTriggerId`**:
-  all omitted from the type. A scenario that needs these props needs Menu rather
-  than Context Menu.
-
-{/* END: general */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Pair every context menu with a visible control offering the same actions (see the
-  Usage guideline at the top of this page).
-- Reuse one styled item module for both a button-triggered Menu and a
-  right-click-triggered Context Menu; the parts are interchangeable by design.
-
-**Don't**
-
-- Don't make a context menu the only way to perform an important action.
-- Don't assume `disabled` fully suppresses right-click feedback: it hands the
-  surface back to the native OS context menu instead of showing nothing.
-
-{/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Float the popup: overlay shadow, card radius (8px). (BR-06, BR-11)
-
-**Don't**
-
-- Don't give danger items a red fill — red stays ink-only; highlighted danger items keep the neutral highlight surface. (BR-02)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="context-menu">
-  <WildCard
-    repo="zweien/docx-template-system"
-    title="zweien/docx-template-system"
-    href="https://github.com/zweien/docx-template-system/blob/adb2c74c12000835c4c95c0a09598da6013ec1d4/src/components/ui/context-menu.tsx"
-    live="https://zweien.github.io/docx-template-system/"
-    license="no SPDX license detected"
-    reuse="link-only, do not copy"
-  >
-    a small (6-star) shadcn-style registry whose `context-menu.tsx` imports `ContextMenu` from
-    `@base-ui/react/context-menu` directly.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/context-menu.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    ships a Radix-backed twin of the same ContextMenu API alongside the Base UI version.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/context-menu.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    a Tailwind-styled registry item, published as both a package export and an installable file.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/context-menu.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's design system also ships a dedicated ContextMenu wrapper as part of its near-complete
-    registry.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: behavior */}
-## FAQ
-
-- **"My context menu doesn't open when it's nested inside another popup's
-  trigger"** → fixed by [#2506](https://github.com/mui/base-ui/pull/2506)
-  (Aug 2025), which resets `MenuRootContext` so a `Menu.Root` inside a
-  `ContextMenu.Trigger` correctly detects it's at the top of its own tree.
-- **"Setting an explicit `anchor` doesn't do anything; it still opens at the
-  pointer"** → fixed by [#3202](https://github.com/mui/base-ui/pull/3202); the
-  explicit prop now correctly takes precedence.
-- **"Drag-to-select from a right-click works on my Mac but not for teammates on
-  Windows/Linux"** → an intentional platform split: only Mac supports the
-  native-macOS-style drag-hold-release-to-select gesture (`ContextMenuRoot.non-mac.test.tsx`
-  mocks `platform.os.mac = false` to cover the other branch).
-- **"I disabled the context menu but right-clicking still shows something"** →
-  expected: `disabled` restores the browser's native context menu rather than
-  showing nothing.
-
-{/* END: behavior */}
-
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For a persistently visible trigger, hover-open behavior, or detached/imperative
@@ -364,58 +101,3 @@ re-exported parts interchange:
   [Menubar](?path=/docs/navigation-menubar--docs), a different mechanism entirely.
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### ContextMenu.Root
-
-<ArgTypes of={ContextMenu.Root} />
-
-### ContextMenu.Trigger
-
-<ArgTypes of={ContextMenu.Trigger} />
-
-### ContextMenu.Portal
-
-<ArgTypes of={ContextMenu.Portal} />
-
-### ContextMenu.Positioner
-
-<ArgTypes of={ContextMenu.Positioner} />
-
-### ContextMenu.Popup
-
-<ArgTypes of={ContextMenu.Popup} />
-
-### ContextMenu.Item
-
-<ArgTypes of={ContextMenu.Item} />
-
-### ContextMenu.CheckboxItem
-
-<ArgTypes of={ContextMenu.CheckboxItem} />
-
-### ContextMenu.RadioItem
-
-<ArgTypes of={ContextMenu.RadioItem} />
-
-### ContextMenu.LinkItem
-
-<ArgTypes of={ContextMenu.LinkItem} />
-
-### ContextMenu.SubmenuRoot
-
-<ArgTypes of={ContextMenu.SubmenuRoot} />
-
-### ContextMenu.SubmenuTrigger
-
-<ArgTypes of={ContextMenu.SubmenuTrigger} />
-
-### ContextMenu.Separator
-
-<ArgTypes of={ContextMenu.Separator} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/context-menu](https://base-ui.com/react/components/context-menu#api-reference)._
-
-{/* END: props */}
