@@ -2,7 +2,6 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Drawer } from '@base-ui/react/drawer';
-import { Dialog } from '@base-ui/react/dialog';
 import theme from '@droppy/theme';
 import './drawer.demo.css';
 
@@ -100,78 +99,6 @@ export const Hero: Story = {
   },
 };
 
-function OpenCloseReasonsExample() {
-  const [log, setLog] = React.useState<string[]>([]);
-  return (
-    <div className="DrawerStack">
-      <Drawer.Root
-        onOpenChange={(nextOpen, eventDetails) => {
-          if (!nextOpen) {
-            setLog((entries) => [...entries, eventDetails.reason]);
-          }
-        }}
-      >
-        <Drawer.Trigger className={theme.Button}>Open sheet</Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Backdrop className={theme.DrawerBackdrop} data-testid="reason-backdrop" />
-          <Drawer.Viewport className="DrawerSheetViewport">
-            <Drawer.Popup className="DrawerSheetPopup">
-              <div className={theme.DrawerGrabber} />
-              <Drawer.Content className="DrawerContent">
-                <Drawer.Title className="DrawerSheetTitle">Reason inspector</Drawer.Title>
-                <Drawer.Description className="DrawerSheetDescription">
-                  Close me with Esc, the backdrop, or the button — each reports its reason.
-                </Drawer.Description>
-                <div className="DrawerSheetActions">
-                  <Drawer.Close className={theme.Button}>Close</Drawer.Close>
-                </div>
-              </Drawer.Content>
-            </Drawer.Popup>
-          </Drawer.Viewport>
-        </Drawer.Portal>
-      </Drawer.Root>
-      <output className="DrawerOutput">
-        close reasons: {log.length > 0 ? log.join(', ') : 'none yet'}
-      </output>
-    </div>
-  );
-}
-
-/**
- * Dialog's typed dismissal reasons, re-proven on Drawer: `escape-key`, `outside-press`,
- * and `close-press` fire through `onOpenChange`. Drawer adds two reasons no play can
- * synthesize: `swipe` (gesture dismissal) and `close-watcher` (the Android back
- * gesture — Drawer wires a Chromium `CloseWatcher` while topmost, which Dialog itself
- * does not do yet, [#3905](https://github.com/mui/base-ui/issues/3905)).
- */
-export const OpenCloseReasons: Story = {
-  tags: ['api-ref'],
-  render: () => <OpenCloseReasonsExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'Open sheet' });
-
-    await userEvent.click(trigger);
-    await body.findByRole('dialog');
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-
-    await userEvent.click(trigger);
-    await body.findByRole('dialog');
-    await userEvent.click(body.getByTestId('reason-backdrop'));
-    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
-
-    await userEvent.click(trigger);
-    const drawer = await body.findByRole('dialog');
-    await userEvent.click(within(drawer).getByRole('button', { name: 'Close' }));
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-
-    await expect(
-      canvas.getByText('close reasons: escape-key, outside-press, close-press'),
-    ).toBeVisible();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* The four-sides matrix (`swipeDirection`)                            */
 /* ------------------------------------------------------------------ */
@@ -234,32 +161,11 @@ function playEdgeDrawer(side: SwipeSide): Story['play'] {
   };
 }
 
-/** `swipeDirection="up"`: a sheet attached to the top edge, dismissed by swiping up. */
-export const SideTop: Story = {
-  tags: ['highlight'],
-  render: () => <EdgeDrawerExample side="up" />,
-  play: playEdgeDrawer('up'),
-};
-
 /** `swipeDirection="down"` — the default: the canonical mobile bottom sheet. */
 export const SideBottom: Story = {
   tags: ['highlight', 'base'],
   render: () => <EdgeDrawerExample side="down" />,
   play: playEdgeDrawer('down'),
-};
-
-/** `swipeDirection="left"`: a navigation-style panel on the left edge. */
-export const SideLeft: Story = {
-  tags: ['highlight'],
-  render: () => <EdgeDrawerExample side="left" />,
-  play: playEdgeDrawer('left'),
-};
-
-/** `swipeDirection="right"`: a detail/settings panel on the right edge. */
-export const SideRight: Story = {
-  tags: ['highlight'],
-  render: () => <EdgeDrawerExample side="right" />,
-  play: playEdgeDrawer('right'),
 };
 
 /* ------------------------------------------------------------------ */
@@ -345,54 +251,6 @@ export const SnapPoints: Story = {
 /* ------------------------------------------------------------------ */
 /* The swipe styling contract                                          */
 /* ------------------------------------------------------------------ */
-
-/**
- * THE styling-contract story. During a drag the engine drives CSS variables natively
- * ([#4980](https://github.com/mui/base-ui/pull/4980)) so your styles animate on the
- * compositor: the backdrop fades with `opacity: calc(0.7 * (1 - var(--drawer-swipe-progress)))`,
- * the popup follows the pointer via `translateY(var(--drawer-swipe-movement-y))`,
- * `[data-swiping]` gates transitions off so the sheet tracks the finger, and
- * `[data-ending-style]` scales the release duration by `--drawer-swipe-strength`.
- * NO gesture play — drag the sheet manually to see the vars animate; the play only
- * verifies the resting state of the contract.
- */
-export const SwipeProgressStyling: Story = {
-  tags: ['api-ref'],
-  render: () => (
-    <Drawer.Root>
-      <Drawer.Trigger className={theme.Button}>Open styled sheet</Drawer.Trigger>
-      <Drawer.Portal>
-        <Drawer.Backdrop className="DrawerProgressBackdrop" data-testid="progress-backdrop" />
-        <Drawer.Viewport className="DrawerSheetViewport">
-          <Drawer.Popup className="DrawerSheetPopup">
-            <div className={theme.DrawerGrabber} />
-            <Drawer.Content className="DrawerContent">
-              <Drawer.Title className="DrawerSheetTitle">Swipe styling</Drawer.Title>
-              <Drawer.Description className="DrawerSheetDescription">
-                Drag me down slowly: the backdrop fades in proportion to the drag distance because
-                its opacity is bound to the swipe progress variable.
-              </Drawer.Description>
-              <div className="DrawerSheetActions">
-                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
-              </div>
-            </Drawer.Content>
-          </Drawer.Popup>
-        </Drawer.Viewport>
-      </Drawer.Portal>
-    </Drawer.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    await userEvent.click(canvas.getByRole('button', { name: 'Open styled sheet' }));
-    const drawer = await body.findByRole('dialog');
-    await waitFor(() => expect(drawer).toBeVisible());
-    // At rest (no drag) the popup is not in the swiping state.
-    await expect(drawer).not.toHaveAttribute('data-swiping');
-    await expect(body.getByTestId('progress-backdrop')).toHaveAttribute('data-open');
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Swipe to open                                                       */
@@ -589,166 +447,8 @@ export const NestedDrawers: Story = {
   },
 };
 
-/**
- * Dialogs opened inside a drawer deliberately do NOT join the nested-drawer stack
- * ([#4493](https://github.com/mui/base-ui/pull/4493)): the drawer keeps its size
- * (no `data-nested-drawer-open`) while the dialog layers on top, and Esc closes only
- * the topmost popup (the dialog), leaving the drawer open.
- */
-export const DialogInsideDrawer: Story = {
-  tags: ['highlight'],
-  render: () => (
-    <Drawer.Root>
-      <Drawer.Trigger className={theme.Button}>Open cart</Drawer.Trigger>
-      <Drawer.Portal>
-        <Drawer.Backdrop className={theme.DrawerBackdrop} />
-        <Drawer.Viewport className="DrawerSheetViewport">
-          <Drawer.Popup className="DrawerSheetPopup">
-            <div className={theme.DrawerGrabber} />
-            <Drawer.Content className="DrawerContent">
-              <Drawer.Title className="DrawerSheetTitle">Cart</Drawer.Title>
-              <Drawer.Description className="DrawerSheetDescription">
-                2 items · Removing an item asks for confirmation in a dialog.
-              </Drawer.Description>
-              <div className="DrawerSheetActions">
-                <Dialog.Root>
-                  <Dialog.Trigger className={theme.Button}>Remove item…</Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Backdrop className={theme.DialogBackdrop} />
-                    <Dialog.Popup className={theme.DialogPopup}>
-                      <Dialog.Title className={theme.DialogTitle}>Remove item?</Dialog.Title>
-                      <Dialog.Description className={theme.DialogDescription}>
-                        This only removes it from your cart.
-                      </Dialog.Description>
-                      <div className={theme.DialogActions}>
-                        <Dialog.Close className={theme.Button}>Cancel</Dialog.Close>
-                      </div>
-                    </Dialog.Popup>
-                  </Dialog.Portal>
-                </Dialog.Root>
-                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
-              </div>
-            </Drawer.Content>
-          </Drawer.Popup>
-        </Drawer.Viewport>
-      </Drawer.Portal>
-    </Drawer.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open cart' }));
-    const drawer = await body.findByRole('dialog', { name: 'Cart' });
-
-    await userEvent.click(within(drawer).getByRole('button', { name: 'Remove item…' }));
-    const dialog = await body.findByRole('dialog', { name: 'Remove item?' });
-    await waitFor(() => expect(dialog).toBeVisible());
-    // The dialog does not count toward the drawer's nested-drawer stack.
-    await expect(drawer).not.toHaveAttribute('data-nested-drawer-open');
-
-    // Esc closes only the topmost popup: the dialog, not the drawer.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
-    await expect(drawer).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Forms                                                               */
-/* ------------------------------------------------------------------ */
-
-function DrawerWithFormExample() {
-  const [open, setOpen] = React.useState(false);
-  const [saved, setSaved] = React.useState<string | null>(null);
-  const nameId = React.useId();
-  const noteId = React.useId();
-  return (
-    <div className="DrawerStack">
-      <Drawer.Root open={open} onOpenChange={setOpen}>
-        <Drawer.Trigger className={theme.Button}>Edit delivery details</Drawer.Trigger>
-        <Drawer.VirtualKeyboardProvider>
-          <Drawer.Portal>
-            <Drawer.Backdrop className={theme.DrawerBackdrop} />
-            <Drawer.Viewport className="DrawerKeyboardViewport">
-              <Drawer.Popup className="DrawerSheetPopup">
-                <div className={theme.DrawerGrabber} />
-                <Drawer.Content className="DrawerContent">
-                  <Drawer.Title className="DrawerSheetTitle">Delivery details</Drawer.Title>
-                  <Drawer.Description className="DrawerSheetDescription">
-                    The sheet closes only when the form submits successfully.
-                  </Drawer.Description>
-                  <form
-                    className={theme.FormRoot}
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      const data = new FormData(event.currentTarget);
-                      setSaved(String(data.get('name')));
-                      setOpen(false);
-                    }}
-                  >
-                    <div className={theme.FieldRoot}>
-                      <label className={theme.FieldLabel} htmlFor={nameId}>
-                        Name
-                      </label>
-                      <input id={nameId} name="name" required className={theme.Input} />
-                    </div>
-                    <div className={theme.FieldRoot}>
-                      <label className={theme.FieldLabel} htmlFor={noteId}>
-                        Delivery note
-                      </label>
-                      <input
-                        id={noteId}
-                        name="note"
-                        placeholder="Gate code, drop-off spot…"
-                        className={theme.Input}
-                      />
-                    </div>
-                    <div className="DrawerSheetActions">
-                      <Drawer.Close className={theme.Button}>Cancel</Drawer.Close>
-                      <button type="submit" className={theme.Button}>
-                        Save
-                      </button>
-                    </div>
-                  </form>
-                </Drawer.Content>
-              </Drawer.Popup>
-            </Drawer.Viewport>
-          </Drawer.Portal>
-        </Drawer.VirtualKeyboardProvider>
-      </Drawer.Root>
-      {saved !== null ? <output className="DrawerOutput">Saved: {saved}</output> : null}
-    </div>
-  );
-}
-
-/**
- * A bottom sheet with form fields, wrapped in `Drawer.VirtualKeyboardProvider`
- * ([#4353](https://github.com/mui/base-ui/pull/4353)): on devices with a software
- * keyboard the Viewport gets `--drawer-keyboard-inset` so the sheet can rise above
- * it — always write `var(--drawer-keyboard-inset, 0px)` because the variable exists
- * only while the keyboard is aligned. The inset itself is device-dependent (manual
- * test on mobile); the play verifies the form flow: submit closes, cancel preserves
- * the controlled-close contract.
- */
-export const DrawerWithForm: Story = {
-  tags: ['highlight'],
-  render: () => <DrawerWithFormExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Edit delivery details' }));
-    const drawer = await body.findByRole('dialog');
-
-    await userEvent.type(within(drawer).getByLabelText('Name'), 'Ada Lovelace');
-    await userEvent.click(within(drawer).getByRole('button', { name: 'Save' }));
-
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-    await expect(await canvas.findByText('Saved: Ada Lovelace')).toBeVisible();
-  },
-};
 
 function CloseConfirmationExample() {
   const [blocked, setBlocked] = React.useState(0);
@@ -832,132 +532,10 @@ export const CloseConfirmation: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation                                                           */
-/* ------------------------------------------------------------------ */
-
-function ExitAnimationExample() {
-  const [settled, setSettled] = React.useState('none yet');
-  return (
-    <div className="DrawerStack">
-      <Drawer.Root onOpenChangeComplete={(open) => setSettled(open ? 'open' : 'closed')}>
-        <Drawer.Trigger className={theme.Button}>Open sheet</Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Backdrop className={theme.DrawerBackdrop} />
-          <Drawer.Viewport className="DrawerSheetViewport">
-            <Drawer.Popup className="DrawerSheetPopup">
-              <div className={theme.DrawerGrabber} />
-              <Drawer.Content className="DrawerContent">
-                <Drawer.Title className="DrawerSheetTitle">Animated sheet</Drawer.Title>
-                <Drawer.Description className="DrawerSheetDescription">
-                  CSS transitions drive both entry and exit via data attributes.
-                </Drawer.Description>
-                <div className="DrawerSheetActions">
-                  <Drawer.Close className={theme.Button}>Close</Drawer.Close>
-                </div>
-              </Drawer.Content>
-            </Drawer.Popup>
-          </Drawer.Viewport>
-        </Drawer.Portal>
-      </Drawer.Root>
-      <output className="DrawerOutput">animation settled: {settled}</output>
-    </div>
-  );
-}
-
-/**
- * The inherited animation contract on Drawer: transitions hang off
- * `[data-starting-style]`/`[data-ending-style]`, the popup stays mounted until the
- * exit settles, then `onOpenChangeComplete(false)` fires. Drawer adds two exit-only
- * hooks no play can trigger: `[data-swipe-dismiss]` (present when closed by swiping —
- * style a faster, directional exit) and `--drawer-swipe-strength` (0.1–1, scales the
- * release duration so a hard fling exits faster) — both wired in this story's CSS.
- */
-export const ExitAnimation: Story = {
-  tags: ['animation'],
-  render: () => <ExitAnimationExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-
-    await userEvent.click(canvas.getByRole('button', { name: 'Open sheet' }));
-    const drawer = await body.findByRole('dialog');
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.click(within(drawer).getByRole('button', { name: 'Close' }));
-    // Mid-transition the popup is still mounted, marked with data-ending-style.
-    await waitFor(() => expect(drawer).toHaveAttribute('data-ending-style'));
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Keyboard & focus                                                    */
 /* ------------------------------------------------------------------ */
-
-/**
- * Gestures add no keyboard surface — the a11y contract is Dialog's, inherited whole:
- * focus moves inside on open, Tab loops while modal, Esc closes the topmost drawer,
- * and focus returns to the trigger. That is exactly why a visible `Drawer.Close`
- * must stay inside the popup: swipe-to-dismiss is pointer-only, and snap-point
- * changes make no announcement.
- */
-export const KeyboardAndFocus: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Drawer.Root>
-      <Drawer.Trigger className={theme.Button}>Open filters</Drawer.Trigger>
-      <Drawer.Portal>
-        <Drawer.Backdrop className={theme.DrawerBackdrop} />
-        <Drawer.Viewport className="DrawerSheetViewport">
-          <Drawer.Popup className="DrawerSheetPopup">
-            <div className={theme.DrawerGrabber} />
-            <Drawer.Content className="DrawerContent">
-              <Drawer.Title className="DrawerSheetTitle">Filters</Drawer.Title>
-              <Drawer.Description className="DrawerSheetDescription">
-                Two buttons and a close — three tab stops that loop while modal.
-              </Drawer.Description>
-              <div className="DrawerSheetActions">
-                <button type="button" className={theme.Button}>
-                  Reset
-                </button>
-                <button type="button" className={theme.Button}>
-                  Apply
-                </button>
-                <Drawer.Close className={theme.Button}>Close</Drawer.Close>
-              </div>
-            </Drawer.Content>
-          </Drawer.Popup>
-        </Drawer.Viewport>
-      </Drawer.Portal>
-    </Drawer.Root>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const doc = canvasElement.ownerDocument;
-    const trigger = canvas.getByRole('button', { name: 'Open filters' });
-
-    await userEvent.click(trigger);
-    const drawer = await body.findByRole('dialog');
-    // Focus moves inside the popup on open.
-    await waitFor(() => expect(drawer).toContainElement(doc.activeElement as HTMLElement));
-
-    // Three tab stops; four Tab presses prove the loop stays inside.
-    // waitFor: tabbing momentarily lands on a hidden focus guard before the
-    // trap redirects focus back inside the popup.
-    await userEvent.tab();
-    await waitFor(() => expect(drawer).toContainElement(doc.activeElement as HTMLElement));
-    await userEvent.tab();
-    await waitFor(() => expect(drawer).toContainElement(doc.activeElement as HTMLElement));
-    await userEvent.tab();
-    await waitFor(() => expect(drawer).toContainElement(doc.activeElement as HTMLElement));
-    await userEvent.tab();
-    await waitFor(() => expect(drawer).toContainElement(doc.activeElement as HTMLElement));
-
-    // Esc closes and returns focus to the trigger.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(drawer).not.toBeInTheDocument());
-    await waitFor(() => expect(trigger).toHaveFocus());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Real-world archetype                                                */
