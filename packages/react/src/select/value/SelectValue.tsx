@@ -12,12 +12,6 @@ const stateAttributesMapping: StateAttributesMapping<SelectValueState> = {
   value: () => null,
 };
 
-/**
- * A text label of the currently selected item.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectValue = React.forwardRef(function SelectValue(
   componentProps: SelectValue.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -84,20 +78,7 @@ export interface SelectValueProps extends Omit<
   BaseUIComponentProps<'span', SelectValueState>,
   'children'
 > {
-  /**
-   * Accepts a function that returns a `ReactNode` to format the selected value.
-   * @example
-   * ```tsx
-   * <Select.Value>
-   *   {(value: string | null) => value ? labels[value] : 'No value'}
-   * </Select.Value>
-   * ```
-   */
   children?: React.ReactNode | ((value: any) => React.ReactNode);
-  /**
-   * The placeholder value to display when no value is selected.
-   * This is overridden by `children` if specified, or by a null item's label in `items`.
-   */
   placeholder?: React.ReactNode;
 }
 

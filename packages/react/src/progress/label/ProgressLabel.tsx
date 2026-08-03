@@ -7,12 +7,6 @@ import { progressStateAttributesMapping } from '../root/stateAttributesMapping';
 import type { ProgressRootState } from '../root/ProgressRoot';
 import type { BaseUIComponentProps } from '../../internals/types';
 
-/**
- * An accessible label for the progress bar.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Progress](https://base-ui.com/react/components/progress)
- */
 export const ProgressLabel = React.forwardRef(function ProgressLabel(
   componentProps: ProgressLabel.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,

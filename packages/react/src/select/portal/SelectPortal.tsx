@@ -6,13 +6,6 @@ import { SelectPortalContext } from './SelectPortalContext';
 import { useSelectRootContext } from '../root/SelectRootContext';
 import { selectors } from '../store';
 
-/**
- * A portal element that moves the popup to a different part of the DOM.
- * By default, the portal element is appended to `<body>`.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectPortal = React.forwardRef(function SelectPortal(
   portalProps: SelectPortal.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

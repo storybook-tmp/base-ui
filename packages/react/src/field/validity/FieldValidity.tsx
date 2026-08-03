@@ -5,12 +5,6 @@ import { getCombinedFieldValidityData } from '../utils/getCombinedFieldValidityD
 import type { FieldValidityData } from '../root/FieldRoot';
 import { type TransitionStatus, useTransitionStatus } from '../../internals/useTransitionStatus';
 
-/**
- * Used to display a custom message based on the field's validity.
- * Requires `children` to be a function that accepts field validity state as an argument.
- *
- * Documentation: [Base UI Field](https://base-ui.com/react/components/field)
- */
 export const FieldValidity: React.FC<FieldValidity.Props> = function FieldValidity(props) {
   const { children } = props;
 
@@ -46,17 +40,6 @@ export interface FieldValidityState extends Omit<FieldValidityData, 'state'> {
 }
 
 export interface FieldValidityProps {
-  /**
-   * A function that accepts the field validity state as an argument.
-   *
-   * ```jsx
-   * <Field.Validity>
-   *   {(validity) => {
-   *     return <div>...</div>
-   *   }}
-   * </Field.Validity>
-   * ```
-   */
   children: (state: FieldValidityState) => React.ReactNode;
 }
 

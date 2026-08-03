@@ -11,12 +11,6 @@ import { useTabsRootContext } from '../root/TabsRootContext';
 import type { TabsTab } from '../tab/TabsTab';
 import { TabsListContext } from './TabsListContext';
 
-/**
- * Groups the individual tab buttons.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Tabs](https://base-ui.com/react/components/tabs)
- */
 export const TabsList = React.forwardRef(function TabsList(
   componentProps: TabsList.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -147,17 +141,7 @@ export const TabsList = React.forwardRef(function TabsList(
 export interface TabsListState extends TabsRootState {}
 
 export interface TabsListProps extends BaseUIComponentProps<'div', TabsListState> {
-  /**
-   * Whether to automatically change the active tab on arrow key focus.
-   * Otherwise, tabs will be activated using <kbd>Enter</kbd> or <kbd>Space</kbd> key press.
-   * @default false
-   */
   activateOnFocus?: boolean | undefined;
-  /**
-   * Whether to loop keyboard focus back to the first item
-   * when the end of the list is reached while using the arrow keys.
-   * @default true
-   */
   loopFocus?: boolean | undefined;
 }
 

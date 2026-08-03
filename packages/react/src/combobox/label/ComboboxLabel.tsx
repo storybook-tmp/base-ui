@@ -13,12 +13,6 @@ import { getDefaultLabelId } from '../../utils/resolveAriaLabelledBy';
 import { useComboboxRootContext } from '../root/ComboboxRootContext';
 import { selectors } from '../store';
 
-/**
- * An accessible label that is automatically associated with the combobox trigger.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
- */
 export const ComboboxLabel = React.forwardRef(function ComboboxLabel(
   componentProps: ComboboxLabel.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

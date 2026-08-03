@@ -29,12 +29,6 @@ const stateAttributesMapping: StateAttributesMapping<ComboboxPopupState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * A container for the list.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
- */
 export const ComboboxPopup = React.forwardRef(function ComboboxPopup(
   componentProps: ComboboxPopup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -178,29 +172,11 @@ export interface ComboboxPopupState {
 }
 
 export interface ComboboxPopupProps extends BaseUIComponentProps<'div', ComboboxPopupState> {
-  /**
-   * Determines the element to focus when the popup is opened.
-   *
-   * - `false`: Do not move focus.
-   * - `true`: Move focus based on the default behavior (first tabbable element or popup).
-   * - `RefObject`: Move focus to the ref element.
-   * - `function`: Called with the interaction type (`mouse`, `touch`, `pen`, or `keyboard`).
-   *   Return an element to focus, `true` to use the default behavior, or `false`/`undefined` to do nothing.
-   */
   initialFocus?:
     | boolean
     | React.RefObject<HTMLElement | null>
     | ((openType: InteractionType) => void | boolean | HTMLElement | null)
     | undefined;
-  /**
-   * Determines the element to focus when the popup is closed.
-   *
-   * - `false`: Do not move focus.
-   * - `true`: Move focus based on the default behavior (trigger or previously focused element).
-   * - `RefObject`: Move focus to the ref element.
-   * - `function`: Called with the interaction type (`mouse`, `touch`, `pen`, or `keyboard`).
-   *   Return an element to focus, `true` to use the default behavior, or `false`/`undefined` to do nothing.
-   */
   finalFocus?:
     | boolean
     | React.RefObject<HTMLElement | null>

@@ -7,12 +7,6 @@ import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 import { useRenderElement } from '../../internals/useRenderElement';
 import { transitionStatusMapping } from '../../internals/stateAttributesMapping';
 
-/**
- * Indicates whether the select item is selected.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectItemIndicator = React.forwardRef(function SelectItemIndicator(
   componentProps: SelectItemIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -94,9 +88,6 @@ export interface SelectItemIndicatorProps extends BaseUIComponentProps<
   SelectItemIndicatorState
 > {
   children?: React.ReactNode;
-  /**
-   * Whether to keep the HTML element in the DOM when the item is not selected.
-   */
   keepMounted?: boolean | undefined;
 }
 

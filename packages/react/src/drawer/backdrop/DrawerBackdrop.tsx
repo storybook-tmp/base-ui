@@ -15,12 +15,6 @@ const stateAttributesMapping: StateAttributesMapping<DrawerBackdropState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * An overlay displayed beneath the popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Drawer](https://base-ui.com/react/components/drawer)
- */
 export const DrawerBackdrop = React.forwardRef(function DrawerBackdrop(
   componentProps: DrawerBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -62,10 +56,6 @@ export const DrawerBackdrop = React.forwardRef(function DrawerBackdrop(
 });
 
 export interface DrawerBackdropProps extends BaseUIComponentProps<'div', DrawerBackdropState> {
-  /**
-   * Whether the backdrop is forced to render even when nested.
-   * @default false
-   */
   forceRender?: boolean | undefined;
 }
 

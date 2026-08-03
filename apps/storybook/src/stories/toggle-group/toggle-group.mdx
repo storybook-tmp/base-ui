@@ -30,6 +30,7 @@ Provides a shared state to a series of toggle buttons.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - A row/column of related, independently-styleable toggle buttons that need shared pressed-state bookkeeping, e.g. text alignment (single mode, the hero above) or text formatting (`multiple` mode, below).
@@ -46,6 +47,7 @@ Provides a shared state to a series of toggle buttons.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -58,13 +60,14 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 ```
 
 | Part                                | Renders              | Purpose                                              | Optional?              |
-| :----------------------------------- | :-------------------- | :---------------------------------------------------- | :---------------------- |
+| :---------------------------------- | :------------------- | :--------------------------------------------------- | :--------------------- |
 | `ToggleGroup`                       | `<div role="group">` | Shared pressed-state context provider                | required               |
 | `Toggle` (from the sibling package) | `<button>`           | Each group item (not a dedicated `ToggleGroup.Item`) | required (one or more) |
 
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### `multiple` and selection semantics
@@ -98,10 +101,11 @@ The Toolbar-hosted case, shown side by side with the standalone one above: arrow
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key                        | Action                                                                                                          |
-| :-------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| :------------------------- | :-------------------------------------------------------------------------------------------------------------- |
 | `Tab`                      | Moves focus to exactly one item, a single tab stop for the whole group                                          |
 | `ArrowRight` / `ArrowLeft` | `orientation="horizontal"`: move roving focus to next/previous item; wraps at the ends if `loopFocus` (default) |
 | `ArrowDown` / `ArrowUp`    | `orientation="vertical"`: move roving focus to next/previous item                                               |
@@ -115,20 +119,8 @@ The Toolbar-hosted case, shown side by side with the standalone one above: arrow
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute          | Present when                           |
-| :------------------ | :-------------------------------------- |
-| `data-disabled`    | the group is disabled                  |
-| `data-orientation` | `horizontal` / `vertical`              |
-| `data-multiple`    | present only when `multiple` is `true` |
-
-Each child Toggle carries its own independent `data-pressed`/`data-disabled`. Style selection state on the Toggle, not the group.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`multiple`** (default `false`): set `true` when items are independently toggleable (bold/italic/underline); leave `false` for exclusive-with-clear (alignment, view mode).
@@ -139,6 +131,7 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled`. St
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -152,15 +145,17 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled`. St
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Pressed items take the neutral subtle-hover surface — no accent fills. (BR-01)
 - Control radius rung for the group's items. (BR-11)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="toggle-group">
@@ -194,14 +189,15 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled`. St
     license="no SPDX license detected"
     reuse="link-only, do not copy"
   >
-    uses it as a dataview filter control rather than a generic UI primitive, a concrete
-    non-registry production usage.
+    uses it as a dataview filter control rather than a generic UI primitive, a concrete non-registry
+    production usage.
   </WildCard>
 </WildCards>
 
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **Introduced jointly with Toggle in [#763](https://github.com/mui/base-ui/pull/763)** (closing [#11](https://github.com/mui/base-ui/issues/11), [#31](https://github.com/mui/base-ui/issues/31)).
@@ -212,6 +208,7 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled`. St
 {/* END: history */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For an exclusive, non-clearable single choice, use RadioGroup.
@@ -221,6 +218,7 @@ Each child Toggle carries its own independent `data-pressed`/`data-disabled`. St
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### ToggleGroup

@@ -15,12 +15,6 @@ const stateAttributesMapping: StateAttributesMapping<MenuBackdropState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * An overlay displayed beneath the menu popup.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuBackdrop = React.forwardRef(function MenuBackdrop(
   componentProps: MenuBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

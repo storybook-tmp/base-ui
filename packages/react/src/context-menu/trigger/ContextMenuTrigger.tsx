@@ -15,12 +15,6 @@ import { findRootOwnerId } from '../../menu/utils/findRootOwnerId';
 
 const LONG_PRESS_DELAY = 500;
 
-/**
- * An area that opens the menu on right click or long press.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Context Menu](https://base-ui.com/react/components/context-menu)
- */
 export const ContextMenuTrigger = React.forwardRef(function ContextMenuTrigger(
   componentProps: ContextMenuTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

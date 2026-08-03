@@ -34,6 +34,7 @@ A self-managing stack of transient, non-interrupting status notifications. It is
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Transient confirmations and status messages that must not interrupt work; toasts notify users without interrupting their workflow ([#4533](https://github.com/mui/base-ui/pull/4533)).
@@ -55,6 +56,7 @@ A self-managing stack of transient, non-interrupting status notifications. It is
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -80,7 +82,7 @@ import { Toast } from '@base-ui/react/toast';
 ```
 
 | Part                         | Renders              | Purpose                                                                                                                                                                   | Optional?                                                                     |
-| :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
+| :--------------------------- | :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
 | `Toast.Provider`             | no element           | Owns the `ToastStore` (timers, stack order, hover/focus state); accepts `timeout`, `limit`, `toastManager`                                                                | required                                                                      |
 | `Toast.Portal`               | `<div>`              | Moves the viewport to `<body>` (or `container`)                                                                                                                           | required for the viewport ([#1962](https://github.com/mui/base-ui/pull/1962)) |
 | `Toast.Viewport`             | `<div>`              | `role="region"`, `aria-label="Notifications"`, and the polite `aria-live` container itself; the F6 focus target                                                           | required                                                                      |
@@ -89,7 +91,7 @@ import { Toast } from '@base-ui/react/toast';
 | `Toast.Title`                | `<h2>`               | Labels the toast; defaults children to `toast.title`; renders nothing without content                                                                                     | yes                                                                           |
 | `Toast.Description`          | `<p>`                | Describes the toast; defaults to `toast.description`; renders nothing without content                                                                                     | yes                                                                           |
 | `Toast.Action`               | `<button>`           | Performs an action; children/props default from `toast.actionProps`; renders nothing without content                                                                      | yes                                                                           |
-| `Toast.Close`                | `<button>`           | Closes this toast; `aria-hidden` while the viewport is neither expanded nor focused                                                                                       | yes, but required in practice so users can dismiss persistent toasts             |
+| `Toast.Close`                | `<button>`           | Closes this toast; `aria-hidden` while the viewport is neither expanded nor focused                                                                                       | yes, but required in practice so users can dismiss persistent toasts          |
 | `Toast.Positioner`           | `<div>`              | Anchored positioning (side/align/offsets/collision) for one toast, via own props or `toast.positionerProps`                                                               | anchored toasts only ([#3096](https://github.com/mui/base-ui/pull/3096))      |
 | `Toast.Arrow`                | `<div>`              | Points toward the anchor                                                                                                                                                  | anchored toasts only                                                          |
 | `Toast.useToastManager()`    | hook (no element)    | Returns `{ toasts, add, update, close, promise }` from inside a `Provider`                                                                                                | required to create toasts from a component                                    |
@@ -100,6 +102,7 @@ The render loop over `toasts` is entirely yours; there is no automatic renderer.
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Imperative manager pattern
@@ -189,10 +192,11 @@ Anchored toasts wrap `Toast.Root` in `Toast.Positioner` + `Toast.Arrow` and read
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key               | Context                         | Result                                                                                                |
-| :----------------- | :------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| :---------------- | :------------------------------ | :---------------------------------------------------------------------------------------------------- |
 | `F6`              | anywhere in the window          | Focus the viewport (records the previously focused element, pauses timers, expands the stack)         |
 | `Tab`             | viewport focused                | Focus the first non-ending, non-limited toast                                                         |
 | `Tab`             | inside a toast                  | Next focusable inside the toast/stack                                                                 |
@@ -213,29 +217,8 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part                                 | Attribute / variable                                                | Present when                                                                                     |
-| :------------------------------------ | :------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------ |
-| Root                                 | `data-expanded`                                                     | the stack is hovered or focus-visibly focused                                                    |
-| Root                                 | `data-limited`                                                      | this toast is over the `limit` cap (still mounted, `inert`)                                      |
-| Root                                 | `data-type`                                                         | mirrors `toast.type` (`'success'`, `'error'`, `'info'`, `'loading'`, or any custom string)       |
-| Root                                 | `data-swiping` / `data-swipe-direction`                             | mid-swipe / after a swipe-dismiss release                                                        |
-| Root                                 | `data-starting-style` / `data-ending-style`                         | the enter / exit transition frame                                                                |
-| Root                                 | `--toast-index`, `--toast-offset-y`, `--toast-height`               | stack position, cumulative fan-out offset, measured height                                       |
-| Root                                 | `--toast-swipe-movement-x` / `-y`                                   | live pointer offset while swiping; frozen at release so exit animation continues from that point |
-| Viewport                             | `data-expanded`                                                     | the stack is hovered or focus-visibly focused                                                    |
-| Viewport                             | `--toast-frontmost-height`                                          | measured height of the front toast                                                               |
-| Content                              | `data-expanded`, `data-behind`                                      | stack expanded / this toast is hidden behind a taller front toast                                |
-| Title / Description / Action / Close | `data-type`                                                         | mirrors `toast.type`, same values as Root                                                        |
-| Positioner / Arrow                   | `data-side`, `data-align`, `data-anchor-hidden` / `data-uncentered` | anchored toasts only                                                                             |
-
-<Canvas of={ToastStories.TypeStyling} />
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`Provider.timeout`** (default 5000): global auto-dismiss. Set `0` to make all toasts persistent by default; per-toast `timeout` in `add()` overrides it. Use ≥10s (or `0`) when a toast carries an action the user must reach ([#4975](https://github.com/mui/base-ui/pull/4975), [#4253](https://github.com/mui/base-ui/issues/4253)).
@@ -250,6 +233,7 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -270,6 +254,7 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
@@ -280,9 +265,10 @@ There is no arrow-key navigation between toasts; navigation is tab-based only, w
 **Don't**
 
 - Don't color success/info/warning states — status stays neutral pending status tokens. (DS-03)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="toast">
@@ -353,6 +339,7 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2025-04-08**: Component introduced, [#1467](https://github.com/mui/base-ui/pull/1467), closing [#220](https://github.com/mui/base-ui/issues/220). Goals in the PR body: swipe, stack, global queue. `useToast` renamed `useToastManager` in review to match the global API. Shipped in v1.0.0-alpha.8.
@@ -368,6 +355,7 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4253](https://github.com/mui/base-ui/issues/4253) (open): keyboard/screen-reader users can't reach an Undo action before dismissal; no built-in fix is planned, and the documented mitigation is long timeouts.
@@ -380,6 +368,7 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - To force a response the user must act on before proceeding, use [Dialog](?path=/docs/overlays-dialog--docs) or [Alert Dialog](?path=/docs/overlays-alert-dialog--docs) instead.
@@ -389,6 +378,7 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Toast.Provider
@@ -438,11 +428,3 @@ Two recreations live in this Storybook: an anchored, actionable toast combining 
 _Full JSDoc-driven reference: [base-ui.com/react/components/toast](https://base-ui.com/react/components/toast#api-reference)._
 
 {/* END: props */}
-
-{/* BEGIN: testing */}
-## Testing your composition
-
-- Query the portaled stack via `within(canvasElement.ownerDocument.body)`, then `getByRole('region', { name: 'Notifications' })` for the viewport and `getByRole('dialog')` / `getByRole('alertdialog')` for individual toasts; the play functions in the stories above are living examples.
-- Prefer `waitFor`/`findBy*` over fixed sleeps for timer-dependent assertions (auto-dismiss, hover-pause): timers run on real elapsed time, not mocked clocks, in these stories.
-
-{/* END: testing */}

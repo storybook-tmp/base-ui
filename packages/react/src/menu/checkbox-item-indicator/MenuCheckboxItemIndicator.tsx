@@ -7,12 +7,6 @@ import { itemMapping } from '../utils/stateAttributesMapping';
 import { TransitionStatus, useTransitionStatus } from '../../internals/useTransitionStatus';
 import { useOpenChangeComplete } from '../../internals/useOpenChangeComplete';
 
-/**
- * Indicates whether the checkbox item is ticked.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuCheckboxItemIndicator = React.forwardRef(function MenuCheckboxItemIndicator(
   componentProps: MenuCheckboxItemIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -60,10 +54,6 @@ export interface MenuCheckboxItemIndicatorProps extends BaseUIComponentProps<
   'span',
   MenuCheckboxItemIndicatorState
 > {
-  /**
-   * Whether to keep the HTML element in the DOM when the checkbox item is not checked.
-   * @default false
-   */
   keepMounted?: boolean | undefined;
 }
 

@@ -14,12 +14,6 @@ const stateAttributesMapping: StateAttributesMapping<PopoverBackdropState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * An overlay displayed beneath the popover.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Popover](https://base-ui.com/react/components/popover)
- */
 export const PopoverBackdrop = React.forwardRef(function PopoverBackdrop(
   props: PopoverBackdrop.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

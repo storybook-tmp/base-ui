@@ -4,12 +4,6 @@ import type { BaseUIComponentProps } from '../../internals/types';
 import { SelectGroupContext } from './SelectGroupContext';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * Groups related select items with the corresponding label.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectGroup = React.forwardRef(function SelectGroup(
   componentProps: SelectGroup.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

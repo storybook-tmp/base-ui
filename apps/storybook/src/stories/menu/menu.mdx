@@ -44,6 +44,7 @@ A list of actions in a dropdown, enhanced with keyboard navigation: a button tri
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Action lists behind a button. The docs hero is a Song menu ("Add to Library, Play Next, Share"): commands that _do things_ and forget, with built-in keyboard navigation.
@@ -67,6 +68,7 @@ In short: _button-anchored actions → Menu; right-click/long-press → Context 
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -109,28 +111,28 @@ import { Menu } from '@base-ui/react/menu';
 </Menu.Root>;
 ```
 
-| Part                         | Renders    | Purpose                                                                                                                                                                                  | Optional?                                                                                                             |
-| :---------------------------- | :---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------- |
-| `Menu.Root`                  | no element | Groups all parts; owns open state, modality, and highlight behavior                                                                                                                      | required                                                                                                              |
-| `Menu.Trigger`               | `<button>` | Opens the menu; hover props live here; supports `handle`/`payload` for detached use                                                                                                      | required; at least one trigger (or a `handle` on both sides) since [#3170](https://github.com/mui/base-ui/pull/3170) |
-| `Menu.Portal`                | `<div>`    | Moves the popup subtree to `<body>` (or `container`); `keepMounted` lives here                                                                                                           | required; its absence throws ([#1222](https://github.com/mui/base-ui/pull/1222))                                     |
-| `Menu.Backdrop`              | `<div>`    | Styleable overlay layer while open                                                                                                                                                       | yes                                                                                                                   |
-| `Menu.Positioner`            | `<div>`    | Anchors the popup; side/align/collision config; positioning CSS variables                                                                                                                | required                                                                                                              |
-| `Menu.Popup`                 | `<div>`    | The `role="menu"` container; `finalFocus` prop                                                                                                                                           | required                                                                                                              |
-| `Menu.Viewport`              | `<div>`    | Content-transition container; only needed if one popup can be opened by multiple triggers, its content changes based on the trigger, and switching between them is animated | yes                                                                                                                   |
-| `Menu.Arrow`                 | `<div>`    | Visual pointer to the anchor                                                                                                                                                             | yes                                                                                                                   |
-| `Menu.Item`                  | `<div>`    | `role="menuitem"` command                                                                                                                                                                | expected                                                                                                              |
-| `Menu.LinkItem`              | `<a>`      | `role="menuitem"` navigation entry (v1.2.0, [#3400](https://github.com/mui/base-ui/pull/3400))                                                                                           | yes                                                                                                                   |
-| `Menu.SubmenuRoot`           | no element | Groups a nested menu; never nest a second `Menu.Root` ([#2042](https://github.com/mui/base-ui/pull/2042))                                                                               | yes                                                                                                                   |
-| `Menu.SubmenuTrigger`        | `<div>`    | The item that opens its submenu; throws outside `SubmenuRoot`                                                                                                                            | with SubmenuRoot                                                                                                      |
-| `Menu.Group`                 | `<div>`    | `role="group"` wrapper with automatic `aria-labelledby`                                                                                                                                  | yes                                                                                                                   |
-| `Menu.GroupLabel`            | `<div>`    | Label for a Group/RadioGroup (`role="presentation"`, auto-wired)                                                                                                                         | yes                                                                                                                   |
-| `Menu.RadioGroup`            | `<div>`    | Exclusive `menuitemradio` set with `value`/`onValueChange`                                                                                                                               | yes                                                                                                                   |
-| `Menu.RadioItem`             | `<div>`    | `role="menuitemradio"` option                                                                                                                                                            | with RadioGroup                                                                                                       |
-| `Menu.RadioItemIndicator`    | `<span>`   | Marks the selected radio item; unmounts when unchecked ([#1123](https://github.com/mui/base-ui/pull/1123))                                                                               | yes                                                                                                                   |
-| `Menu.CheckboxItem`          | `<div>`    | `role="menuitemcheckbox"` toggle                                                                                                                                                         | yes                                                                                                                   |
-| `Menu.CheckboxItemIndicator` | `<span>`   | Marks the checked state                                                                                                                                                                  | yes                                                                                                                   |
-| `Menu.Separator`             | `<div>`    | Divider between items; a re-export of the standalone Separator (born inside the Menu PR [#535](https://github.com/mui/base-ui/pull/535))                                                | yes                                                                                                                   |
+| Part                         | Renders    | Purpose                                                                                                                                                                     | Optional?                                                                                                            |
+| :--------------------------- | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| `Menu.Root`                  | no element | Groups all parts; owns open state, modality, and highlight behavior                                                                                                         | required                                                                                                             |
+| `Menu.Trigger`               | `<button>` | Opens the menu; hover props live here; supports `handle`/`payload` for detached use                                                                                         | required; at least one trigger (or a `handle` on both sides) since [#3170](https://github.com/mui/base-ui/pull/3170) |
+| `Menu.Portal`                | `<div>`    | Moves the popup subtree to `<body>` (or `container`); `keepMounted` lives here                                                                                              | required; its absence throws ([#1222](https://github.com/mui/base-ui/pull/1222))                                     |
+| `Menu.Backdrop`              | `<div>`    | Styleable overlay layer while open                                                                                                                                          | yes                                                                                                                  |
+| `Menu.Positioner`            | `<div>`    | Anchors the popup; side/align/collision config; positioning CSS variables                                                                                                   | required                                                                                                             |
+| `Menu.Popup`                 | `<div>`    | The `role="menu"` container; `finalFocus` prop                                                                                                                              | required                                                                                                             |
+| `Menu.Viewport`              | `<div>`    | Content-transition container; only needed if one popup can be opened by multiple triggers, its content changes based on the trigger, and switching between them is animated | yes                                                                                                                  |
+| `Menu.Arrow`                 | `<div>`    | Visual pointer to the anchor                                                                                                                                                | yes                                                                                                                  |
+| `Menu.Item`                  | `<div>`    | `role="menuitem"` command                                                                                                                                                   | expected                                                                                                             |
+| `Menu.LinkItem`              | `<a>`      | `role="menuitem"` navigation entry (v1.2.0, [#3400](https://github.com/mui/base-ui/pull/3400))                                                                              | yes                                                                                                                  |
+| `Menu.SubmenuRoot`           | no element | Groups a nested menu; never nest a second `Menu.Root` ([#2042](https://github.com/mui/base-ui/pull/2042))                                                                   | yes                                                                                                                  |
+| `Menu.SubmenuTrigger`        | `<div>`    | The item that opens its submenu; throws outside `SubmenuRoot`                                                                                                               | with SubmenuRoot                                                                                                     |
+| `Menu.Group`                 | `<div>`    | `role="group"` wrapper with automatic `aria-labelledby`                                                                                                                     | yes                                                                                                                  |
+| `Menu.GroupLabel`            | `<div>`    | Label for a Group/RadioGroup (`role="presentation"`, auto-wired)                                                                                                            | yes                                                                                                                  |
+| `Menu.RadioGroup`            | `<div>`    | Exclusive `menuitemradio` set with `value`/`onValueChange`                                                                                                                  | yes                                                                                                                  |
+| `Menu.RadioItem`             | `<div>`    | `role="menuitemradio"` option                                                                                                                                               | with RadioGroup                                                                                                      |
+| `Menu.RadioItemIndicator`    | `<span>`   | Marks the selected radio item; unmounts when unchecked ([#1123](https://github.com/mui/base-ui/pull/1123))                                                                  | yes                                                                                                                  |
+| `Menu.CheckboxItem`          | `<div>`    | `role="menuitemcheckbox"` toggle                                                                                                                                            | yes                                                                                                                  |
+| `Menu.CheckboxItemIndicator` | `<span>`   | Marks the checked state                                                                                                                                                     | yes                                                                                                                  |
+| `Menu.Separator`             | `<div>`    | Divider between items; a re-export of the standalone Separator (born inside the Menu PR [#535](https://github.com/mui/base-ui/pull/535))                                    | yes                                                                                                                  |
 
 Non-element exports: `Menu.createHandle()` returns a `Menu.Handle` that connects detached triggers to a Root and doubles as an imperative API (`open(triggerId)`, `close()`, `isOpen`).
 
@@ -139,6 +141,7 @@ Submenus have no `modal`, `handle`, or `triggerId` props: only top-level menus c
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### The open/close contract
@@ -262,12 +265,13 @@ No menu-specific SSR caveats are known; trigger ARIA renders server-side.
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 Pattern: [APG Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) + [Menu/Menubar](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/). We follow the APG closely when deciding disputed behavior ([#1733](https://github.com/mui/base-ui/issues/1733)).
 
 | Key                             | Context           | Action                                                                                                                                                            |
-| :------------------------------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------------------------------ | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Enter` / `Space` / `ArrowDown` | closed trigger    | Open; focus the first item                                                                                                                                        |
 | `ArrowUp`                       | closed trigger    | Open; focus the last item                                                                                                                                         |
 | `ArrowDown` / `ArrowUp`         | in menu           | Move highlight; loops while `loopFocus` (default `true`); disabled items are _included_                                                                           |
@@ -284,30 +288,8 @@ Pattern: [APG Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part                             | Attribute / variable                                                                                         | Present when                                                                                                    |
-| :-------------------------------- | :------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------- |
-| Trigger                          | `data-popup-open`                                                                                            | the menu is open                                                                                                |
-| Trigger                          | `data-pressed`                                                                                               | pressed; kept distinct from `data-popup-open` on purpose ([#3036](https://github.com/mui/base-ui/issues/3036)) |
-| Item / LinkItem / SubmenuTrigger | `data-highlighted`                                                                                           | one unified highlight for pointer and keyboard; the highlighted item carries the roving `tabIndex={0}`          |
-| any item                         | `data-disabled`                                                                                              | the item is disabled                                                                                            |
-| CheckboxItem / RadioItem         | `data-checked` / `data-unchecked`                                                                            | checked state (indicators unmount when unchecked, [#1123](https://github.com/mui/base-ui/pull/1123))            |
-| Popup / Backdrop                 | `data-open` / `data-closed` / `data-starting-style` / `data-ending-style`                                    | open/close transition lifecycle                                                                                 |
-| Popup / Positioner               | `data-side` / `data-align`                                                                                   | anchored positioning result                                                                                     |
-| Popup                            | `data-instant` (`click`, `dismiss`, `group`, `trigger-change`)                                               | moments animations should be skipped                                                                            |
-| Positioner (CSS vars)            | `--available-width/height`, `--anchor-width/height`, `--transform-origin`                                    | while positioned                                                                                                |
-| Positioner (CSS vars)            | `--positioner-width/height`                                                                                  | while positioned; set them when using CSS to animate size changes (multi-trigger morphing)                       |
-| Viewport                         | `data-current` / `data-previous` / `data-transitioning`, `data-activation-direction`, `--popup-width/height` | during trigger-switch content transitions                                                                       |
-
-To keep pointer `:hover` visually distinct from the keyboard highlight, disable `highlightItemOnHover` and style the two states separately, the same split users asked for in Combobox ([#2731](https://github.com/mui/base-ui/issues/2731), synced across menu/select/combobox in [#3377](https://github.com/mui/base-ui/pull/3377)):
-
-<Canvas of={MenuStories.HighlightItemOnHoverDisabled} />
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`modal` (Root, default `true`)**: keep the default for dropdown menus (matches native behavior); use `modal={false}` when the page must stay interactive (dense toolbars, table row actions). The internal backdrop needs the quick-start `isolation: isolate` app-root setup to always win stacking ([#4012](https://github.com/mui/base-ui/issues/4012)).
@@ -326,6 +308,7 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -348,6 +331,7 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
@@ -358,9 +342,10 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
 **Don't**
 
 - Don't give danger items a red fill — red stays ink-only; the missing error-surface token is a recorded clash. (BR-02)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="menu">
@@ -372,10 +357,10 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
     license="custom license"
     reuse="link-only, do not copy"
   >
-    a substantial direct product usage: the account/org/project switcher is a controlled Menu
-    with the only `Menu.Backdrop` usage among these examples, two nested `SubmenuRoot`s ("All projects", "All
-    organizations"), `render`-prop triggers into their ButtonPrimitive, and a popup height-capped by
-    `--available-height` behind scroll shadows.
+    a substantial direct product usage: the account/org/project switcher is a controlled Menu with
+    the only `Menu.Backdrop` usage among these examples, two nested `SubmenuRoot`s ("All projects",
+    "All organizations"), `render`-prop triggers into their ButtonPrimitive, and a popup
+    height-capped by `--available-height` behind scroll shadows.
   </WildCard>
   <WildCard
     repo="vercel/next.js"
@@ -397,9 +382,9 @@ To keep pointer `:hover` visually distinct from the keyboard highlight, disable 
     license="MIT"
     reuse="code-ok"
   >
-    a clear demonstration of `closeOnClick`: one shared MenuItem abstraction sets
-    `closeOnClick={false}` for checkbox/radio settings and submenu triggers, with
-    `onOpenChangeComplete` resetting submenu state only after the exit animation.
+    a clear demonstration of `closeOnClick`: one shared MenuItem abstraction sets `closeOnClick=
+    {false}` for checkbox/radio settings and submenu triggers, with `onOpenChangeComplete` resetting
+    submenu state only after the exit animation.
   </WildCard>
   <WildCard
     repo="oxidecomputer/console"
@@ -516,6 +501,7 @@ Three recreations live in this Storybook: table row actions (Oxide), a settings 
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-08**: the new-API Menu ships, designed against a Notion API doc ([#214](https://github.com/mui/base-ui/issues/214)) and closing the founding issues: animation-aware dismissal ([#9](https://github.com/mui/base-ui/issues/9)), configurable `closeOnClick` ([#46](https://github.com/mui/base-ui/issues/46)), press-drag-release ([#63](https://github.com/mui/base-ui/issues/63)), and Tab-close focus restoration ([#411](https://github.com/mui/base-ui/issues/411)) ([#468](https://github.com/mui/base-ui/pull/468), breaking).
@@ -533,6 +519,7 @@ Three recreations live in this Storybook: table row actions (Oxide), a settings 
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#5139](https://github.com/mui/base-ui/issues/5139): `focusableWhenDisabled` opt-out not exposed on Menu items (open).
@@ -545,6 +532,7 @@ Three recreations live in this Storybook: table row actions (Oxide), a settings 
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For **right-click or long-press** actions on a surface, use [Context Menu](?path=/docs/overlays-context-menu--docs): same parts, pointer-anchored.
@@ -560,6 +548,7 @@ Three recreations live in this Storybook: table row actions (Oxide), a settings 
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Menu.Root

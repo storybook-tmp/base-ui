@@ -6,12 +6,6 @@ import { useRenderElement } from '../../internals/useRenderElement';
 import { useBaseUiId } from '../../internals/useBaseUiId';
 import { useMenuGroupRootContext } from '../group/MenuGroupContext';
 
-/**
- * An accessible label that is automatically associated with its parent group.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuGroupLabel = React.forwardRef(function MenuGroupLabel(
   componentProps: MenuGroupLabel.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

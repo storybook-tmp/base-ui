@@ -6,13 +6,6 @@ import type { BaseUIComponentProps } from '../../internals/types';
 import { useToastRootContext } from '../root/ToastRootContext';
 import { useRenderElement } from '../../internals/useRenderElement';
 
-/**
- * A description that describes the toast.
- * Can be used as the default message for the toast when no title is provided.
- * Renders a `<p>` element.
- *
- * Documentation: [Base UI Toast](https://base-ui.com/react/components/toast)
- */
 export const ToastDescription = React.forwardRef(function ToastDescription(
   componentProps: ToastDescription.Props,
   forwardedRef: React.ForwardedRef<HTMLParagraphElement>,

@@ -41,12 +41,6 @@ import { mergeProps } from '../../merge-props';
 
 const BOUNDARY_OFFSET = 2;
 
-/**
- * A button that opens the menu.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
- */
 export const MenuTrigger = fastComponentRef(function MenuTrigger(
   componentProps: MenuTrigger.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,
@@ -313,37 +307,11 @@ export interface MenuTrigger {
 export interface MenuTriggerProps<Payload = unknown>
   extends NativeButtonProps, BaseUIComponentProps<'button', MenuTriggerState> {
   children?: React.ReactNode;
-  /**
-   * Whether the component should ignore user interaction.
-   * @default false
-   */
   disabled?: boolean | undefined;
-  /**
-   * A handle to associate the trigger with a menu.
-   */
   handle?: MenuHandle<Payload> | undefined;
-  /**
-   * A payload to pass to the menu when it is opened.
-   */
   payload?: Payload | undefined;
-  /**
-   * How long to wait before the menu may be opened on hover. Specified in milliseconds.
-   *
-   * Requires the `openOnHover` prop.
-   * @default 100
-   */
   delay?: number | undefined;
-  /**
-   * How long to wait before closing the menu that was opened on hover.
-   * Specified in milliseconds.
-   *
-   * Requires the `openOnHover` prop.
-   * @default 0
-   */
   closeDelay?: number | undefined;
-  /**
-   * Whether the menu should also open when the trigger is hovered.
-   */
   openOnHover?: boolean | undefined;
 }
 

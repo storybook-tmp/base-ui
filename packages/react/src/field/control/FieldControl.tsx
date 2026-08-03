@@ -18,16 +18,6 @@ import { REASONS } from '../../internals/reasons';
 import type { BaseUIChangeEventDetails } from '../../internals/createBaseUIEventDetails';
 import { activeElement } from '../../floating-ui-react/utils';
 
-/**
- * The form control to label and validate.
- * Renders an `<input>` element.
- *
- * You can omit this part and use any Base UI input component instead. For example,
- * [Input](https://base-ui.com/react/components/input), [Checkbox](https://base-ui.com/react/components/checkbox),
- * or [Select](https://base-ui.com/react/components/select), among others, will work with Field out of the box.
- *
- * Documentation: [Base UI Field](https://base-ui.com/react/components/field)
- */
 export const FieldControl = React.forwardRef(function FieldControl(
   componentProps: FieldControl.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,
@@ -157,9 +147,6 @@ export const FieldControl = React.forwardRef(function FieldControl(
 export interface FieldControlState extends FieldRootState {}
 
 export interface FieldControlProps extends BaseUIComponentProps<'input', FieldControlState> {
-  /**
-   * Callback fired when the `value` changes. Use when controlled.
-   */
   onValueChange?:
     | ((value: string, eventDetails: FieldControl.ChangeEventDetails) => void)
     | undefined;

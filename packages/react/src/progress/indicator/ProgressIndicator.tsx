@@ -6,12 +6,6 @@ import { useProgressRootContext } from '../root/ProgressRootContext';
 import { progressStateAttributesMapping } from '../root/stateAttributesMapping';
 import type { BaseUIComponentProps } from '../../internals/types';
 
-/**
- * Visualizes the completion status of the task.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Progress](https://base-ui.com/react/components/progress)
- */
 export const ProgressIndicator = React.forwardRef(function ProgressIndicator(
   componentProps: ProgressIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

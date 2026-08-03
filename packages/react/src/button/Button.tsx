@@ -4,12 +4,6 @@ import { useButton } from '../internals/use-button/useButton';
 import { useRenderElement } from '../internals/useRenderElement';
 import type { BaseUIComponentProps, NativeButtonProps } from '../internals/types';
 
-/**
- * A button component that can be used to trigger actions.
- * Renders a `<button>` element.
- *
- * Documentation: [Base UI Button](https://base-ui.com/react/components/button)
- */
 export const Button = React.forwardRef(function Button(
   componentProps: Button.Props,
   forwardedRef: React.ForwardedRef<HTMLElement>,
@@ -50,10 +44,6 @@ export interface ButtonState {
 
 export interface ButtonProps
   extends NativeButtonProps, BaseUIComponentProps<'button', ButtonState> {
-  /**
-   * Whether the button should be focusable when disabled.
-   * @default false
-   */
   focusableWhenDisabled?: boolean | undefined;
 }
 

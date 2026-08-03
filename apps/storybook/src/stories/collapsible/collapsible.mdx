@@ -29,6 +29,7 @@ A collapsible panel controlled by a button.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - A single, independently-toggleable panel (settings sections, "show more" content, expandable detail panels) controlled by exactly one trigger button. Unlike `Accordion.Item`, Collapsible has no `value`/identity prop of any kind, since there's nothing to coordinate with.
@@ -43,6 +44,7 @@ A collapsible panel controlled by a button.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -55,7 +57,7 @@ import { Collapsible } from '@base-ui/react/collapsible';
 ```
 
 | Part                  | Renders    | Purpose                                                 | Optional? |
-| :--------------------- | :---------- | :------------------------------------------------------- | :--------- |
+| :-------------------- | :--------- | :------------------------------------------------------ | :-------- |
 | `Collapsible.Root`    | `<div>`    | Groups all parts; owns open/closed state                | required  |
 | `Collapsible.Trigger` | `<button>` | Opens and closes the panel                              | required  |
 | `Collapsible.Panel`   | `<div>`    | The collapsible contents; owns height/width measurement | required  |
@@ -65,6 +67,7 @@ No Portal/Positioner layering: Collapsible renders inline in normal document flo
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Open/close
@@ -106,11 +109,12 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
-| Key               | Action                                                                                                                     |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `Enter` / `Space` | Toggles the panel (native `<button>` activation)                                                                           |
+| Key               | Action                                                                                                                    |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| `Enter` / `Space` | Toggles the panel (native `<button>` activation)                                                                          |
 | `Tab`             | Ordinary single-tab-stop button focus; no composite/roving-tabindex behavior, since there is only one interactive element |
 
 - **ARIA**: `aria-expanded` (always present) and `aria-controls` (present only while open) on `Trigger`; `Panel` gets the native `hidden` attribute (boolean, or the string `"until-found"`).
@@ -119,19 +123,8 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part            | Attribute / variable                                      | Present when                                                                                                               |
-| :--------------- | :--------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `Root`, `Panel` | `data-open` / `data-closed`                               | reflects open state                                                                                                        |
-| `Trigger`       | `data-panel-open` (not `data-open`)                       | the associated panel is open; named differently because it describes the panel's state, not the trigger's own |
-| `Root`, `Panel` | `data-starting-style` / `data-ending-style`               | one-frame/transition-duration animation boundary markers                                                                   |
-| `Panel`         | `--collapsible-panel-height`, `--collapsible-panel-width` | always, drives the height/width transition                                                                                 |
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`hiddenUntilFound`**: use for FAQ-style or documentation content that should be discoverable via native find-in-page even while collapsed; it is the most distinctive capability Collapsible offers over a hand-rolled show/hide `div`.
@@ -141,6 +134,7 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -154,15 +148,17 @@ Root-level `disabled`: the Trigger never toggles the panel and `onOpenChange` ne
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Keep the disclosure motion 150–300ms ease-in via the motion tokens. (BR-12)
 - Trigger hierarchy comes from size and weight, not color. (BR-07)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## Examples
 
 An independent, nested `Collapsible.Root` inside another's Panel, and a single Collapsible composed inside a settings-card layout:
@@ -244,6 +240,7 @@ An independent, nested `Collapsible.Root` inside another's Panel, and a single C
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-08-28**: Collapsible introduced ([#481](https://github.com/mui/base-ui/pull/481)).
@@ -253,6 +250,7 @@ An independent, nested `Collapsible.Root` inside another's Panel, and a single C
 {/* END: history */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For a coordinated set of collapsible panels, use [Accordion](?path=/docs/disclosure-structure-accordion--docs); it is built directly from Collapsible's own hooks.
@@ -261,6 +259,7 @@ An independent, nested `Collapsible.Root` inside another's Panel, and a single C
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Collapsible.Root

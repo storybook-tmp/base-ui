@@ -15,12 +15,6 @@ import { AccordionPanelCssVars } from './AccordionPanelCssVars';
 import { useRenderElement } from '../../internals/useRenderElement';
 import type { TransitionStatus } from '../../internals/useTransitionStatus';
 
-/**
- * A collapsible panel with the accordion item contents.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Accordion](https://base-ui.com/react/components/accordion)
- */
 export const AccordionPanel = React.forwardRef(function AccordionPanel(
   componentProps: AccordionPanel.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

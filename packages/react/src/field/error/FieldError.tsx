@@ -19,12 +19,6 @@ const stateAttributesMapping: StateAttributesMapping<FieldErrorState> = {
   ...transitionStatusMapping,
 };
 
-/**
- * An error message displayed if the field control fails validation.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Field](https://base-ui.com/react/components/field)
- */
 export const FieldError = React.forwardRef(function FieldError(
   componentProps: FieldError.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,
@@ -143,12 +137,6 @@ export interface FieldErrorState extends FieldRootState {
 }
 
 export interface FieldErrorProps extends BaseUIComponentProps<'div', FieldErrorState> {
-  /**
-   * Determines whether to show the error message according to the field's
-   * [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState).
-   * Specifying `true` will always show the error message, and lets external libraries
-   * control the visibility.
-   */
   match?: boolean | keyof ValidityState | undefined;
 }
 

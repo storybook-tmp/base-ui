@@ -30,6 +30,7 @@ An easily stylable range input.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - A continuous or discretely-stepped numeric range where the current position **relative to its bounds** is the primary thing being communicated: volume, brightness, price-range filtering.
@@ -46,6 +47,7 @@ An easily stylable range input.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -64,7 +66,7 @@ import { Slider } from '@base-ui/react/slider';
 ```
 
 | Part               | Renders                                 | Purpose                                            | Optional?           |
-| :------------------ | :--------------------------------------- | :-------------------------------------------------- | :------------------- |
+| :----------------- | :-------------------------------------- | :------------------------------------------------- | :------------------ |
 | `Slider.Root`      | `<div>`, `role="group"`                 | Manages state                                      | required            |
 | `Slider.Label`     | `<div>`                                 | Accessible label, auto-associated with every thumb | yes                 |
 | `Slider.Value`     | `<output>`                              | Text readout of the current value(s)               | yes                 |
@@ -78,6 +80,7 @@ Minimal composition is `Root > Control > Track > (Indicator, Thumb)`. `Label` an
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Keyboard-driven stepping
@@ -157,10 +160,11 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key                                    | Context       | Action                                                                     |
-| :-------------------------------------- | :------------- | :-------------------------------------------------------------------------- |
+| :------------------------------------- | :------------ | :------------------------------------------------------------------------- |
 | ArrowUp / ArrowRight (flipped in RTL)  | Thumb focused | Increments by `step`; commits immediately                                  |
 | ArrowDown / ArrowLeft (flipped in RTL) | Thumb focused | Decrements by `step`, symmetric                                            |
 | Shift + arrow                          | Thumb focused | Steps by `largeStep`                                                       |
@@ -175,24 +179,8 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute                                                                      | Present when                                                                  |
-| :------------------------------------------------------------------------------ | :----------------------------------------------------------------------------- |
-| `data-dragging`                                                                | actively dragging; explicitly **not** present for a simple click/track-press  |
-| `data-orientation`                                                             | `"horizontal"` / `"vertical"`                                                 |
-| `data-disabled`                                                                | disabled                                                                      |
-| `data-index`                                                                   | Thumb only: its position in the value array                                   |
-| `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-focused` | Field integration only                                                        |
-
-**No CSS custom properties are part of the documented styling contract**: unlike Select/Popover's `--anchor-width`, Slider's internal `--position`/`--start-position`/`--relative-size` are inline-style implementation plumbing, not a consumer-facing theming API.
-
-**`.Thumb:has(:focus-visible)`, not `.Thumb:focus-visible`**: focus never lands on the visible Thumb `<div>` itself; it lives on the nested input. Styling `:focus-visible` directly on a custom Thumb class does nothing (a breaking change from beta.3's TalkBack fix, [#2578](https://github.com/mui/base-ui/issues/2578)). The hero demo's own CSS uses `:has(:focus-visible)`.
-
-{/* END: styling */}
-
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -208,14 +196,16 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Track on the sunken surface token; focus is the single two-layer ring. (BR-09, DS-01)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="slider">
@@ -258,6 +248,7 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 {/* END: examples */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For typed, formatted, or locale-sensitive numeric precision, use [Number Field](?path=/docs/form-inputs-number-field--docs).
@@ -266,6 +257,7 @@ Recreates the `DelayUntilRepeat` pattern from `experiments/slider/slider.tsx`: p
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 ### Slider.Root

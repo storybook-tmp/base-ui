@@ -19,12 +19,6 @@ const stateAttributesMapping = {
   activeTabSize: () => null,
 };
 
-/**
- * A visual indicator that can be styled to match the position of the currently active tab.
- * Renders a `<span>` element.
- *
- * Documentation: [Base UI Tabs](https://base-ui.com/react/components/tabs)
- */
 export const TabsIndicator = React.forwardRef(function TabsIndicator(
   componentProps: TabsIndicator.Props,
   forwardedRef: React.ForwardedRef<HTMLSpanElement>,
@@ -159,11 +153,6 @@ export interface TabsIndicatorState extends TabsRootState {
 }
 
 export interface TabsIndicatorProps extends BaseUIComponentProps<'span', TabsIndicatorState> {
-  /**
-   * Whether to render itself before React hydrates.
-   * This minimizes the time that the indicator isn't visible after server-side rendering.
-   * @default false
-   */
   renderBeforeHydration?: boolean | undefined;
 }
 

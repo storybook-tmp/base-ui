@@ -11,12 +11,6 @@ import { getDefaultLabelId } from '../../utils/resolveAriaLabelledBy';
 import { useSelectRootContext } from '../root/SelectRootContext';
 import { selectors } from '../store';
 
-/**
- * An accessible label that is automatically associated with the select trigger.
- * Renders a `<div>` element.
- *
- * Documentation: [Base UI Select](https://base-ui.com/react/components/select)
- */
 export const SelectLabel = React.forwardRef(function SelectLabel(
   componentProps: SelectLabel.Props,
   forwardedRef: React.ForwardedRef<HTMLDivElement>,

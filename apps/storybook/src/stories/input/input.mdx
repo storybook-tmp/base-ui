@@ -29,6 +29,7 @@ A native input element that automatically works with [Field](?path=/docs/form-in
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Any plain single-line text/native-input-type form field (`text`, `email`, `search`, `tel`, `url`, `password`), labeled either by a native `<label>` or by `Field.Label` when validation/description/error display is also needed.
@@ -43,6 +44,7 @@ A native input element that automatically works with [Field](?path=/docs/form-in
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -56,6 +58,7 @@ A single node with no children slots: the simplest anatomy in the library, along
 {/* END: anatomy */}
 
 {/* BEGIN: a11y */}
+
 ## Accessibility contract — consumer owns the accessible name
 
 Our one usage guideline for Input: **form controls must have an accessible name**, created with a `<label>` element or the `Field` component. Input supplies no labeling machinery of its own. A bare `<Input />` with no wrapping `<label>`, no `aria-label`, and no ambient `Field.Label` has **no accessible name**. This is the consumer half of the two-sided a11y contract: Base UI guarantees the ARIA/keyboard/focus wiring once you _do_ label it, but naming the control is on you.
@@ -73,22 +76,8 @@ Our one usage guideline for Input: **form controls must have an accessible name*
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-Identical to `Field.Control`'s, with no CSS variables of Input's own:
-
-| Attribute                                                      | Present when (only inside `Field.Root`)                            |
-| :-------------------------------------------------------------- | :------------------------------------------------------------------ |
-| `data-disabled`                                                | disabled; the one attribute that still means something standalone  |
-| `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field's interaction-state machine                                  |
-| `data-valid` / `data-invalid`                                  | tri-state validity; neither present while pristine                 |
-
-<Canvas of={InputStories.ValidationStates} />
-
-{/* END: styling */}
-
 {/* BEGIN: examples */}
+
 ## Form integration
 
 <Canvas of={InputStories.FormIntegration} />
@@ -96,6 +85,7 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: examples */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -111,6 +101,7 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
@@ -120,9 +111,10 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 **Don't**
 
 - Don't mark the valid state green — green is never ink; valid stays neutral. (BR-02)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="input">
@@ -196,6 +188,7 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **Pre-2024**: `Input`/`InputBase` lineage inherited from `@mui/base`, predating Base UI's component-per-DOM-node rewrite.
@@ -205,6 +198,7 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: history */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - Input's entire contract belongs to [Field](?path=/docs/form-inputs-field--docs); read that page first for validation modes, labeling strategies, and the state-attribute table.
@@ -213,6 +207,7 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 <ArgTypes of={InputStories.Hero} />
