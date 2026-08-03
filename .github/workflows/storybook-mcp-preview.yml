@@ -1,15 +1,13 @@
 name: Storybook MCP preview
 
-# Publishes @storybook-tmp/baseui-mcp — the repo's Storybook MCP server with the
-# branch's freshly built manifests baked in — to pkg.pr.new, so agentic reference
-# experiments can install and serve the design-system MCP locally instead of
-# hitting a shared hosted endpoint. Install URLs (long form; not on npm):
+# Publishes the @storybook-tmp/baseui-mcp MCP server with freshly built manifests to
+# pkg.pr.new, so agentic reference experiments can install and serve the MCP locally.
+# Install URLs:
 #   https://pkg.pr.new/storybook-tmp/base-ui/@storybook-tmp/baseui-mcp@<sha|branch>
 
 on:
   push:
     branches:
-      - research
       - 'experiment/**'
   workflow_dispatch:
 
@@ -38,22 +36,7 @@ jobs:
       - name: Build the MCP server bundle
         run: pnpm --filter @storybook-tmp/baseui-mcp build
       - name: Publish to pkg.pr.new
-        run: |
-          set +e
-          for i in 1 2 3; do
-            echo "Attempt $i to publish the MCP preview package..."
-            pnpm exec pkg-pr-new publish ./apps/mcp-server --pnpm --packageManager=pnpm --comment=off --compact false
-            exit_code=$?
-            if [ $exit_code -eq 0 ]; then
-              break
-            elif [ $i -eq 3 ]; then
-              echo "Command failed after $i attempts with exit code $exit_code."
-              exit $exit_code
-            else
-              echo "Attempt $i failed (exit code $exit_code), retrying after 30 seconds..."
-              sleep 30
-            fi
-          done
+        run: pnpm exec pkg-pr-new publish ./apps/mcp-server --pnpm --packageManager=pnpm --comment=off --compact false
       - name: Record install URLs
         run: |
           {

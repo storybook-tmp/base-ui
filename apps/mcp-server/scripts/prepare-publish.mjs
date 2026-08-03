@@ -4,36 +4,25 @@
  * Copies the Storybook build's MCP manifests into the package, records build
  * provenance, stamps a branch-derived version, and lifts the `private` flag so the
  * package can be packed. It mutates package.json in place, so it is meant for CI
- * (.github/workflows/storybook-mcp-preview.yml) or a throwaway local checkout —
- * never commit its output.
+ * (.github/workflows/storybook-mcp-preview.yml) or a throwaway local checkout.
+ * Never commit its output.
  *
- * Inputs (all optional):
- * - STORYBOOK_STATIC_DIR: Storybook build output directory.
- *   Defaults to ../storybook/storybook-static.
- * - GITHUB_REPOSITORY / GITHUB_REF_NAME / GITHUB_SHA: provenance and version
- *   metadata; fall back to the local git checkout.
+ * Reads GITHUB_REPOSITORY / GITHUB_REF_NAME / GITHUB_SHA for provenance and
+ * version metadata. Falls back to the local git checkout.
  */
-import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { simpleGit } from 'simple-git';
 
 const packageRoot = fileURLToPath(new URL('..', import.meta.url));
-const staticDir =
-  process.env.STORYBOOK_STATIC_DIR ?? path.join(packageRoot, '..', 'storybook', 'storybook-static');
+const staticDir = path.join(packageRoot, '..', 'storybook', 'storybook-static');
 
-function fromGit(args) {
-  try {
-    return execFileSync('git', args, { cwd: packageRoot, encoding: 'utf-8' }).trim();
-  } catch {
-    return null;
-  }
-}
+const git = simpleGit({ baseDir: packageRoot });
 
-function packageVersion(specifier, requireAnchor) {
+async function revParse(...args) {
   try {
-    return createRequire(requireAnchor)(`${specifier}/package.json`).version;
+    return (await git.revparse(args)).trim();
   } catch {
     return null;
   }
@@ -43,14 +32,13 @@ const manifestsSource = path.join(staticDir, 'manifests');
 if (!existsSync(path.join(manifestsSource, 'components.json'))) {
   console.error(
     `No manifests/components.json in ${staticDir}, so there is nothing to publish. ` +
-      'Build the Storybook first: pnpm --filter base-ui-storybook build-storybook ' +
-      '(or point STORYBOOK_STATIC_DIR at an existing build).',
+      'Build the Storybook first: pnpm --filter base-ui-storybook build-storybook.',
   );
   process.exit(1);
 }
 
-const branch = process.env.GITHUB_REF_NAME ?? fromGit(['rev-parse', '--abbrev-ref', 'HEAD']);
-const sha = process.env.GITHUB_SHA ?? fromGit(['rev-parse', 'HEAD']);
+const branch = process.env.GITHUB_REF_NAME ?? (await revParse('--abbrev-ref', 'HEAD'));
+const sha = process.env.GITHUB_SHA ?? (await revParse('HEAD'));
 
 // Copy manifests/ (and, for docgen-server builds, its sibling services/) into the
 // package so `files` picks them up.
@@ -69,18 +57,13 @@ const provenance = {
   branch: branch ?? null,
   sha: sha ?? null,
   builtAt: new Date().toISOString(),
-  storybookVersion: packageVersion(
-    'storybook',
-    new URL('../../storybook/package.json', import.meta.url),
-  ),
-  storybookMcpVersion: packageVersion('@storybook/mcp', import.meta.url),
 };
 writeFileSync(
   path.join(packageRoot, 'provenance.json'),
   `${JSON.stringify(provenance, null, 2)}\n`,
 );
 
-// `experiment/empty` -> `empty`; `research` stays `research`.
+// `experiment/empty` -> `empty`.
 const slug =
   (branch ?? '')
     .replace(/^experiment\//, '')
