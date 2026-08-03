@@ -8,8 +8,6 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 <Meta of={OTPFieldStories} />
 
-# OTP Field <span title="Recently added, not experimental">[New]</span>
-
 {/* BEGIN: general */}
 A one-time password input composed of individual character slots.
 
@@ -31,6 +29,7 @@ A one-time password input composed of individual character slots.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - One-time password, SMS/email verification code, or 2FA code entry where each character should occupy its own visually distinct, individually-focusable box.
@@ -49,6 +48,7 @@ A one-time password input composed of individual character slots.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -62,7 +62,7 @@ import { OTPField } from '@base-ui/react/otp-field';
 ```
 
 | Part                 | Renders                  | Purpose                                                                        | Optional?             |
-| :-------------------- | :------------------------ | :------------------------------------------------------------------------------ | :--------------------- |
+| :------------------- | :----------------------- | :----------------------------------------------------------------------------- | :-------------------- |
 | `OTPField.Root`      | `<div>`, `role="group"`  | Owns the single string value, `length` contract, and a hidden validation input | required              |
 | `OTPField.Input`     | `<input>`                | One character slot; `length` of these are expected                             | required (× `length`) |
 | `OTPField.Separator` | re-export of `Separator` | Purely visual grouping between subsets of Inputs                               | yes                   |
@@ -72,23 +72,18 @@ The anatomy is intentionally flat: no `Group`/`Slot`/`Digit` wrapper part exists
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Typing to completion
-
-<Canvas of={OTPFieldStories.TypeToComplete} />
 
 Typing a character matching `validationType` (or passing `normalizeValue`) fills the current slot and auto-advances focus to the next one. `onValueComplete(value, eventDetails)` fires once all `length` slots are filled, including firing again if a different complete value later replaces an already-complete one (see the paste story below).
 
 ### Pasting a full code
 
-<Canvas of={OTPFieldStories.PasteCompletesCode} />
-
 Pasting normalizes the clipboard text and splices it into the value starting at the pasted-into slot (not necessarily slot 0), then re-clamps to `length`. The story's play function uses the same paste technique as our own tests (a manually-defined `clipboardData` property on a real `paste` event), since higher-level testing-library paste helpers aren't sufficient here.
 
 ### Backspace vs. Delete
-
-<Canvas of={OTPFieldStories.BackspaceNavigation} />
 
 This interaction is easy to misread, so it's worth stating precisely:
 
@@ -101,13 +96,9 @@ All slots share one contiguous string value under the hood (`value[index]` per s
 
 ### Form submission
 
-<Canvas of={OTPFieldStories.FormSubmit} />
-
 The full value is carried by a hidden, `aria-hidden` validation `<input type="text">` rendered as a sibling of the visible slots, carrying `pattern`/`minLength`/`maxLength`/`name`/`form`/`autoComplete`/`inputMode` derived from `length` and `validationType`. This is the element that password-manager/SMS autofill actually targets, and the same hidden-input pattern used by [Number Field](?path=/docs/form-inputs-number-field--docs) and [Slider](?path=/docs/form-inputs-slider--docs), where the hidden input carries the native semantics.
 
 ### `autoSubmit` and native validation
-
-<Canvas of={OTPFieldStories.FormSubmitWithAutoSubmit} />
 
 `autoSubmit` calls `form.requestSubmit()` the moment the code completes, but that is native form submission, so it still respects every field's native validity. An unrelated invalid sibling (here, an unchecked `required` checkbox) blocks it and receives focus, just as a manual submit click would.
 
@@ -119,19 +110,13 @@ The full value is carried by a hidden, `aria-hidden` validation `<input type="te
 
 ### Rejected characters
 
-<Canvas of={OTPFieldStories.InvalidCharacterFeedback} />
-
 The default `validationType="numeric"` rejects non-digit characters outright (the slot stays unchanged), and `onValueInvalid` fires with the raw rejected string, the same signal `demos/custom-sanitize`'s `useInvalidFeedback` pattern is built on.
 
 ### `Field` integration
 
-<Canvas of={OTPFieldStories.FieldValidation} />
-
 The root registers with a surrounding `Field.Root` the same way Number Field and Slider do. `data-valid`/`data-invalid` land on `OTPField.Root` itself (which renders `role="group"`), and `Field.Error` renders from `validate`.
 
 ### Disabled and read-only
-
-<Canvas of={OTPFieldStories.DisabledAndReadOnly} />
 
 `disabled` makes every slot a real native `disabled` input, unfocusable entirely. `readOnly` preserves ArrowLeft/Right/Home/End/Up/Down navigation (the top-level `onKeyDown` guard only checks `disabled`, not `readOnly`) while blocking Backspace/Delete/typing/paste from changing the value.
 
@@ -149,17 +134,16 @@ Slots can be nested in arbitrary DOM structure: here, two plain `<div>` groups s
 
 ### Custom length
 
-<Canvas of={OTPFieldStories.CustomLength} />
-
 `length` isn't hardcoded to 6; any positive integer works, here a 4-character PIN.
 
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key                                     | Context      | Action                                                                             |
-| :--------------------------------------- | :------------ | :---------------------------------------------------------------------------------- |
+| :-------------------------------------- | :----------- | :--------------------------------------------------------------------------------- |
 | Any character matching `validationType` | Slot focused | Fills the slot; focus advances                                                     |
 | ArrowLeft / ArrowRight (flipped in RTL) | Slot focused | Moves focus to the previous/next slot; Ctrl/Cmd jumps to the first/end-target slot |
 | Home / ArrowUp                          | Slot focused | Jumps to the first slot                                                            |
@@ -178,22 +162,8 @@ Slots can be nested in arbitrary DOM structure: here, two plain `<div>` groups s
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute                                                                      | Where                | Present when                                                                                                                                                               |
-| :------------------------------------------------------------------------------ | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-complete`                                                                | Root and every Input | all slots are filled; on Input, this reflects the _whole field's_ state, not the individual slot                                                                           |
-| `data-filled`                                                                  | Root                 | at least one character exists anywhere in the value                                                                                                                        |
-| `data-filled`                                                                  | Input                | **this individual slot** has a character (a naming collision with Root's meaning); a shared `[data-filled]` selector across both levels can give confusing results         |
-| `data-disabled` / `data-readonly` / `data-required`                            | both                 | matching prop set                                                                                                                                                          |
-| `data-valid` / `data-invalid` / `data-touched` / `data-dirty` / `data-focused` | Root                 | Field integration only                                                                                                                                                     |
-
-**No CSS custom properties exist for this component**: there is no popup/positioning surface, and every slot is a plain styled `<input>` with nothing dynamic to expose.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`length`**: must exactly match the rendered `Input` count; drives validation, forms, completion, and SSR.
@@ -205,6 +175,7 @@ Slots can be nested in arbitrary DOM structure: here, two plain `<div>` groups s
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -220,81 +191,11 @@ Slots can be nested in arbitrary DOM structure: here, two plain `<div>` groups s
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Put the cells on the sunken surface token, control radius (4px), single focus ring. (BR-09, BR-11, DS-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="otp-field">
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/input-otp.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    named `input-otp.tsx` (the shadcn/Radix naming convention) but built on
-    `@base-ui/react/otp-field` underneath.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/apps/www/registry/ui/otp-field.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    keeps the Base UI name (`otp-field.tsx`) rather than the shadcn `input-otp` convention, with
-    masked, alphanumeric, grouped, and form-integration example variants.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/otp-field.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    Cal.com's registry also ships a dedicated OtpField wrapper as part of its near-complete
-    component set.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For a plain, unsegmented numeric value with formatting, use [Number Field](?path=/docs/form-inputs-number-field--docs).
 - To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### OTPField.Root
-
-<ArgTypes of={OTPField.Root} />
-
-### OTPField.Input
-
-<ArgTypes of={OTPField.Input} />
-
-### OTPField.Separator
-
-<ArgTypes of={OTPField.Separator} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/otp-field](https://base-ui.com/react/components/otp-field#api-reference)._
-
-{/* END: props */}

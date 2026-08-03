@@ -7,8 +7,6 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 <Meta of={MenubarStories} />
 
-# Menubar
-
 {/* BEGIN: general */}
 The container for menus: a persistent, `role="menubar"` bar hosting several
 `Menu.Root` instances as roving-focus items, the desktop-application File/Edit/View
@@ -78,6 +76,7 @@ mental model.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Application chrome: File/Edit/View-style command bars for desktop-style web apps
@@ -108,6 +107,7 @@ mental model.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -130,7 +130,7 @@ import { Menu } from '@base-ui/react/menu';
 ```
 
 | Part                    | Renders                    | Purpose                                                                    | Optional?                |
-| :----------------------- | :-------------------------- | :-------------------------------------------------------------------------- | :------------------------ |
+| :---------------------- | :------------------------- | :------------------------------------------------------------------------- | :----------------------- |
 | `Menubar`               | `<div role="menubar">`     | The single element in this component; hosts ordinary `Menu.Root` children  | required                 |
 | `Menu.Root` (hosted)    | no element                 | An ordinary Menu root; detects menubar parentage via context               | one per top-level menu   |
 | `Menu.Trigger` (hosted) | `<button role="menuitem">` | Converts to a roving `menuitem`, hover-switch-aware once a sibling is open | required per hosted menu |
@@ -144,6 +144,7 @@ anything, like the hero demo's own "Help" entry.
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Roving arrows across the bar
@@ -158,27 +159,11 @@ and open the adjacent top-level trigger's submenu in one step:
 `disabled` on the bar cascades to every hosted menu at once; disabling a single
 `Menu.Root` instead only takes out that one menu:
 
-<Canvas of={MenubarStories.DisabledCascade} />
-
 ### Vertical orientation
 
 `orientation="vertical"` switches the roving-focus axis and, since
 [#4922](https://github.com/mui/base-ui/pull/4922), defaults hosted popups to the
 `inline-end` side instead of `bottom`:
-
-<Canvas of={MenubarStories.VerticalOrientation} />
-
-### loopFocus
-
-<Canvas of={MenubarStories.LoopFocusToggle} />
-
-### Submenu within a menubar-hosted menu
-
-<Canvas of={MenubarStories.SubmenuWithinMenubar} />
-
-### Checkbox and radio items inside a menubar-hosted menu
-
-<Canvas of={MenubarStories.CheckboxAndRadioItemsInMenubar} />
 
 ### Hover-switch only after the first click
 
@@ -186,26 +171,19 @@ A trigger's effective `openOnHover` is `false` until some sibling submenu is
 already open. Hovering does nothing pre-click, but once a trigger has been
 clicked open, hovering the others switches without another click:
 
-<Canvas of={MenubarStories.HoverSwitchAfterFirstClick} />
-
-### Home/End navigation
-
-<Canvas of={MenubarStories.HomeAndEndNavigation} />
-
 ### Menubar vs Toolbar
 
 The two components stay distinct even when a Toolbar hosts a menu (see When not to
 use for the boundary):
 
-<Canvas of={MenubarStories.ToolbarContrastSideBySide} />
-
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 | Key                                                                       | Context                           | Action                                                                                    |
-| :------------------------------------------------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------------- |
+| :------------------------------------------------------------------------ | :-------------------------------- | :---------------------------------------------------------------------------------------- |
 | `Tab`                                                                     | anywhere in the bar               | Moves focus into/out of the bar as **one stop**                                           |
 | `ArrowRight`/`ArrowLeft` (horizontal) or `ArrowDown`/`ArrowUp` (vertical) | bar focused                       | Rove focus between top-level triggers; loops when `loopFocus` (default `true`)            |
 | `Home`/`End`                                                              | bar focused                       | Jump to first/last trigger ([#4922](https://github.com/mui/base-ui/pull/4922))            |
@@ -224,6 +202,7 @@ use for the boundary):
 {/* END: a11y */}
 
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`orientation`** (default `'horizontal'`): switches the roving-focus axis and,
@@ -240,6 +219,7 @@ use for the boundary):
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -262,90 +242,8 @@ use for the boundary):
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Keep triggers as ghost buttons — body face, regular weight, neutral hover surface. (BR-04)
-- Float submenus: overlay shadow, card radius (8px). (BR-06, BR-11)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-Public Menubar usage is overwhelmingly one shadcn-derived `components/ui/menubar.tsx` template, copied with minor changes across small apps rather than diverse custom builds:
-
-<WildCards component="menubar">
-  <WildCard
-    repo="x1xhlol/zero-calendar"
-    title="zero-calendar"
-    href="https://github.com/x1xhlol/zero-calendar/blob/HEAD/components/ui/menubar.tsx"
-    live="https://zerocalendar.com"
-    license="MIT"
-    reuse="code-ok"
-  >
-    a 356-star calendar app using the near-canonical shadcn-style `components/ui/menubar.tsx`
-    wrapper.
-  </WildCard>
-  <WildCard
-    repo="pacekit/gsap"
-    title="gsap"
-    href="https://github.com/pacekit/gsap/blob/HEAD/src/components/ui/menubar.tsx"
-    live="https://gsap.pacekit.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    the same wrapper template, copied into a GSAP animation toolkit's app shell.
-  </WildCard>
-  <WildCard
-    repo="mathematic-inc/earl"
-    title="earl"
-    href="https://github.com/mathematic-inc/earl/blob/HEAD/web/src/components/ui/menubar.tsx"
-    live="https://mathematic-inc.github.io/earl/"
-    license="Apache-2.0"
-    reuse="code-ok"
-  >
-    an Apache-2.0 app repeating the identical wrapper structure, further evidence that
-    almost every public Menubar usage is one shared template rather than diverse custom builds.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/apps/www/registry/ui/menubar.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    shares the same lineage: even a from-scratch registry (not a shadcn fork)
-    converges on the same menu/item/trigger structure.
-  </WildCard>
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/menubar.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    a shadcn-style `data-slot` wrapper over Base UI's Menubar, styled with Tailwind.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/menubar.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-  >
-    ships parallel Base UI and Radix Menubar implementations behind one component API.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: behavior */}
+
 ## FAQ
 
 - **"Hovering over my menubar items does nothing until I click one"** → this is by
@@ -367,6 +265,7 @@ Public Menubar usage is overwhelmingly one shadcn-derived `components/ui/menubar
 {/* END: behavior */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - **RTL is untested**: `Menubar.test.tsx` has no `dir="rtl"` coverage for
@@ -375,11 +274,10 @@ Public Menubar usage is overwhelmingly one shadcn-derived `components/ui/menubar
   internals. The demo below wraps the hero menubar in `DirectionProvider` +
   `dir="rtl"` for manual verification:
 
-<Canvas of={MenubarStories.RTLGap} />
-
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - Menubar hosts ordinary [Menu](?path=/docs/overlays-menu--docs) instances; read
@@ -390,22 +288,3 @@ Public Menubar usage is overwhelmingly one shadcn-derived `components/ui/menubar
   solving the opposite discoverability problem.
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Menubar
-
-<ArgTypes of={Menubar} />
-
-### Menu.Root
-
-<ArgTypes of={Menu.Root} />
-
-### Menu.Trigger
-
-<ArgTypes of={Menu.Trigger} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/menubar](https://base-ui.com/react/components/menubar#api-reference)._
-
-{/* END: props */}

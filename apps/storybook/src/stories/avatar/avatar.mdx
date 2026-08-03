@@ -8,8 +8,6 @@ import reuiIoOpenShot from '../../../../../research/d-real-world-usage/_captures
 
 <Meta of={AvatarStories} />
 
-# Avatar
-
 {/* BEGIN: general */}
 Displays a user's profile picture, initials, or fallback icon.
 
@@ -30,6 +28,7 @@ Displays a user's profile picture, initials, or fallback icon.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - User profile pictures with a graceful fallback (initials or icon) when no image is set or the image fails to load.
@@ -46,6 +45,7 @@ Displays a user's profile picture, initials, or fallback icon.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -57,36 +57,27 @@ import { Avatar } from '@base-ui/react/avatar';
 </Avatar.Root>;
 ```
 
-| Part              | Renders  | Purpose                                                         | Optional?                                                           |
-| :----------------- | :-------- | :--------------------------------------------------------------- | :------------------------------------------------------------------- |
-| `Avatar.Root`     | `<span>` | Container; owns the shared `imageLoadingStatus` context         | required                                                            |
+| Part              | Renders  | Purpose                                                         | Optional?                                                          |
+| :---------------- | :------- | :-------------------------------------------------------------- | :----------------------------------------------------------------- |
+| `Avatar.Root`     | `<span>` | Container; owns the shared `imageLoadingStatus` context         | required                                                           |
 | `Avatar.Image`    | `<img>`  | The image; only mounts once loading resolves to `loaded`        | yes; `Root` alone with text children is a valid "no photo" pattern |
 | `Avatar.Fallback` | `<span>` | Rendered when the image fails to load, is loading, or is absent | yes; nothing shows in its place if omitted                         |
 
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### The loading-status state machine
 
 `ImageLoadingStatus` is `'idle' | 'loading' | 'loaded' | 'error'`, owned by `useImageLoadingStatus` inside `Avatar.Image`. No `src`/`srcSet` means immediate `error`; otherwise a detached probe resolves `loaded`/`error` asynchronously (or synchronously via the cached-image fast path). `Avatar.Fallback` renders whenever status is not `loaded` (respecting `delay`):
 
-<Canvas of={AvatarStories.BrokenImageFallback} />
-
 `onLoadingStatusChange` fires on every non-idle transition, independent of whether `Fallback` is even present:
-
-<Canvas of={AvatarStories.OnLoadingStatusChangeCallback} />
 
 ### Anti-flash `delay`
 
 With no `delay`, the fallback for a broken image appears the instant loading resolves to `error`. With `delay={600}` (the hero demo's value), the fallback is withheld for 600ms, so a fast-resolving load never flashes fallback content first.
-
-<Canvas of={AvatarStories.DefaultDelay} />
-
-### `alt` text: informative vs. decorative
-
-<Canvas of={AvatarStories.AltTextVariations} />
 
 ### SSR and hydration
 
@@ -95,6 +86,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 **Keyboard:** none. Avatar is not interactive by itself; `Root`/`Image`/`Fallback` have no built-in role, `tabIndex`, or key handling. If used as a trigger (inside a button/menu), the wrapping interactive element owns focus/keyboard semantics.
@@ -105,15 +97,8 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-- `Avatar.Image` exposes `data-starting-style`/`data-ending-style` during transition-in/-out.
-- **No `data-loading-status`/`data-loaded`/`data-error` attribute exists on any part.** `avatarStateAttributesMapping` maps `imageLoadingStatus: () => null`: the state is tracked in React but deliberately not exposed as a data attribute. Style by which part is mounted (`Image` vs. `Fallback`), or via the `className`/`style` state-function form reading `state.imageLoadingStatus`.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`src` / `srcSet` / `sizes` (Image)**: the image URL(s); omitting both `src` and `srcSet` forces immediate `error`. Responsive props are forwarded to both the rendered `<img>` and the internal probe so status reflects the real resource.
@@ -125,6 +110,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -139,60 +125,8 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Use the fully-round radius rung for the shape. (BR-11)
-- Keep fallback initials neutral ink on a neutral surface — no colored avatar backgrounds. (BR-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="avatar">
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/avatar.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    a Tailwind wrapper with dedicated `avatar-group-demo` and `avatar-with-fallback-demo` examples
-    showing the fallback slot in use.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/avatar.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    the same registry-item pattern, published as both a package export and a standalone installable
-    file.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/avatar.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    one of the components reui ships with interchangeable Base UI and Radix backends behind an
-    identical public API.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2025-01-20 → 2025-02-04**: Avatar ships (issue [#1347](https://github.com/mui/base-ui/issues/1347) → PR [#1210](https://github.com/mui/base-ui/pull/1210)), a community contribution by @acomanescu, referencing Radix UI's Avatar.
@@ -205,6 +139,7 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4468](https://github.com/mui/base-ui/issues/4468) (open): fallback still flashes for cached images on SSR hydration in measurable, framework-dependent durations, despite the cached-image fast path.
@@ -214,27 +149,9 @@ Because layout effects don't run during SSR, server-rendered HTML always contain
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - For a numeric measurement or task-completion display, see [Progress](?path=/docs/status-display-progress--docs) / [Meter](?path=/docs/status-display-meter--docs): same taxonomy category, different job.
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Avatar.Root
-
-<ArgTypes of={Avatar.Root} />
-
-### Avatar.Image
-
-<ArgTypes of={Avatar.Image} />
-
-### Avatar.Fallback
-
-<ArgTypes of={Avatar.Fallback} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/avatar](https://base-ui.com/react/components/avatar#api-reference)._
-
-{/* END: props */}

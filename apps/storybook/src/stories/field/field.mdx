@@ -15,8 +15,6 @@ export const fieldFiles = [{ path: '../field.demo.css', code: fieldCss }];
 
 <Meta of={FieldStories} />
 
-# Field
-
 {/* BEGIN: general */}
 A component that provides labeling and validation for form controls.
 
@@ -39,6 +37,7 @@ A component that provides labeling and validation for form controls.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Any labeled form control: the forms handbook prescribes `Field.Label` (or a native `<label>`) for Input, NumberField, OTPField, Autocomplete, Combobox, Checkbox, Radio, and Switch.
@@ -58,6 +57,7 @@ A component that provides labeling and validation for form controls.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -72,43 +72,38 @@ import { Field } from '@base-ui/react/field';
 </Field.Root>;
 ```
 
-| Part                | Renders    | Purpose                                                                            | Optional?                                                                                                     |
-| :------------------- | :---------- | :---------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
-| `Field.Root`        | `<div>`    | Groups all parts; owns the state machine, validation, and `name`                   | required                                                                                                      |
+| Part                | Renders    | Purpose                                                                            | Optional?                                                                                                    |
+| :------------------ | :--------- | :--------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
+| `Field.Root`        | `<div>`    | Groups all parts; owns the state machine, validation, and `name`                   | required                                                                                                     |
 | `Field.Label`       | `<label>`  | Accessible label, auto-associated with the control                                 | yes, or a native `<label>`/`aria-label`                                                                      |
 | `Field.Control`     | `<input>`  | The form control to label and validate                                             | yes; any Base UI control (Input, Checkbox, Select…) works in its place, or use `render` for a custom element |
-| `Field.Description` | `<p>`      | Additional information, always joined into `aria-describedby`                      | yes                                                                                                           |
-| `Field.Error`       | `<div>`    | The error message, joined into `aria-describedby` only while rendered; animatable  | yes                                                                                                           |
+| `Field.Description` | `<p>`      | Additional information, always joined into `aria-describedby`                      | yes                                                                                                          |
+| `Field.Error`       | `<div>`    | The error message, joined into `aria-describedby` only while rendered; animatable  | yes                                                                                                          |
 | `Field.Item`        | `<div>`    | Groups one option inside a checkbox/radio group with its own label and description | yes; only meaningful inside a group                                                                          |
 | `Field.Validity`    | no element | Render-prop window into the field's combined validity state                        | yes; the escape hatch for fully custom validity UI                                                           |
 
 The control slot is polymorphic **by registration, not by prop**: `Field.Root` wraps its children in a `LabelableProvider`, and any control registers its id/ref/value with the shared context. That's why Input, Checkbox, or Select work with Field out of the box: there's no wiring prop to set.
 
-<Canvas of={FieldStories.AnatomyAllParts} />
-
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Labeling strategies
 
 An explicit `Field.Label` precedes the control for most inputs; for span-based controls (Checkbox/Radio/Switch) the label can instead **enclose** the control, matching native implicit-label association ([#2036](https://github.com/mui/base-ui/pull/2036)); when no visible label exists, fall back to `aria-label` directly on the control.
 
-<Canvas of={FieldStories.HandbookLabeling} />
-
 ### Grouping with Field.Item
 
 Inside a checkbox or radio group, keep the group's own label in `Fieldset.Legend` and wrap each option in `Field.Item` so it gets a per-option label and description ([#2810](https://github.com/mui/base-ui/pull/2810)). `Field.Item` opens a nested label scope: item-level descriptions attach to the item's control, while root-level ones still attach to the group.
-
-<Canvas of={FieldStories.GroupWithFieldItem} />
 
 ### The interaction-state machine
 
 Every state is a data attribute, identical across Root/Control/Label/Description/Error/Item:
 
 | Attribute                     | Set when                                                        | Cleared when                                                                                    |
-| :----------------------------- | :--------------------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| :---------------------------- | :-------------------------------------------------------------- | :---------------------------------------------------------------------------------------------- |
 | `data-touched`                | the control blurs (also on `Enter` inside an `<input>`)         | never (per mount)                                                                               |
 | `data-dirty`                  | the value differs from its initial value                        | the value returns to its initial value                                                          |
 | `data-filled`                 | the value is non-empty (tracks external/controlled changes too) | the value is emptied                                                                            |
@@ -117,19 +112,11 @@ Every state is a data attribute, identical across Root/Control/Label/Description
 
 Because `valid` is tri-state rather than a plain boolean, you can avoid showing errors before interaction with CSS alone: a pristine field is neither valid nor invalid.
 
-<Canvas of={FieldStories.StateAttributesStyling} />
-
 ### Validation lifecycle
 
 Native constraint validation runs first: the control's `ValidityState` is snapshotted every commit. Only **after** native validation passes does the custom `validate(value, formValues)` function run ([#1926](https://github.com/mui/base-ui/pull/1926)); it returns `string | string[] | null` (or a `Promise` of those), and a non-null result is written back via `element.setCustomValidity()` so native validity stays in sync. The second argument, `formValues`, carries every named field's current value, enabling cross-field rules like confirm-password ([#1941](https://github.com/mui/base-ui/pull/1941)):
 
-<Canvas of={FieldStories.CustomValidateFunction} />
-
-<Canvas of={FieldStories.CrossFieldValidation} />
-
 Async `validate` is supported, with stale in-flight results discarded. Async results **cannot block form submission**; gate on the server for that instead. Pair it with `validationDebounceTime` so a burst of keystrokes coalesces into one check:
-
-<Canvas of={FieldStories.AsyncValidationDebounced} />
 
 ### Validation modes and the `onSubmit` default
 
@@ -139,53 +126,34 @@ Async `validate` is supported, with stale in-flight results discarded. Async res
 - **`onBlur`**: commits validation when the control blurs; the middle ground, and works standalone (no `Form` required).
 - **`onChange`**: validates on every change; pair with `validationDebounceTime` for async checks.
 
-<Canvas of={FieldStories.ValidationModeOnSubmit} />
-
-<Canvas of={FieldStories.ValidationModeOnBlur} />
-
-<Canvas of={FieldStories.ValidationModeOnChange} />
-
 **Don't get caught by this**: with the default `onSubmit` mode, a **standalone** `Field.Root` (no surrounding `Form`) never fires a submit event, so `validate` never runs. Nothing you do (typing, blurring, even calling it directly) triggers it, because there's no submit to gate on. If you need validation without a `Form`, either set `validationMode="onBlur"`/`"onChange"`, or call `actionsRef.current.validate()` imperatively. This is the most common point of confusion reported against Field.
 
 ### Wrapping other controls
 
 Any Base UI form control registers with the surrounding field with zero wiring: `Input` extends `Field.Control` directly; Select, Checkbox, and others register through the same internal mechanism. For a fully custom control, use `Field.Control render={<textarea />}`, the recommended custom-control path ([#1996](https://github.com/mui/base-ui/issues/1996)); the state machine still runs (typing sets `data-dirty`/`data-filled`, blurring sets `data-touched`) even though, with the default `onSubmit` mode and no `Form`, validity itself stays pristine.
 
-<Canvas of={FieldStories.WrapsInput} />
-
-<Canvas of={FieldStories.WrapsSelect} />
-
-<Canvas of={FieldStories.WrapsCheckbox} />
-
-<Canvas of={FieldStories.WrapsCustomTextarea} />
-
 ### Server errors
 
 An entry in `<Form errors>` keyed by the field's `name` makes that field invalid and feeds a children-less `Field.Error`; it auto-clears as soon as the user edits the field again. `onClearErrors` was removed once this became automatic ([#3136](https://github.com/mui/base-ui/pull/3136)).
-
-<Canvas of={FieldStories.ServerErrorDisplay} />
 
 ### External-library adapters and disabled semantics
 
 `invalid`, `dirty`, and `touched` switch those states to controlled props, letting an external library drive Field entirely. We added them because both React Hook Form and TanStack Form provide these states in their APIs ([#2950](https://github.com/mui/base-ui/pull/2950)). Disabled fields keep app-set invalidity: only **computed** validity (native constraints and `validate`) is suppressed while disabled, matching `:disabled` not participating in constraint validation, but `aria-invalid` is still never added to a disabled control ([#5116](https://github.com/mui/base-ui/pull/5116), a regression fix restoring behavior lost in [#4890](https://github.com/mui/base-ui/pull/4890)).
 
-<Canvas of={FieldStories.ExternalLibraryControlled} />
-
 ### Animation
 
 `Field.Error` supports the standard transition-status attributes (`data-starting-style`/`data-ending-style`, [#3939](https://github.com/mui/base-ui/pull/3939)) and keeps its last rendered message during the exit transition, so text doesn't vanish mid-fade.
 
-<Canvas of={FieldStories.ErrorTransitionAnimation} />
-
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 Field itself adds only one keyboard binding. Everything else belongs to whatever control it wraps.
 
 | Key                           | Action                                                               |
-| :----------------------------- | :-------------------------------------------------------------------- |
+| :---------------------------- | :------------------------------------------------------------------- |
 | `Enter` (inside an `<input>`) | Commits validation (marks touched) before the native submit proceeds |
 
 - **ARIA managed for you**: `Field.Label` → `htmlFor`/`id` (or `aria-labelledby` for span-based controls); `Field.Description`/`Field.Error` → merged, deduplicated into the control's `aria-describedby`; `aria-invalid` added when `valid === false` and the control isn't disabled.
@@ -193,19 +161,8 @@ Field itself adds only one keyboard binding. Everything else belongs to whatever
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part                                                | Attribute                                                      | Present when                                                             |
-| :--------------------------------------------------- | :-------------------------------------------------------------- | :------------------------------------------------------------------------ |
-| Root / Control / Label / Description / Error / Item | `data-disabled`                                                | disabled (own prop, or cascaded from Root/Fieldset)                      |
-| Root / Control / Label / Description / Error / Item | `data-touched` / `data-dirty` / `data-filled` / `data-focused` | see the state-machine table above                                        |
-| Root / Control / Label / Description / Error / Item | `data-valid` / `data-invalid`                                  | tri-state validity; neither present while pristine or disabled-computed |
-| Field.Error                                         | `data-starting-style` / `data-ending-style`                    | during the enter/exit transition                                         |
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`name` (Root)**: identifies the field on form submission and is what `<Form errors>` keys match; it takes precedence over a `name` set directly on `Field.Control`.
@@ -219,6 +176,7 @@ Field itself adds only one keyboard binding. Everything else belongs to whatever
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -235,113 +193,8 @@ Field itself adds only one keyboard binding. Everything else belongs to whatever
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Write labels and descriptions in sentence case. (BR-08)
-- Reserve color for the error message — `text.error` is the one color-based emphasis. (BR-07)
-
-**Don't**
-
-- Don't mark the valid state green — green is never ink; valid stays neutral. (BR-02)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="field">
-  <WildCard
-    repo="cloudflare/kumo"
-    title="kumo"
-    href="https://github.com/cloudflare/kumo/blob/HEAD/packages/kumo/src/components/field/field.tsx"
-    live="https://kumo-ui.com"
-    license="MIT"
-    reuse="code-ok"
-    image={kumoUiComShot}
-  >
-    a fully styled wrapper that other Kumo form components (Switch, Checkbox) import directly to
-    compose label/description/error slots consistently.
-  </WildCard>
-  <WildCard
-    repo="WordPress/gutenberg"
-    title="WordPress Gutenberg"
-    href="https://github.com/WordPress/gutenberg/blob/HEAD/packages/ui/src/form/primitives/field/root.tsx"
-    live="https://github.com/WordPress/gutenberg"
-    license="no SPDX license detected"
-    reuse="link-only, do not copy"
-  >
-    one file per part (root/label/control/description/details/item) inside the new form-primitives
-    package that also backs its Combobox and Autocomplete.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/field.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    a Tailwind wrapper published both as an installable registry item and inside the distributable
-    package.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/field.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-  >
-    ships parallel Base UI and Radix Field implementations behind one component API.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/field.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-  >
-    Cal.com's design system wraps Field in its one-file-per-component Base UI registry.
-  </WildCard>
-</WildCards>
-
-Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-layout field (Selia). Each `MiniPlayground` below shows the live recreation alongside its JSX, its live-captured rendered HTML, and its CSS:
-
-<MiniPlayground
-  title="Flat-prop wrapper"
-  source={{
-    repo: 'cloudflare/kumo',
-    href: 'https://github.com/cloudflare/kumo/blob/8f2c40b3a9d14dc8e6b3b39ba87e1fa7b03d8f26/packages/kumo/src/components/field/field.tsx',
-    license: 'MIT',
-  }}
-  code={flatPropFieldSource}
-  css={fieldCss}
-  dependencies={fieldFiles}
->
-  <FlatPropFieldExample />
-</MiniPlayground>
-
-<MiniPlayground
-  title="Grid-layout field"
-  source={{
-    repo: 'nauvalazhar/selia',
-    href: 'https://github.com/nauvalazhar/selia/blob/55ba90ba64a090653217a2b3afd60537c7b12444/components/selia/field.tsx',
-    license: 'MIT',
-  }}
-  code={gridLayoutFieldSource}
-  css={fieldCss}
-  dependencies={fieldFiles}
->
-  <GridLayoutFieldExample />
-</MiniPlayground>
-
-{/* END: examples */}
-
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-08-20**: Field created, together with Fieldset, in the same PR ([#477](https://github.com/mui/base-ui/pull/477)).
@@ -355,6 +208,7 @@ Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-la
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4737](https://github.com/mui/base-ui/issues/4737): Standard Schema (Zod, etc.) support requested, open; today, validate per-field or run schema validation at submit time into `<Form errors>`.
@@ -365,6 +219,7 @@ Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-la
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - To label a group of **multiple** controls under one label, use [Fieldset](?path=/docs/form-inputs-fieldset--docs).
@@ -372,38 +227,3 @@ Two recreations live in this Storybook: a flat-prop wrapper (Kumo) and a grid-la
 - Field itself wraps any Base UI control: [Input](?path=/docs/form-inputs-input--docs), [Checkbox](?path=/docs/form-inputs-checkbox--docs), [Select](?path=/docs/form-inputs-select--docs), and others all register with it automatically.
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Field.Root
-
-<ArgTypes of={Field.Root} />
-
-### Field.Label
-
-<ArgTypes of={Field.Label} />
-
-### Field.Control
-
-<ArgTypes of={Field.Control} />
-
-### Field.Description
-
-<ArgTypes of={Field.Description} />
-
-### Field.Error
-
-<ArgTypes of={Field.Error} />
-
-### Field.Item
-
-<ArgTypes of={Field.Item} />
-
-### Field.Validity
-
-<ArgTypes of={Field.Validity} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/field](https://base-ui.com/react/components/field#api-reference)._
-
-{/* END: props */}

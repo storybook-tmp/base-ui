@@ -1,0 +1,27 @@
+{
+  "branchName": "experiment/docs-full",
+  "baseCommit": "e3ba5b5a3c5910e157d5e35e40f99fb6a4a7c046",
+  "keptFacets": [
+    "csf-jsdoc.meta",
+    "csf-jsdoc.story",
+    "general.general-a11y",
+    "general.general-brand",
+    "general.general-do-dont",
+    "general.general-setup",
+    "general.general-tokens",
+    "general.general-when-to-use",
+    "mdx.a11y",
+    "mdx.anatomy",
+    "mdx.behavior",
+    "mdx.do-dont",
+    "mdx.general",
+    "mdx.history",
+    "mdx.known-issues",
+    "mdx.when-to-use",
+    "source-jsdoc.component",
+    "source-jsdoc.props",
+    "story.base"
+  ],
+  "createdAt": "2026-08-03T09:08:24.059Z",
+  "version": 1
+}

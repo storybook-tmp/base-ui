@@ -6,8 +6,6 @@ import lumiuiDevOpenShot from '../../../../../research/d-real-world-usage/_captu
 
 <Meta of={SeparatorStories} />
 
-# Separator
-
 {/* BEGIN: general */}
 A separator element accessible to screen readers.
 
@@ -28,6 +26,7 @@ A separator element accessible to screen readers.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Dividing groups of items in menus/select/combobox/autocomplete/context-menu listboxes: the dominant use case; 6 of 7 known consuming components are list/menu-shaped selection surfaces that re-export `Separator` directly between `Group`s.
@@ -43,6 +42,7 @@ A separator element accessible to screen readers.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -56,22 +56,19 @@ Renders a single `<div>` with no sub-parts and no required children. The consume
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### Orientation
 
 `orientation` (`'horizontal' | 'vertical'`, default `'horizontal'`) drives `aria-orientation` (hand-written) and `data-orientation` (auto-derived) simultaneously:
 
-<Canvas of={SeparatorStories.Horizontal} />
-
-<Canvas of={SeparatorStories.Vertical} />
-
 ### Re-export map
 
 Six components re-export the standalone `Separator` unchanged (identical props/state shape):
 
-| Component    | Source                                                                                           |
-| :------------ | :------------------------------------------------------------------------------------------------ |
+| Component    | Source                                                                                          |
+| :----------- | :---------------------------------------------------------------------------------------------- |
 | Menu         | `packages/react/src/menu/index.parts.ts`: `export { Separator } from '../separator/Separator';` |
 | Select       | `packages/react/src/select/index.parts.ts`: same pattern                                        |
 | Combobox     | `packages/react/src/combobox/index.parts.ts`: same pattern                                      |
@@ -81,17 +78,14 @@ Six components re-export the standalone `Separator` unchanged (identical props/s
 
 Between two `Menu.Group`s, the plain re-export in action:
 
-<Canvas of={SeparatorStories.InMenu} />
-
 **One component wraps rather than re-exports plainly: Toolbar.** `packages/react/src/toolbar/index.parts.ts` uses `export { ToolbarSeparator as Separator } from './separator/ToolbarSeparator';`. `ToolbarSeparator` renders the standalone `Separator` internally but **auto-inverts orientation** relative to the toolbar's own orientation (`{ vertical: 'horizontal', horizontal: 'vertical' }[context.orientation]`): a horizontal toolbar gets vertical dividers by default, and vice versa. The shared logic lives in the parent and flows through context rather than being reimplemented. The inversion is by design ([#4647](https://github.com/mui/base-ui/issues/4647)): a reporter assumed it was a bug affecting screen reader behavior, but we closed the issue as `type: expected behavior` because a horizontal toolbar's vertical dividing lines are visually and semantically correct.
 
 Flipping the toolbar's own orientation live shows the inversion is dynamic rather than a one-time default:
 
-<Canvas of={SeparatorStories.InToolbar} />
-
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 **Keyboard:** none. Separator is not focusable by design; it renders no `tabIndex`, consistent with the **structural** (non-interactive) separator role rather than the interactive/widget "range" variant the WAI-ARIA spec also permits.
@@ -101,20 +95,8 @@ Flipping the toolbar's own orientation live shows the inversion is dynamic rathe
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute          | Present when                                                                                                            |
-| :------------------ | :----------------------------------------------------------------------------------------------------------------------- |
-| `data-orientation` | always: reflects the `orientation` prop (`'horizontal'` or `'vertical'`), auto-derived from state rather than hand-set |
-
-This attribute existed in code well before it was documented; [#4480](https://github.com/mui/base-ui/pull/4480) closed that docs gap in 2026-03.
-
-No `*CssVars.ts` file exists for Separator: a static divider has no dynamic numeric value to expose, so this absence is expected (unlike Progress/Meter, where the same absence departs from our usual practice of carrying dynamic numeric values in CSS variables).
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`orientation`**: use `'vertical'` when dividing horizontally-arranged content (inline nav links, horizontal toolbar groups); default `'horizontal'` for stacked content. We added it after the initial release ([#1303](https://github.com/mui/base-ui/issues/1303) / [#1304](https://github.com/mui/base-ui/pull/1304)) for parity with Radix UI, React Spectrum, Ariakit, Tamagui, and MUI's Divider.
@@ -124,6 +106,7 @@ No `*CssVars.ts` file exists for Separator: a static divider has no dynamic nume
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -137,56 +120,8 @@ No `*CssVars.ts` file exists for Separator: a static divider has no dynamic nume
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Separators are `border.subtle` lines — accents can't draw a line. (BR-02, DS-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="separator">
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/separator.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    a standalone Separator registry item, styled to match the rest of the 9ui component set.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/separator.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={lumiuiDevOpenShot}
-  >
-    the same wrapper pattern, published as both a package export and an installable registry file.
-  </WildCard>
-  <WildCard
-    repo="WordPress/gutenberg"
-    title="WordPress Gutenberg"
-    href="https://github.com/WordPress/gutenberg/blob/HEAD/packages/components/src/menu/separator.tsx"
-    live="https://github.com/WordPress/gutenberg"
-    license="no SPDX license detected"
-    reuse="link-only, do not copy"
-  >
-    uses it internally as `Menu.Separator` inside its own Menu implementation rather than exposing
-    it as a standalone public component.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-09-27**: Separator ships ([#535](https://github.com/mui/base-ui/pull/535)), born inside the Menu Group and Separator work, initially modeled as `SeparatorRoot`.
@@ -198,6 +133,7 @@ No `*CssVars.ts` file exists for Separator: a static divider has no dynamic nume
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4647](https://github.com/mui/base-ui/issues/4647): closed as expected behavior. Toolbar's orientation auto-invert is intentional and documented above for consumers who notice the flip.
@@ -206,19 +142,9 @@ No `*CssVars.ts` file exists for Separator: a static divider has no dynamic nume
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - Used inside [Menu](?path=/docs/overlays-menu--docs), Select, Combobox, Autocomplete, and ContextMenu as a plain re-export, and wrapped (with orientation auto-invert) as `Toolbar.Separator` and `OTPField.Separator`.
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Separator
-
-<ArgTypes of={SeparatorStories.Hero} />
-
-Full JSDoc-driven reference: [base-ui.com/react/components/separator](https://base-ui.com/react/components/separator#api-reference).
-
-{/* END: props */}

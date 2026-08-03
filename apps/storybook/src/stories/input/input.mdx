@@ -6,8 +6,6 @@ import nineUiDevShot from '../../../../../research/d-real-world-usage/_captures/
 
 <Meta of={InputStories} />
 
-# Input
-
 {/* BEGIN: general */}
 A native input element that automatically works with [Field](?path=/docs/form-inputs-field--docs).
 
@@ -29,6 +27,7 @@ A native input element that automatically works with [Field](?path=/docs/form-in
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Any plain single-line text/native-input-type form field (`text`, `email`, `search`, `tel`, `url`, `password`), labeled either by a native `<label>` or by `Field.Label` when validation/description/error display is also needed.
@@ -43,6 +42,7 @@ A native input element that automatically works with [Field](?path=/docs/form-in
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -56,46 +56,22 @@ A single node with no children slots: the simplest anatomy in the library, along
 {/* END: anatomy */}
 
 {/* BEGIN: a11y */}
+
 ## Accessibility contract — consumer owns the accessible name
 
 Our one usage guideline for Input: **form controls must have an accessible name**, created with a `<label>` element or the `Field` component. Input supplies no labeling machinery of its own. A bare `<Input />` with no wrapping `<label>`, no `aria-label`, and no ambient `Field.Label` has **no accessible name**. This is the consumer half of the two-sided a11y contract: Base UI guarantees the ARIA/keyboard/focus wiring once you _do_ label it, but naming the control is on you.
 
 - **Standalone labeling**: wrap in a plain `<label>` (the docs hero pattern), no extra props. Outside any `Field`/`Form` tree, `data-disabled` is the only state attribute that still means anything; there is no `data-touched`/`data-valid`/`data-dirty`, since there is no Field validity state machine to drive them.
 
-  <Canvas of={InputStories.StandaloneNoField} />
-
 - **Field-integrated labeling**: `aria-labelledby`/`htmlFor` auto-wired from `Field.Label`'s id, inherited unmodified from `Field.Control`.
 - **Disabled cascade from an ancestor `Fieldset.Root`**: the native `disabled` attribute reaches an `Input` nested inside a `Field.Root` two levels down, without `Input` ever receiving `disabled` directly:
-
-  <Canvas of={InputStories.DisabledFromFieldset} />
 
 - **Known issue**: [#4643](https://github.com/mui/base-ui/issues/4643) ("How to clear the input value on a button click?") is open; we have no dedicated recipe in the docs yet. The standard controlled `value`/`onValueChange` triplet, reset externally, is the expected pattern.
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-Identical to `Field.Control`'s, with no CSS variables of Input's own:
-
-| Attribute                                                      | Present when (only inside `Field.Root`)                            |
-| :-------------------------------------------------------------- | :------------------------------------------------------------------ |
-| `data-disabled`                                                | disabled; the one attribute that still means something standalone  |
-| `data-touched` / `data-dirty` / `data-filled` / `data-focused` | Field's interaction-state machine                                  |
-| `data-valid` / `data-invalid`                                  | tri-state validity; neither present while pristine                 |
-
-<Canvas of={InputStories.ValidationStates} />
-
-{/* END: styling */}
-
-{/* BEGIN: examples */}
-## Form integration
-
-<Canvas of={InputStories.FormIntegration} />
-
-{/* END: examples */}
-
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -110,92 +86,8 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 
 {/* END: do-dont */}
 
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Put the input on the sunken surface token; focus is the single two-layer ring. (BR-09, DS-01)
-
-**Don't**
-
-- Don't mark the valid state green — green is never ink; valid stays neutral. (BR-02)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="input">
-  <WildCard
-    repo="cloudflare/kumo"
-    title="kumo"
-    href="https://github.com/cloudflare/kumo/blob/HEAD/packages/kumo/src/components/input/input.tsx"
-    live="https://kumo-ui.com"
-    license="MIT"
-    reuse="code-ok"
-    image={kumoUiComShot}
-  >
-    a fully styled wrapper plus a companion `input-area.tsx`, both composed into the separate
-    `input-group` family for prefix/suffix addons.
-  </WildCard>
-  <WildCard
-    repo="WordPress/gutenberg"
-    title="WordPress Gutenberg"
-    href="https://github.com/WordPress/gutenberg/blob/HEAD/packages/ui/src/form/primitives/input/input.tsx"
-    live="https://github.com/WordPress/gutenberg"
-    license="no SPDX license detected"
-    reuse="link-only, do not copy"
-  >
-    its own Input primitive inside the form-primitives package, distinct from the
-    Autocomplete/Combobox input sub-components that live alongside it.
-  </WildCard>
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/input.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-    image={nineUiDevShot}
-  >
-    a Tailwind-styled Input registry item with a dedicated `input-with-button.tsx` composition
-    example.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/input.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-  >
-    ships parallel Base UI and Radix Input implementations behind one component API.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/input.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-  >
-    Cal.com's design system wraps Input in its one-file-per-component Base UI registry.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/input.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    Input as an installable registry item, published in the `@lumi-ui` package.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **Pre-2024**: `Input`/`InputBase` lineage inherited from `@mui/base`, predating Base UI's component-per-DOM-node rewrite.
@@ -205,16 +97,10 @@ Identical to `Field.Control`'s, with no CSS variables of Input's own:
 {/* END: history */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - Input's entire contract belongs to [Field](?path=/docs/form-inputs-field--docs); read that page first for validation modes, labeling strategies, and the state-attribute table.
 - To label a **group** of controls under one legend, use [Fieldset](?path=/docs/form-inputs-fieldset--docs).
 
 {/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-<ArgTypes of={InputStories.Hero} />
-
-{/* END: props */}
