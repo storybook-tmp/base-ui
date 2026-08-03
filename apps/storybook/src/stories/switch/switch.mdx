@@ -9,38 +9,8 @@ import reuiIoOpenShot from '../../../../../research/d-real-world-usage/_captures
 
 # Switch
 
-{/* BEGIN: general */}
-A toggle for a boolean setting that takes effect immediately, rendered as a switch control with full keyboard and form support.
-
-- **Import:** `import { Switch } from '@base-ui/react/switch';`
-- **Parts:** 2 (`Switch.Root`, `Switch.Thumb`).
-- **Status:** Stable. One of Base UI's three founding components (Apr 2024), continuously exported since v1.0.0.
-- **ARIA pattern:** [Switch](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)
-
-<Canvas of={SwitchStories.Hero} />
-
-## Features
-
-- **Switch semantics**: `role="switch"` with managed `aria-checked`, on a plain `<span>` by default ([SwitchRoot.tsx](https://github.com/mui/base-ui/blob/master/packages/react/src/switch/root/SwitchRoot.tsx)).
-- **Keyboard interaction**: both `Space` and `Enter` toggle (tested in `SwitchRoot.test.tsx`).
-- **Native form participation**: serializes through a hidden input; integrates with `Field` validation state.
-- **State styling contract**: every state is a data-attribute on both parts; no wrapper classes needed.
-
-{/* END: general */}
-
-{/* BEGIN: when-to-use */}
-## When to use
-
-- A boolean setting that applies **immediately** (notifications on/off, dark mode).
-
-## When not to use
-
-- For a boolean that only applies when a form is **submitted**, prefer [Checkbox](?path=/docs/form-inputs-checkbox--docs), because switch semantics imply immediate effect (per ARIA switch-vs-checkbox convention).
-- For an on/off **tool state** that is not a form value (e.g. bold in a toolbar), use [Toggle](?path=/docs/actions-toggle--docs) (`aria-pressed`), which does not submit form data.
-
-{/* END: when-to-use */}
-
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -52,196 +22,18 @@ import { Switch } from '@base-ui/react/switch';
 ```
 
 | Part           | Renders                                                | Purpose                                                    | Optional?           |
-| :-------------- | :------------------------------------------------------ | :---------------------------------------------------------- | :------------------- |
+| :------------- | :----------------------------------------------------- | :--------------------------------------------------------- | :------------------ |
 | `Switch.Root`  | `<span>` (or `<button>` via `render` + `nativeButton`) | The control: state, interaction, hidden form input         | required            |
 | `Switch.Thumb` | `<span>`                                               | The moving indicator; mirrors state attributes for styling | yes (purely visual) |
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Uncontrolled vs controlled
-
-`defaultChecked` for uncontrolled use; `checked` + `onCheckedChange(checked, eventDetails)` when external state drives the switch. The handler receives Base UI's standard event-details object (typed `reason`, the native `event`, and `.cancel()`).
-
-<Canvas of={SwitchStories.Controlled} />
-
-### Labeling
-
-Form controls must have an accessible name. Wrap in a `<label>` (hero above) or use `Field.Root` + `Field.Label` for managed wiring:
-
-<Canvas of={SwitchStories.WithFieldLabel} />
-
-### Rendering a native button
-
-The default element is a `<span>`. To render a real `<button>`, pass both `render` and `nativeButton`. We require this explicit signal because the tag cannot be inferred before hydration:
-
-<Canvas of={SwitchStories.NativeButton} />
-
-### Form integration
-
-With a `name`, the switch submits via a hidden `<input>` (value `on` when checked; unchecked switches submit nothing unless `uncheckedValue` is set, aligned with native checkbox behavior in [#3406](https://github.com/mui/base-ui/pull/3406)):
-
-<Canvas of={SwitchStories.FormIntegration} />
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-| Key     | Action                         |
-| :------- | :------------------------------ |
-| `Space` | Toggles the switch             |
-| `Enter` | Toggles the switch             |
-| `Tab`   | Moves focus to/from the switch |
-
-- **ARIA**: `role="switch"`, `aria-checked` managed for you; `aria-disabled`/`aria-readonly` reflected as appropriate.
-- **You must provide**: an accessible name (label element, `Field.Label`, or `aria-label`), visible `:focus-visible` styling, and sufficient contrast.
-- **Known issues**: none known.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-State attributes present on **both** `Root` and `Thumb` (`SwitchRootDataAttributes.ts`):
-
-| Attribute                                     | Present when            |
-| :--------------------------------------------- | :----------------------- |
-| `data-checked` / `data-unchecked`             | the switch is on / off  |
-| `data-disabled`                               | disabled                |
-| `data-readonly`                               | read-only               |
-| `data-required`                               | required in a Field     |
-| `data-valid` / `data-invalid`                 | Field validation state  |
-| `data-touched` / `data-dirty` / `data-filled` | Field interaction state |
-| `data-focused`                                | visibly focused         |
-
-<Canvas of={SwitchStories.Disabled} />
-
-{/* END: styling */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`nativeButton` + `render`**: use when your design system standardizes on `<button>` controls or you need native button behaviors; the default `<span>` keeps markup minimal ([#3205](https://github.com/mui/base-ui/pull/3205) made span the default).
-- **`uncheckedValue`**: use when your backend expects an explicit "off" value on submit; by default unchecked submits nothing, matching native checkboxes ([#3406](https://github.com/mui/base-ui/pull/3406)).
-- **`name`**: required for any form participation; without it no hidden input value is submitted.
-
-{/* END: general */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Give every switch an accessible name (the consumer half of the a11y contract).
-
-**Don't**
-
-- Don't use a switch for values that only apply on submit. That's a checkbox's contract.
-
-{/* END: do-dont */}
-
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Pill rung for the track, fully-round for the thumb. (BR-11)
 - Style the checked fill through the action tokens so dark mode can re-decide its color. (BR-05, DS-01)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="switch">
-  <WildCard
-    repo="cloudflare/kumo"
-    title="kumo"
-    href="https://github.com/cloudflare/kumo/blob/HEAD/packages/kumo/src/components/switch/switch.tsx"
-    live="https://kumo-ui.com"
-    license="MIT"
-    reuse="code-ok"
-    image={kumoUiComShot}
-  >
-    a fully styled wrapper with size (sm/base/lg) and variant (default/neutral) Tailwind mappings,
-    composed with Field/Fieldset for form contexts.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/switch.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    ships a Radix-backed twin of the same Switch API alongside the Base UI version.
-  </WildCard>
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/switch.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    a shadcn-style `data-slot` wrapper over Base UI's Switch, styled with Tailwind.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/switch.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-  >
-    Cal.com's design system wraps Switch in its one-file-per-component Base UI registry.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/switch.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    Switch as an installable registry item, published in the `@lumi-ui` package.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: history */}
-## Decision log
-
-- **2024-04**: Switch ships as one of the three founding components of the rebooted Base UI (with Checkbox and NumberField).
-- **2025-11 (beta.5)**: Root element changed to render a `<span>` by default as part of the native-element alignment sweep ([#3205](https://github.com/mui/base-ui/pull/3205)).
-- **2025-12 (rc.0)**: Stops submitting `"off"` when unchecked unless `uncheckedValue` is set, aligning with native checkbox semantics ([#3406](https://github.com/mui/base-ui/pull/3406)).
-
-{/* END: history */}
-
-{/* BEGIN: when-to-use */}
-## Related
-
-- To capture a boolean **at submit time**, use [Checkbox](?path=/docs/form-inputs-checkbox--docs).
-- To toggle a **tool/UI state** without form semantics, use [Toggle](?path=/docs/actions-toggle--docs).
-- To add labels, descriptions, and validation, wrap in [Field](?path=/docs/form-inputs-field--docs).
-
-{/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Switch.Root
-
-<ArgTypes of={Switch.Root} />
-
-### Switch.Thumb
-
-<ArgTypes of={Switch.Thumb} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/switch](https://base-ui.com/react/components/switch#api-reference)._
-
-{/* END: props */}
+  {/* END: brand */}

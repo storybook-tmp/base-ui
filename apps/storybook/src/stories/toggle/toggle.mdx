@@ -8,42 +8,8 @@ import cossComUiShot from '../../../../../research/d-real-world-usage/_captures/
 
 # Toggle
 
-{/* BEGIN: general */}
-A two-state button that can be on or off.
-
-- **Import:** `import { Toggle } from '@base-ui/react/toggle';`
-- **Parts:** 1. No sub-parts; renders a single `<button>` (or via `CompositeItem` when grouped).
-- **Status:** Stable. Introduced jointly with [Toggle Group](?path=/docs/actions-toggle-group--docs) in a single PR ([#763](https://github.com/mui/base-ui/pull/763)); the two components have never existed independently.
-- **ARIA pattern:** [Toggle Button](https://www.w3.org/WAI/ARIA/apg/patterns/button/#toggle_button).
-
-<Canvas of={ToggleStories.Hero} />
-
-## Features
-
-- **`aria-pressed`, not `role="switch"` or `role="radio"`**: Toggle implements the ARIA toggle-button pattern, semantically distinct from Switch and RadioGroup ([#3525](https://github.com/mui/base-ui/issues/3525)).
-- **Deselectable by design**: a pressed Toggle can always be un-pressed by clicking it again.
-- **Shared building block for Toggle Group**: every item inside a `ToggleGroup` is an ordinary `<Toggle value="...">`, not a distinct `ToggleGroup.Item` part.
-- **No native form participation**: `form` and `type` are destructured and discarded on purpose (see "When not to use").
-
-{/* END: general */}
-
-{/* BEGIN: when-to-use */}
-## When to use
-
-- A standalone two-state on/off control whose state doesn't need to submit with a form and doesn't need to announce as a native checkbox/switch: for example a "bold" toggle in a text editor, a single filter toggle, or a favorite/star button (the hero demo above).
-- As the building block for [Toggle Group](?path=/docs/actions-toggle-group--docs): every item inside a group is an ordinary `<Toggle value="...">`.
-- Inside a [Toolbar](?path=/docs/actions-toolbar--docs), composed via `Toolbar.Button render={<Toggle />}`.
-
-## When not to use
-
-- **A single-select-you-can't-clear semantic → [Radio Group](?path=/docs/form-inputs-radio--docs)**, not a single-mode Toggle Group. A single-select-you-can't-clear widget is a radio group; making a toggle announce as a radio would be semantically wrong ([#3525](https://github.com/mui/base-ui/issues/3525), open).
-- **A value that must submit with a `<form>` or participate in native constraint validation → [Switch](?path=/docs/form-inputs-switch--docs)**. Toggle discards `form`/`type` (see below); it has no hidden-input form-participation machinery.
-- **A binary immediate-effect setting with an on/off metaphor (not a pressed-button metaphor) → Switch.**
-- **A single independent action, not a persisted state → [Button](?path=/docs/actions-button--docs)**, not Toggle.
-
-{/* END: when-to-use */}
-
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -53,156 +19,17 @@ import { Toggle } from '@base-ui/react/toggle';
 ```
 
 | Part     | Renders                                                  | Purpose                                                                | Optional? |
-| :-------- | :-------------------------------------------------------- | :---------------------------------------------------------------------- | :--------- |
+| :------- | :------------------------------------------------------- | :--------------------------------------------------------------------- | :-------- |
 | `Toggle` | `<button>` (standalone) or via `CompositeItem` (grouped) | The single element: pressed state, `aria-pressed`, keyboard activation | required  |
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Uncontrolled vs controlled
-
-`defaultPressed` for uncontrolled use; `pressed` + `onPressedChange(pressed, eventDetails)` when external state drives the toggle. Clicking flips `aria-pressed`/`data-pressed` in both modes.
-
-<Canvas of={ToggleStories.UncontrolledPressed} />
-
-Controlled: external state (e.g. a checkbox) drives `pressed` directly.
-
-<Canvas of={ToggleStories.ControlledPressed} />
-
-### Disabled
-
-`disabled` prevents all interaction: `aria-pressed` stays fixed and `onPressedChange` never fires.
-
-<Canvas of={ToggleStories.Disabled} />
-
-### Canceling a press
-
-`onPressedChange`'s `eventDetails.cancel()` vetoes the press. For a Toggle nested inside a `ToggleGroup`, canceling also vetoes the group's own `onValueChange`, since both share the same `eventDetails` object.
-
-<Canvas of={ToggleStories.CancelPressChange} />
-<Canvas of={ToggleStories.InsideToggleGroup} />
-
-### No native form participation
-
-`Toggle.tsx` destructures `form` and `type` from its props only to discard them, with inline comments: `form, // never participates in form validation` and `type, // cannot change button type`. Toggle does not integrate with the Constraint Validation API or submit a value with a `<form>` the way Checkbox/Switch do. It is a UI-state control (e.g. bold/italic in a toolbar), not a form field. If a value must reach a form submission, reach for Switch or Checkbox instead.
-
-{/* END: behavior */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-| Key     | Action                                                                                                                                                  |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Enter` | Flips `pressed`/`aria-pressed` and fires `onPressedChange`                                                                                              |
-| `Space` | Same, on `keyup` when standalone, normalized to `keydown` when grouped (composite item)                                                                 |
-| `Tab`   | Moves focus to/from the toggle in normal document order when standalone; participates in the group's single-tab-stop roving-focus contract when grouped |
-
-- **ARIA**: `aria-pressed={pressed}` unconditionally set on the rendered button. No other ARIA is added by Toggle itself.
-- **You must provide**: an accessible name (`aria-label` or visible text); no `Toggle.Label`-style part exists.
-- **Known issues**: [#3525](https://github.com/mui/base-ui/issues/3525) (open): a community concern that single-selection Toggle Group has no non-visual signal distinguishing it from a toggle group where the selection can also be cleared. Our position is that `role="radio"` would be semantically wrong here.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Attribute       | Present when          |
-| :--------------- | :--------------------- |
-| `data-pressed`  | the toggle is pressed |
-| `data-disabled` | disabled              |
-
-No CSS variables; there are no dynamic measurements to expose.
-
-{/* END: styling */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`pressed`/`onPressedChange`/`defaultPressed`**: use controlled `pressed` when the toggle's state must be driven by data outside the component (e.g. synced with a document's actual bold state); otherwise stay uncontrolled with `defaultPressed`.
-- **`value`**: a unique string identifying the toggle inside a `ToggleGroup`; required in practice whenever the parent group's `value`/`defaultValue` is already initialized (enforced by a dev-mode warning).
-- **`disabled`**: disables the individual toggle; combines (OR-wise) with a hosting `ToggleGroup`'s own `disabled` prop.
-- **`onPressedChange` + `eventDetails.cancel()`**: the escape hatch to veto a press; uniquely for a grouped Toggle, this also vetoes the parent group's corresponding value change, since both share the same `eventDetails` object.
-
-{/* END: general */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Give every standalone Toggle an accessible name (`aria-label` or visible text); there is no dedicated label part.
-
-**Don't**
-
-- Don't pass `form`/`type` expecting form participation. Both are silently discarded by design; reach for Switch or Checkbox instead.
-
-{/* END: do-dont */}
-
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Pressed state is a neutral surface shift on the control radius rung. (BR-01, BR-11)
 - Labels stay in the body face at regular weight. (BR-04)
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="toggle">
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/toggle.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    ships a Radix-backed twin of the same Toggle API alongside the Base UI version.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/toggle.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-    image={cossComUiShot}
-  >
-    a `cva()`-based variant system (size/variant) wrapping `@base-ui/react/toggle`'s `data-pressed`
-    state, part of Cal.com's near-complete registry.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
-{/* BEGIN: history */}
-## Decision log
-
-- **Introduced jointly with Toggle Group ([#763](https://github.com/mui/base-ui/pull/763))**, closing legacy issues [#11](https://github.com/mui/base-ui/issues/11) and [#31](https://github.com/mui/base-ui/issues/31).
-- **`#1085`**: Set both `disabled` and `data-disabled` (library-wide consistency pass shared with Radio).
-- **`#4940`**: Fix grouped cancelation and JSDoc; hardened the behavior where canceling a press in a grouped Toggle also cancels the group's value change.
-
-{/* END: history */}
-
-{/* BEGIN: when-to-use */}
-## Related
-
-- To capture a boolean **at submit time**, use [Checkbox](?path=/docs/form-inputs-checkbox--docs).
-- For a boolean setting with **immediate effect** and an on/off metaphor, use [Switch](?path=/docs/form-inputs-switch--docs).
-- To group related toggles with shared pressed-state bookkeeping, use [Toggle Group](?path=/docs/actions-toggle-group--docs).
-
-{/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Toggle
-
-<ArgTypes of={ToggleStories.Hero} />
-
-{/* END: props */}
+  {/* END: brand */}
