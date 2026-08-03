@@ -39,6 +39,7 @@ A native form element with consolidated error handling.
 {/* END: general */}
 
 {/* BEGIN: when-to-use */}
+
 ## When to use
 
 - Client-validated forms built from Fields: native constraints (`required`, `type`, `pattern`) plus `Field.Error` messages (the hero above).
@@ -59,6 +60,7 @@ A native form element with consolidated error handling.
 {/* END: when-to-use */}
 
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 Form renders a single `<form novalidate>` element and provides context that every descendant [Field](?path=/docs/form-inputs-field--docs) consumes:
@@ -78,7 +80,7 @@ import { Form } from '@base-ui/react/form';
 ```
 
 | Part   | Renders                                 | Purpose                                                                                          | Optional? |
-| :------ | :--------------------------------------- | :------------------------------------------------------------------------------------------------ | :--------- |
+| :----- | :-------------------------------------- | :----------------------------------------------------------------------------------------------- | :-------- |
 | `Form` | `<form>` (with `noValidate` by default) | Field registry, aggregate validity gating, focus-on-error, `errors` distribution, value assembly | —         |
 
 - **The Field children contract**: each `Field.Root` registers `{ name, validate, getValue, controlRef, validityData }` into Form's fields Map and deregisters on unmount ([#2231](https://github.com/mui/base-ui/pull/2231)). The `name` on `Field.Root` is the key for both `errors` distribution and `onFormSubmit` value assembly.
@@ -88,6 +90,7 @@ import { Form } from '@base-ui/react/form';
 {/* END: anatomy */}
 
 {/* BEGIN: behavior */}
+
 ## How it works
 
 ### The submission gate and focus-first-invalid
@@ -147,14 +150,15 @@ With react-hook-form, the library owns state and validation while Base UI `<Form
 {/* END: behavior */}
 
 {/* BEGIN: a11y */}
+
 ## Keyboard & screen reader
 
 Form adds no widget semantics of its own: it is a native `<form>`, so native keyboard behavior is preserved.
 
-| Key                         | Action                                                                          |
-| :--------------------------- | :------------------------------------------------------------------------------- |
+| Key                         | Action                                                                         |
+| :-------------------------- | :----------------------------------------------------------------------------- |
 | `Enter` (in a text control) | Implicit form submission; triggers the same validation gate as clicking submit |
-| `Tab`                       | Native focus order through the fields; Form never traps focus                   |
+| `Tab`                       | Native focus order through the fields; Form never traps focus                  |
 
 - **ARIA**: no role or `aria-*` attributes are added by Base UI. Error announcement happens at Field level: `Field.Error` joins the control's `aria-describedby` and the control gets `aria-invalid` when invalid. Form's contribution is _timing_ (errors appear and focus moves on submit, matching the native mental model).
 - **Focus management**: on a failed submit (including one that returns server errors), the first invalid control is focused and its text selected, so keyboard and screen-reader users land directly on the problem.
@@ -162,22 +166,8 @@ Form adds no widget semantics of its own: it is a native `<form>`, so native key
 
 {/* END: a11y */}
 
-{/* BEGIN: styling */}
-## Styling hooks
-
-Form exposes **no data attributes** of its own: its state interface is empty by design, and the form-level validity aggregate exists only inside the submit gate. Style form state through Field parts instead:
-
-| Part        | Attribute                                                      | Present when                                            |
-| :----------- | :-------------------------------------------------------------- | :------------------------------------------------------- |
-| `Form`      | (none)                                                         | style via Field parts below                             |
-| Field parts | `data-invalid` / `data-valid`                                  | field validity (including entries from Form's `errors`) |
-| Field parts | `data-touched` / `data-dirty` / `data-filled` / `data-focused` | interaction state                                       |
-
-See the [Field styling contract](?path=/docs/form-inputs-field--docs) for the full table.
-
-{/* END: styling */}
-
 {/* BEGIN: general */}
+
 ## Choosing the right props
 
 - **`errors`**: the server/external error channel. Keys must equal `Field.Root name`; values are `string | string[]`. Hold it in state; entries self-clear on user edit, so do **not** re-set the same object to preserve an error the user is fixing ([#3136](https://github.com/mui/base-ui/pull/3136)). With Zod, `z.flattenError(...).fieldErrors` is shape-compatible.
@@ -190,6 +180,7 @@ See the [Field styling contract](?path=/docs/form-inputs-field--docs) for the fu
 {/* END: general */}
 
 {/* BEGIN: do-dont */}
+
 ## Do / Don't
 
 **Do**
@@ -207,15 +198,17 @@ See the [Field styling contract](?path=/docs/form-inputs-field--docs) for the fu
 {/* END: do-dont */}
 
 {/* BEGIN: brand */}
+
 ## Brand guidelines
 
 **Do**
 
 - Keep error feedback red-ink-only — red has exactly one job. (BR-02)
 - Write all form copy in sentence case, short and direct. (BR-08)
-{/* END: brand */}
+  {/* END: brand */}
 
 {/* BEGIN: examples */}
+
 ## In the wild
 
 <WildCards component="form">
@@ -289,6 +282,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 {/* END: examples */}
 
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-09**: Form created, a native `<form>` plus consolidated error handling ([#589](https://github.com/mui/base-ui/pull/589), closing [#219](https://github.com/mui/base-ui/issues/219)).
@@ -304,6 +298,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - [#4737](https://github.com/mui/base-ui/issues/4737): Standard Schema support (Zod/Valibot/ArkType as a Form-level prop): open feature request; today's shapes are per-field `validate` or schema-at-submit → `errors`.
@@ -314,6 +309,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 {/* END: known-issues */}
 
 {/* BEGIN: when-to-use */}
+
 ## Related
 
 - To wire labels, descriptions, errors, and per-field validation, use [Field](?path=/docs/form-inputs-field--docs); Form is inert without registered Fields.
@@ -323,6 +319,7 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 {/* END: when-to-use */}
 
 {/* BEGIN: props */}
+
 ## API reference
 
 <ArgTypes of={FormStories.Hero} />
@@ -330,11 +327,3 @@ Two recreations live in this Storybook: a multi-control "request a quote" form (
 _Full JSDoc-driven reference: [base-ui.com/react/components/form](https://base-ui.com/react/components/form#api-reference)._
 
 {/* END: props */}
-
-{/* BEGIN: testing */}
-## Testing your composition
-
-- Drive the real gate: click submit and assert `Field.Error` text appears, focus lands on the first invalid control, and your success output stays absent; the `SubmitFlowWithErrors` play function is a living example.
-- Note that simulated typing does not set the browser's dirty-value flag, so `minLength`/`maxLength` (`tooShort`/`tooLong`) never trip under test drivers. Prefer `pattern` or a custom `validate` for length rules you want covered by tests (this page's stories do that).
-
-{/* END: testing */}
