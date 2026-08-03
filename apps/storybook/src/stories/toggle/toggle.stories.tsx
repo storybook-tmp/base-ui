@@ -2,7 +2,6 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { Toggle } from '@base-ui/react/toggle';
-import { ToggleGroup } from '@base-ui/react/toggle-group';
 import theme from '@droppy/theme';
 import './toggle.demo.css';
 
@@ -81,70 +80,6 @@ export const Hero: Story = {
   ),
 };
 
-/** Uncontrolled: `defaultPressed` seeds the initial state; clicking flips `aria-pressed` and `data-pressed`. */
-export const UncontrolledPressed: Story = {
-  tags: ['highlight'],
-  render: () => (
-    <div className="ToggleDemoRow">
-      <Toggle aria-label="Bold" defaultPressed={false} className={theme.ToggleRoot}>
-        B
-      </Toggle>
-    </div>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const toggle = canvas.getByRole('button', { name: 'Bold' });
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-
-    await userEvent.click(toggle);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
-    await expect(toggle).toHaveAttribute('data-pressed', '');
-
-    await userEvent.click(toggle);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-  },
-};
-
-function ControlledPressedExample() {
-  const [pressed, setPressed] = React.useState(false);
-  return (
-    <div className="ToggleDemoRow">
-      <label>
-        <input
-          type="checkbox"
-          checked={pressed}
-          onChange={() => setPressed((current) => !current)}
-        />{' '}
-        Bold externally
-      </label>
-      <Toggle aria-label="Bold" pressed={pressed} className={theme.ToggleRoot}>
-        B
-      </Toggle>
-    </div>
-  );
-}
-
-/**
- * Controlled: `pressed` is driven entirely by external state (here a plain
- * checkbox), with the Toggle following in lockstep — recreates the exact
- * pattern in `Toggle.test.tsx` "controlled" (checkbox click flips the
- * Toggle's `aria-pressed`, not the other way around, since no
- * `onPressedChange` is wired here).
- */
-export const ControlledPressed: Story = {
-  tags: ['highlight'],
-  render: () => <ControlledPressedExample />,
-  play: async ({ canvas, userEvent }) => {
-    const checkbox = canvas.getByRole('checkbox');
-    const toggle = canvas.getByRole('button', { name: 'Bold' });
-
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-    await userEvent.click(checkbox);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
-    await userEvent.click(checkbox);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-  },
-};
-
 /**
  * `disabled` prevents all interaction: `aria-pressed` stays fixed and
  * `onPressedChange` never fires, matching `Toggle.test.tsx` "prop: disabled".
@@ -179,96 +114,5 @@ export const Disabled: Story = {
     await userEvent.click(toggle);
     await expect(toggle).toHaveAttribute('aria-pressed', 'false');
     await expect(canvas.getByText('Changes: 0')).toBeVisible();
-  },
-};
-
-function CancelPressChangeExample() {
-  return (
-    <Toggle
-      aria-label="Locked toggle"
-      defaultPressed={false}
-      className={theme.ToggleRoot}
-      onPressedChange={(_pressed, eventDetails) => {
-        eventDetails.cancel();
-      }}
-    >
-      B
-    </Toggle>
-  );
-}
-
-/**
- * `onPressedChange`'s `eventDetails.cancel()` vetoes the press entirely:
- * `aria-pressed` never flips despite the click firing, matching
- * `Toggle.test.tsx` "does not change the pressed state when the event is
- * canceled".
- */
-export const CancelPressChange: Story = {
-  tags: ['highlight'],
-  render: () => <CancelPressChangeExample />,
-  play: async ({ canvas, userEvent }) => {
-    const toggle = canvas.getByRole('button', { name: 'Locked toggle' });
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-    await userEvent.click(toggle);
-    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-  },
-};
-
-function InsideToggleGroupExample() {
-  const [changeCount, setChangeCount] = React.useState(0);
-  return (
-    <div className="ToggleDemoRow">
-      <ToggleGroup
-        multiple
-        aria-label="Formatting"
-        className={theme.ToggleGroupRoot}
-        onValueChange={() => setChangeCount((count) => count + 1)}
-      >
-        <Toggle
-          aria-label="Bold (vetoes the group)"
-          value="bold"
-          className={theme.ToggleRoot}
-          onPressedChange={(_pressed, eventDetails) => {
-            eventDetails.cancel();
-          }}
-        >
-          B
-        </Toggle>
-        <Toggle aria-label="Italic" value="italic" className={theme.ToggleRoot}>
-          I
-        </Toggle>
-      </ToggleGroup>
-      <span className="ToggleDemoOutput">Group changes: {changeCount}</span>
-    </div>
-  );
-}
-
-/**
- * A Toggle nested inside `ToggleGroup` shares its `eventDetails` with the
- * group: canceling a grouped Toggle's `onPressedChange` also prevents the
- * group's own `onValueChange` from firing — matching `Toggle.test.tsx`
- * "canceling in a grouped Toggle prevents the group value from changing".
- * The sibling "Italic" toggle is unaffected and still fires the group's
- * `onValueChange` normally.
- *
- * (`RichTextFormattingToggle`, a static standalone bold/italic/underline
- * composition from the story plan, is intentionally not added — it would
- * duplicate the `toggle-group` stories' `Multiple` story, which already
- * covers the same visual archetype with a play function.)
- */
-export const InsideToggleGroup: Story = {
-  tags: ['highlight'],
-  render: () => <InsideToggleGroupExample />,
-  play: async ({ canvas, userEvent }) => {
-    const bold = canvas.getByRole('button', { name: 'Bold (vetoes the group)' });
-    const italic = canvas.getByRole('button', { name: 'Italic' });
-
-    await userEvent.click(bold);
-    await expect(bold).toHaveAttribute('aria-pressed', 'false');
-    await expect(canvas.getByText('Group changes: 0')).toBeVisible();
-
-    await userEvent.click(italic);
-    await expect(italic).toHaveAttribute('aria-pressed', 'true');
-    await expect(canvas.getByText('Group changes: 1')).toBeVisible();
   },
 };

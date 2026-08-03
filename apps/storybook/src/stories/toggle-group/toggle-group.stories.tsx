@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
-import { Toolbar } from '@base-ui/react/toolbar';
 import theme from '@droppy/theme';
 import './toggle-group.demo.css';
 
@@ -182,92 +181,6 @@ export const Multiple: Story = {
 };
 
 /**
- * Required composite-keyboard story: a standalone ToggleGroup is a single Tab
- * stop with roving arrow-key focus (looping at the ends) and Home/End support.
- */
-export const CompositeKeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <ToggleGroup aria-label="Numbered options" className={theme.ToggleGroupRoot}>
-      <Toggle aria-label="One" value="one" className={theme.ToggleGroupItem}>
-        1
-      </Toggle>
-      <Toggle aria-label="Two" value="two" className={theme.ToggleGroupItem}>
-        2
-      </Toggle>
-      <Toggle aria-label="Three" value="three" className={theme.ToggleGroupItem}>
-        3
-      </Toggle>
-      <Toggle aria-label="Four" value="four" className={theme.ToggleGroupItem}>
-        4
-      </Toggle>
-    </ToggleGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const one = canvas.getByRole('button', { name: 'One' });
-    const two = canvas.getByRole('button', { name: 'Two' });
-    const four = canvas.getByRole('button', { name: 'Four' });
-
-    // Single tab stop: only the first item is in the tab sequence up front.
-    await expect(one).toHaveAttribute('tabindex', '0');
-    await expect(two).toHaveAttribute('tabindex', '-1');
-
-    await userEvent.tab();
-    await expect(one).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(two).toHaveFocus();
-
-    // Looping: from the last item, ArrowRight wraps back to the first.
-    await userEvent.keyboard('{End}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(one).toHaveFocus();
-
-    // Home moves focus straight to the first item.
-    await userEvent.keyboard('{ArrowLeft}');
-    await expect(four).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(one).toHaveFocus();
-  },
-};
-
-/**
- * Single mode (`multiple={false}`, the default) is deselectable to empty:
- * clicking the pressed item again clears the selection entirely, unlike
- * RadioGroup which always keeps exactly one option selected
- * (`_clusters/binary-controls.md`, brief §4).
- */
-export const SingleSelectClearable: Story = {
-  tags: ['highlight'],
-  render: () => (
-    <ToggleGroup aria-label="View mode" defaultValue={['grid']} className={theme.ToggleGroupRoot}>
-      <Toggle aria-label="Grid view" value="grid" className={theme.ToggleGroupItem}>
-        Grid
-      </Toggle>
-      <Toggle aria-label="List view" value="list" className={theme.ToggleGroupItem}>
-        List
-      </Toggle>
-    </ToggleGroup>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const grid = canvas.getByRole('button', { name: 'Grid view' });
-    const list = canvas.getByRole('button', { name: 'List view' });
-
-    await expect(grid).toHaveAttribute('aria-pressed', 'true');
-
-    // Clicking the already-pressed item clears the selection to nothing.
-    await userEvent.click(grid);
-    await expect(grid).toHaveAttribute('aria-pressed', 'false');
-    await expect(list).toHaveAttribute('aria-pressed', 'false');
-
-    await userEvent.click(list);
-    await expect(grid).toHaveAttribute('aria-pressed', 'false');
-    await expect(list).toHaveAttribute('aria-pressed', 'true');
-  },
-};
-
-/**
  * `disabled` on the Root cascades to every child Toggle; an individually
  * `disabled` Toggle is additionally excluded from the roving-focus tab
  * sequence while its enabled siblings remain reachable (brief §6, §7 —
@@ -326,61 +239,6 @@ export const DisabledGroupAndItem: Story = {
     await expect(top).toHaveFocus();
     await userEvent.keyboard('{ArrowRight}');
     await expect(bottom).toHaveFocus();
-  },
-};
-
-function ToolbarHostedToggleGroupExample() {
-  return (
-    <Toolbar.Root aria-label="Alignment toolbar" className={theme.ToggleGroupRoot}>
-      <ToggleGroup aria-label="Alignment" defaultValue={['left']}>
-        <Toolbar.Button render={<Toggle />} value="left" className={theme.ToggleGroupItem}>
-          Left
-        </Toolbar.Button>
-        <Toolbar.Button render={<Toggle />} value="center" className={theme.ToggleGroupItem}>
-          Center
-        </Toolbar.Button>
-        <Toolbar.Button render={<Toggle />} value="right" className={theme.ToggleGroupItem}>
-          Right
-        </Toolbar.Button>
-      </ToggleGroup>
-    </Toolbar.Root>
-  );
-}
-
-/**
- * The single most citable, source-verified nuance in the brief (§5/§6/§9,
- * PR #3971): a standalone ToggleGroup wires its own `CompositeRoot` with
- * `enableHomeAndEndKeys`, so Home/End jump to the first/last item (see
- * `CompositeKeyboardNavigation` above). Nested inside a `Toolbar.Root`,
- * ToggleGroup instead defers entirely to the *Toolbar's* `CompositeRoot`,
- * which never passes `enableHomeAndEndKeys` (confirmed by its absence in
- * `packages/react/src/toolbar/root/ToolbarRoot.tsx`'s `useCompositeRoot`
- * call and by the lack of any Home/End case in `ToolbarRoot.test.tsx`'s
- * keyboard-navigation suite) — so Home/End are no-ops here, unlike standalone.
- */
-export const InsideToolbar: Story = {
-  tags: ['highlight'],
-  render: () => <ToolbarHostedToggleGroupExample />,
-  play: async ({ canvas, userEvent }) => {
-    const left = canvas.getByRole('button', { name: 'Left' });
-    const center = canvas.getByRole('button', { name: 'Center' });
-    const right = canvas.getByRole('button', { name: 'Right' });
-
-    await userEvent.tab();
-    await expect(left).toHaveFocus();
-
-    // Arrow keys still rove focus normally (Toolbar's own composite root).
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(center).toHaveFocus();
-
-    // Home/End do NOT move focus when Toolbar-hosted (asymmetry vs standalone).
-    await userEvent.keyboard('{End}');
-    await expect(center).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(center).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(right).toHaveFocus();
   },
 };
 

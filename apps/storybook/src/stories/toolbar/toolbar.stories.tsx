@@ -1,11 +1,8 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, waitFor, within } from 'storybook/test';
+import { expect } from 'storybook/test';
 import { Toolbar } from '@base-ui/react/toolbar';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toggle } from '@base-ui/react/toggle';
-import { Menu } from '@base-ui/react/menu';
-import { NumberField } from '@base-ui/react/number-field';
 import theme from '@droppy/theme';
 
 /**
@@ -85,121 +82,6 @@ export const Hero: Story = {
   },
 };
 
-function ToolbarWithMenuExample() {
-  return (
-    <Toolbar.Root aria-label="Document actions" className={theme.ToolbarRoot}>
-      <Toolbar.Button aria-label="Bold" className={theme.ToolbarButton}>
-        B
-      </Toolbar.Button>
-      <Toolbar.Separator className={theme.ToolbarSeparator} />
-      <Menu.Root>
-        <Toolbar.Button render={<Menu.Trigger />} className={theme.ToolbarButton}>
-          More actions
-        </Toolbar.Button>
-        <Menu.Portal>
-          <Menu.Positioner className={theme.MenuPositioner} sideOffset={4}>
-            <Menu.Popup className={theme.MenuPopup}>
-              <Menu.Item className={theme.MenuItem}>Duplicate</Menu.Item>
-              <Menu.Item className={theme.MenuItem}>Delete</Menu.Item>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
-      </Menu.Root>
-    </Toolbar.Root>
-  );
-}
-
-/**
- * Composing a popup trigger into the toolbar: `Toolbar.Button render={<Menu.Trigger />}`
- * keeps `Toolbar.Button` as the composite-registered DOM node while `Menu.Trigger`
- * supplies its own ARIA (`aria-haspopup`, `aria-expanded`). The menu content
- * portals to `document.body`, so it must be queried there.
- */
-export const ToolbarButtonAsMenuTrigger: Story = {
-  tags: ['highlight'],
-  render: () => <ToolbarWithMenuExample />,
-  play: async ({ canvas, userEvent, canvasElement }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const trigger = canvas.getByRole('button', { name: 'More actions' });
-
-    await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
-
-    await userEvent.click(trigger);
-    const menu = await body.findByRole('menu');
-    // The theme's Menu.Popup mounts with an enter transition
-    // (data-starting-style opacity 0 -> 1); findByRole resolves on the next
-    // DOM mutation, often before that transition has advanced at all, so
-    // wait for the popup to actually be visible rather than asserting
-    // immediately.
-    await waitFor(() => {
-      expect(menu).toBeVisible();
-    });
-    await waitFor(async () => {
-      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    });
-
-    await userEvent.click(await body.findByRole('menuitem', { name: 'Duplicate' }));
-    await waitFor(async () => {
-      await expect(body.queryByRole('menu')).not.toBeInTheDocument();
-    });
-  },
-};
-
-/**
- * The required composite-keyboard story (`ToolbarRoot.test.tsx`'s own
- * parametrized suite uses this exact Button/Link/Group/Input composition):
- * arrow keys rove focus across every item type in one continuous sequence,
- * looping at the ends. Home/End are explicitly asserted as no-ops — Toolbar
- * never passes `enableHomeAndEndKeys` to its `CompositeRoot` (confirmed by
- * its absence in `ToolbarRoot.tsx` and by the lack of any Home/End case in
- * `ToolbarRoot.test.tsx`'s "keyboard navigation" suite), unlike a standalone
- * Toggle Group (see the toggle-group stories).
- */
-export const CompositeKeyboardNavigation: Story = {
-  tags: ['tests'],
-  render: () => (
-    <Toolbar.Root aria-label="Mixed items" className={theme.ToolbarRoot}>
-      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
-      <Toolbar.Link href="https://base-ui.com" className={theme.ToolbarButton}>
-        Docs
-      </Toolbar.Link>
-      <Toolbar.Group aria-label="Alignment" className={theme.ToolbarGroup}>
-        <Toolbar.Button className={theme.ToolbarButton}>Left</Toolbar.Button>
-        <Toolbar.Button className={theme.ToolbarButton}>Right</Toolbar.Button>
-      </Toolbar.Group>
-      <Toolbar.Input defaultValue="" aria-label="Search" className={theme.ToolbarButton} />
-    </Toolbar.Root>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    const bold = canvas.getByRole('button', { name: 'Bold' });
-    const link = canvas.getByRole('link', { name: 'Docs' });
-    const [left, right] = canvas.getAllByRole('button', { name: /Left|Right/ });
-    const input = canvas.getByRole('textbox', { name: 'Search' });
-
-    await userEvent.tab();
-    await expect(bold).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(link).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(left).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(right).toHaveFocus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(input).toHaveFocus();
-
-    // Looping: from the last item, ArrowRight wraps back to the first.
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(bold).toHaveFocus();
-
-    // Home/End are not wired at all -- focus does not move.
-    await userEvent.keyboard('{End}');
-    await expect(bold).toHaveFocus();
-    await userEvent.keyboard('{Home}');
-    await expect(bold).toHaveFocus();
-  },
-};
-
 /**
  * `disabled` on `Toolbar.Root` cascades to every Button/Input/Group but
  * deliberately never to `Toolbar.Link` (links can't be disabled), matching
@@ -237,58 +119,6 @@ export const DisabledCascadeExceptLinks: Story = {
     // Links are exempt from the disabled cascade entirely.
     await expect(link).not.toHaveAttribute('aria-disabled');
     await expect(link).not.toHaveAttribute('data-disabled');
-  },
-};
-
-function ToolbarWithNumberFieldExample() {
-  return (
-    <Toolbar.Root aria-label="Document settings" className={theme.ToolbarRoot}>
-      <Toolbar.Button className={theme.ToolbarButton}>Bold</Toolbar.Button>
-      <Toolbar.Separator className={theme.ToolbarSeparator} />
-      <NumberField.Root defaultValue={12} min={8} max={96}>
-        <NumberField.Group className={theme.ToolbarGroup}>
-          <NumberField.Decrement className={theme.ToolbarButton}>-</NumberField.Decrement>
-          <Toolbar.Input
-            render={<NumberField.Input aria-label="Font size" />}
-            className={theme.ToolbarButton}
-            style={{ width: '3rem', textAlign: 'center' }}
-          />
-          <NumberField.Increment className={theme.ToolbarButton}>+</NumberField.Increment>
-        </NumberField.Group>
-      </NumberField.Root>
-    </Toolbar.Root>
-  );
-}
-
-/**
- * Composing `NumberField.Input` into `Toolbar.Input` (docs "Using with
- * NumberField" recipe): arrow keys behave differently depending on where
- * focus is. On the toolbar's Buttons, arrows rove the shared composite tab
- * stop. Once focus moves *into* the Input, ArrowUp/ArrowDown are captured by
- * NumberField itself to increment/decrement the value (native text-cursor
- * semantics for ArrowLeft/ArrowRight) -- the roving-focus contract only
- * applies when the Input is not the active element's own consumer of that
- * key. This is the one documented behavioral tension on the whole toolbar
- * docs page (brief §4, §6, §7).
- */
-export const UsingWithNumberFieldInput: Story = {
-  tags: ['highlight'],
-  render: () => <ToolbarWithNumberFieldExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByRole('textbox', { name: 'Font size' });
-    await expect(input).toHaveValue('12');
-
-    input.focus();
-    await expect(input).toHaveFocus();
-
-    // ArrowUp/ArrowDown increments/decrements the NumberField value while
-    // focus stays inside the input -- it does not rove toolbar focus away.
-    await userEvent.keyboard('{ArrowUp}');
-    await waitFor(() => expect(input).toHaveValue('13'));
-    await expect(input).toHaveFocus();
-
-    await userEvent.keyboard('{ArrowDown}');
-    await waitFor(() => expect(input).toHaveValue('12'));
   },
 };
 

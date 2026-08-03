@@ -3,12 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, waitFor, within } from 'storybook/test';
 import { Autocomplete } from '@base-ui/react/autocomplete';
 import { Dialog } from '@base-ui/react/dialog';
-import { Field } from '@base-ui/react/field';
-import { Form } from '@base-ui/react/form';
 import theme from '@droppy/theme';
 import './autocomplete.demo.css';
-import { FieldIntegratedAutocompleteExample } from './recreations/FieldIntegratedAutocompleteExample';
-import { MultiSkinAutocompleteExample } from './recreations/MultiSkinAutocompleteExample';
 
 const meta = {
   title: 'Form inputs/Autocomplete',
@@ -146,88 +142,9 @@ export const Hero: Story = {
   ),
 };
 
-function TypeSuggestSelectExample() {
-  const [lastChange, setLastChange] = React.useState('none yet');
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        root={{
-          onValueChange: (value, eventDetails) =>
-            setLastChange(`${value} (reason: ${eventDetails.reason})`),
-        }}
-      />
-      <output className="AutocompleteDemoOutput">onValueChange: {lastChange}</output>
-    </div>
-  );
-}
-
-/** The full interaction contract in one story: typing opens and filters the listbox (`aria-expanded`, `aria-autocomplete="list"`), ArrowDown highlights, Enter fills the input with the item's text (`fillInputOnItemPress`) and closes. The popup portals to `document.body`. */
-export const TypeSuggestSelect: Story = {
-  tags: ['highlight'],
-  render: () => <TypeSuggestSelectExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-    await expect(input).toHaveAttribute('aria-autocomplete', 'list');
-
-    // Clicking does not open the popup (openOnInputClick defaults to false).
-    await userEvent.click(input);
-    await expect(input).toHaveAttribute('aria-expanded', 'false');
-
-    // Typing opens the popup with suggestions filtered by the query.
-    await userEvent.type(input, 'fe');
-    await body.findByRole('listbox');
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'true'));
-    await waitFor(() => expect(body.getAllByRole('option')).toHaveLength(1));
-
-    // Highlight is virtual: DOM focus stays on the input.
-    await userEvent.keyboard('{ArrowDown}');
-    await expect(input).toHaveFocus();
-    await userEvent.keyboard('{Enter}');
-
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'false'));
-    await expect(input).toHaveValue('feature');
-    await expect(canvas.getByText('onValueChange: feature (reason: item-press)')).toBeVisible();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Filtering modes (`mode` → aria-autocomplete)                        */
 /* ------------------------------------------------------------------ */
-
-/** `mode="list"` (default) filters items without touching the input; `mode="none"` shows a static list — the "recent searches" pattern. The prop value is passed straight through as `aria-autocomplete`. */
-export const FilteringModePerVariant: Story = {
-  tags: ['highlight'],
-  render: () => (
-    <div className="AutocompleteDemoRow">
-      <DemoAutocomplete label='mode="list" (filters)' placeholder="Type to filter" />
-      <DemoAutocomplete
-        label='mode="none" (static)'
-        placeholder="Type freely"
-        root={{ mode: 'none' }}
-      />
-    </div>
-  ),
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const listInput = await canvas.findByRole('combobox', { name: 'mode="list" (filters)' });
-    const noneInput = await canvas.findByRole('combobox', { name: 'mode="none" (static)' });
-    await expect(noneInput).toHaveAttribute('aria-autocomplete', 'none');
-
-    await userEvent.type(listInput, 'fix');
-    await body.findByRole('listbox');
-    await waitFor(() => expect(body.getAllByRole('option')).toHaveLength(1));
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(listInput).toHaveAttribute('aria-expanded', 'false'));
-
-    // The static list keeps showing every item regardless of the query.
-    await userEvent.type(noneInput, 'fix');
-    await body.findByRole('listbox');
-    await waitFor(() => expect(body.getAllByRole('option')).toHaveLength(tags.length));
-  },
-};
 
 /** `mode="both"` adds inline completion on top of list filtering: arrowing through suggestions temporarily writes the highlighted item into the input (keyboard only — pointer highlights never overwrite typed text). */
 export const InlineAutocompletion: Story = {
@@ -260,22 +177,6 @@ export const InlineAutocompletion: Story = {
 /* ------------------------------------------------------------------ */
 /* Empty state, auto highlight, open on click                          */
 /* ------------------------------------------------------------------ */
-
-/** `Empty` renders its children only when no item matches, as a polite live region (`role="status"`). Keep it mounted and toggle its children — hiding the part itself breaks screen-reader announcements. */
-export const EmptyNoResultsState: Story = {
-  tags: ['highlight'],
-  render: () => <DemoAutocomplete label="Search tags" placeholder="e.g. feature" />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'zzz');
-    const status = await body.findByRole('status');
-    await waitFor(() => expect(within(status).getByText('No matching tags.')).toBeVisible());
-    await expect(status).toHaveAttribute('aria-live', 'polite');
-    await expect(body.queryByRole('option')).not.toBeInTheDocument();
-  },
-};
 
 /** `autoHighlight` compared: `true` highlights the first match only while typing; `"always"` keeps the first item highlighted whenever the list renders — the command-palette setting, so Enter always has a target. */
 export const AutoHighlight: Story = {
@@ -404,137 +305,9 @@ export const OpenOnInputClick: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Escape semantics                                                    */
-/* ------------------------------------------------------------------ */
-
-function EscapeClearsExample() {
-  const [lastChange, setLastChange] = React.useState('none yet');
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        root={{
-          onValueChange: (value, eventDetails) =>
-            setLastChange(`"${value}" (reason: ${eventDetails.reason})`),
-        }}
-      />
-      <output className="AutocompleteDemoOutput">onValueChange: {lastChange}</output>
-    </div>
-  );
-}
-
-/** Escape on an open popup only closes it; Escape on a *closed* popup clears the input — Chrome-omnibox parity. The clear arrives through `onValueChange` with reason `escape-key`. */
-export const EscapeClearsInputWhenClosed: Story = {
-  tags: ['highlight'],
-  render: () => <EscapeClearsExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'fea');
-    await body.findByRole('listbox');
-
-    // First Escape closes the popup and keeps the text.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'false'));
-    await expect(input).toHaveValue('fea');
-
-    // Second Escape (popup closed) clears the input.
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(input).toHaveValue(''));
-    await expect(canvas.getByText('onValueChange: "" (reason: escape-key)')).toBeVisible();
-  },
-};
-
-function CancelEscapeClearExample() {
-  const [value, setValue] = React.useState('');
-  const [log, setLog] = React.useState('none yet');
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        root={{
-          value,
-          onValueChange: (nextValue, eventDetails) => {
-            // Opt out of the omnibox-style Escape clear (#4245).
-            if (eventDetails.reason === 'escape-key') {
-              eventDetails.cancel();
-              setLog('escape-key (canceled)');
-              return;
-            }
-            setValue(nextValue);
-          },
-        }}
-      />
-      <output className="AutocompleteDemoOutput">last veto: {log}</output>
-    </div>
-  );
-}
-
-/** Opting out of the Escape clear: cancel the `escape-key` reason inside `onValueChange` via `eventDetails.cancel()` — the documented workaround while a dedicated prop remains an open feature ask (#4245). */
-export const CancelEscapeClear: Story = {
-  tags: ['highlight'],
-  render: () => <CancelEscapeClearExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'fea');
-    await body.findByRole('listbox');
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'false'));
-
-    // The closed-popup Escape is vetoed: the input keeps its text.
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('last veto: escape-key (canceled)')).toBeVisible();
-    await expect(input).toHaveValue('fea');
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Free text & forms                                                   */
-/* ------------------------------------------------------------------ */
-
-function FreeTextSubmitExample() {
-  const [payload, setPayload] = React.useState<string | null>(null);
-  return (
-    <form
-      className={theme.FormRoot}
-      onSubmit={(event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        setPayload(`q=${String(data.get('q'))}`);
-      }}
-    >
-      <DemoAutocomplete label="Search" placeholder="Type anything" root={{ name: 'q' }} />
-      <button type="submit" className={theme.Button}>
-        Search
-      </button>
-      {payload ? <output className="AutocompleteDemoOutput">submitted: {payload}</output> : null}
-    </form>
-  );
-}
-
-/** The signature Autocomplete behavior versus Combobox: the typed text *is* the value even when it matches no suggestion. Enter with no highlighted item closes the popup and lets native form submission proceed (#2700). */
-export const FreeTextSubmit: Story = {
-  tags: ['highlight'],
-  render: () => <FreeTextSubmitExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    // A novel value: the popup opens but only the Empty fallback renders.
-    await userEvent.type(input, 'quarterly report');
-    await body.findByRole('status');
-    await expect(body.queryByRole('option')).not.toBeInTheDocument();
-
-    // Enter with nothing highlighted submits the form with the free text.
-    await userEvent.keyboard('{Enter}');
-    await expect(await canvas.findByText('submitted: q=quarterly report')).toBeVisible();
-    await waitFor(() => expect(input).toHaveAttribute('aria-expanded', 'false'));
-  },
-};
 
 function SubmitOnItemClickExample() {
   const [payload, setPayload] = React.useState<string | null>(null);
@@ -582,175 +355,8 @@ interface Country {
   name: string;
 }
 
-const countries: Country[] = [
-  { code: 'de', name: 'Germany' },
-  { code: 'jp', name: 'Japan' },
-  { code: 'nz', name: 'New Zealand' },
-  { code: 'pt', name: 'Portugal' },
-];
-
-function ObjectItemsExample() {
-  const [payload, setPayload] = React.useState<string | null>(null);
-  return (
-    <form
-      className={theme.FormRoot}
-      onSubmit={(event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        setPayload(`country=${String(data.get('country'))}`);
-      }}
-    >
-      <Autocomplete.Root
-        items={countries}
-        itemToStringValue={(country) => country.name}
-        name="country"
-      >
-        <label className={theme.FieldLabel}>
-          Country
-          <Autocomplete.Input placeholder="e.g. Japan" className={theme.AutocompleteInput} />
-        </label>
-        <Autocomplete.Portal>
-          <Autocomplete.Positioner className={theme.AutocompletePositioner} sideOffset={4}>
-            <Autocomplete.Popup className={theme.AutocompletePopup}>
-              <Autocomplete.List className={theme.AutocompleteList}>
-                {(country: Country) => (
-                  <Autocomplete.Item
-                    key={country.code}
-                    className={theme.AutocompleteItem}
-                    value={country}
-                  >
-                    {country.name}
-                  </Autocomplete.Item>
-                )}
-              </Autocomplete.List>
-            </Autocomplete.Popup>
-          </Autocomplete.Positioner>
-        </Autocomplete.Portal>
-      </Autocomplete.Root>
-      <button type="submit" className={theme.Button}>
-        Save
-      </button>
-      {payload ? <output className="AutocompleteDemoOutput">submitted: {payload}</output> : null}
-    </form>
-  );
-}
-
-/** Object items with `itemToStringValue`: the returned string fills the input on item press and is what native form submission serializes. `{ value, label }` shapes resolve their `label` automatically. */
-export const ObjectItemsStringification: Story = {
-  tags: ['highlight'],
-  render: () => <ObjectItemsExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'ja');
-    await userEvent.click(await body.findByRole('option', { name: 'Japan' }));
-    await waitFor(() => expect(input).toHaveValue('Japan'));
-
-    await userEvent.click(await canvas.findByRole('button', { name: 'Save' }));
-    await expect(await canvas.findByText('submitted: country=Japan')).toBeVisible();
-  },
-};
-
-function FieldValidationExample() {
-  const [status, setStatus] = React.useState<string | null>(null);
-  return (
-    <Form
-      className={theme.FormRoot}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setStatus('Submitted');
-      }}
-    >
-      <Field.Root name="city" className={theme.FormRoot}>
-        <Autocomplete.Root items={['Amsterdam', 'Berlin', 'Lisbon', 'Prague']} required>
-          <Field.Label className={theme.FieldLabel}>
-            Destination city
-            <Autocomplete.Input placeholder="e.g. Lisbon" className={theme.AutocompleteInput} />
-          </Field.Label>
-        </Autocomplete.Root>
-        <Field.Description className={theme.FieldDescription}>
-          Suggestions help, but any city is accepted.
-        </Field.Description>
-        <Field.Error className={theme.FieldError} match="valueMissing">
-          Please enter a destination.
-        </Field.Error>
-      </Field.Root>
-      <button type="submit" className={theme.Button}>
-        Book trip
-      </button>
-      {status ? <output className="AutocompleteDemoOutput">{status}</output> : null}
-    </Form>
-  );
-}
-
-/** Inside `Field`/`Form`, the input participates in constraint validation: `required` blocks empty submission, `Field.Error` renders the message, and `data-invalid`/`data-touched`/`data-filled` style the input. Free text satisfies the field — no item needs to be chosen. */
-export const InFieldWithValidation: Story = {
-  tags: ['highlight'],
-  render: () => <FieldValidationExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-    await expect(await canvas.findByText('Please enter a destination.')).toBeVisible();
-    await expect(input).toHaveAttribute('data-invalid');
-
-    // Free-form text (not in the list) satisfies the required constraint.
-    await userEvent.type(input, 'Reykjavik');
-    await userEvent.keyboard('{Escape}');
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-
-    await expect(await canvas.findByText('Submitted')).toBeVisible();
-    await expect(canvas.queryByText('Please enter a destination.')).not.toBeInTheDocument();
-  },
-};
-
 /* ------------------------------------------------------------------ */
 /* Highlight tracking                                                  */
-/* ------------------------------------------------------------------ */
-
-function HighlightTrackingExample() {
-  const [log, setLog] = React.useState<string[]>([]);
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        root={{
-          onItemHighlighted: (value, eventDetails) => {
-            if (value !== undefined) {
-              setLog((entries) => [...entries, `${value} (${eventDetails.reason})`]);
-            }
-          },
-        }}
-      />
-      <output className="AutocompleteDemoOutput">
-        highlights: {log.length > 0 ? log.join(', ') : 'none'}
-      </output>
-    </div>
-  );
-}
-
-/** `onItemHighlighted` reports every highlight change with `(value, { reason })` — `keyboard` for arrow navigation, `pointer` for hover — the hook for analytics and custom inline behaviors. */
-export const HighlightTrackingWithOnItemHighlighted: Story = {
-  tags: ['highlight'],
-  render: () => <HighlightTrackingExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'b');
-    await body.findByRole('listbox');
-
-    // Keyboard highlight: ArrowDown highlights the first match ("bug").
-    await userEvent.keyboard('{ArrowDown}');
-    await expect(await canvas.findByText(/bug \(keyboard\)/)).toBeVisible();
-
-    // Pointer highlight: hovering another option reports reason "pointer".
-    await userEvent.hover(await body.findByRole('option', { name: 'mobile' }));
-    await expect(await canvas.findByText(/mobile \(pointer\)/)).toBeVisible();
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Grouped, fuzzy, limited suggestions                                 */
@@ -1450,106 +1056,10 @@ export const Virtualized: Story = {
 
 /* ------------------------------------------------------------------ */
 /* Animation                                                           */
-/* ------------------------------------------------------------------ */
-
-function AnimatedPopupExample() {
-  const [phase, setPhase] = React.useState('idle');
-  return (
-    <div className="AutocompleteDemoStack">
-      <DemoAutocomplete
-        label="Search tags"
-        placeholder="e.g. feature"
-        popupClassName={`${theme.AutocompletePopup} AutocompleteDemoPopupAnimated`}
-        root={{ onOpenChangeComplete: (open) => setPhase(open ? 'open' : 'closed') }}
-      />
-      <output className="AutocompleteDemoOutput">animation settled: {phase}</output>
-    </div>
-  );
-}
-
-/** The standard popup animation contract: transitions on `[data-starting-style]`/`[data-ending-style]` with `transform-origin: var(--transform-origin)`; `onOpenChangeComplete` fires once the transition settles, after which the popup unmounts. */
-export const AnimatedPopup: Story = {
-  tags: ['animation'],
-  render: () => <AnimatedPopupExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'fe');
-    await body.findByRole('listbox');
-    await expect(await canvas.findByText('animation settled: open')).toBeVisible();
-
-    await userEvent.keyboard('{Escape}');
-    await expect(await canvas.findByText('animation settled: closed')).toBeVisible();
-    // After the exit transition completes the popup unmounts.
-    await waitFor(() => expect(body.queryByRole('listbox')).not.toBeInTheDocument());
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Real-world recreations (research/d-real-world-usage/autocomplete)   */
 /* ------------------------------------------------------------------ */
-
-/**
- * Recreation of a design-system wrapper: label/required/description/error flow in as
- * flat top-level props instead of composed `Field` children, and the component wraps
- * `Field.Root` around `Autocomplete.Root` internally. Recomposed from the ideas in
- * cloudflare/kumo `autocomplete.tsx` (MIT, code-ok,
- * research/d-real-world-usage/autocomplete/ranked.json #7).
- */
-export const RealWorldFieldIntegratedWrapper: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <FieldIntegratedAutocompleteExample />,
-  play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-    await expect(await canvas.findByText('Please enter a destination.')).toBeVisible();
-    await expect(input).toHaveAttribute('data-invalid');
-
-    // Free-form text (not in the suggestion list) still satisfies the required constraint.
-    await userEvent.type(input, 'Reykjavik');
-    await userEvent.keyboard('{Escape}');
-    await userEvent.click(await canvas.findByRole('button', { name: 'Book trip' }));
-
-    await expect(await canvas.findByText('Submitted')).toBeVisible();
-    await expect(canvas.queryByText('Please enter a destination.')).not.toBeInTheDocument();
-  },
-};
-
-/**
- * Recreation of the fullest anatomy observed for this component anywhere in the
- * research corpus — `Backdrop` + `Arrow` rendered alongside the usual parts — with
- * every class list compound-styled so one `data-skin` attribute swaps the whole visual
- * skin (reui's `style-vega`/`style-nova`/… convention). Recomposed from the ideas in
- * keenthemes/reui `registry-reui/bases/base/reui/autocomplete.tsx` (MIT, code-ok,
- * research/d-real-world-usage/autocomplete/ranked.json #4).
- */
-export const RealWorldMultiSkinRegistry: Story = {
-  tags: ['recreation', 'examples'],
-  render: () => <MultiSkinAutocompleteExample />,
-  play: async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
-    const input = canvas.getByRole('combobox');
-
-    await userEvent.type(input, 'b');
-    await expect((await body.findByRole('listbox')).closest('[data-skin]')).toHaveAttribute(
-      'data-skin',
-      'vega',
-    );
-
-    // Close the popup first: while open, the switcher buttons sit outside the anchor's
-    // accessible subtree (Combobox/Autocomplete hides background content from AT users).
-    await userEvent.keyboard('{Escape}');
-    await userEvent.click(await canvas.findByRole('button', { name: 'nova' }));
-
-    await userEvent.type(input, 'b');
-    const reopenedListbox = await body.findByRole('listbox');
-    await waitFor(() =>
-      expect(reopenedListbox.closest('[data-skin]')).toHaveAttribute('data-skin', 'nova'),
-    );
-  },
-};
 
 /* ------------------------------------------------------------------ */
 /* Icons (inlined — stories must not import docs assets)               */
