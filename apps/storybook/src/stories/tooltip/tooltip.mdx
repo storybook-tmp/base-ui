@@ -9,44 +9,8 @@ import reuiIoOpenShot from '../../../../../research/d-real-world-usage/_captures
 
 <Meta of={TooltipStories} tags={['verified', 'copy-verified']} />
 
-{/* BEGIN: general */}
-A popup that appears when an element is hovered or focused, showing a hint for sighted users.
-
-- **Import:** `import { Tooltip } from '@base-ui/react/tooltip';`
-- **Parts:** 8 (`Provider`, `Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Arrow`, `Viewport`) plus the `Tooltip.createHandle()` factory (see Anatomy).
-- **Status:** Stable. One of our oldest components, introduced 2024-05-29 ([#264](https://github.com/mui/base-ui/pull/264), closing [#32](https://github.com/mui/base-ui/issues/32)).
-- **ARIA pattern:** none is implemented. The W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/) pattern specifies `role="tooltip"` plus `aria-describedby`; Tooltip does **not** follow it (see Keyboard & screen reader below).
-
-<Canvas of={TooltipStories.Hero} />
-
-## Features
-
-- **Hover and focus open it**: no click-to-open path exists; touch never opens it either (see below).
-- **`Tooltip.Provider` delay-grouping**: sibling tooltips inside one Provider share a "warm" window so sweeping across a toolbar instantly shows tooltips after the initial display delay.
-- **Detached triggers and typed payloads**: `Tooltip.createHandle<Payload>()` associates a Trigger anywhere in the tree with a Root/Popup rendered elsewhere, the same handle pattern as Popover/Dialog.
-- **Purely visual, no ARIA wiring**: label the trigger yourself (see Keyboard & screen reader).
-
-{/* END: general */}
-
-{/* BEGIN: when-to-use */}
-## When to use
-
-- Labeling an icon-only button or other control whose accessible name needs a visible, sighted-user-facing echo. Pair the tooltip content with the trigger's own `aria-label`.
-- Extra clarity for sighted mouse/keyboard users when the description is **not critical** to understanding the element.
-- Dense clusters of related controls (icon toolbars, data-grid header cells) where `Tooltip.Provider` lets a user sweep across several triggers and get near-instant tooltips after the first one's full delay.
-
-## When not to use
-
-A popover's trigger's purpose is to open the popover itself (and every platform is supported), while a tooltip's trigger's purpose is unrelated to the tooltip (and touch platforms are excluded).
-
-- To reveal **essential content behind an info icon**, use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover` instead, so touch users and screen reader users can access the content. A Tooltip never appears on touch and carries no ARIA relationship to its content ([#3530](https://github.com/mui/base-ui/issues/3530)).
-- To preview a **link's destination on hover**, use [Preview Card](?path=/docs/overlays-preview-card--docs) instead. Both are hover/focus-only and sighted-only, but Preview Card's trigger is specifically an `<a>` whose destination independently contains the previewed content.
-- For **transient contextual feedback** ("Copied!", "Saved"), use an anchored Toast instead, so the message is announced to screen readers ([#3096](https://github.com/mui/base-ui/issues/3096)).
-- If **touch support is a hard requirement**, Tooltip is not an option.
-
-{/* END: when-to-use */}
-
 {/* BEGIN: anatomy */}
+
 ## Anatomy
 
 ```tsx
@@ -68,7 +32,7 @@ import { Tooltip } from '@base-ui/react/tooltip';
 ```
 
 | Part                        | Renders    | Purpose                                                                                                             | Optional?            |
-| :--------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------------- | :-------------------- |
+| :-------------------------- | :--------- | :------------------------------------------------------------------------------------------------------------------ | :------------------- |
 | `Tooltip.Provider`          | no element | Shares a delay/`FloatingDelayGroup` across sibling `Root`s so adjacent tooltips open near-instantly after the first | yes                  |
 | `Tooltip.Root`              | no element | Groups all parts; owns open state                                                                                   | required             |
 | `Tooltip.Trigger`           | `<button>` | The element the tooltip attaches to; may be "contained" (inside Root) or "detached" (anywhere, via `handle`)        | required in practice |
@@ -81,200 +45,8 @@ import { Tooltip } from '@base-ui/react/tooltip';
 
 {/* END: anatomy */}
 
-{/* BEGIN: behavior */}
-## How it works
-
-### Opening: hover (with a rest delay) or focus (no delay)
-
-Hover opens after `delay` (Trigger prop, default `600ms`, the `OPEN_DELAY` constant in `utils/constants.ts`) of continuous rest on the trigger; `closeDelay` defaults to `0`. **Focus opens with no delay at all**: `useFocus` is wired independently of the hover rest-timer, which is also why focus is the reliable interaction to test in a play function (hover-rest simulation is comparatively flaky in browser automation).
-
-<Canvas of={TooltipStories.KeyboardFocusOpen} />
-
-### Customizing delay/closeDelay per trigger
-
-<Canvas of={TooltipStories.DelayCustomization} />
-
-`Tooltip.Trigger`'s own `delay`/`closeDelay` props override the default/Provider timing for that one trigger. This story is documentation-only (not play-tested): the props only govern the hover path, and hover-rest-timer assertions are flaky in browser automation. Inspect manually by hovering each trigger.
-
-### Controlled open state
-
-<Canvas of={TooltipStories.ControlledOpen} />
-
-External `open`/`onOpenChange` state works the same as uncontrolled use, plus `eventDetails.reason` (`trigger-hover`/`trigger-focus`/`escape-key`/`outside-press`/`imperative-action`) reporting which interaction caused each transition: `trigger-focus` when the story's trigger is focused, `escape-key` when `Escape` closes it.
-
-### Disabling a tooltip
-
-<Canvas of={TooltipStories.DisabledTrigger} />
-
-`Root disabled` suppresses opening on every interaction path; `Trigger disabled` (a separate prop) stops only that one trigger while leaving its DOM element otherwise interactive.
-
-### Detached triggers via `createHandle()`
-
-<Canvas of={TooltipStories.DetachedTriggerHandle} />
-
-`Tooltip.createHandle()` connects a `Trigger` to a `Root`/`Popup` declared anywhere else in the tree; no DOM parent/child relationship is required. External code can also drive it imperatively via `handle.open(triggerId)`/`handle.close()`.
-
-### `Tooltip.Provider`'s delay-grouping mechanism
-
-Wrap several `Tooltip.Root`s in one `<Tooltip.Provider timeout={400}>` (the `timeout` default) to give them a shared "warm" window: the first trigger in the group pays the full open delay, but hopping to an adjacent trigger within the `timeout` window after the first tooltip closes collapses that trigger's effective delay to `0` and suppresses the fade animation during the handoff (`data-instant="delay"`). Wait longer than `timeout` after the group's tooltip has fully closed, and the next trigger pays the full delay again: the group has gone "cold."
-
-<Canvas of={TooltipStories.ProviderDelayGrouping} />
-
-### Touch is excluded by design
-
-Tooltip **never opens on touch input**: `TooltipTrigger.tsx` passes `mouseOnly: true` to the shared hover-reference-interaction hook, which unconditionally guards against non-mouse-like `pointerType`s before opening. This is by design ([#3530](https://github.com/mui/base-ui/issues/3530)), because iOS has no system-standard touch-tooltip affordance and Android's long-press convention conflicts with the browser's own contextual-menu gesture. If touch users must reach the content, Tooltip is the wrong component regardless of content weight (see When not to use).
-
-### Positioning
-
-All positioning lives on the Positioner: `side`, `align`, `sideOffset`. `Tooltip.Arrow` tracks the anchor on every side via its `data-side` attribute.
-
-<Canvas of={TooltipStories.PositioningAndArrow} />
-
-<Canvas of={TooltipStories.PositioningMatrix} />
-
-{/* END: behavior */}
-
-{/* BEGIN: examples */}
-## Examples
-
-<Canvas of={TooltipStories.Hero} />
-
-{/* END: examples */}
-
-{/* BEGIN: a11y */}
-## Keyboard & screen reader
-
-Pattern: **none**. Tooltip does **not** implement the W3C APG ["Tooltip"](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/) pattern (`role="tooltip"` + `aria-describedby` from the trigger). The part family renders no `role` or `aria-describedby` wiring at all.
-
-| Key / interaction                              | Context | Action                                                                                  |
-| :---------------------------------------------- | :------- | :--------------------------------------------------------------------------------------- |
-| Tab (focus lands on trigger)                   | closed  | Opens immediately, no delay                                                             |
-| Shift+Tab / blur away                          | open    | Closes immediately                                                                      |
-| Escape                                         | open    | Closes                                                                                  |
-| Mouse hover-rest on trigger                    | closed  | Opens after `delay` (default `600ms`)                                                   |
-| Mouse leaves trigger (and popup, if hoverable) | open    | Closes after `closeDelay` (default `0`)                                                 |
-| Touch tap on trigger                           | any     | **Never opens** the tooltip; the trigger's own tap/click behavior still fires normally  |
-
-- **ARIA managed for you**: none. Giving the Popup a `role="tooltip"` plus a live `aria-describedby` link would make its content part of the accessible name/description tree, which a tooltip is _not_ meant to be (that is Popover's job; see When not to use).
-- **Screen reader**: no tooltip announcement at all, by design. **You must provide** an `aria-label` directly on the Trigger that closely matches the tooltip's content. The tooltip itself is invisible to assistive technology, so the trigger must carry its own label.
-
-{/* END: a11y */}
-
-{/* BEGIN: styling */}
-## Styling hooks
-
-| Part                       | Attribute / variable                                                                                                                                    | Present when                                                              |
-| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------- |
-| Trigger                    | `data-popup-open`, `data-trigger-disabled`                                                                                                              | popup open / trigger disabled                                             |
-| Popup / Positioner / Arrow | `data-open` / `data-closed`, `data-starting-style` / `data-ending-style`, `data-side`, `data-align`, `data-instant` (`'delay' \| 'dismiss' \| 'focus'`) | open state / transition frames / resolved placement / non-animated change |
-| Positioner                 | `data-anchor-hidden`                                                                                                                                    | the anchor is scrolled out of view                                        |
-| Arrow                      | `data-uncentered`                                                                                                                                       | arrow is offset from the anchor center                                    |
-| Positioner (CSS vars)      | `--available-width/height`, `--anchor-width/height`, `--transform-origin`, `--positioner-width/height`                                                  | while positioned                                                          |
-
-{/* END: styling */}
-
-{/* BEGIN: general */}
-## Choosing the right props
-
-- **`Tooltip.Provider.delay` / `.closeDelay` / `.timeout`**: wrap several `Tooltip.Root`s to give them a shared open/close delay and a shared "warm" grouping window (`timeout`, default `400ms`), because hopping between adjacent tooltips otherwise pays the full delay every time.
-- **`Trigger.delay` (default `600`)**: lower it for triggers where instant feedback matters more than avoiding accidental hover-triggering.
-- **`Root.disableHoverablePopup` (default `false`)**: set `true` when the popup content must never be reachable by hovering into it, because this also disables the safe-polygon grace zone.
-- **`Root.trackCursorAxis` (default `'none'`)**: set `'x'`/`'y'`/`'both'` to have the tooltip follow the pointer along an axis instead of anchoring to the trigger's box, useful for large draggable/continuous controls.
-- **`handle` (Root + Trigger, via `Tooltip.createHandle<Payload>()`)**: reach for this only when a Trigger cannot be practically nested inside its Root; for same-subtree cases, plain contained Triggers are simpler and should be preferred.
-
-{/* END: general */}
-
-{/* BEGIN: do-dont */}
-## Do / Don't
-
-**Do**
-
-- Set `aria-label` directly on the Trigger with content matching the tooltip, because the tooltip carries no ARIA relationship to the trigger at all.
-- Wrap dense clusters of related controls in a `Tooltip.Provider`, because without it every trigger pays its own full delay independently.
-
-**Don't**
-
-- Don't use Tooltip for "Copied!"-style contextual feedback; use an anchored Toast instead so the message is announced to screen readers.
-- Don't rely on Tooltip for content a touch-only user must reach: there is no touch fallback ([#3530](https://github.com/mui/base-ui/issues/3530)).
-
-{/* END: do-dont */}
-
-{/* BEGIN: brand */}
-## Brand guidelines
-
-**Do**
-
-- Use the lighter lift shadow and card radius — Droppy has no tooltip pattern; this is the recorded interpretation. (BR-06, BR-11)
-- Write tooltip copy in sentence case, short and direct. (BR-08)
-
-**When to use**
-
-- Tooltips are near-absent from the brand by design: Droppy's calm, accessibility-first brand favors visible labels over hover-only affordances, and Base UI's Tooltip is sighted-pointer-only — no touch, no reliable exposure to assistive tech — so it must never carry information the interface needs to work (the same "never rely on color alone" reasoning applies to hover).
-- Do reach for a Tooltip only on icon-only controls where a visible label can't fit (e.g. a theme toggle), with copy in sentence case matching the accessible name. (BR-08)
-- Don't use a Tooltip to deliver essential content — give it a visible label, or use Popover instead.
-{/* END: brand */}
-
-{/* BEGIN: examples */}
-## In the wild
-
-<WildCards component="tooltip">
-  <WildCard
-    repo="cloudflare/kumo"
-    title="kumo"
-    href="https://github.com/cloudflare/kumo/blob/HEAD/packages/kumo/src/components/tooltip/tooltip.tsx"
-    live="https://kumo-ui.com"
-    license="MIT"
-    reuse="code-ok"
-    image={kumoUiComShot}
-  >
-    a fully styled wrapper, with a matching Figma-generator script for design-tool parity.
-  </WildCard>
-  <WildCard
-    repo="keenthemes/reui"
-    title="reui"
-    href="https://github.com/keenthemes/reui/blob/HEAD/registry/bases/base/ui/tooltip.tsx"
-    live="https://reui.io"
-    license="MIT"
-    reuse="code-ok"
-    image={reuiIoOpenShot}
-  >
-    ships a Radix-backed twin of the same Tooltip API alongside the Base UI version.
-  </WildCard>
-  <WildCard
-    repo="borabaloglu/9ui"
-    title="9ui"
-    href="https://github.com/borabaloglu/9ui/blob/HEAD/apps/www/src/components/ui/tooltip.tsx"
-    live="https://www.9ui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    a shadcn-style `data-slot` wrapper over Base UI's Tooltip, styled with Tailwind.
-  </WildCard>
-  <WildCard
-    repo="cosscom/coss"
-    title="coss"
-    href="https://github.com/cosscom/coss/blob/HEAD/packages/ui/src/components/tooltip.tsx"
-    live="https://coss.com/ui"
-    license="AGPL-3.0"
-    reuse="link-only, do not copy"
-  >
-    Cal.com's design system wraps Tooltip in its one-file-per-component Base UI registry.
-  </WildCard>
-  <WildCard
-    repo="patrick-xin/lumi-ui"
-    title="lumi-ui"
-    href="https://github.com/patrick-xin/lumi-ui/blob/HEAD/packages/ui/src/components/ui/tooltip.tsx"
-    live="https://www.lumiui.dev"
-    license="MIT"
-    reuse="code-ok"
-  >
-    Tooltip as an installable registry item, published in the `@lumi-ui` package.
-  </WildCard>
-</WildCards>
-
-{/* END: examples */}
-
 {/* BEGIN: history */}
+
 ## Decision log
 
 - **2024-05-29**: Tooltip ships ([#264](https://github.com/mui/base-ui/pull/264), closing [#32](https://github.com/mui/base-ui/issues/32)); designed from day one as a thin wrapper around Floating UI's hover/focus/dismiss primitives.
@@ -286,55 +58,9 @@ Pattern: **none**. Tooltip does **not** implement the W3C APG ["Tooltip"](https:
 {/* END: history */}
 
 {/* BEGIN: known-issues */}
+
 ## Known issues & open questions
 
 - No tooltip-specific accessibility bug reports are known about the missing `role`/`aria-describedby` wiring beyond the general design-intent discussion in [#3530](https://github.com/mui/base-ui/issues/3530).
 
 {/* END: known-issues */}
-
-{/* BEGIN: when-to-use */}
-## Related
-
-- To reveal **essential content** behind an info icon, use [Popover](?path=/docs/overlays-popover--docs) with `openOnHover`.
-- To preview a **link's destination**, use [Preview Card](?path=/docs/overlays-preview-card--docs).
-
-{/* END: when-to-use */}
-
-{/* BEGIN: props */}
-## API reference
-
-### Tooltip.Provider
-
-<ArgTypes of={Tooltip.Provider} />
-
-### Tooltip.Root
-
-<ArgTypes of={Tooltip.Root} />
-
-### Tooltip.Trigger
-
-<ArgTypes of={Tooltip.Trigger} />
-
-### Tooltip.Portal
-
-<ArgTypes of={Tooltip.Portal} />
-
-### Tooltip.Positioner
-
-<ArgTypes of={Tooltip.Positioner} />
-
-### Tooltip.Popup
-
-<ArgTypes of={Tooltip.Popup} />
-
-### Tooltip.Arrow
-
-<ArgTypes of={Tooltip.Arrow} />
-
-### Tooltip.Viewport
-
-<ArgTypes of={Tooltip.Viewport} />
-
-_Full JSDoc-driven reference: [base-ui.com/react/components/tooltip](https://base-ui.com/react/components/tooltip#api-reference)._
-
-{/* END: props */}

@@ -1,0 +1,18 @@
+{
+  "branchName": "experiment/history-issues",
+  "baseCommit": "e3ba5b5a3c5910e157d5e35e40f99fb6a4a7c046",
+  "keptFacets": [
+    "csf-jsdoc.meta",
+    "csf-jsdoc.story",
+    "general.general-brand",
+    "general.general-setup",
+    "mdx.anatomy",
+    "mdx.history",
+    "mdx.known-issues",
+    "source-jsdoc.component",
+    "source-jsdoc.props",
+    "story.base"
+  ],
+  "createdAt": "2026-08-03T09:08:24.059Z",
+  "version": 1
+}
